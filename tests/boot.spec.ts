@@ -65,5 +65,6 @@ test('Application opens a new authentication window on fresh install', async () 
 test.afterAll('Setup', async () => {
     // await appWindow.screenshot({path: 'screenshots/final-screen.png'})
     // await delay(30*1000)
-    await electronApp.close()
+    if(electronApp !== undefined)
+        await electronApp.close()
 })
