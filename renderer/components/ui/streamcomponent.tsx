@@ -37,7 +37,7 @@ function StreamComponent({
     const [volume, setVolume] = React.useState(1.0) //without any controls, the volume has been maxed by default, let's follow this assumption and start at full for our slider
     const handleVolumeChange = (newVolume: number) => {
 
-        let audioElement = document.getElementsByTagName('audio')[0]
+        const audioElement = document.getElementsByTagName('audio')[0]
 
         if(audioElement) {
             setVolume(newVolume)
