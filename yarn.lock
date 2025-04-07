@@ -6242,10 +6242,10 @@ xal-node@^1.0.2:
     jose "^5.1.0"
     uuid-1345 "^1.0.2"
 
-xbox-webapi@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.npmjs.org/xbox-webapi/-/xbox-webapi-1.4.1.tgz"
-  integrity sha512-Vm7csk3AOO1zErvN4hZUSalC72/klzZDwbl3rc2HHuE1syhfIzg5pVkOeEHdRnZzLsg+XFVpHkuG4wNk+fBvpw==
+xbox-webapi@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/xbox-webapi/-/xbox-webapi-1.4.2.tgz#f7a995e45e2faee310d41ba275d8cd8e600de982"
+  integrity sha512-q5z5f71M+BjML1IA9Va2UkjjQ6Qc0cGXwx2OwHSbW0RrTryiJ6UtVc9QBqndaCGGvt1k0XkG5M5Sf/NWft0pcQ==
   dependencies:
     cli-ux "^6.0.6"
     debug "^4.2.0"
