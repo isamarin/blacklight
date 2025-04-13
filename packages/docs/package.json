@@ -1,0 +1,33 @@
+{
+  "name": "@greenlight/docs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "node api-build.mjs && next build",
+    "dev": "node api-build.mjs && next dev",
+    "start": "next start",
+    "postinstall": "fumadocs-mdx"
+  },
+  "dependencies": {
+    "fumadocs-core": "^15.2.5",
+    "fumadocs-mdx": "^11.5.8",
+    "fumadocs-typescript": "^3.1.0",
+    "fumadocs-ui": "^15.2.5",
+    "next": "^15.2.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.3",
+    "@types/mdx": "^2.0.13",
+    "@types/node": "22.14.0",
+    "@types/react": "^18.3.20",
+    "@types/react-dom": "^18.3.6",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9",
+    "eslint-config-next": "^15.2.4",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.0.17",
+    "typescript": "^5.8.3"
+  }
+}

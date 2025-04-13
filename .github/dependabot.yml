@@ -12,9 +12,11 @@ updates:
 
   # Maintain dependencies for npm
   - package-ecosystem: "npm"
-    directory: "/"
+    directories: 
+      - "/"
+      - "/packages/*"
     schedule:
       interval: "weekly"
     target-branch: "main-v2"
     labels:
-      - "npm dependencies"
+      - "yarn dependencies"

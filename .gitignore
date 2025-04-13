@@ -1,5 +1,4 @@
-node_modules
-*.log
-.next
-app
-dist
+node_modules/
+packages/docs/.next
+next-env.d.ts
+packages/docs/out
