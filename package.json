@@ -8,7 +8,7 @@
     "url": "git+https://github.com/unknownskl/greenlight.git"
   },
   "scripts": {
-    "desktop": "yarn workspace @greenlight/desktop",
+    "desktop": "yarn workspace greenlight-dektop",
     "web": "yarn workspace @greenlight/web",
 
     "cli": "yarn workspace @greenlight/cli",

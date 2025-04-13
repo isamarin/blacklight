@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@greenlight/desktop",
+  "name": "greenlight-dektop",
   "description": "Greenlight is a streaming application for Xbox and xCloud",
   "version": "2.3.2",
   "author": "UnknownSKL <info+github@jimkroon.nl>",
