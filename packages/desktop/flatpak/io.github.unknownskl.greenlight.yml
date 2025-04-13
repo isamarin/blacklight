@@ -35,14 +35,13 @@ modules:
       - cp -a ../extralib/reduceSoFiles.sh -t /app/extralib
       - pushd /app/extralib && ln -s libLLVM-16.0.6.so libLLVM-16.so && chmod +x reduceSoFiles.sh && ./reduceSoFiles.sh && popd
       - yarn --offline
-      - cd packages/desktop
-      - yarn run flatpak-build --offline -- --linux
+      - yarn desktop run flatpak-build --offline -- --linux
       # Add icon, metadata and desktop file
-      - install -Dm 644 flatpak/io.github.unknownskl.greenlight.png ${FLATPAK_DEST}/share/icons/hicolor/512x512/apps/${FLATPAK_ID}.png
-      - install -Dm 644 flatpak/io.github.unknownskl.greenlight.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
-      - install -Dm 644 flatpak/io.github.unknownskl.greenlight.metainfo.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.appdata.xml
+      - install -Dm 644 packages/desktop/flatpak/io.github.unknownskl.greenlight.png ${FLATPAK_DEST}/share/icons/hicolor/512x512/apps/${FLATPAK_ID}.png
+      - install -Dm 644 packages/desktop/flatpak/io.github.unknownskl.greenlight.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
+      - install -Dm 644 packages/desktop/flatpak/io.github.unknownskl.greenlight.metainfo.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.appdata.xml
       # Bundle app and dependencies
-      - cp -a dist/linux*unpacked /app/main
+      - cp -a packages/desktop/dist/linux*unpacked /app/main
       # Install app wrapper
       - install -Dm755 -t /app/bin/ ../run.sh
     subdir: main
