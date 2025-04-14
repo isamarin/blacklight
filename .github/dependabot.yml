@@ -13,9 +13,7 @@ updates:
 
   # Maintain dependencies for npm
   - package-ecosystem: "npm"
-    directories: 
-      - "/"
-      - "/packages/*"
+    directory: "/"
     schedule:
       interval: "weekly"
     target-branch: "main-v2"
