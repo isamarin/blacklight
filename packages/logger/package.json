@@ -1,15 +1,14 @@
 {
   "name": "@greenlight/logger",
   "version": "0.1.0",
-  "dependencies": {
-  },
+  "dependencies": {},
   "license": "MIT",
   "main": "src/index.ts",
   "scripts": {
     "start": "yarn build && node dist/index.js",
     "build": "tsc --build",
-    "clean": "rm -rf dist/ && rm -rf *.tsbuildinfo",
-    "test": "yarn build && mocha -r ../../node_modules/ts-node/register tests/**.ts tests/**/*.ts"
+    "clean": "rm -rf dist/",
+    "test": "yarn build && mocha tests/**.ts tests/**/*.ts"
   },
   "devDependencies": {
     "@types/chai": "^5.2.1",
@@ -18,7 +17,7 @@
     "@types/node": "^22.14.1",
     "chai": "^5.2.0",
     "mocha": "^11.1.0",
-    "ts-node": "^10.9.2",
+    "tsx": "^4.19.3",
     "typescript": "^5.8.3"
   }
 }
