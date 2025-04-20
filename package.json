@@ -13,17 +13,11 @@
     "web": "yarn workspace @greenlight/web",
     "docs": "yarn workspace @greenlight/docs",
     "logger": "yarn workspace @greenlight/logger",
+    "platform": "yarn workspace @greenlight/platform",
+    "server": "yarn workspace @greenlight/server",
 
     "build:deps": "yarn workspace @greenlight/logger build",
-    "test": "yarn logger test",
-
-    "cli": "yarn workspace @greenlight/cli",
-    "server": "yarn workspace @greenlight/server",
-    "authentication": "yarn workspace @greenlight/authentication",
-    "storeapi": "yarn workspace @greenlight/storeapi",
-    "xcloudapi": "yarn workspace @greenlight/xcloudapi",
-    "webapi": "yarn workspace @greenlight/webapi",
-    "platform": "yarn workspace @greenlight/platform"
+    "test": "yarn logger test"
   },
   "workspaces": [
     "packages/*"

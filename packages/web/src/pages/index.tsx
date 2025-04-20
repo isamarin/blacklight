@@ -7,6 +7,8 @@ import styles from "@/styles/Home.module.css";
 
 import Logger from '@greenlight/logger'
 
+import { trpcReact } from './_app'
+
 const logger = new Logger('greenlight:web');
 logger.log('Hello from the web package!');
 
@@ -21,15 +23,17 @@ const geistMono = Geist_Mono({
 });
 
 export default function Home() {
-  const [isElectron, setIsElectron] = useState(false);
 
+  const { data, isLoading, error } = trpcReact.auth_msal_start.useQuery()
 
   useEffect(() => {
-    // Check if `window.isElectron` is defined
-    if(typeof greenlight !== "undefined") {
-      setIsElectron(true);
+    if (error) {
+      console.error("Error fetching data:", error);
+    } else if (data) {
+      console.log("Data fetched successfully:", data);
     }
-  }, []);
+
+  }, [isLoading, error, data]);
 
   return (
     <>
@@ -56,7 +60,7 @@ export default function Home() {
               Get started by editing <code>src/pages/index.tsx</code>.
             </li>
             <li>Save and see your changes instantly.</li>
-            <li>Are we running in electron? {isElectron === true ? 'Yes!' : 'No!'}</li>
+            {/* <li>Are we running in electron? {isElectron === true ? 'Yes!' : 'No!'}</li> */}
           </ol>
 
           <div className={styles.ctas}>

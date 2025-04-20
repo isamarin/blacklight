@@ -5,22 +5,28 @@
   "scripts": {
     "dev": "DEBUG_GREENLIGHT=* next dev",
     "build": "next build",
+    "build:electron": "BUILD_ELECTRON=true next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "next": "15.3.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "next": "15.3.0"
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@greenlight/logger": "^0.1.0",
+    "@greenlight/platform": "^0.1.0",
+    "@tanstack/react-query": "^5.74.4",
+    "@trpc/client": "^11.1.0",
+    "@trpc/react-query": "^11.1.0",
+    "@trpc/tanstack-react-query": "^11.1.0",
     "@types/node": "^22",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^9",
     "eslint-config-next": "15.3.0",
-    "@eslint/eslintrc": "^3",
-    "@greenlight/logger": "^0.1.0"
+    "typescript": "^5"
   }
 }

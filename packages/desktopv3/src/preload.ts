@@ -1,5 +1,4 @@
 import { contextBridge, ipcRenderer, shell } from 'electron'
-// import pkg from '../package.json'
 
 export const Preload = {
 
@@ -78,3 +77,6 @@ export const Preload = {
 }
 
 contextBridge.exposeInMainWorld('greenlight', Preload)
+contextBridge.exposeInMainWorld('electron', {
+  isElectron: true,
+});

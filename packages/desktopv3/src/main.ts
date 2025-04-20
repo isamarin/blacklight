@@ -1,8 +1,15 @@
-import { app, BrowserWindow, protocol } from 'electron'
+import { app, BrowserWindow, protocol, ipcMain } from 'electron'
+import { appRouter } from '@greenlight/platform'
 import path from 'path'
 import fs from 'fs'
 import mime from 'mime'
-// const __dirname = import.meta.dirname;
+
+import GreenlightServer from '@greenlight/server'
+
+// Start websocket server
+const server = new GreenlightServer();
+server.start();
+
 
 const createWindow = () => {
     const win = new BrowserWindow({
@@ -12,11 +19,11 @@ const createWindow = () => {
       webPreferences: {
         preload: path.join(__dirname, 'preload.js'),
         contextIsolation: true,
-        webSecurity: true,
-        allowRunningInsecureContent: false,
+        nodeIntegration: false,
       },
     })
-  
+
+    // win.loadURL('http://localhost:3000');
     win.loadURL('file://web/index.html');
 }
 
