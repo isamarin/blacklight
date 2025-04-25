@@ -23,8 +23,7 @@ const createWindow = () => {
       },
     })
 
-    // win.loadURL('http://localhost:3000');
-    win.loadURL('file://web/index.html');
+    win.loadURL('file://web/');
 }
 
 app.on('window-all-closed', () => {
@@ -45,8 +44,25 @@ app.whenReady().then(async () => {
           headers: { 'Content-Type': mimeType }
         });
       } catch (err) {
-        console.error('Failed to load', filePath, err);
-        return new Response('File not found', { status: 404 });
+
+        if(! url.pathname.includes('.')) {
+          // Assume we are using dynamic routing so we load the index.html file
+          const indexPath = path.join(__dirname, 'web', 'index.html');
+          try {
+            const data = await fs.readFileSync(indexPath);
+            const mimeType = mime.getType(indexPath) || 'text/plain';
+            return new Response(data, {
+              headers: { 'Content-Type': mimeType }
+            });
+          } catch (err) {
+            console.error('Failed to load index', indexPath, err);
+            return new Response('File not found', { status: 404 });
+          }
+        } else {
+          // If we are not in a directory, we need to load the file as a 404
+          console.error('Failed to load', filePath, err);
+          return new Response('File not found', { status: 404 });
+        }
       }
     });
 

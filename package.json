@@ -11,6 +11,7 @@
     "desktop": "yarn workspace greenlight-dektop",
     "desktopv3": "yarn workspace greenlight-desktopv3",
     "web": "yarn workspace @greenlight/web",
+    "web2": "yarn workspace @greenlight/web2",
     "docs": "yarn workspace @greenlight/docs",
     "logger": "yarn workspace @greenlight/logger",
     "platform": "yarn workspace @greenlight/platform",
