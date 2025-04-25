@@ -1,8 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
+import {
   useState,
   ReactNode,
 } from 'react';
@@ -16,7 +12,7 @@ export const trpcReact = createTRPCReact<typeof AppRouter>();
 
 export const TrpcProvider = ({ children }: { children: ReactNode }) => {
     const [queryClient] = useState(() => new QueryClient());
-    const [trpcClient, setTrpcClient] = useState(() =>
+    const [trpcClient] = useState(() =>
         trpcReact.createClient({
             links: [
                 wsLink({

@@ -9,7 +9,7 @@ export default function MsalAuthentication() {
     const msal_data = trpcReact.auth_msal_start.useQuery()
     const [msalLogin, setMsalLogin] = useState(msal_data.data)
 
-    const { data: verifyData, isLoading: isVerifying } = trpcReact.auth_msal_verify.useQuery(
+    const { data: verifyData } = trpcReact.auth_msal_verify.useQuery(
         (msalLogin?.device_code as string),
         {
           enabled: !!msalLogin?.device_code,

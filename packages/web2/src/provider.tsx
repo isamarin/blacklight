@@ -5,6 +5,7 @@ import { useHref, useNavigate } from "react-router-dom";
 
 import { GamepadNavigationProvider } from './providers/gamepadnav'
 import { TrpcProvider } from './providers/trpc'
+import { StorageProvider } from "./providers/storage";
 
 // declare module "@react-types/shared" {
 //   interface RouterConfig {
@@ -18,9 +19,11 @@ export function Provider({ children }: { children: React.ReactNode }) {
   return (
     <TrpcProvider>
       <GamepadNavigationProvider>
-        <HeroUIProvider navigate={navigate} useHref={useHref}>
-          {children}
-        </HeroUIProvider>
+        <StorageProvider>
+          <HeroUIProvider navigate={navigate} useHref={useHref}>
+              {children}
+          </HeroUIProvider>
+        </StorageProvider>
       </GamepadNavigationProvider>
     </TrpcProvider>
   );

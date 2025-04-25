@@ -14783,9 +14783,19 @@ xal-node@^1.1.2:
     jose "^5.10.0"
     uuid-1345 "^1.0.2"
 
+xbox-webapi@2.0.0-beta1:
+  version "2.0.0-beta1"
+  resolved "https://registry.yarnpkg.com/xbox-webapi/-/xbox-webapi-2.0.0-beta1.tgz#7368d4566a6c4c3b3f8cf1483796900f1dcf5c05"
+  integrity sha512-uxhP1X/HSel/yeJUNlTsj5nc8lfLSTzknd+WDU4E3VaFa8aDAVl/OZQFAGmQjuNkIZOcWE1/jZxe0Bb3M+pppQ==
+
+xbox-webapi@2.0.0-beta3:
+  version "2.0.0-beta3"
+  resolved "https://registry.yarnpkg.com/xbox-webapi/-/xbox-webapi-2.0.0-beta3.tgz#a6eed2c9ff05c3ed77122e7d9cd78055b64d302c"
+  integrity sha512-bDKjy5PNTlz9j896rjYv2IBDx9TYX2JiQSN0rq7+3Fp4V3dmayvV9wn6r4H/42mRh9smtXx50cZ8c//f/6sPoQ==
+
 xbox-webapi@^1.4.2:
   version "1.4.2"
-  resolved "https://registry.npmjs.org/xbox-webapi/-/xbox-webapi-1.4.2.tgz"
+  resolved "https://registry.yarnpkg.com/xbox-webapi/-/xbox-webapi-1.4.2.tgz#f7a995e45e2faee310d41ba275d8cd8e600de982"
   integrity sha512-q5z5f71M+BjML1IA9Va2UkjjQ6Qc0cGXwx2OwHSbW0RrTryiJ6UtVc9QBqndaCGGvt1k0XkG5M5Sf/NWft0pcQ==
   dependencies:
     cli-ux "^6.0.6"

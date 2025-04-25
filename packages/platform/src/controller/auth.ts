@@ -1,4 +1,4 @@
-import { Msal, TokenStore } from 'xal-node'
+import { Msal } from 'xal-node'
 import ProxyStore from '../utils/proxystore.js'
 import { IUserToken } from 'xal-node/dist/lib/tokens/usertoken.js'
 

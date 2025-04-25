@@ -20,11 +20,11 @@ export default class ProxyStore extends TokenStore {
     }
  
     save() {
-        const tokens = JSON.stringify({
-            userToken: this._userToken?.data,
-            sisuToken: this._sisuToken?.data,
-            jwtKeys: this._jwtKeys,
-        })
+        // const tokens = JSON.stringify({
+        //     userToken: this._userToken?.data,
+        //     sisuToken: this._sisuToken?.data,
+        //     jwtKeys: this._jwtKeys,
+        // })
  
         // this._store.set('authentication.tokens', tokens)
         // @TODO: Save the token data in your store
