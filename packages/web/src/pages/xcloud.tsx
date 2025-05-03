@@ -3,7 +3,7 @@ import { Button } from "@heroui/react";
 
 import { useNavigate } from "react-router-dom";
 
-export default function xCloudPage() {
+export default function XCloudPage() {
   const navigate = useNavigate();
 
   return (
