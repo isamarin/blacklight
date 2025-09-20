@@ -205,10 +205,14 @@ jobs:
             node_modules/
           key: ${{ runner.os }}-${{ runner.arch }}-yarn-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-${{ runner.arch }}-yarn-
-      
-      - name: Reset node_modules cache (if enabled)
+
+      - name: Install rimraf (if reset_cache enabled)
         if: env.reset_cache == 'true'
-        run: rm -rf node_modules/
+        run: npm install -g rimraf
+
+      - name: Reset node_modules cache (if reset_cache enabled)
+        if: env.reset_cache == 'true'
+        run: rimraf node_modules/
 
       - name: Install yarn dependencies
         run: yarn
