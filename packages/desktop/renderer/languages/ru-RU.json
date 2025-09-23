@@ -224,7 +224,7 @@
     },
 
     "friends": {
-      "AllFriendsOffline": "Все ваши друзья оффлайн"
+      "allFriendsOffline": "Все ваши друзья оффлайн"
     },
 
     "streamWindow": {
