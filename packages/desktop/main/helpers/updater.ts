@@ -3,6 +3,7 @@ import electron from 'electron'
 import { compare } from 'compare-versions'
 import gh from 'github-url-to-object'
 import pkg from '../../package.json'
+import i18n from 'i18next'
 
 // Base code below from https://github.com/ankurk91/electron-update-notifier. Credits to @ankurk91.
 
@@ -19,6 +20,8 @@ interface GithubReleaseObject {
   body: string;
   html_url: string;
 }
+
+const t = i18n.t.bind(i18n)
 
 export const defaultOptions: Options = {
     debug: false, // force run in development
@@ -50,7 +53,7 @@ export async function checkForUpdates({repository, token, debug, silent, prerele
         const ghObj = gh(pkg.repository)
 
         if (!ghObj) {
-            throw new Error('Repository URL not found in package.json file.')
+            throw new Error(t('errors.repositoryNotFound'))
         }
 
         repository = ghObj.user + '/' + ghObj.repo
@@ -72,13 +75,13 @@ export async function checkForUpdates({repository, token, debug, silent, prerele
                 break
             }
         }
-    
+
     } catch (error) {
         console.error(error)
         logger.log('updater', __filename+'[checkForUpdates()] Error while checking for updates:', error)
 
         if (!silent) {
-            showDialog('Unable to check for updates at this moment. Try again.', 'error')
+            showDialog(t('updater.unableToCheckForUpdates'), 'error')
         }
     }
 
@@ -90,7 +93,7 @@ export async function checkForUpdates({repository, token, debug, silent, prerele
     } else {
         logger.log('updater', __filename+'[checkForUpdates()] Application is newest version. Current version:', electron.app.getVersion(), 'Newest version:', latestRelease.tag_name )
         if (!silent) {
-            showDialog(`You are already running the latest version. Current version: ${electron.app.getVersion()}. Newest version: ${latestRelease.tag_name}`)
+            showDialog(t('updater.alreadyOnLatestVersion') + electron.app.getVersion() + ". " + t('updater.newestVersion') + " " + latestRelease.tag_name)
         }
     }
 }
@@ -100,9 +103,9 @@ export function showUpdateDialog(release: GithubReleaseObject) {
         {
             title: electron.app.getName(),
             type: 'info',
-            message: 'New release available',
-            detail: `Installed Version: ${electron.app.getVersion()}\nLatest Version: ${release.tag_name}\n\n${release.body}`.trim(),
-            buttons: ['Download', 'Later'],
+            message: t('updater.newReleaseAvailable'),
+            detail: `${t('updater.installedVersion')} ${electron.app.getVersion()}\n${t('updater.latestVersion')} ${release.tag_name}\n\n${release.body}`.trim(),
+            buttons: [t('updater.downloadBtn'), t('updater.laterBtn')],
             defaultId: 0,
             cancelId: 1,
         },
@@ -123,8 +126,8 @@ const showDialog = (detail: string, type: string = 'info') => {
     electron.dialog.showMessageBox(
         {
             title: electron.app.getName(),
-            message: 'Update checker',
-            buttons: ['Close'],
+            message: t('updater.updateChecker'),
+            buttons: [t('updater.closeBtn')],
             defaultId: 0,
             cancelId: 0,
             type,

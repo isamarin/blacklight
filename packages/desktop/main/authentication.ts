@@ -3,6 +3,7 @@ import { createWindow } from './helpers'
 import Application from './application'
 import { Xal } from 'xal-node'
 import AuthTokenStore from './helpers/tokenstore'
+import i18n from 'i18next';
 
 
 export default class Authentication {
@@ -17,6 +18,8 @@ export default class Authentication {
     _isAuthenticating:boolean = false
     _isAuthenticated:boolean = false
     _appLevel:number = 0
+
+    private t = i18n.t.bind(i18n);
 
     constructor(application:Application){
         this._application = application
@@ -81,7 +84,7 @@ export default class Authentication {
                 }).catch((error) => {
                     this._application.log('authenticationV2', __filename+'[startSilentFlow()] Failed to retrieve web tokens:', error)
                     dialog.showMessageBox({
-                        message: 'Error: Failed to retrieve web tokens:'+ JSON.stringify(error),
+                        message: this.t('errors.failedToRetrieveWebTokens') + ' ' + JSON.stringify(error),
                         type: 'error',
                     })
                 })
@@ -89,7 +92,7 @@ export default class Authentication {
             }).catch((err) => {
                 this._application.log('authenticationV2', '[startSilentFlow()] Failed to retrieve streaming tokens:', err)
                 dialog.showMessageBox({
-                    message: 'Error: Failed to retrieve streaming tokens:'+ JSON.stringify(err),
+                    message: this.t('errors.failedToRetrieveStreamingTokens') + ' ' + JSON.stringify(err),
                     type: 'error',
                 })
             })
@@ -119,12 +122,12 @@ export default class Authentication {
 
                 }).catch((err) => {
                     this._application.log('authenticationV2', '[startAuthFlow()] Error authenticating user:', err)
-                    dialog.showErrorBox('Error', 'Error authenticating user. Error details: '+JSON.stringify(err))
+                    dialog.showErrorBox('Error', this.t('errors.errorAuthentificationUser') + ' ' + JSON.stringify(err))
                 })
             }
         }).catch((err) => {
             this._application.log('authenticationV2', '[startAuthFlow()] Error getting redirect URI:', err)
-            dialog.showErrorBox('Error', 'Error getting redirect URI. Error details: '+JSON.stringify(err))
+            dialog.showErrorBox('Error', this.t('errors.errorGettingRedirectURI') + ' ' + JSON.stringify(err))
         })
     }
 
@@ -146,7 +149,7 @@ export default class Authentication {
                     this._authCallback(details.responseHeaders.Location[0])
                 } else {
                     this._application.log('authenticationV2', '[startWebviewHooks()] Authentication Callback is not defined:', this._authCallback)
-                    dialog.showErrorBox('Error', 'Authentication Callback is not defined. Error details: '+JSON.stringify(this._authCallback))
+                    dialog.showErrorBox('Error', this.t('errors.authentificationCallbackIsNotDefined') + ' ' + JSON.stringify(this._authCallback))
                 }
 
                 callback({ cancel: true })
@@ -160,7 +163,7 @@ export default class Authentication {
         const authWindow = createWindow('auth', {
             width: 500,
             height: 600,
-            title: 'Authentication',
+            title: this.t('auth.windowTitle'),
         })
 
         authWindow.loadURL(url)
@@ -175,7 +178,7 @@ export default class Authentication {
     async getStreamingToken(){
         const sisuToken = this._tokenStore.getSisuToken()
         if(sisuToken === undefined)
-            throw new Error('Sisu token is missing. Please authenticate first')
+            throw new Error( this.t('errors.sisuTokenIsMissing') )
 
         const xstsToken = await this._xal.doXstsAuthorization(sisuToken, 'http://gssv.xboxlive.com/')
 

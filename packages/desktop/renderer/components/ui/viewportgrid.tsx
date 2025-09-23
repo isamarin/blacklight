@@ -1,5 +1,6 @@
 import React from 'react'
 import Button from './button'
+import { useTranslation } from 'react-i18next'
 
 interface ViewportGridProps {
     drawPagination?:boolean;
@@ -15,6 +16,7 @@ function ViewportGrid({
     const randomId = Math.floor(Math.random()*1000)
     const [showItems, setShowItems] = React.useState(9999)
     const [page, setPage] = React.useState(0)
+    const { t } = useTranslation()
 
     React.useEffect(() => {
         // Mount
@@ -85,12 +87,12 @@ function ViewportGrid({
     function drawPageButtons(){
         const buttons = []
         const totalPages = Math.ceil(Object.keys(children).length/showItems)
-      
-        buttons.push((<Button key="page_prev" onClick={ prevPage } disabled={page <= 0} className='btn-small' label="Previous page"></Button>))
+
+        buttons.push((<Button key="page_prev" onClick={ prevPage } disabled={page <= 0} className='btn-small' label={t('page.xCloudLibrary.previousPageBtn')}></Button>))
         for(let i=1; i <= totalPages; i++){
             if(i === 1 || (i > (page-4) && i <= (page+5)) || i === totalPages){
                 buttons.push((<Button key={i} label={i.toString()} className={ page === (i-1) ? 'btn-small btn-primary': 'btn-small' } onClick={ () => {
-                    gotoPage(i) 
+                    gotoPage(i)
                 }}></Button>))
             } else {
                 if(i === (page-4) || i === (page+6)){
@@ -98,8 +100,8 @@ function ViewportGrid({
                 }
             }
         }
-        buttons.push((<Button key="page_next" onClick={ nextPage } disabled={page >= totalPages-1} className='btn-small' label="Next page"></Button>))
-    
+        buttons.push((<Button key="page_next" onClick={ nextPage } disabled={page >= totalPages-1} className='btn-small' label={t('page.xCloudLibrary.nextPageBtn')}></Button>))
+
         return buttons
     }
 
@@ -107,12 +109,12 @@ function ViewportGrid({
         setPage(page+1)
         window.scrollTo({ top: 0 })
     }
-    
+
     function prevPage(){
         setPage(page-1)
         window.scrollTo({ top: 0 })
     }
-    
+
     function gotoPage(page){
         setPage(parseInt(page)-1)
         window.scrollTo({ top: 0 })
@@ -136,7 +138,7 @@ function ViewportGrid({
                     const limit = (page*showItems)+showItems
 
                     if(index < offset || index >= limit){
-                        return 
+                        return
                     }
 
                     return ( <div id={ 'title_'+index } style={{

@@ -8,6 +8,7 @@ import BreadcrumbBar from '../../../components/ui/breadcrumbbar'
 import Button from '../../../components/ui/button'
 import Loader from '../../../components/ui/loader'
 import { useQuery } from 'react-query'
+import { useTranslation } from 'react-i18next'
 
 
 
@@ -15,6 +16,7 @@ function xCloudInfo() {
     const router = useRouter()
     const productDetails = useQuery('xcloudinfo_titleId_'+router.query.titleid, () => Ipc.send('xCloud', 'getTitle', { titleId: router.query.titleid}), { staleTime: 10*1000 })
     const [productName, setProductName] = React.useState('...')
+    const { t } = useTranslation()
 
     if(productDetails.isFetched === true && productName === '...')
         setProductName(productDetails.data.catalogDetails.ProductTitle)
@@ -22,12 +24,12 @@ function xCloudInfo() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - Viewing title information: { router.query.titleid }</title>
+                <title>Greenlight - {t('page.titleInfo.pageTitle')} { router.query.titleid }</title>
             </Head>
 
             <BreadcrumbBar>
-                <Link href="/xcloud/home">xCloud</Link>
-                <Link href="/xcloud/library">Library</Link>
+                <Link href="/xcloud/home">{t('page.titleInfo.breadcrumb1')}</Link>
+                <Link href="/xcloud/library">{t('page.titleInfo.breadcrumb2')}</Link>
                 <Link href={ '/xcloud/info/'+router.query.titleid }>{productName}</Link>
             </BreadcrumbBar>
 
@@ -38,12 +40,12 @@ function xCloudInfo() {
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: 'cover',
                 }}></div>
-          
+
                 <div id="page_info_titleid">
 
                     <div id="page_info_hero">
                         <h1>{productName}</h1>
-                        <h2>by { productDetails.data.catalogDetails.PublisherName }</h2>
+                        <h2>{t('page.titleInfo.by')} { productDetails.data.catalogDetails.PublisherName }</h2>
                     </div>
 
                     <div id="page_info_titleid_sidebar">
@@ -51,18 +53,18 @@ function xCloudInfo() {
                         <br />
 
                         <Link href={ '/stream/xcloud_'+router.query.titleid }>
-                            <Button label={ 'Stream Game' } className='btn-primary'></Button>
+                            <Button label={ t('page.titleInfo.startStreamBtn') } className='btn-primary'></Button>
                         </Link>
                     </div>
 
                     <div id="page_info_titleid_content">
-                        <h3>Description</h3>
+                        <h3>{t('page.titleInfo.descriptionTitle')}</h3>
 
                         <p>
                             { productDetails.data.catalogDetails.ProductDescriptionShort }
                         </p>
 
-                        <h3>Capabilities</h3>
+                        <h3>{t('page.titleInfo.capabilitiesTitle')}</h3>
 
                         <div>
                             {productDetails.data.catalogDetails.Attributes.map((item) => {

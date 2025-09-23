@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Ipc from '../lib/ipc'
+import { useTranslation } from 'react-i18next'
 
 // import { ipcRenderer } from 'electron'
 
@@ -15,20 +16,22 @@ function Header({
     gamertag,
     level = 0,
 }: HeaderProps) {
+    const { t } = useTranslation()
 
     // console.log('level:', level)
-    const [headerLinks, setHeaderLinks] = React.useState([])
+    const [activeIndex, setActiveIndex] = React.useState(0);
+    const [headerLinks, setHeaderLinks] = React.useState([]);
 
     function createLinks(level){
         return (level > 1) ? [
             {
-                name: 'My Consoles',
-                title: 'View consoles',
+                name: t('header.myConsoles'),
+                title: t('header.viewConsoles'),
                 url: '/home',
                 active: false,
             }, {
-                name: 'xCloud Library',
-                title: 'Browse xCloud library',
+                name: t('header.xCloudLibrary'),
+                title: t('header.browseXCloudLibrary'),
                 url: '/xcloud/home',
                 active: false,
                 // },{
@@ -36,30 +39,30 @@ function Header({
                 //   title: 'Debug page',
                 //   url: '/debug'
             }, {
-                name: 'Settings',
-                title: 'Change application settings',
+                name: t('header.settings'),
+                title: t('header.changeSettings'),
                 url: '/settings/home',
                 active: false,
             }, {
                 name: gamertag,
-                title: 'View profile',
+                title: t('header.viewProfile'),
                 url: '/profile',
                 active: false,
             },
         ] : [
             {
-                name: 'My Consoles',
-                title: 'View consoles',
+                name: t('header.myConsoles'),
+                title: t('header.viewConsoles'),
                 url: '/home',
                 active: false,
             }, {
-                name: 'Settings',
-                title: 'Change application settings',
+                name: t('header.settings'),
+                title: t('header.changeSettings'),
                 url: '/settings/home',
                 active: false,
             }, {
                 name: gamertag,
-                title: 'View profile',
+                title: t('header.viewProfile'),
                 url: '/profile',
                 active: false,
             },
@@ -67,50 +70,39 @@ function Header({
     }
 
     function setMenuActive(id) {
-        const links = createLinks(level)
-        links[id].active = true
-
-        setHeaderLinks(links)
-        return null
+        setActiveIndex(id);
     }
 
     function drawMenu() {
-        const linksHtml = []
-
-        for(const link in headerLinks){
-            linksHtml.push(<li key={ link }>
-                <Link legacyBehavior href={ headerLinks[link].url } key={ headerLinks[link].url }>
-                    <a title={ headerLinks[link].title } onClick={ () => {
-                        setMenuActive(link)
-                    } } className={headerLinks[link].active === true ? 'active' : ''}>{ headerLinks[link].name }</a>
+        return headerLinks.map((link, idx) => (
+            <li key={idx}>
+                <Link legacyBehavior href={link.url} key={link.url}>
+                    <a title={link.title} onClick={() => setMenuActive(idx)} className={idx === activeIndex ? 'active' : ''}>{link.name}</a>
                 </Link>
-            </li>)
-        }
-
-        return linksHtml
+            </li>
+        ));
     }
 
     function confirmQuit() {
         if(window.Greenlight.isWebUI() === true)
             return
-    
-        if(confirm('Are you sure you want to quit?')){
+
+        if(confirm(t('header.quitQuestion'))){
             Ipc.send('app', 'quit')
         }
     }
 
     React.useEffect(() => {
-        if(headerLinks.length <= 0 && !isNaN(level)){
-            const links = createLinks(level)
-            links[0].active = true
-            setHeaderLinks(links)
+        if (!isNaN(level)) {
+            const links = createLinks(level).map((link, idx) => ({ ...link, active: idx === activeIndex }));
+            setHeaderLinks(links);
         }
-    })
-  
+    }, [level, t, activeIndex]);
+
     return (
         <React.Fragment>
             <div id="component_header" className={hidden === true ? 'disabled' : ''}>
-                <a onClick={ confirmQuit } id="actionBarLogo" title="Home">
+                <a onClick={ confirmQuit } id="actionBarLogo" title={t('header.home')}>
                     <i className="fa-brands fa-xbox"></i>
                 </a>
 

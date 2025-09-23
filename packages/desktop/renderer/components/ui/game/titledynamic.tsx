@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Ipc from '../../../lib/ipc'
 import Loader from '../loader'
 import { useQuery } from 'react-query'
+import { useTranslation } from 'react-i18next'
 
 interface GameTitleProps {
     titleId: string;
@@ -23,17 +24,18 @@ function GameTitleDynamic({
     titleId,
 }: GameTitleProps) {
     const titleData = useQuery<titleDataState>('titledynamic_titleId_'+titleId, () => Ipc.send('xCloud', 'getTitle', { titleId: titleId }), { staleTime: 300*1000 })
+    const { t } = useTranslation()
 
     return (
         <React.Fragment>
             <div className='component_gametitle'>
                 <div className='component_gametitle_infopage'>
-                    <Link href={ '/xcloud/info/'+titleId } title='View game page'><i className="fa-solid fa-info" /></Link>
+                    <Link href={ '/xcloud/info/'+titleId } title={t("page.xCloudLibrary.viewGamePageIcon")}><i className="fa-solid fa-info" /></Link>
                 </div>
 
                 { (titleData.isFetched === true && titleData.data.titleId !== undefined) ? <Link href={ `/stream/xcloud_${ titleId }` }>
 
-                    <Image 
+                    <Image
                         src={ 'https:'+titleData.data.catalogDetails.Image_Tile?.URL }
                         alt={ titleData.data.catalogDetails.ProductTitle }
                         width='280' height='280' style={{

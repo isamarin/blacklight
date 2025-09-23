@@ -3,8 +3,10 @@ import Head from 'next/head'
 import Ipc from '../../lib/ipc'
 import Card from '../../components/ui/card'
 import SettingsSidebar from '../../components/settings/sidebar'
+import { useTranslation } from 'react-i18next'
 
 function SettingsDebug() {
+    const { t } = useTranslation()
     const [appDebug, setAppDebug] = React.useState([])
 
     React.useEffect(() => {
@@ -18,7 +20,7 @@ function SettingsDebug() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - Settings: Debug</title>
+                <title>Greenlight - {t('settings.debug.pageTitle')}</title>
             </Head>
 
             <SettingsSidebar>
@@ -45,7 +47,7 @@ function SettingsDebug() {
                     }
                 </div>
             </SettingsSidebar>
-      
+
 
         </React.Fragment>
     )

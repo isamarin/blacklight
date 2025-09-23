@@ -6,8 +6,10 @@ import Button from '../../components/ui/button'
 import BreadcrumbBar from '../../components/ui/breadcrumbbar'
 import TitleRow from '../../components/xcloud/titleRow'
 import { useQuery } from 'react-query'
+import { useTranslation } from 'react-i18next'
 
 function xCloudHome() {
+    const { t } = useTranslation()
     useQuery('xCloudTitles', () => Ipc.send('xCloud', 'getTitles'), { staleTime: 300*1000 })
     const xCloudNewTitles = useQuery('xCloudNewTitles', () => Ipc.send('xCloud', 'getNewTitles'), { staleTime: 60*1000 })
     const xCloudRecentTitles = useQuery('xCloudRecentTitles', () => Ipc.send('xCloud', 'getRecentTitles'), { staleTime: 10*1000 })
@@ -15,21 +17,21 @@ function xCloudHome() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - xCloud Library</title>
+                <title>Greenlight - {t('page.xCloud.pageTitle')}</title>
             </Head>
 
             <BreadcrumbBar>
-                <Link href="/xcloud/home">xCloud</Link>
+                <Link href="/xcloud/home">{t('page.xCloud.breadcrumb')}</Link>
                 {/* <Link href="/xcloud/library">Library</Link> */}
             </BreadcrumbBar>
 
-            <TitleRow titles={ (xCloudRecentTitles.isFetched) ? xCloudRecentTitles.data : [] }>Recent Games</TitleRow>
+            <TitleRow titles={ (xCloudRecentTitles.isFetched) ? xCloudRecentTitles.data : [] }>{t('page.xCloud.recentGames')}</TitleRow>
 
             <TitleRow titles={ (xCloudNewTitles.isFetched) ? xCloudNewTitles.data : [] }>
-          Recently added &nbsp;
-                <Link href="/xcloud/library"><Button label="View Library" className='btn-small'></Button></Link>
+                {t('page.xCloud.recentlyAdded')}&nbsp;
+                <Link href="/xcloud/library"><Button label={t('page.xCloud.viewLibraryBtn')} className='btn-small'></Button></Link>
             </TitleRow>
-        
+
             {/* } */}
 
         </React.Fragment>

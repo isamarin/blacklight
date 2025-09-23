@@ -8,8 +8,10 @@ import Header from '../components/header'
 import Footer from '../components/footer'
 import Auth from '../components/auth'
 import SidebarFriends from '../components/sidebar/friends'
+import '../lib/i18n'
 
 import { UserProvider } from '../context/userContext'
+import { LanguageProvider } from '../context/languageContext'
 
 import {
     QueryClient,
@@ -49,13 +51,21 @@ export default function MyApp({ Component, pageProps }) {
             console.log('Requesting AuthState...')
             Ipc.send('app', 'getAuthState').then((args) => {
                 console.log('Received AuthState:', args)
-        
+
                 if(args.isAuthenticating === true){
                     setIsLoading(true)
                     setPrevUserState({ ...prevUserState, ...args.user})
 
                 } else if(args.isAuthenticated === true && args.user.signedIn === true){
                     clearInterval(authInterval)
+
+                    // After successful authentication, load and apply language setting
+                    Ipc.send('settings', 'getSettings').then(settings => {
+                        if (settings.language) {
+                            const i18n = require('../lib/i18n').default;
+                            i18n.changeLanguage(settings.language);
+                        }
+                    });
 
                     if(loggedIn === false){
                         Ipc.send('app', 'onUiShown').then((result) => {
@@ -65,7 +75,7 @@ export default function MyApp({ Component, pageProps }) {
                                 }, 1000)
                         })
                     }
-          
+
                     setLoginState(true)
                     setPrevUserState({ ...prevUserState, ...args.user})
                 }
@@ -127,7 +137,7 @@ export default function MyApp({ Component, pageProps }) {
             <Head>
                 <title>Greenlight</title>
             </Head>
-      
+
             <div style={ {
                 background: 'linear-gradient(0deg, rgba(26,27,30,1) 0%, rgba(26,27,30,1) 25%, rgba(0,212,255,0) 100%), url(\'/images/backgrounds/background1.jpeg\') fixed',
                 backgroundPosition: 'center',
@@ -137,9 +147,11 @@ export default function MyApp({ Component, pageProps }) {
                 height: '100vh',
             }}>
                 <QueryClientProvider client={queryClient}>
-                    <UserProvider>
-                        {appBody}
-                    </UserProvider>
+                    <LanguageProvider>
+                        <UserProvider>
+                            {appBody}
+                        </UserProvider>
+                    </LanguageProvider>
                 </QueryClientProvider>
             </div>
         </React.Fragment>

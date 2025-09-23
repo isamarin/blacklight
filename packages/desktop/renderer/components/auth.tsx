@@ -6,6 +6,8 @@ import Card from '../components/ui/card'
 import Button from './ui/button'
 import Loader from './ui/loader'
 
+import { useTranslation } from 'react-i18next'
+
 interface AuthProps {
   signedIn: boolean;
   gamertag?: string;
@@ -21,29 +23,30 @@ function Auth({
     gamerscore,
     isLoading = false,
 }: AuthProps) {
+    const { t } = useTranslation()
 
     function startAuthFlow(){
         Ipc.send('app', 'login')
     }
 
     function logout(){
-        if(confirm('Are you sure you want to logout?')){
+        if(confirm(t('auth.logoutQuestion'))){
             Ipc.send('app', 'clearData')
         }
     }
 
     function clearData(){
-        if(confirm('This will remove all application data, which is sometimes helpful when you are stuck in a login loop. Do you want to continue?')){
+        if(confirm(t('auth.clearDataQuestion'))){
             Ipc.send('app', 'clearData')
         }
     }
-  
+
     return (
         <React.Fragment>
             <div id="component_auth">
 
                 <div id="component_auth_modal">
-                    { isLoading === false ? 
+                    { isLoading === false ?
                         <Card>
                             {signedIn === true ? (<div className="component_auth_profile_container">
                                 <div className="component_auth_profile_gamerpic">
@@ -53,16 +56,16 @@ function Auth({
                                 <div className="component_auth_profile_userdetails">
                                     <h1>{ gamertag }</h1>
                                     <p>
-                      Gamerscore: { gamerscore }
+                                        {t('auth.gamerscore')}: { gamerscore }
                                     </p>
                                     {/* <p>
-                      { 'Logging in...' }
-                    </p> */}
-                                    <Button label="Login" className='btn-primary' onClick={ () => {
-                                        startAuthFlow() 
+                                        {t('auth.loggingIn')}
+                                    </p> */}
+                                    <Button label={t('auth.loginBtn')} className='btn-primary' onClick={ () => {
+                                        startAuthFlow()
                                     } }></Button> &nbsp;
-                                    <Button label="Logout" className='btn' onClick={ () => {
-                                        logout() 
+                                    <Button label={t('auth.logoutBtn')} className='btn' onClick={ () => {
+                                        logout()
                                     } }></Button>
                                 </div>
 
@@ -70,17 +73,15 @@ function Auth({
                                 textAlign: 'center',
                                 paddingBottom: '20px',
                             }}>
-                                <h1>Login with Xbox</h1>
-                  
+                                <h1>{t('auth.loginWithXbox')}</h1>
                                 <p>
-                    Please authenticate below to access xCloud and xHome Streaming
+                                    {t('auth.pleaseAuthenticate')}
                                 </p>
-
-                                <Button label="Login" className='btn-primary' onClick={ () => {
-                                    startAuthFlow() 
+                                <Button label={t('auth.loginBtn')} className='btn-primary' onClick={ () => {
+                                    startAuthFlow()
                                 } }></Button> &nbsp;
-                                <Button label="Clear data" className='btn' onClick={ () => {
-                                    clearData() 
+                                <Button label={t('auth.clearDataBtn')} className='btn' onClick={ () => {
+                                    clearData()
                                 } }></Button>
                             </div>) }
                         </Card>:<Card><div style={{
