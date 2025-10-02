@@ -9,12 +9,14 @@ on:
       - v*
     paths:
       - 'packages/desktop/**'
+      - 'yarn.lock'
       - '.github/workflows/build_desktop.yml'
   pull_request:
     branches:
       - main-v2
     paths:
       - 'packages/desktop/**'
+      - 'yarn.lock'
       - '.github/workflows/build_desktop.yml'
   workflow_dispatch:
     inputs:

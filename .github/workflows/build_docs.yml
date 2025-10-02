@@ -9,12 +9,14 @@ on:
       - v*
     paths:
       - 'packages/docs/**'
+      - 'yarn.lock'
       - '.github/workflows/build_docs.yml'
   pull_request:
     branches:
       - main-v2
     paths:
       - 'packages/docs/**'
+      - 'yarn.lock'
       - '.github/workflows/build_docs.yml'
   workflow_dispatch:
     inputs:
