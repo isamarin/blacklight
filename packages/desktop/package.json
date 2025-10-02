@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "greenlight-dektop",
+  "name": "greenlight-desktop",
   "description": "Greenlight is a streaming application for Xbox and xCloud",
   "version": "2.3.3",
   "author": "UnknownSKL <info+github@jimkroon.nl>",
@@ -38,7 +38,11 @@
     "xal-node": "^1.1.2",
     "xbox-webapi": "^1.4.2",
     "xbox-xcloud-player": "^0.2.11",
-    "xvfb-maybe": "^0.2.1"
+    "xvfb-maybe": "^0.2.1",
+    "@types/i18next": "^12.1.0",
+    "@types/react-i18next": "^7.8.3",
+    "i18next": "^25.5.2",
+    "react-i18next": "^15.7.3"
   },
   "devDependencies": {
     "@babel/core": "^7.26.10",
