@@ -8,25 +8,17 @@
     "url": "git+https://github.com/unknownskl/greenlight.git"
   },
   "scripts": {
-    "desktop": "yarn workspace greenlight-dektop",
-    "desktopv3": "yarn workspace greenlight-desktopv3",
-    "web": "yarn workspace @greenlight/web",
-    "web2": "yarn workspace @greenlight/web2",
+    "desktop": "yarn workspace greenlight-desktop",
     "docs": "yarn workspace @greenlight/docs",
     "logger": "yarn workspace @greenlight/logger",
     "platform": "yarn workspace @greenlight/platform",
-    "server": "yarn workspace @greenlight/server",
     "test": "yarn logger test"
   },
   "workspaces": [
+    "packages/logger",
+    "packages/platform",
     "packages/desktop",
     "packages/docs"
   ],
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
-  "dependencies": {
-    "@types/i18next": "^12.1.0",
-    "@types/react-i18next": "^7.8.3",
-    "i18next": "^25.5.2",
-    "react-i18next": "^15.7.3"
-  }
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
