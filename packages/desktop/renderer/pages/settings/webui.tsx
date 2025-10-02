@@ -5,11 +5,13 @@ import Card from '../../components/ui/card'
 import Button from '../../components/ui/button'
 import Ipc from '../../lib/ipc'
 import { useSettings } from '../../context/userContext'
+import { useTranslation } from 'react-i18next'
 
 
 function SettingsWebUI() {
     const { settings, setSettings} = useSettings()
     const [webuiRunning, setWebuiRunning] = React.useState(false)
+    const { t } = useTranslation()
 
     React.useEffect(() => {
         const webuiStatusInterval = setInterval(() => {
@@ -50,37 +52,37 @@ function SettingsWebUI() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - Settings: Web UI</title>
+                <title>Greenlight - {t('settings.webUI.pageTitle')}</title>
             </Head>
 
             <SettingsSidebar>
                 <Card>
-                    <h1>WebUI</h1>
+                    <h1>{t('settings.webUI.title')}</h1>
 
                     <p>
-                        <label>Enable WebUI</label>
+                        <label>{t('settings.webUI.enableWebUILabel')}</label>
                         <label style={{ minWidth: 0 }}>
-                            <Button onClick={ () => setWebUIEnabled() } disabled={ window.Greenlight.isWebUI() } className={ ((webuiRunning) ? 'btn-primary' : 'btn-cancel') + ' btn-small' } label={ webuiRunning ? 'Stop Web UI' : 'Start Web UI' }></Button> &nbsp;
-                            <Button onClick={ () => window.Greenlight.openExternal('http://127.0.0.1:'+settings.webui_port) } className={ 'btn-small' } label={ 'Open Web UI' }></Button>
+                            <Button onClick={ () => setWebUIEnabled() } disabled={ window.Greenlight.isWebUI() } className={ ((webuiRunning) ? 'btn-cancel' : 'btn-primary') + ' btn-small' } label={ webuiRunning ? t('settings.webUI.stopWebUIBtn') : t('settings.webUI.startWebUIBtn') }></Button> &nbsp;
+                            <Button onClick={ () => window.Greenlight.openExternal('http://127.0.0.1:'+settings.webui_port) } className={ 'btn-small' } label={ t('settings.webUI.openWebUIBtn') }></Button>
                         </label>
                     </p>
 
                     <p>
-                        <label>Start WebUI on application start</label>
+                        <label>{t('settings.webUI.autostartLabel')}</label>
                         <label style={{ minWidth: 0 }}>
-                            <input type='checkbox' onChange={ setWebUIAutostart } checked={settings.webui_autostart} />&nbsp; ({ settings.webui_autostart ? 'Enabled' : 'Disabled'})
+                            <input type='checkbox' onChange={ setWebUIAutostart } checked={settings.webui_autostart} />&nbsp; ({ settings.webui_autostart ? t('settings.webUI.autostartEnabled') : t('settings.webUI.autostartDisabled') })
                         </label>
                     </p>
 
                     <p>
-                        <label>Port</label>
+                        <label>{t('settings.webUI.portLabel')}</label>
                         <label style={{ minWidth: 0 }}>
-                            <input type="text" onChange={ setWebUIPort} className="text" placeholder="example: 9003" value={ settings.webui_port || 9003 } />
+                            <input type="text" onChange={ setWebUIPort} className="text" placeholder={t('settings.webUI.portPlaceholder')} value={ settings.webui_port || 9003 } />
                         </label>
                     </p>
                 </Card>
             </SettingsSidebar>
-      
+
 
         </React.Fragment>
     )

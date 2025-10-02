@@ -6,6 +6,7 @@ import Loader from './loader'
 import Card from './card'
 import uPlot from 'uplot'
 import Ipc from '../../lib/ipc'
+import { useTranslation } from 'react-i18next'
 
 interface StreamComponentProps {
     onDisconnect?: () => void;
@@ -18,6 +19,7 @@ function StreamComponent({
     onMenu,
     xPlayer,
 }: StreamComponentProps) {
+    const { t } = useTranslation()
 
     function performance_now_seconds() {
         return performance.now() / 1000.0
@@ -29,11 +31,11 @@ function StreamComponent({
     let webRtcStatsInterval
 
     const [micStatus, setMicStatus] = React.useState(false)
-    const [waitingSeconds, setWaitingSeconds] = React.useState(0)  
+    const [waitingSeconds, setWaitingSeconds] = React.useState(0)
 
 
 
-    //Client-side volume control 
+    //Client-side volume control
     const [volume, setVolume] = React.useState(1.0) //without any controls, the volume has been maxed by default, let's follow this assumption and start at full for our slider
     const handleVolumeChange = (newVolume: number) => {
 
@@ -284,7 +286,7 @@ function StreamComponent({
     }
 
     function endStream() {
-        if (confirm('Are you sure you want to end your stream?')) {
+        if (confirm(t("streamWindow.endStreamConfirmMessage"))) {
             document.getElementById('streamComponentHolder').innerHTML = ''
             onDisconnect()
             xPlayer.close()
@@ -308,7 +310,7 @@ function StreamComponent({
             setWaitingSeconds(seconds)
 
             const formattedWaitingTime = formatWaitingTime(seconds)
-            const html = '<div>Estimated waiting time in queue: <span id="component_streamcomponent_waitingtimes_seconds">' + formattedWaitingTime + '</span></div>'
+            const html = '<div>' + t("streamWindow.estimatedWaitingTimeMessage") + ' ' + '<span id="component_streamcomponent_waitingtimes_seconds">' + formattedWaitingTime + '</span></div>'
 
             document.getElementById('component_streamcomponent_waitingtimes').innerHTML = html
 
@@ -337,15 +339,15 @@ function StreamComponent({
         const seconds = (rawSeconds % 3600) % 60
 
         if (hours > 0) {
-            formattedText += hours + ' hour(s), '
+            formattedText += hours + ' ' + t("streamWindow.timeHours") + ', '
         }
 
         if (minutes > 0) {
-            formattedText += minutes + ' minute(s), '
+            formattedText += minutes + ' ' + t("streamWindow.timeMinutes") + ', '
         }
 
         if (seconds > 0) {
-            formattedText += seconds + ' second(s).'
+            formattedText += seconds + ' ' + t("streamWindow.timeSeconds") + '.'
         }
 
         return formattedText
@@ -359,11 +361,11 @@ function StreamComponent({
 
                 <div id="component_streamcomponent_loader">
                     <Card className='padbottom'>
-                        <h1>Loading...</h1>
+                        <h1>{t("streamWindow.loadingStreamTitle")}</h1>
 
                         <Loader></Loader>
 
-                        <p>We are getting your stream ready...</p>
+                        <p>{t("streamWindow.gettingStreamReadyMessage")}</p>
                         <p id="component_streamcomponent_connectionstatus"></p>
 
                         <p id="component_streamcomponent_waitingtimes"></p>
@@ -375,10 +377,10 @@ function StreamComponent({
                         <div style={{
                             width: '25%',
                         }}>
-                            <Button label={<span><i className="fa-solid fa-xmark"></i> End Stream</span>} title="End Stream" className='btn-cancel' onClick={() => {
+                            <Button label={<span><i className="fa-solid fa-xmark"></i> {t("streamWindow.endStreamBtn")}</span>} title={t("streamWindow.endStreamBtn")} className='btn-cancel' onClick={() => {
                                 endStream()
                             }}></Button> &nbsp;
-                            <Button label={<span><i className="fa-solid fa-xmark"></i></span>} title="Disconnect" className='btn' onClick={() => {
+                            <Button label={<span><i className="fa-solid fa-xmark"></i></span>} title={t("streamWindow.disconnectBtn")} className='btn' onClick={() => {
                                 streamDisconnect()
                             }}></Button>
                         </div>
@@ -387,10 +389,10 @@ function StreamComponent({
                             marginLeft: 'auto',
                             marginRight: 'auto',
                         }}>
-                            <Button label={<span><i className="fa-brands fa-xbox"></i> Menu</span>} title="Open Xbox menu" onClick={(e) => {
+                            <Button label={<span><i className="fa-brands fa-xbox"></i> {t("streamWindow.menuBtn")}</span>} title={t("streamWindow.menuTitle")} onClick={(e) => {
                                 e.target.blur(); onMenu()
                             }}></Button> &nbsp;
-                            <Button label={(micStatus === false) ? <span><i className="fa-solid fa-microphone-slash"></i> Muted</span> : <span><i className="fa-solid fa-microphone"></i> Active</span>} title={(micStatus === false) ? 'Enable mic' : 'Disable mic'} className={(micStatus === false) ? 'btn-cancel' : 'btn-primary'} onClick={(e) => {
+                            <Button label={(micStatus === false) ? <span><i className="fa-solid fa-microphone-slash"></i> {t("streamWindow.micMuted")}</span> : <span><i className="fa-solid fa-microphone"></i> {t("streamWindow.micActive")}</span>} title={(micStatus === false) ? t("streamWindow.enableMic") : t("streamWindow.disableMic")} className={(micStatus === false) ? 'btn-cancel' : 'btn-primary'} onClick={(e) => {
                                 e.target.blur(); toggleMic()
                             }}></Button>
                         </div>
@@ -411,7 +413,7 @@ function StreamComponent({
                             width: '25%',
                             textAlign: 'right',
                         }}>
-                            <Button label={<i className="fa-solid fa-bug"></i>} title="Debug" onClick={(e) => {
+                            <Button label={<i className="fa-solid fa-bug"></i>} title={t("streamWindow.debugTitle")} onClick={(e) => {
                                 e.target.blur(); toggleDebug()
                             }}></Button>
                         </div>
@@ -419,7 +421,7 @@ function StreamComponent({
                 </div>
 
                 <div id="component_streamcomponent_debug" className='hidden'>
-                    <p>Debug:</p>
+                    <p>{t("streamWindow.debugTitle")}:</p>
 
                     <div id="component_streamcomponent_debug_webrtc_jitter"></div>
                     <div id="component_streamcomponent_debug_webrtc_dropped"></div>

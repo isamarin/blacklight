@@ -7,10 +7,12 @@ import { useSettings } from '../../context/userContext'
 import StreamComponent from '../../components/ui/streamcomponent'
 import StreamPreload from '../../components/ui/streampreload'
 import Ipc from '../../lib/ipc'
+import { useTranslation } from 'react-i18next'
 
 function Stream() {
     const router = useRouter()
     const { settings } = useSettings()
+    const { t } = useTranslation()
 
     let streamStateInterval
     let keepaliveInterval
@@ -49,10 +51,10 @@ function Stream() {
                     sdp: offer.sdp,
                 }).then((sdpResponse) => {
                     xPlayer.setRemoteOffer(sdpResponse.sdp)
-    
+
                 }).catch((error) => {
                     console.log('ChatSDP Exchange error:', error)
-                    alert('ChatSDP Exchange error:'+ JSON.stringify(error))
+                    alert(t('errors.chatSDPExchangeError') + ' ' + JSON.stringify(error))
                 })
             })
 
@@ -85,34 +87,34 @@ function Stream() {
 
                     }).catch((error) => {
                         console.log('ICE Exchange error:', error)
-                        alert('ICE Exchange error:'+ JSON.stringify(error))
+                        alert(t('errors.ICEExchangeError') + ' ' + JSON.stringify(error))
                     })
 
                 }).catch((error) => {
                     console.log('SDP Exchange error:', error)
-                    alert('SDP Exchange error:'+ JSON.stringify(error))
+                    alert(t('errors.SDPExchangeError') + ' ' + JSON.stringify(error))
                 })
             })
-    
+
             xPlayer.getEventBus().on('connectionstate', (event) => {
                 console.log('connectionstate changed:', event)
-    
+
                 const connStatus = document.getElementById('component_streamcomponent_connectionstatus')
                 if(connStatus !== null){
                     if(event.state === 'connected'){
-                        connStatus.innerText = 'Client has been connected!'
+                        connStatus.innerText = t('streamWindow.clientHasBeenDisconnected')
                         document.getElementById('component_streamcomponent_loader').className = 'hidden'
-    
+
                         // Set audio / Video settings
                         // @TODO: Implement api's in xbox-xcloud-player
                         if(settings.audio_enabled === false){
                             xPlayer._audioComponent._audioRender.muted = true
                         }
-    
+
                         if(settings.video_enabled === false){
                             xPlayer._videoComponent._videoRender.style.opacity = 0
                         }
-    
+
                         // Start keepalive loop
                         keepaliveInterval = setInterval(() => {
                             Ipc.send('streaming', 'sendKeepalive', {
@@ -123,13 +125,13 @@ function Stream() {
                                 console.error('Failed to send keepalive. Error details:\n'+JSON.stringify(error))
                             })
                         }, 30000) // Send every 30 seconds
-    
+
                     } else if(event.state === 'new'){
-                        connStatus.innerText = 'Starting connection...'
-    
+                        connStatus.innerText = t('streamWindow.startingConnection')
+
                     } else if(event.state === 'connecting'){
-                        connStatus.innerText = 'Connecting to console...'
-    
+                        connStatus.innerText = t('streamWindow.connectingToConsole')
+
                     } else if(event.state === 'closed') {
                         // Client has been disconnected. Lets return to home.
                         // xPlayer.close()
@@ -147,9 +149,9 @@ function Stream() {
             }).then((result:string) => {
                 console.log('StartStream session:', result)
                 setSessionId(result)
-    
+
             }).catch((error) => {
-                alert('Failed to start new stream. Error details:\n'+JSON.stringify(error))
+                alert(t('errors.failedToStartStream') + '\n' + JSON.stringify(error))
             })
         } else {
 
@@ -167,7 +169,7 @@ function Stream() {
                         case 'started':
                             // Console is ready
                             clearInterval(streamStateInterval)
-                            
+
                             // Start xPlayer interface
                             setxPlayer(new xCloudPlayer('streamComponent', {
                                 ui_systemui: [],
@@ -186,9 +188,9 @@ function Stream() {
 
                             if(session.errorDetails.code === 'WNSError' && session.errorDetails.message.includes('WaitingForServerToRegister')){
                                 // Detected the "WaitingForServerToRegister" error. This means the console is not connected to the xbox servers
-                                alert('Unable to start stream session on console. The console is not connected to the Xbox servers. This occasionally happens when there is an update or when the user is not signed in to the console. Please hard reboot your console and try again.\n\n'+'Stream error result: '+session.state+'\nDetails: ['+session.errorDetails.code+'] '+session.errorDetails.message)
+                                alert(t('errors.unableToStartStreamSession') + '\n\n' + t('errors.streamErrorResult') + ' ' + session.state + '\n' + t('errors.details') + ' [' + session.errorDetails.code + '] ' + session.errorDetails.message)
                             } else {
-                                alert('Stream error result: '+session.state+'\nDetails: ['+session.errorDetails.code+'] '+session.errorDetails.message)
+                                alert(t('errors.streamErrorResult') + ' ' + session.state + '\n' + t('errors.details') + ' [' + session.errorDetails.code + '] ' + session.errorDetails.message)
                             }
                             console.log('Full stream error:', session.errorDetails)
                             onDisconnect()
@@ -202,13 +204,13 @@ function Stream() {
                                 setQueueTime(session.waitingTimes.estimatedTotalWaitTimeInSeconds)
                                 console.log('Setting queue to:', session.waitingTimes.estimatedTotalWaitTimeInSeconds)
 
-                                
+
                             }
                             break
                     }
 
                 }).catch((error) => {
-                    alert('Failed to get player state. Error details:\n'+JSON.stringify(error))
+                    alert(t('errors.failedToGetPlayerState') + '\n' + JSON.stringify(error))
                 })
             }, 1000)
         }
@@ -220,11 +222,11 @@ function Stream() {
             }
 
             if(keepaliveInterval){
-                clearInterval(keepaliveInterval) 
+                clearInterval(keepaliveInterval)
             }
 
             if(streamStateInterval){
-                clearInterval(streamStateInterval) 
+                clearInterval(streamStateInterval)
             }
         }
     })
@@ -234,7 +236,7 @@ function Stream() {
         xPlayer.getChannelProcessor('input').pressButton(0, 'Nexus')
     }
 
-    function onDisconnect(){  
+    function onDisconnect(){
         Ipc.send('streaming', 'stopStream', {
             sessionId: sessionId,
         }).then((result) => {
@@ -249,17 +251,17 @@ function Stream() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - Streaming {router.query.serverid}</title>
+                <title>Greenlight - {t('streamWindow.pageTitle')} {router.query.serverid}</title>
             </Head>
 
             { (xPlayer !== undefined) ? <StreamComponent onDisconnect={ () => {
-                onDisconnect() 
+                onDisconnect()
             }} onMenu={ () => {
-                gamepadSend('nexus') 
+                gamepadSend('nexus')
             } } xPlayer={ xPlayer }></StreamComponent> : (queueTime > 0) ?<StreamPreload onDisconnect={ () => {
-                onDisconnect() 
+                onDisconnect()
             }} waitingTime={ queueTime }></StreamPreload> : <StreamPreload onDisconnect={ () => {
-                onDisconnect() 
+                onDisconnect()
             }}></StreamPreload> }
         </React.Fragment>
     )

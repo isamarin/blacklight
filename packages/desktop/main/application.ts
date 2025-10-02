@@ -12,6 +12,8 @@ import xCloudApi from './helpers/xcloudapi'
 
 import pkg from '../package.json'
 
+import i18n from 'i18next';
+
 interface startupFlags {
     fullscreen:boolean;
     autoStream:string;
@@ -37,6 +39,8 @@ export default class Application {
     public _webUI:WebUI
     public _authentication:Authentication
 
+    private t = i18n.t.bind(i18n);
+
     constructor(){
         console.log(__filename+'[constructor()] Starting Greenlight v'+pkg.version)
         this._log = Debug('greenlight')
@@ -57,7 +61,7 @@ export default class Application {
         this.loadApplicationDefaults()
 
         // ElectronApp.removeAsDefaultProtocolClient('ms-xal-public-beta-000000004c20a908')
-        
+
         this._ipc = new Ipc(this)
         this._authentication = new Authentication(this)
 
@@ -110,7 +114,7 @@ export default class Application {
 
             serve({ directory: 'app' })
         } else {
-            
+
             ElectronApp.setPath('userData', `${ElectronApp.getPath('userData')} (development)`)
         }
 
@@ -125,7 +129,7 @@ export default class Application {
 
             this.openMainWindow()
             this._authentication.startWebviewHooks()
-        
+
             // Check authentication
             if(! this._authentication.checkAuthentication()){
                 this._authentication.startAuthflow()
@@ -134,7 +138,7 @@ export default class Application {
         }).catch((error) => {
             this.log('electron', __filename+'[loadApplicationDefaults()] Electron has failed to load:', error)
         })
-          
+
         ElectronApp.on('window-all-closed', () => {
             if(this._isMac === true){
                 this.log('electron', __filename+'[loadApplicationDefaults()] Electron detected that all windows are closed. Running in background...')
@@ -146,7 +150,7 @@ export default class Application {
         })
 
         ElectronApp.on('activate', () => {
-            (this._mainWindow !== undefined) ? this._mainWindow.show() : this.openMainWindow() 
+            (this._mainWindow !== undefined) ? this._mainWindow.show() : this.openMainWindow()
         })
         ElectronApp.on('before-quit', () => this._isQuitting = true)
     }
@@ -196,7 +200,7 @@ export default class Application {
         }).catch((error) => {
             this.log('electron', __filename+'[authenticationCompleted()] Failed to retrieve user profile:', error)
             dialog.showMessageBox({
-                message: 'Error: Failed to retrieve user profile:'+ JSON.stringify(error),
+                message: this.t('errors.failedToRetrieveUserProfile') + JSON.stringify(error),
                 type: 'error',
             })
         })
@@ -239,7 +243,7 @@ export default class Application {
         } else {
             const port = process.argv[2] || 3000
             this._mainWindow.loadURL(`http://localhost:${port}/home`)
-            
+
             if(this._isCi !== true){
                 this._mainWindow.webContents.openDevTools()
                 this.openGPUWindow()

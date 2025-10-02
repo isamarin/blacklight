@@ -120,6 +120,13 @@ jobs:
       - name: Prep artifacts dir
         run: mkdir ./deps-dist/
 
+      - name: Reset node_modules cache (if enabled)
+        if: env.reset_cache == 'true'
+        run: rm -rf node_modules/
+
+      - name: Install yarn dependencies
+        run: yarn
+
       - name: Build yarn cache
         run: flatpak-node-generator yarn yarn.lock -o ./deps-dist/yarn-sources.json
 

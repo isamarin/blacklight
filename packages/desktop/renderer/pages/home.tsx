@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Ipc from '../lib/ipc'
 import { useQuery } from 'react-query'
+import { useTranslation } from 'react-i18next'
 
 import Button from '../components/ui/button'
 import Card from '../components/ui/card'
@@ -12,11 +13,12 @@ import Loader from '../components/ui/loader'
 
 function Home() {
     const consoles = useQuery('consoles', () => Ipc.send('consoles', 'get'), { staleTime: 60*1000 })
-  
+    const { t } = useTranslation()
+
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - My Consoles</title>
+                <title>Greenlight - {t('page.myConsoles.pageTitle')}</title>
             </Head>
 
             <div style={ {
@@ -27,7 +29,7 @@ function Home() {
                 paddingTop: '20px',
             }}>
                 { (consoles.isLoading === true) ? <Loader></Loader> :
-                    (consoles.isFetched === true && consoles.data.length > 0) ? consoles.data.map((item, i) => {               
+                    (consoles.isFetched === true && consoles.data.length > 0) ? consoles.data.map((item, i) => {
                         return (
                             <Card className='padbottom' key={i}>
                                 <h1>{item.name}</h1>
@@ -51,30 +53,30 @@ function Home() {
                                 <br />
 
                                 {(item.remoteManagementEnabled === true && item.consoleStreamingEnabled === true) ?
-                                    (item.powerState === 'On' ? <Label className='green'>Powered on</Label> :
-                                        item.powerState === 'ConnectedStandby' ? <Label>Standby</Label> :
+                                    (item.powerState === 'On' ? <Label className='green'>{t('page.myConsoles.poweredOn')}</Label> :
+                                        item.powerState === 'ConnectedStandby' ? <Label>{t('page.myConsoles.standby')}</Label> :
                                             <Label>{item.powerState}</Label>) :
                                     (<div>
-                                        {!item.remoteManagementEnabled ? '' : <p><Label className='orange'>Warning</Label> Remote management not enabled</p>}
-                                        {!item.consoleStreamingEnabled ? '' : <p><Label className='orange'>Warning</Label> Console streaming not enabled</p>}
+                                        {!item.remoteManagementEnabled ? '' : <p><Label className='orange'>{t('page.myConsoles.warningLabel')}</Label> {t('page.myConsoles.managementWarning')}</p>}
+                                        {!item.consoleStreamingEnabled ? '' : <p><Label className='orange'>{t('page.myConsoles.warningLabel')}</Label> {t('page.myConsoles.streamingWarning')}</p>}
                                     </div>)}
 
                                 {/* <p>Name: {item.name}</p>
-              <p>ID: {item.id}</p>
-              <p>State: {item.powerState}</p>
-              <p>Type: {item.consoleType}</p>
-              <p>Assistant: {item.digitalAssistantRemoteControlEnabled ? 'Enabled' : 'Disabled'}</p>
-              <p>Remote: {item.remoteManagementEnabled ? 'Enabled' : 'Disabled'}</p>
-              <p>Streaming: {item.consoleStreamingEnabled ? 'Enabled' : 'Disabled'}</p><br /> */}
+                                <p>ID: {item.id}</p>
+                                <p>State: {item.powerState}</p>
+                                <p>Type: {item.consoleType}</p>
+                                <p>Assistant: {item.digitalAssistantRemoteControlEnabled ? 'Enabled' : 'Disabled'}</p>
+                                <p>Remote: {item.remoteManagementEnabled ? 'Enabled' : 'Disabled'}</p>
+                                <p>Streaming: {item.consoleStreamingEnabled ? 'Enabled' : 'Disabled'}</p><br /> */}
 
                                 <div style={ { display: 'flex', gap: '20px', minWidth: 280 }}>
                                     <Link href={ `stream/${item.id}` }>
-                                        <Button label="Start stream" className='btn-primary' />
+                                        <Button label={t('page.myConsoles.startStreamBtn')} className='btn-primary' />
                                     </Link>
                                 </div>
                             </Card>
-                        ) 
-                    }) : <Card className='padbottom' key='noconsoles'>No consoles found on your account. If you do have an Xbox console then make sure that remote playing is enabled and that the console is visible in the official Xbox App.</Card>
+                        )
+                    }) : <Card className='padbottom' key='noconsoles'>{t('page.myConsoles.noConsoles')}</Card>
                 }
             </div>
 

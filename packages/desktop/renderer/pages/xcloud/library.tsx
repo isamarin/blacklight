@@ -7,9 +7,11 @@ import ViewportGrid from '../../components/ui/viewportgrid'
 import GameTitleDynamic from '../../components/ui/game/titledynamic'
 import BreadcrumbBar from '../../components/ui/breadcrumbbar'
 import { useQuery, QueryClient } from 'react-query'
+import { useTranslation } from 'react-i18next'
 
 
 function xCloudLibrary() {
+    const { t } = useTranslation()
     const [filter, setFilter] = React.useState({
         name: '',
     })
@@ -34,18 +36,18 @@ function xCloudLibrary() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - xCloud Library</title>
+                <title>Greenlight - {t('page.xCloudLibrary.pageTitle')}</title>
             </Head>
 
             <BreadcrumbBar>
-                <Link href="/xcloud/home">xCloud</Link>
-                <Link href="/xcloud/library">Library</Link>
+                <Link href="/xcloud/home">{t('page.xCloudLibrary.breadcrumb1')}</Link>
+                <Link href="/xcloud/library">{t('page.xCloudLibrary.breadcrumb2')}</Link>
             </BreadcrumbBar>
 
             <h2 className="title">
-        Library
+                {t('page.xCloudLibrary.title')}
 
-                <input type="text" className="text h2-search" placeholder="Search" onChange={
+                <input type="text" className="text h2-search" placeholder={t('page.xCloudLibrary.searchPlaceholder')} onChange={
                     (e) => {
                         setFilter({
                             name: e.target.value,
@@ -53,7 +55,7 @@ function xCloudLibrary() {
                     }
                 }></input>
             </h2>
-      
+
             <ViewportGrid key='library' drawPagination={true}>{
                 (xCloudTitles.isFetched !== true) ? (<Loader></Loader>) : performFilter().map((item) => {
                     return (

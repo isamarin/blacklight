@@ -2,6 +2,7 @@ import React from 'react'
 import Loader from './loader'
 import Card from './card'
 import Button from './button'
+import { useTranslation } from 'react-i18next'
 
 interface StreamPreloadProps {
   onDisconnect?: () => void;
@@ -12,13 +13,14 @@ function StreamPreload({
     onDisconnect,
     waitingTime = 0,
 }: StreamPreloadProps) {
-    const [waitingSeconds, setWaitingSeconds] = React.useState(-1)  
+    const { t } = useTranslation()
+    const [waitingSeconds, setWaitingSeconds] = React.useState(-1)
     // console.log('outeffect', waitingTime, waitingSeconds)
 
     if(waitingSeconds < 0 && waitingTime > 0){
         // console.log('setWaitingSeconds', waitingTime)
         setWaitingSeconds(waitingTime)
-        
+
     } else if(waitingSeconds > 0){
         // console.log('drawWaitingTimes', waitingSeconds)
         drawWaitingTimes(waitingSeconds)
@@ -27,13 +29,13 @@ function StreamPreload({
     React.useEffect(() => {
 
         return () => {
-            
+
         }
     }, [])
 
     function drawWaitingTimes(seconds){
         const formattedWaitingTime = formatWaitingTime(seconds)
-        const html = '<div>Estimated waiting time in queue: <span id="component_streamcomponent_waitingtimes_seconds">'+formattedWaitingTime+'</span></div>'
+        const html = '<div>' + t("streamWindow.estimatedWaitingTimeMessage") + ' ' + '<span id="component_streamcomponent_waitingtimes_seconds">'+formattedWaitingTime+'</span></div>'
 
         document.getElementById('component_streamcomponent_waitingtimes').innerHTML = html
 
@@ -58,7 +60,7 @@ function StreamPreload({
     }
 
     function endStream(){
-        if(confirm('Are you sure you want to end your stream?')){
+        if(confirm(t('streamWindow.endStreamConfirmation'))){
             onDisconnect()
             window.history.back()
         }
@@ -72,19 +74,19 @@ function StreamPreload({
         const seconds = (rawSeconds % 3600) % 60
 
         if (hours > 0) {
-            formattedText += hours + ' hour(s), '
+            formattedText += hours + ' ' + t("streamWindow.timeHours") + ', '
         }
 
         if (minutes > 0) {
-            formattedText += minutes + ' minute(s), '
+            formattedText += minutes + ' ' + t("streamWindow.timeMinutes") + ', '
         }
 
         if (seconds >= 0) {
-            formattedText += seconds + ' second(s).'
+            formattedText += seconds + ' ' + t("streamWindow.timeSeconds") + '.'
         }
 
         if(seconds === 0){
-            formattedText += '\nIt\'s taking a little longer.. Your stream may start soon.'
+            formattedText += t('streamWindow.itsTakingALittleLonger')
         }
 
         return formattedText
@@ -98,11 +100,11 @@ function StreamPreload({
 
                 <div id="component_streamcomponent_loader">
                     <Card className='padbottom'>
-                        <h1>Loading...</h1>
+                        <h1>{t("streamWindow.loadingStreamTitle")}</h1>
 
                         <Loader></Loader>
 
-                        <p>We are getting your stream ready...</p>
+                        <p>{t("streamWindow.gettingStreamReadyMessage")}</p>
                         <p id="component_streamcomponent_connectionstatus"></p>
 
                         <p id="component_streamcomponent_waitingtimes"></p>
@@ -114,11 +116,11 @@ function StreamPreload({
                         <div style={{
                             width: '25%',
                         }}>
-                            <Button label={<span><i className="fa-solid fa-xmark"></i> End Stream</span>} title="End Stream" className='btn-cancel' onClick={ () => {
-                                endStream() 
+                            <Button label={<span><i className="fa-solid fa-xmark"></i> {t("streamWindow.endStreamBtn")}</span>} title={t("streamWindow.endStreamBtn")} className='btn-cancel' onClick={ () => {
+                                endStream()
                             } }></Button> &nbsp;
-                            <Button label={<span><i className="fa-solid fa-xmark"></i></span>} title="Disconnect" className='btn' onClick={ () => {
-                                streamDisconnect() 
+                            <Button label={<span><i className="fa-solid fa-xmark"></i></span>} title={t("streamWindow.disconnectBtn")} className='btn' onClick={ () => {
+                                streamDisconnect()
                             } }></Button>
                         </div>
                     </div>

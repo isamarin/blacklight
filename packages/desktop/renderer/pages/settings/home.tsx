@@ -1,4 +1,6 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
+import LanguageSelector from '../../components/settings/LanguageSelector'
 import Head from 'next/head'
 import Link from 'next/link'
 import Ipc from '../../lib/ipc'
@@ -20,6 +22,7 @@ interface userData {
 
 function SettingsHome() {
     const [user, setUser] = React.useState<userData>({})
+    const { t } = useTranslation()
 
     React.useEffect(() => {
         if(Object.keys(user).length === 0){
@@ -28,10 +31,10 @@ function SettingsHome() {
                 setUser(user)
             })
         }
-    })
+    }, [user])
 
     function logout(){
-        if(confirm('Are you sure you want to logout?')){
+        if(confirm(t('settings.about.logoutQuestion'))){
             Ipc.send('app', 'clearData')
         }
     }
@@ -39,7 +42,7 @@ function SettingsHome() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - Settings</title>
+                <title>Greenlight - {t('settings.about.title')}</title>
             </Head>
 
             <SettingsSidebar>
@@ -57,10 +60,10 @@ function SettingsHome() {
                         <div className="component_auth_profile_userdetails">
                             <h1 style={{ paddingBottom: 5 }}>{ user.gamertag }</h1>
                             <p>
-                  Gamerscore: { user.gamerscore }
+                                {t('settings.about.gamerscore')}: { user.gamerscore }
                             </p>
-                            <Button label="Logout" className='btn' disabled={(window.Greenlight.isWebUI() === false) ? false : true } onClick={ () => {
-                                logout() 
+                            <Button label={t('settings.about.logout')} className='btn' disabled={(window.Greenlight.isWebUI() === false) ? false : true } onClick={ () => {
+                                logout()
                             } }></Button>
                         </div>
 
@@ -68,21 +71,24 @@ function SettingsHome() {
                     </div>
                 </Card>
 
+                <LanguageSelector />
+
                 <Card>
                     <div style={{ textAlign: 'center' }}>
                         <Image src={ GreenlightLogo } width="100" height="100" alt="Greenlight" />
 
                         <h2>Greenlight</h2>
                         <p>
-                    Version: { window.Greenlight.getVersion() }<br /><br />
-                            <small>Website: <Link href="#" title="Open link in external browser" onClick={ () => {
+                            {t('settings.about.version')}: { window.Greenlight.getVersion() }<br /><br />
+                            <small>{t('settings.about.website')}: <Link href="#" title={t('settings.about.websiteLinkTitle')} onClick={ () => {
                                 window.Greenlight.openExternal('https://github.com/unknownskl/greenlight')
-                            }}>github.com/unknownskl/greenlight</Link></small>
+                            }}>github.com/unknownskl/greenlight</Link></small><br />
+                            <small>{t('authorOfLocalization')}</small>
                         </p>
                     </div>
                 </Card>
             </SettingsSidebar>
-      
+
 
         </React.Fragment>
     )

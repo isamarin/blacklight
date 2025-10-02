@@ -5,11 +5,14 @@ import SettingsSidebar from '../../components/settings/sidebar'
 import Card from '../../components/ui/card'
 import Ipc from '../../lib/ipc'
 
+import { useTranslation } from 'react-i18next'
+
 import { useSettings } from '../../context/userContext'
 
 
 function SettingsStreaming() {
     const { settings, setSettings} = useSettings()
+    const { t } = useTranslation()
 
     React.useEffect(() => {
     //
@@ -66,90 +69,99 @@ function SettingsStreaming() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - Settings: Streaming</title>
+                <title>Greenlight - {t('settings.streaming.pageTitle')}</title>
             </Head>
 
             <SettingsSidebar>
                 <Card>
-                    <h1>Stream settings</h1>
+                    <h1>{t('settings.streaming.title')}</h1>
 
-                    <p>
-                xHome and xCloud do not support more than 20mbps by default. This setting does not override this limit.
-                    </p>
+                    <p>{t('settings.streaming.description')}</p>
                     <p>
 
-                        <label>xCloud streaming bitrate</label>
+                        <label>{t('settings.streaming.xCloudStreamingBitrateLabel')}</label>
                         <input type="range" min="0" max="40960" step="1024" value={settings.xcloud_bitrate} onChange={ setxCloudBitrate } />
-                ({ settings.xcloud_bitrate === 0 ? 'Unlimited / Off' : Math.floor(settings.xcloud_bitrate / 1024) + ' mbps' })
+                ({ settings.xcloud_bitrate === 0 ? t('settings.streaming.unlimitedLabel') : Math.floor(settings.xcloud_bitrate / 1024) + ' ' + t('settings.streaming.mbpsLabel') })
                     </p>
                     <p>
-                        <label>xHome streaming bitrate</label>
+                        <label>{t('settings.streaming.xHomeStreamingBitrateLabel')}</label>
                         <input type="range" min="0" max="40960" step="1024" value={settings.xhome_bitrate} onChange={ setxHomeBitrate } />
-                ({ settings.xhome_bitrate === 0 ? 'Unlimited / Off' : Math.floor(settings.xhome_bitrate / 1024) + ' mbps' })
+                ({ settings.xhome_bitrate === 0 ? t('settings.streaming.unlimitedLabel') : Math.floor(settings.xhome_bitrate / 1024) + ' ' + t('settings.streaming.mbpsLabel') })
                     </p>
 
                     <p>
-                        <label>Set H.264 Profile </label>
+                        <label>{t('settings.streaming.setH264ProfileLabel')}</label>
                         <select value={ (settings.video_profiles.length > 0) ? settings.video_profiles[0] : '' } onChange={ (e) => setVideoProfile(e.target.value) }>
-                            <option value="">Auto-Negotiate</option>
-                            <option value="4d">High</option>
-                            <option value="42e">Medium</option>
-                            <option value="420">Low</option>
+                            <option value="">{t('settings.streaming.setH264ProfileValueAuto')}</option>
+                            <option value="4d">{t('settings.streaming.setH264ProfileValueHigh')}</option>
+                            <option value="42e">{t('settings.streaming.setH264ProfileValueMedium')}</option>
+                            <option value="420">{t('settings.streaming.setH264ProfileValueLow')}</option>
                         </select>
                     </p>
 
                 </Card>
 
                 <Card>
-                    <h1>Force region</h1>
+                    <h1>{t('settings.streaming.forceRegionTitle')}</h1>
                     <p>
 
-                        <label>Set region:</label>
+                        <label>{t('settings.streaming.setRegionLabel')}</label>
                         <select value={ settings.force_region_ip || '' } onChange={ (e) => setForceRegionIp(e.target.value) }>
-                            <option value="">Disabled</option>
-                            <option value="203.41.44.20">Australia</option>
-                            <option value="200.221.11.101">Brazil</option>
-                            <option value="194.25.0.68">Europe</option>
-                            <option value="122.1.0.154">Japan</option>
-                            <option value="203.253.64.1">Korea</option>
-                            <option value="4.2.2.2">United States</option>
+                            <option value="">{t('settings.streaming.setRegionValueDisabled')}</option>
+                            <option value="203.41.44.20">{t('settings.streaming.setRegionValueAustralia')}</option>
+                            <option value="200.221.11.101">{t('settings.streaming.setRegionValueBrazil')}</option>
+                            <option value="194.25.0.68">{t('settings.streaming.setRegionValueEurope')}</option>
+                            <option value="122.1.0.154">{t('settings.streaming.setRegionValueJapan')}</option>
+                            <option value="203.253.64.1">{t('settings.streaming.setRegionValueKorea')}</option>
+                            <option value="4.2.2.2">{t('settings.streaming.setRegionValueUS')}</option>
                         </select>
                     </p>
                     <p>
-                        <label>Preferred game language:</label>
-                        <select value={settings.preferred_game_language || ''} onChange={(e) => setPreferredGameLanguage(e.target.value)}>
-                            <option value="ar-SA">Arabic (Saudi Arabia)</option>
-                            <option value="cs-CZ">Czech</option>
-                            <option value="da-DK">Danish</option>
-                            <option value="de-DE">German</option>
-                            <option value="el-GR">Greek</option>
-                            <option value="en-GB">English (United Kingdom)</option>
-                            <option value="en-US">English (United States)</option>
-                            <option value="es-ES">Spanish (Spain)</option>
-                            <option value="es-MX">Spanish (Mexico)</option>
-                            <option value="fi-FI">Swedish</option>
-                            <option value="fr-FR">French</option>
-                            <option value="he-IL">Hebrew</option>
-                            <option value="hu-HU">Hungarian</option>
-                            <option value="it-IT">Italian</option>
-                            <option value="ja-JP">Japanese</option>
-                            <option value="ko-KR">Korean</option>
-                            <option value="nb-NO">Norwegian</option>
-                            <option value="nl-NL">Dutch</option>
-                            <option value="pl-PL">Polish</option>
-                            <option value="pt-BR">Portuguese (Brazil)</option>
-                            <option value="pt-PT">Portuguese (Portugal)</option>
-                            <option value="ru-RU">Russian</option>
-                            <option value="sk-SK">Slovak</option>
-                            <option value="sv-SE">Swedish</option>
-                            <option value="tr-TR">Turkish</option>
-                            <option value="zh-CN">Chinese (PRC)</option>
-                            <option value="zh-TW">Chinese (Taiwan)</option>
-                        </select>
+                        <label>{t('settings.streaming.preferredGameLanguageLabel')}</label>
+                        {(() => {
+                            const languages = [
+                                { code: "ar-SA", label: t('settings.streaming.preferredGameLanguageValueArabic') },
+                                { code: "cs-CZ", label: t('settings.streaming.preferredGameLanguageValueCzech') },
+                                { code: "da-DK", label: t('settings.streaming.preferredGameLanguageValueDanish') },
+                                { code: "de-DE", label: t('settings.streaming.preferredGameLanguageValueGerman') },
+                                { code: "el-GR", label: t('settings.streaming.preferredGameLanguageValueGreek') },
+                                { code: "en-GB", label: t('settings.streaming.preferredGameLanguageValueEnglishUK') },
+                                { code: "en-US", label: t('settings.streaming.preferredGameLanguageValueEnglishUS') },
+                                { code: "es-ES", label: t('settings.streaming.preferredGameLanguageValueSpanish') },
+                                { code: "es-MX", label: t('settings.streaming.preferredGameLanguageValueSpanishMX') },
+                                { code: "fi-FI", label: t('settings.streaming.preferredGameLanguageValueFinnish') },
+                                { code: "fr-FR", label: t('settings.streaming.preferredGameLanguageValueFrench') },
+                                { code: "he-IL", label: t('settings.streaming.preferredGameLanguageValueHebrew') },
+                                { code: "hu-HU", label: t('settings.streaming.preferredGameLanguageValueHungarian') },
+                                { code: "it-IT", label: t('settings.streaming.preferredGameLanguageValueItalian') },
+                                { code: "ja-JP", label: t('settings.streaming.preferredGameLanguageValueJapanese') },
+                                { code: "ko-KR", label: t('settings.streaming.preferredGameLanguageValueKorean') },
+                                { code: "nb-NO", label: t('settings.streaming.preferredGameLanguageValueNorwegian') },
+                                { code: "nl-NL", label: t('settings.streaming.preferredGameLanguageValueDutch') },
+                                { code: "pl-PL", label: t('settings.streaming.preferredGameLanguageValuePolish') },
+                                { code: "pt-BR", label: t('settings.streaming.preferredGameLanguageValuePortugueseBR') },
+                                { code: "pt-PT", label: t('settings.streaming.preferredGameLanguageValuePortuguese') },
+                                { code: "ru-RU", label: t('settings.streaming.preferredGameLanguageValueRussian') },
+                                { code: "sk-SK", label: t('settings.streaming.preferredGameLanguageValueSlovak') },
+                                { code: "sv-SE", label: t('settings.streaming.preferredGameLanguageValueSwedish') },
+                                { code: "tr-TR", label: t('settings.streaming.preferredGameLanguageValueTurkish') },
+                                { code: "zh-CN", label: t('settings.streaming.preferredGameLanguageValueChineseCN') },
+                                { code: "zh-TW", label: t('settings.streaming.preferredGameLanguageValueChineseTW') },
+                            ];
+                            // Sort languages alphabetically by label
+                            const sortedLanguages = languages.sort((a, b) => a.label.localeCompare(b.label));
+                            return (
+                                <select value={settings.preferred_game_language || ''} onChange={(e) => setPreferredGameLanguage(e.target.value)}>
+                                    {sortedLanguages.map(lang => (
+                                        <option key={lang.code} value={lang.code}>{lang.label}</option>
+                                    ))}
+                                </select>
+                            );
+                        })()}
                     </p>
                 </Card>
             </SettingsSidebar>
-      
+
 
         </React.Fragment>
     )

@@ -92,7 +92,6 @@ Clone the repository:
 
     git clone https://github.com/unknownskl/greenlight.git
     cd greenlight
-    git submodule update --init --recursive
 
 Install dependencies:
 

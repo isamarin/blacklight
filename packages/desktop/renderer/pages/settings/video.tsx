@@ -4,10 +4,12 @@ import SettingsSidebar from '../../components/settings/sidebar'
 import Card from '../../components/ui/card'
 import Ipc from '../../lib/ipc'
 import { useSettings } from '../../context/userContext'
+import { useTranslation } from 'react-i18next'
 
 
 function SettingsVideo() {
     const { settings, setSettings} = useSettings()
+    const { t } = useTranslation()
 
     React.useEffect(() => {
     //
@@ -47,52 +49,52 @@ function SettingsVideo() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - Settings: Video & Audio</title>
+                <title>Greenlight - {t('settings.videoAudio.pageTitle')}</title>
             </Head>
 
             <SettingsSidebar>
                 <Card>
-                    <h1>Video</h1>
+                    <h1>{t('settings.videoAudio.title')}</h1>
 
                     <p>
-                        <label>Disable video</label>
+                        <label>{t('settings.videoAudio.disableVideoLabel')}</label>
                         <label style={{ minWidth: 0 }}>
-                            <input type='checkbox' onChange={ setVideoEnabled } checked={!settings.video_enabled} />&nbsp; ({ !settings.video_enabled ? 'Enabled' : 'Disabled'})
+                            <input type='checkbox' onChange={ setVideoEnabled } checked={!settings.video_enabled} />&nbsp; ({ !settings.video_enabled ? t('settings.videoAudio.enabledLabel') : t('settings.videoAudio.disabledLabel')})
                         </label>
                     </p>
 
                     <p>
-                        <label>Video aspect size</label>
+                        <label>{t('settings.videoAudio.aspectSizeLabel')}</label>
                         <select value={ settings.video_size } onChange={(e) => {
                             setVideoSize(e.target.value)
                         }}>
-                            <option value='default'>Default</option>
-                            <option value='stretch'>Stretch</option>
-                            <option value='zoom'>Zoom</option>
+                            <option value='default'>{t('settings.videoAudio.aspectSizeValueDefault')}</option>
+                            <option value='stretch'>{t('settings.videoAudio.aspectSizeValueStretch')}</option>
+                            <option value='zoom'>{t('settings.videoAudio.aspectSizeValueZoom')}</option>
                         </select>
                     </p>
 
                     <p>
-                        <label>Force low resolution video</label>
+                        <label>{t('settings.videoAudio.forceLowResLabel')}</label>
                         <label style={{ minWidth: 0 }}>
-                            <input type='checkbox' onChange={ forceLowResolution } checked={settings.app_lowresolution} />&nbsp; ({ settings.app_lowresolution ? 'Enabled' : 'Disabled'})
+                            <input type='checkbox' onChange={ forceLowResolution } checked={settings.app_lowresolution} />&nbsp; ({ settings.app_lowresolution ? t('settings.videoAudio.enabledLabel') : t('settings.videoAudio.disabledLabel')})
                         </label><br />
-                        <small>(This option is useful on the Steam Deck and enables the application to render in a low resolution so FSR can be enabled.)</small>
+                        <small>{t('settings.videoAudio.forceLowResDescription')}</small>
                     </p>
                 </Card>
 
                 <Card>
-                    <h1>Audio</h1>
+                    <h1>{t('settings.videoAudio.audioTitle')}</h1>
 
                     <p>
-                        <label>Disable audio</label>
+                        <label>{t('settings.videoAudio.disableAudioLabel')}</label>
                         <label style={{ minWidth: 0 }}>
-                            <input type='checkbox' onChange={ setAudioEnabled } checked={!settings.audio_enabled} />&nbsp; ({ !settings.audio_enabled ? 'Enabled' : 'Disabled'})
+                            <input type='checkbox' onChange={ setAudioEnabled } checked={!settings.audio_enabled} />&nbsp; ({ !settings.audio_enabled ? t('settings.videoAudio.enabledLabel') : t('settings.videoAudio.disabledLabel')})
                         </label>
                     </p>
                 </Card>
             </SettingsSidebar>
-      
+
 
         </React.Fragment>
     )
