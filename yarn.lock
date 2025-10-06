@@ -5283,10 +5283,10 @@ fsevents@~2.3.3:
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.3.tgz#cac6407785d03675a2a5e1a5305c697b347d90d6"
   integrity sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==
 
-fumadocs-core@15.8.1, fumadocs-core@^15.8.1:
-  version "15.8.1"
-  resolved "https://registry.yarnpkg.com/fumadocs-core/-/fumadocs-core-15.8.1.tgz#6413e31ff24b1332f7e52a25b97e1a507f8ef223"
-  integrity sha512-3NBM2U3QlnDr4AwfDCLFaNjRGOj52g3geHSnwC9hU2en34xROe7/I8FI1eLkX68ppGnhSQYm/rIuMAPzvepnsg==
+fumadocs-core@15.8.3, fumadocs-core@^15.8.3:
+  version "15.8.3"
+  resolved "https://registry.yarnpkg.com/fumadocs-core/-/fumadocs-core-15.8.3.tgz#bf9dd7cec5fb540fc3858c00d42c98b879159a9b"
+  integrity sha512-33ZqR7PYbBRhMsVfe5/PAc+Kq+QX+r4UiIVDmQNltf50vVDsl8rhA5jy+4ZJSt2iBhJJNZDyocfXiPGNO+tS3g==
   dependencies:
     "@formatjs/intl-localematcher" "^0.6.1"
     "@orama/orama" "^3.1.14"
@@ -5298,6 +5298,7 @@ fumadocs-core@15.8.1, fumadocs-core@^15.8.1:
     image-size "^2.0.2"
     negotiator "^1.0.0"
     npm-to-yarn "^3.0.1"
+    path-to-regexp "^8.3.0"
     react-remove-scroll "^2.7.1"
     remark "^15.0.0"
     remark-gfm "^4.0.1"
@@ -5306,10 +5307,10 @@ fumadocs-core@15.8.1, fumadocs-core@^15.8.1:
     shiki "^3.13.0"
     unist-util-visit "^5.0.0"
 
-fumadocs-mdx@^12.0.1:
-  version "12.0.1"
-  resolved "https://registry.yarnpkg.com/fumadocs-mdx/-/fumadocs-mdx-12.0.1.tgz#10319668421f5853ce2a462889149c32b5307d90"
-  integrity sha512-o0Qf5pY5RGjn0IoiWbJQ+Yx2MKCwg/RTe0MdtLY2ue8OeRnZHCoPedBJFHQ0ep1X2rzAhjcmfTT5hxc3SELJGg==
+fumadocs-mdx@^12.0.2:
+  version "12.0.2"
+  resolved "https://registry.yarnpkg.com/fumadocs-mdx/-/fumadocs-mdx-12.0.2.tgz#5663e4d653405937b21132fe5688b6dfa77e4249"
+  integrity sha512-Lf85+p2HuyBEGYFsh4l57P8BTHU6/VOO5Cq7zVo7l7GIbPN5x3GDOFPX/D+h/4kIRny8Dml8SCy0yerAqi3Ebw==
   dependencies:
     "@mdx-js/mdx" "^3.1.1"
     "@standard-schema/spec" "^1.0.0"
@@ -5328,10 +5329,10 @@ fumadocs-mdx@^12.0.1:
     unist-util-visit "^5.0.0"
     zod "^4.1.11"
 
-fumadocs-typescript@^4.0.9:
-  version "4.0.9"
-  resolved "https://registry.yarnpkg.com/fumadocs-typescript/-/fumadocs-typescript-4.0.9.tgz#7d0c7fcb4ccde5f367585812224618d5a3fcbe0a"
-  integrity sha512-PeAKsO0d2PbvM78cNDRlrB+K5m+QJato5hoFmxeSK/idoFWl8xAISTOnwikHT3hyIAW5jwYTlZvsP2eSFbF5sg==
+fumadocs-typescript@^4.0.11:
+  version "4.0.11"
+  resolved "https://registry.yarnpkg.com/fumadocs-typescript/-/fumadocs-typescript-4.0.11.tgz#0903133bc045d48e89607197e2502a56d7a62354"
+  integrity sha512-X18YTMmOa6cN0APjFrVZNv8G1+wAYHPS6RPjjJshmkQt50SWRjpq38xMreIWyBF+Q9kkLReC9HkMeYbpZt7Pfg==
   dependencies:
     estree-util-value-to-estree "^3.4.0"
     hast-util-to-estree "^3.1.3"
@@ -5342,10 +5343,10 @@ fumadocs-typescript@^4.0.9:
     ts-morph "^27.0.0"
     unist-util-visit "^5.0.0"
 
-fumadocs-ui@^15.8.1:
-  version "15.8.1"
-  resolved "https://registry.yarnpkg.com/fumadocs-ui/-/fumadocs-ui-15.8.1.tgz#14f628679d58290b00f1d3038f131d72c7f557a7"
-  integrity sha512-GFJoKiDPTPefXtfwr4cheeprtAF+rHILeyovta3cODPsurSRvSfxqbGVN8YRDUh1ja9GpExSQFgUFwp1+7qVtQ==
+fumadocs-ui@^15.8.3:
+  version "15.8.3"
+  resolved "https://registry.yarnpkg.com/fumadocs-ui/-/fumadocs-ui-15.8.3.tgz#70fd3e923872120ea124aeb351d167f04c560c4e"
+  integrity sha512-KJcbOSu28shZ330R+F+Zgvbl5ehZlA+heB171x2eZJpy0JY9ihJGi9fXk5IIbcwaz4okKM/YPOY3K7THvRO1Kw==
   dependencies:
     "@radix-ui/react-accordion" "^1.2.12"
     "@radix-ui/react-collapsible" "^1.1.12"
@@ -5358,7 +5359,7 @@ fumadocs-ui@^15.8.1:
     "@radix-ui/react-slot" "^1.2.3"
     "@radix-ui/react-tabs" "^1.1.13"
     class-variance-authority "^0.7.1"
-    fumadocs-core "15.8.1"
+    fumadocs-core "15.8.3"
     lodash.merge "^4.6.2"
     next-themes "^0.4.6"
     postcss-selector-parser "^7.1.0"
@@ -7938,6 +7939,11 @@ path-to-regexp@0.1.12:
   version "0.1.12"
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-0.1.12.tgz#d5e1a12e478a976d432ef3c58d534b9923164bb7"
   integrity sha512-RA1GjUVMnvYFxuqovrEqZoxxW5NUZqbwKtYz/Tt7nXerk0LbLblQmrsgdeOxV5SFHf0UDggjS/bSeOZwt1pmEQ==
+
+path-to-regexp@^8.3.0:
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-8.3.0.tgz#aa818a6981f99321003a08987d3cec9c3474cd1f"
+  integrity sha512-7jdwVIRtsP8MYpdXSwOS0YdD0Du+qOoF/AEPIt88PcCFrZCzx41oxku1jD88hZBwbNUIEfpqvuhjFaMAqMTWnA==
 
 path-type@^4.0.0:
   version "4.0.0"
