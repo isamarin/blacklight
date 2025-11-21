@@ -7,8 +7,7 @@ export default class ProxyStore extends TokenStore {
         super()
 
         if(token !== undefined)
-            // console.log(UserToken.default)
-            this._userToken = new (UserToken as any).default(token)
+            this._userToken = new UserToken(token)
     }
  
     load() {

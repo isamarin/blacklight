@@ -1,6 +1,8 @@
 import { initTRPC } from '@trpc/server';
 import { z } from 'zod';
 
+import { version } from '../package.json';
+
 import authController from './controller/auth.js';
 import profileController from './controller/profile.js';
 import smartglassController from './controller/smartglass.js';
@@ -28,6 +30,7 @@ const zodXhomeToken = z.object({
 
 export const appRouter = router({
     ping: publicProcedure.query(() => 'pong'),
+    version: publicProcedure.query(() => version),
     echo: publicProcedure.input(z.string()).query(({ input }) => `echo: ${input}`),
 
     auth_msal_start: publicProcedure.query(async () => await auth.startMsalAuth()),
