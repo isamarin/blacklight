@@ -5,7 +5,7 @@ description: Changelogs
 
 ### Changelog
 
-## v2.4.0 - Unreleased
+## v2.4.0 - 2025-11-21
 - Implement localization support for EN/RU/UA (huge thanks to @chefranov) #1468
 - Updated dependencies to optimise performance
 
