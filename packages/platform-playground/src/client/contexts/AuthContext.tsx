@@ -7,6 +7,9 @@ interface AuthContextType {
   startAuth: () => Promise<RouterOutputs["auth_msal_start"] | undefined>;
   verifyCode: (code: string) => Promise<RouterOutputs["auth_msal_verify"] | undefined>;
   logout: () => void;
+  getWebToken: () => { uhs: string; token: string };
+  getxHomeToken: () => { market: string; region: string; token: string };
+  getxCloudToken: () => { market: string; region: string; token: string };
   authState?: {
     userToken: RouterOutputs["auth_msal_verify"] | null;
     webToken: RouterOutputs["auth_get_webtoken"] | null;
@@ -140,6 +143,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem('userToken');
   };
 
+  const getWebToken = () => {
+    return {
+      uhs: authState?.webToken?.data.DisplayClaims?.xui[0]?.uhs || '', // @TODO: Fix typing
+      token: authState?.webToken?.data.Token || '',
+    }
+  }
+
+  const getxHomeToken = () => {
+    return {
+      market: authState.streamingTokens?.xHomeToken?.data.market || '',
+      region: authState.streamingTokens?.xHomeToken?.data.region || 'N/A',
+      token: authState.streamingTokens?.xHomeToken?.data.gsToken || '',
+    }
+  }
+
+  const getxCloudToken = () => {
+    return {
+      market: authState.streamingTokens?.xCloudToken?.data.market || '',
+      region: authState.streamingTokens?.xCloudToken?.data.region || 'N/A',
+      token: authState.streamingTokens?.xCloudToken?.data.gsToken || '',
+    }
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -149,6 +175,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         authState,
         isAuthenticated,
         isAuthenticating,
+        getWebToken,
+        getxHomeToken,
+        getxCloudToken,
       }}
     >
       {children}

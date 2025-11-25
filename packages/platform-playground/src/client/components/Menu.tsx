@@ -31,11 +31,62 @@ export function Menu({ setCurrentPage }: { setCurrentPage: (page: string) => voi
                 <div key="auth" className="procedure-category">
                     <h3>Profile</h3>
                     <button
-                        key="profile_get"
+                        key="profile_get_current"
                         className="procedure-item"
-                        onClick={() => { setCurrentPage('profile'); }}
+                        onClick={() => { setCurrentPage('profile_get_current'); }}
                     >
                         <span className="procedure-name">profile_get_current</span>
+                        <span className={`procedure-type query`}>Query</span>
+                    </button>
+                </div>
+
+                <div key="smartglass" className="procedure-category">
+                    <h3>Smartglass</h3>
+                    <button
+                        key="smartglass_consoles_list"
+                        className="procedure-item"
+                        onClick={() => { setCurrentPage('smartglass_consoles_list'); }}
+                    >
+                        <span className="procedure-name">smartglass_consoles_list</span>
+                        <span className={`procedure-type query`}>Query</span>
+                    </button>
+                </div>
+
+                <div key="gamepass" className="procedure-category">
+                    <h3>Gamepass</h3>
+                    <button
+                        key="gamepass_get_titles"
+                        className="procedure-item"
+                        onClick={() => { setCurrentPage('gamepass_get_titles'); }}
+                    >
+                        <span className="procedure-name">gamepass_get_titles</span>
+                        <span className={`procedure-type query`}>Query</span>
+                    </button>
+
+                    <button
+                        key="gamepass_get_recent_titles"
+                        className="procedure-item"
+                        onClick={() => { setCurrentPage('gamepass_get_recent_titles'); }}
+                    >
+                        <span className="procedure-name">gamepass_get_recent_titles</span>
+                        <span className={`procedure-type query`}>Query</span>
+                    </button>
+
+                    <button
+                        key="gamepass_batch_productids"
+                        className="procedure-item"
+                        onClick={() => { setCurrentPage('gamepass_batch_productids'); }}
+                    >
+                        <span className="procedure-name">gamepass_batch_productids</span>
+                        <span className={`procedure-type query`}>Query</span>
+                    </button>
+
+                    <button
+                        key="gamepass_resolve_productid"
+                        className="procedure-item"
+                        onClick={() => { setCurrentPage('gamepass_resolve_productid'); }}
+                    >
+                        <span className="procedure-name">gamepass_resolve_productid</span>
                         <span className={`procedure-type query`}>Query</span>
                     </button>
                 </div>
