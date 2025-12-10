@@ -118,8 +118,8 @@ export default class IpcApp extends IpcBase {
             // Recreate Xal instance to reset all internal state and connections
             const { _authentication } = this._application
             const { _tokenStore } = _authentication
-            const { Xal } = require('xal-node')
-            _authentication._xal = new Xal(_tokenStore)
+            const { Msal } = require('xal-node')
+            _authentication._msal = new Msal(_tokenStore)
 
             // Rerun silent flow to retrieve new tokens with new region
             _authentication.startSilentFlow()
@@ -176,17 +176,12 @@ export default class IpcApp extends IpcBase {
         })
 
         // Tokenstore values
-        const xCloudTokenValid = (this._application._authentication._xal._xcloudToken !== null) ? this._application._authentication._xal._xcloudToken.getSecondsValid() : 'None'
         returnValue.push({
             name: 'XAL',
             data: [
                 { name: 'User token expires in', value: this._application._authentication._tokenStore.getUserToken().getSecondsValid() },
                 { name: 'Sisu token expires in', value: this._application._authentication._tokenStore.getSisuToken().getSecondsValid() },
                 { name: 'Authenticated user', value: this._application._authentication._tokenStore.getSisuToken().getGamertag() + ' ('+this._application._authentication._tokenStore.getSisuToken().getUserHash()+')' },
-                { name: '', value: '' },
-                { name: 'xHome Token validity', value: this._application._authentication._xal._xhomeToken.getSecondsValid() },
-                { name: 'xCloud Token validity', value: xCloudTokenValid },
-
             ],
         })
 

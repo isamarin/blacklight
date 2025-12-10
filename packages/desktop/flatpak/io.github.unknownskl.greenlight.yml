@@ -75,4 +75,4 @@ modules:
           - export LD_LIBRARY_PATH=/app/extralib:${LD_LIBRARY_PATH}
           - echo runtime LD_LIBRARY_PATH = $LD_LIBRARY_PATH
           - echo runtime ARCH = $(uname -m)-$(uname -s | tr '[:upper:]' '[:lower:]')
-          - zypak-wrapper.sh /app/main/greenlight "$@"
+          - zypak-wrapper.sh /app/main/greenlight-desktop "$@"

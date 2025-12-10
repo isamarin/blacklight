@@ -2,7 +2,6 @@
 
 [![Build/Desktop](https://github.com/unknownskl/greenlight/actions/workflows/build_desktop.yml/badge.svg)](https://github.com/unknownskl/greenlight/actions/workflows/build_desktop.yml)
 [![Build/Docs](https://github.com/unknownskl/greenlight/actions/workflows/build_docs.yml/badge.svg)](https://github.com/unknownskl/greenlight/actions/workflows/build_docs.yml)
-[![Build/Web](https://github.com/unknownskl/greenlight/actions/workflows/build_web.yml/badge.svg)](https://github.com/unknownskl/greenlight/actions/workflows/build_web.yml)
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=unknownskl_greenlight&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=unknownskl_greenlight)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=unknownskl_greenlight&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=unknownskl_greenlight)
@@ -27,7 +26,7 @@ _DISCLAIMER: Greenlight is not affiliated with Microsoft, Xbox or Moonlight. All
 ## Install
 
 ### Install from Flathub:
-[![Build/release](https://flathub.org/assets/badges/flathub-badge-en.svg)](https://flathub.org/apps/details/io.github.unknownskl.greenlight)
+[Install on Flathub](https://flathub.org/apps/details/io.github.unknownskl.greenlight)
 
 ### Download pre-compiled binaries:
 [Latest releases can be found here](https://github.com/unknownskl/greenlight/releases).
@@ -104,6 +103,10 @@ Run development build:
 Create production build:
 
     yarn desktop build
+
+## Translations
+
+Want to help out with new translations? Help us on [https://poeditor.com/join/project/9SfHRQDbfN](Poeditor.com)
 
 ## Changelog
 

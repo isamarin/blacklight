@@ -5,8 +5,10 @@ description: Changelogs
 
 ### Changelog
 
-## v2.4.0 - Unreleased
+## v2.4.0 - 2025-12-10
 - Implement localization support for EN/RU/UA (huge thanks to @chefranov) #1468
+- Replace failing XAL authentication mechanism with MSAL. #1506 #1473 #1446 #1126 #1109
+- Updated dependencies to optimise performance
 
 ## v2.3.3 - 2025-09-20
 - Improve silent token authentication and fix region selector not being active during SilentFlow (credits to @chefranov) #1458 #1199 #1119

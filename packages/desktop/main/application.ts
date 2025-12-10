@@ -128,7 +128,6 @@ export default class Application {
             this.log('electron', __filename+'[loadApplicationDefaults()] Electron has been fully loaded. Ready to open windows')
 
             this.openMainWindow()
-            this._authentication.startWebviewHooks()
 
             // Check authentication
             if(! this._authentication.checkAuthentication()){
@@ -160,13 +159,14 @@ export default class Application {
     _xCloudApi:xCloudApi
     _xboxWorker:xboxWorker
 
+
     authenticationCompleted(streamingTokens, webToken){
         this.log('electron', __filename+'[authenticationCompleted()] authenticationCompleted called')
         // const tokens = this._authentication._tokens
-        this._xHomeApi = new xCloudApi(this, streamingTokens.xHomeToken.getDefaultRegion().baseUri.substring(8), streamingTokens.xHomeToken.data.gsToken, 'home')
+        this._xHomeApi = new xCloudApi(this, streamingTokens.xHomeToken.data.offeringSettings.regions.find(region => region.isDefault).baseUri.substring(8), streamingTokens.xHomeToken.data.gsToken, 'home')
 
         if(streamingTokens.xCloudToken !== null){
-            this._xCloudApi = new xCloudApi(this, streamingTokens.xCloudToken.getDefaultRegion().baseUri.substring(8), streamingTokens.xCloudToken.data.gsToken, 'cloud')
+            this._xCloudApi = new xCloudApi(this, streamingTokens.xCloudToken.data.offeringSettings.regions.find(region => region.isDefault).baseUri.substring(8), streamingTokens.xCloudToken.data.gsToken, 'cloud')
         }
 
         this._webApi = new xboxWebApi({

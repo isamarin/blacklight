@@ -1,7 +1,7 @@
 import { session, dialog } from 'electron'
 import { createWindow } from './helpers'
 import Application from './application'
-import { Xal } from 'xal-node'
+import { Msal } from 'xal-node'
 import AuthTokenStore from './helpers/tokenstore'
 import i18n from 'i18next';
 
@@ -10,7 +10,7 @@ export default class Authentication {
     _application:Application
 
     _tokenStore:AuthTokenStore
-    _xal:Xal
+    _msal:Msal
 
     _authWindow
     _authCallback
@@ -25,13 +25,20 @@ export default class Authentication {
         this._application = application
         this._tokenStore = new AuthTokenStore()
         this._tokenStore.load()
-        this._xal = new Xal(this._tokenStore)
+        this._msal = new Msal(this._tokenStore)
     }
 
     checkAuthentication(){
         this._application.log('authenticationV2', '[checkAuthentication()] Starting token check...')
         if(this._tokenStore.hasValidAuthTokens()){
-            this._application.log('authenticationV2', '[checkAuthentication()] Tokens are valid.')
+
+            // Deprecate xal token.
+            if(this._tokenStore.getUserToken() !== undefined && this._tokenStore.getUserToken().data.scope != 'XboxLive.signin'){
+                this._application.log('authenticationV2', '[checkAuthentication()] Deprecating old XAL token scope. Starting auth flow to get new tokens.')
+                return false
+            }
+
+            this._application.log('authenticationV2', '[checkAuthentication()] Tokens are valid:', this._tokenStore.getUserToken())
             this.startSilentFlow()
 
             return true
@@ -55,107 +62,87 @@ export default class Authentication {
         this._application.log('authenticationV2', '[startSilentFlow()] Starting silent flow...')
         this._isAuthenticating = true
 
-        // Force region spoofing if set
         const forceRegionIp = this._application._store.get('force_region_ip', '')
         if (forceRegionIp && typeof forceRegionIp === 'string' && forceRegionIp.trim() !== '') {
-            this._xal.setDefaultHeaders({ 'X-Forwarded-For': forceRegionIp.trim() })
+            this._msal.setDefaultHeaders({ 'X-Forwarded-For': forceRegionIp.trim() })
             this._application.log('authenticationV2', '[startSilentFlow()] Using X-Forwarded-For:', forceRegionIp)
         } else {
-            this._xal.setDefaultHeaders({})
+            this._msal.setDefaultHeaders({})
         }
 
-        this._xal.refreshTokens().then(() => {
-            this._application.log('authenticationV2', '[startSilentFlow()] Tokens have been refreshed')
+        this.getTokens()
+    }
 
-            this.getStreamingToken().then((streamingTokens) => {
-                if(streamingTokens.xCloudToken !== null){
-                    this._application.log('authenticationV2', '[startSilentFlow()] Retrieved both xHome and xCloud tokens')
-                    this._appLevel = 2
-                } else {
-                    this._application.log('authenticationV2', '[startSilentFlow()] Retrieved xHome token only')
-                    this._appLevel = 1
-                }
+    getTokens(){
+        this.getStreamingToken().then((streamingTokens) => {
+            this._application.log('authenticationV2', '[startSilentFlow()] Retrieved streaming tokens:', streamingTokens)
 
-                this._xal.getWebToken().then((webToken) => {
-                    this._application.log('authenticationV2', __filename+'[startSilentFlow()] Web token received')
+            if(streamingTokens.xCloudToken !== null){
+                this._application.log('authenticationV2', '[startSilentFlow()] Retrieved both xHome and xCloud tokens')
+                this._appLevel = 2
+            } else {
+                this._application.log('authenticationV2', '[startSilentFlow()] Retrieved xHome token only')
+                this._appLevel = 1
+            }
 
-                    this._application.authenticationCompleted(streamingTokens, webToken)
+            this._msal.getWebToken().then((webToken) => {
+                this._application.log('authenticationV2', __filename+'[startSilentFlow()] Web token received')
 
-                }).catch((error) => {
-                    this._application.log('authenticationV2', __filename+'[startSilentFlow()] Failed to retrieve web tokens:', error)
-                    dialog.showMessageBox({
-                        message: this.t('errors.failedToRetrieveWebTokens') + ' ' + JSON.stringify(error),
-                        type: 'error',
-                    })
-                })
+                this._application.authenticationCompleted(streamingTokens, webToken)
 
-            }).catch((err) => {
-                this._application.log('authenticationV2', '[startSilentFlow()] Failed to retrieve streaming tokens:', err)
+            }).catch((error) => {
+                this._application.log('authenticationV2', __filename+'[startSilentFlow()] Failed to retrieve web tokens:', error)
                 dialog.showMessageBox({
-                    message: this.t('errors.failedToRetrieveStreamingTokens') + ' ' + JSON.stringify(err),
+                    message: this.t('errors.failedToRetrieveWebTokens') + ' ' + JSON.stringify(error),
                     type: 'error',
                 })
             })
 
         }).catch((err) => {
-            this._application.log('authenticationV2', '[startSilentFlow()] Error refreshing tokens:', err)
-            this._tokenStore.clear()
-
-            this._isAuthenticating = false
-            this._isAuthenticated = false
-            this._appLevel = 0
+            this._application.log('authenticationV2', '[startSilentFlow()] Failed to retrieve streaming tokens:', err)
+            dialog.showMessageBox({
+                message: this.t('errors.failedToRetrieveStreamingTokens') + ' ' + JSON.stringify(err),
+                type: 'error',
+            })
         })
     }
 
     startAuthflow(){
         this._application.log('authenticationV2', '[startAuthflow()] Starting authentication flow')
 
-        this._xal.getRedirectUri().then((redirect) => {
-            this.openAuthWindow(redirect.sisuAuth.MsaOauthRedirect)
+        const forceRegionIp = this._application._store.get('force_region_ip', '')
+        if (forceRegionIp && typeof forceRegionIp === 'string' && forceRegionIp.trim() !== '') {
+            this._msal.setDefaultHeaders({ 'X-Forwarded-For': forceRegionIp.trim() })
+            this._application.log('authenticationV2', '[startSilentFlow()] Using X-Forwarded-For:', forceRegionIp)
+        } else {
+            this._msal.setDefaultHeaders({})
+        }
 
-            this._authCallback = (redirectUri) => {
-                this._application.log('authenticationV2', '[startAuthFlow()] Got redirect URI:', redirectUri)
-                this._xal.authenticateUser(redirect, redirectUri).then((result) => {
-                    this._application.log('authenticationV2', '[startAuthFlow()] Authenticated user:', result)
+        this._msal.doDeviceCodeAuth().then((data) => {
+            this._application.log('authenticationV2', '[startAuthflow()] Starting devicecode auth:', data)
 
-                    this.startSilentFlow()
+            dialog.showMessageBox({
+                message: data.message+' Click OK to continue after entering code.',
+                type: 'info',
+            })
 
-                }).catch((err) => {
-                    this._application.log('authenticationV2', '[startAuthFlow()] Error authenticating user:', err)
-                    dialog.showErrorBox('Error', this.t('errors.errorAuthentificationUser') + ' ' + JSON.stringify(err))
-                })
-            }
-        }).catch((err) => {
-            this._application.log('authenticationV2', '[startAuthFlow()] Error getting redirect URI:', err)
-            dialog.showErrorBox('Error', this.t('errors.errorGettingRedirectURI') + ' ' + JSON.stringify(err))
-        })
-    }
+            this._isAuthenticating = true
 
-    startWebviewHooks(){
-        this._application.log('authenticationV2', '[startWebviewHooks()] Starting webview hooks')
+            this._msal.doPollForDeviceCodeAuth(data.device_code).then((token) => {
+                this._application.log('authenticationV2', '[startAuthflow()] Devicecode authentication successful:', token)
 
-        session.defaultSession.webRequest.onHeadersReceived({
-            urls: [
-                'https://login.live.com/oauth20_authorize.srf?*',
-                'https://login.live.com/ppsecure/post.srf?*',
-            ],
-        }, (details, callback) => {
+                this.getTokens()
 
-            if(details.responseHeaders.Location !== undefined && details.responseHeaders.Location[0].includes(this._xal._app.RedirectUri)){
-                this._application.log('authenticationV2', '[startWebviewHooks()] Got redirect URI from OAUTH:', details.responseHeaders.Location[0])
-                this._authWindow.close()
+            }).catch((error) => {
+                this._application.log('authenticationV2', '[startAuthflow()] Error during devicecode polling auth:', error)
+                dialog.showErrorBox('Error', 'Failed to perform MSAL authentixation: ' + JSON.stringify(error))
 
-                if(this._authCallback !== undefined){
-                    this._authCallback(details.responseHeaders.Location[0])
-                } else {
-                    this._application.log('authenticationV2', '[startWebviewHooks()] Authentication Callback is not defined:', this._authCallback)
-                    dialog.showErrorBox('Error', this.t('errors.authentificationCallbackIsNotDefined') + ' ' + JSON.stringify(this._authCallback))
-                }
+                this._isAuthenticating = false
+            })
 
-                callback({ cancel: true })
-            } else {
-                callback(details)
-            }
+        }).catch((error) => {
+            this._application.log('authenticationV2', '[startAuthflow()] Error during devicecode auth:', error)
+            dialog.showErrorBox('Error', this.t('errors.errorAuthentificationUser') + ' ' + JSON.stringify(error))
         })
     }
 
@@ -176,29 +163,16 @@ export default class Authentication {
     }
 
     async getStreamingToken(){
-        const sisuToken = this._tokenStore.getSisuToken()
-        if(sisuToken === undefined)
+        const userToken = this._tokenStore.getUserToken()
+        if(userToken === undefined)
             throw new Error( this.t('errors.sisuTokenIsMissing') )
 
-        const xstsToken = await this._xal.doXstsAuthorization(sisuToken, 'http://gssv.xboxlive.com/')
+        this._application.log('authenticationV2', '[getStreamingToken()] Found local token:', userToken)
 
-        if(this._xal._xhomeToken === undefined || this._xal._xhomeToken.getSecondsValid() <= 60){
-            this._xal._xhomeToken = await this._xal.getStreamToken(xstsToken, 'xhome')
-        }
+        const streamingTokens = await this._msal.getStreamingTokens()
+        this._application.log('authenticationV2', '[getStreamingToken()] Retrieved streaming tokens:', streamingTokens)
 
-        if(this._xal._xcloudToken === undefined || this._xal._xcloudToken.getSecondsValid() <= 60){
-            try {
-                this._xal._xcloudToken = await this._xal.getStreamToken(xstsToken, 'xgpuweb')
-            } catch(error){
-                try {
-                    this._xal._xcloudToken = await this._xal.getStreamToken(xstsToken, 'xgpuwebf2p')
-                } catch(error){
-                    this._xal._xcloudToken = null
-                }
-            }
-        }
-
-        return { xHomeToken: this._xal._xhomeToken, xCloudToken: this._xal._xcloudToken }
+        return { xHomeToken: streamingTokens.xHomeToken, xCloudToken: streamingTokens.xCloudToken }
     }
 
 
