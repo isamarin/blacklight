@@ -10,7 +10,7 @@ import { useState } from 'react';
 export function PlayerPage() {
     const trpc = useTRPC();
     const queryClient = useQueryClient();
-    const { authState, getWebToken, getxCloudToken } = useAuth();
+    const { authState, getWebToken, getxCloudToken, getxHomeToken } = useAuth();
 
     const consoles = useQuery(trpc.smartglass_consoles_list.queryOptions(getWebToken()));
     const [streamConfig, setStreamConfig] = useState<xCloudStreamConfig | undefined>(undefined);

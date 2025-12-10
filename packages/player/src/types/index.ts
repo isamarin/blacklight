@@ -17,3 +17,11 @@ export interface startStreamResponse {
     sessionPath: string;
     state: 'Provisioning' | any;
 }
+
+export interface StatusResponse {
+    status: number
+}
+
+export interface ErrorResponse {
+    error: any
+}

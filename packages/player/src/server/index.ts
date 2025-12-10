@@ -1,10 +1,10 @@
-import type { xCloudToken, xCloudStreamConfig, startStreamResponse } from '../types/index';
-export type { xCloudToken, startStreamResponse, xCloudStreamConfig };
+import type { xCloudToken, xCloudStreamConfig, startStreamResponse, StatusResponse, ErrorResponse } from '../types/index';
+export type { xCloudToken, startStreamResponse, xCloudStreamConfig, StatusResponse, ErrorResponse };
 
 export const ping = () => 'pong';
 
-export const startStream = (xCloudToken:xCloudToken, xCloudStreamConfig:xCloudStreamConfig) => {
-    return httpPost(xCloudToken, xCloudStreamConfig, '/v5/sessions/'+xCloudStreamConfig.type+'/play', JSON.stringify({
+export const startStream = async (xCloudToken:xCloudToken, xCloudStreamConfig:xCloudStreamConfig) => {
+    return await httpPost<startStreamResponse>(xCloudToken, xCloudStreamConfig, '/v5/sessions/'+xCloudStreamConfig.type+'/play', JSON.stringify({
         clientSessionId: '',
         titleId: (xCloudStreamConfig.type === 'cloud') ? xCloudStreamConfig.id : '',
         systemUpdateGroup: '',
@@ -51,32 +51,45 @@ export const startStream = (xCloudToken:xCloudToken, xCloudStreamConfig:xCloudSt
 //     })
 // }
 
-const httpPost = (xCloudToken:xCloudToken, xCloudStreamConfig:xCloudStreamConfig, url:string, body:string, headers = {}):Promise<any> => {
-    return new Promise((resolve, reject) => {
+const httpPost = <T>(xCloudToken:xCloudToken, xCloudStreamConfig:xCloudStreamConfig, url:string, body:string, headers = {}) => {
+    return new Promise<T | StatusResponse | ErrorResponse>((resolve, reject) => {
         const deviceInfo = getDeviceInfo(xCloudStreamConfig)
 
-        fetch(xCloudStreamConfig.host+url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'X-Gssv-Client': 'XboxComBrowser',
-                'X-MS-Device-Info': deviceInfo,
-                ...(xCloudToken.token !== '' ? { 'Authorization': 'Bearer '+xCloudToken.token } : {}),
-                ...headers,
-            },
-            body: body,
-        }).then(response => {
-            response.json().then(data => {
-                resolve(data)
-            }).catch((error) => {
-                if(response.status >= 200 && response.status <= 299){
-                    resolve({ status: response.status })
+        try {
+            fetch(xCloudStreamConfig.host+url, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-Gssv-Client': 'XboxComBrowser',
+                    'X-MS-Device-Info': deviceInfo,
+                    ...(xCloudToken.token !== '' ? { 'Authorization': 'Bearer '+xCloudToken.token } : {}),
+                    ...headers,
+                },
+                body: body,
+            }).then(response => {
+                if(response.ok === true){
+                    response.json().then(data => {
+                        resolve(data)
+                    }).catch((error) => {
+                        if(response.status >= 200 && response.status <= 299){
+                            resolve({ status: response.status })
+                        } else {
+                            resolve({ error: error })
+                        }
+                    })
                 } else {
-                    reject({ error: error })
+                    resolve({
+                        error: {
+                            satus: response.status,
+                            data: response
+                        }
+                    } as ErrorResponse)
                 }
             })
-        })
+        } catch (error) {
+            resolve({ error: error } as ErrorResponse)
+        }
     })
 }
 

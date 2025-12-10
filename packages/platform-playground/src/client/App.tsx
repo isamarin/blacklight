@@ -9,7 +9,7 @@ import { useAuth } from './contexts/AuthContext';
 import { type xCloudStreamConfig } from '@greenlight/player/client';
 
 function App() {
-  const { getWebToken, getxCloudToken } = useAuth();
+  const { getWebToken, getxCloudToken, getxHomeToken } = useAuth();
   const [currentpage, setCurrentpage] = useState('auth');
 
   const renderPage = () => {
@@ -78,7 +78,7 @@ function App() {
                 key="streaming_start_stream"
                 method="streaming_start_stream"
                 title="Streaming: Start Stream"
-                sendData={{ token: getxCloudToken(), xCloudStreamConfig: ':xCloudStreamConfig' }}
+                sendData={{ token: getxHomeToken(), xCloudStreamConfig: ':xCloudStreamConfig' }}
                 fields={{ xCloudStreamConfig: JSON.stringify({
                   id: 'YOUR_CONSOLE_ID',
                   type: 'home',
