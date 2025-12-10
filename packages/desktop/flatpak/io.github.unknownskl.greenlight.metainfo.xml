@@ -22,10 +22,11 @@
     </screenshot>
   </screenshots>
   <releases>
-    <release version="2.4.0" date="2025-11-21">
+    <release version="2.4.0" date="2025-12-10">
      <description>
         <ul>
           <li>Implement localization support for EN/RU/UA (huge thanks to @chefranov) #1468</li>
+          <li>Replace failing XAL authentication mechanism with MSAL. #1506 #1473 #1446 #1126 #1109</li>
           <li>Updated dependencies to optimise performance</li>
         </ul>
      </description>

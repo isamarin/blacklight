@@ -5,7 +5,7 @@ description: Changelogs
 
 ### Changelog
 
-## v2.4.0 - 2025-11-21
+## v2.4.0 - 2025-12-10
 - Implement localization support for EN/RU/UA (huge thanks to @chefranov) #1468
 - Replace failing XAL authentication mechanism with MSAL. #1506 #1473 #1446 #1126 #1109
 - Updated dependencies to optimise performance
