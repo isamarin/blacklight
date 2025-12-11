@@ -75,23 +75,22 @@ export default class Authentication {
 
     getTokens(){
         this.getStreamingToken().then((streamingTokens) => {
-            this._application.log('authenticationV2', '[startSilentFlow()] Retrieved streaming tokens:', streamingTokens)
+            this._application.log('authenticationV2', '[getTokens()] Retrieved streaming tokens:', streamingTokens)
 
-            if(streamingTokens.xCloudToken !== null){
-                this._application.log('authenticationV2', '[startSilentFlow()] Retrieved both xHome and xCloud tokens')
+            if(streamingTokens.xCloudToken !== undefined){
+                this._application.log('authenticationV2', '[getTokens()] Retrieved both xHome and xCloud tokens')
                 this._appLevel = 2
             } else {
-                this._application.log('authenticationV2', '[startSilentFlow()] Retrieved xHome token only')
+                this._application.log('authenticationV2', '[getTokens()] Retrieved xHome token only')
                 this._appLevel = 1
             }
 
             this._msal.getWebToken().then((webToken) => {
-                this._application.log('authenticationV2', __filename+'[startSilentFlow()] Web token received')
-
+                this._application.log('authenticationV2', __filename+'[getTokens()] Web token received')
                 this._application.authenticationCompleted(streamingTokens, webToken)
 
             }).catch((error) => {
-                this._application.log('authenticationV2', __filename+'[startSilentFlow()] Failed to retrieve web tokens:', error)
+                this._application.log('authenticationV2', __filename+'[getTokens()] Failed to retrieve web tokens:', error)
                 dialog.showMessageBox({
                     message: this.t('errors.failedToRetrieveWebTokens') + ' ' + JSON.stringify(error),
                     type: 'error',
@@ -173,6 +172,7 @@ export default class Authentication {
         this._application.log('authenticationV2', '[getStreamingToken()] Retrieved streaming tokens:', streamingTokens)
 
         return { xHomeToken: streamingTokens.xHomeToken, xCloudToken: streamingTokens.xCloudToken }
+        // return { xHomeToken: streamingTokens.xHomeToken, xCloudToken: undefined }
     }
 
 
