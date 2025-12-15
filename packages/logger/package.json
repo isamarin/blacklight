@@ -11,13 +11,13 @@
     "test": "yarn build && mocha tests/**.ts tests/**/*.ts"
   },
   "devDependencies": {
-    "@types/chai": "^5.2.2",
+    "@types/chai": "^5.2.3",
     "@types/debug": "^4.1.12",
     "@types/mocha": "^10.0.10",
-    "@types/node": "^22.14.1",
-    "chai": "^5.2.0",
-    "mocha": "^11.1.0",
-    "tsx": "^4.19.3",
+    "@types/node": "^25.0.2",
+    "chai": "^6.2.1",
+    "mocha": "^11.7.5",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }
 }

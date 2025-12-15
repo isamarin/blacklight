@@ -9,25 +9,25 @@
     "postinstall2": "fumadocs-mdx"
   },
   "dependencies": {
-    "fumadocs-core": "^15.8.5",
-    "fumadocs-mdx": "^12.0.3",
-    "fumadocs-typescript": "^4.0.11",
-    "fumadocs-ui": "^15.8.5",
-    "next": "^15.3.2",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "fumadocs-core": "^16.2.5",
+    "fumadocs-mdx": "^14.1.0",
+    "fumadocs-typescript": "^4.0.14",
+    "fumadocs-ui": "^16.2.5",
+    "next": "^16.0.10",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.4",
+    "@tailwindcss/postcss": "^4.1.18",
     "@types/mdx": "^2.0.13",
-    "@types/node": "22.14.1",
-    "@types/react": "^19.2.2",
-    "@types/react-dom": "^19.2.2",
-    "autoprefixer": "^10.4.21",
-    "eslint": "^9",
-    "eslint-config-next": "^15.2.4",
+    "@types/node": "25.0.2",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "autoprefixer": "^10.4.23",
+    "eslint": "^9.39.2",
+    "eslint-config-next": "^16.0.10",
     "postcss": "^8.5.3",
-    "tailwindcss": "^4.1.14",
+    "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3"
   }
 }
