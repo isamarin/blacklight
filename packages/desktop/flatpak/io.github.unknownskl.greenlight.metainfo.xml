@@ -22,6 +22,13 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="2.4.1" date="2025-12-11">
+     <description>
+        <ul>
+          <li>Fix error on startup when user is unable to retrieve xCloud token</li>
+        </ul>
+     </description>
+    </release>
     <release version="2.4.0" date="2025-12-10">
      <description>
         <ul>

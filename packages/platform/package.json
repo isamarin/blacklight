@@ -11,22 +11,22 @@
     "test": "yarn build && mocha tests/**.ts tests/**/*.ts"
   },
   "dependencies": {
-    "@trpc/server": "^11.1.0",
-    "xal-node": "^1.1.4",
+    "@trpc/server": "^10.45.3",
+    "xal-node": "^1.1.5",
     "xbox-webapi": "2.0.0-beta4",
-    "zod": "^3.24.3"
+    "zod": "^4.2.0"
   },
   "devDependencies": {
-    "@types/chai": "^5.2.2",
+    "@types/chai": "^5.2.3",
     "@types/debug": "^4.1.12",
     "@types/mocha": "^10.0.10",
-    "@types/node": "^22.14.1",
-    "chai": "^5.2.0",
-    "mocha": "^11.1.0",
+    "@types/node": "^25.0.2",
+    "chai": "^6.2.1",
+    "mocha": "^11.7.5",
     "ts-loader": "^9.5.2",
-    "tsx": "^4.19.3",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "webpack": "^5.99.6",
+    "webpack": "^5.103.0",
     "webpack-cli": "^6.0.1"
   },
   "exports": {

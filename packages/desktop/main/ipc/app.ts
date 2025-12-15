@@ -176,14 +176,13 @@ export default class IpcApp extends IpcBase {
         })
 
         // Tokenstore values
-        returnValue.push({
-            name: 'XAL',
-            data: [
-                { name: 'User token expires in', value: this._application._authentication._tokenStore.getUserToken().getSecondsValid() },
-                { name: 'Sisu token expires in', value: this._application._authentication._tokenStore.getSisuToken().getSecondsValid() },
-                { name: 'Authenticated user', value: this._application._authentication._tokenStore.getSisuToken().getGamertag() + ' ('+this._application._authentication._tokenStore.getSisuToken().getUserHash()+')' },
-            ],
-        })
+        // returnValue.push({
+        //     name: 'XAL',
+        //     data: [
+        //         { name: 'User token expires in', value: this._application._authentication._tokenStore.getUserToken().getSecondsValid() },
+        //         { name: 'Authenticated user', value: this._application._authentication._tokenStore.getUserToken().getGamertag() + ' ('+this._application._authentication._tokenStore.getUserToken().getUserHash()+')' },
+        //     ],
+        // })
 
         return returnValue
     }

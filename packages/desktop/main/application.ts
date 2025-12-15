@@ -165,7 +165,7 @@ export default class Application {
         // const tokens = this._authentication._tokens
         this._xHomeApi = new xCloudApi(this, streamingTokens.xHomeToken.data.offeringSettings.regions.find(region => region.isDefault).baseUri.substring(8), streamingTokens.xHomeToken.data.gsToken, 'home')
 
-        if(streamingTokens.xCloudToken !== null){
+        if(streamingTokens.xCloudToken !== undefined){
             this._xCloudApi = new xCloudApi(this, streamingTokens.xCloudToken.data.offeringSettings.regions.find(region => region.isDefault).baseUri.substring(8), streamingTokens.xCloudToken.data.gsToken, 'cloud')
         }
 
