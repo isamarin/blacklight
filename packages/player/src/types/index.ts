@@ -1,4 +1,4 @@
-export interface xCloudToken {
+export interface xStreamToken {
     market: string;
     language: string;
     token: string;
@@ -24,4 +24,12 @@ export interface StatusResponse {
 
 export interface ErrorResponse {
     error: any
+}
+
+export interface SDPResponse {
+    errorDetails?: {
+        code: number | null;
+        message: string | null;
+    }
+    exchangeResponse: string | null;
 }
