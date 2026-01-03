@@ -1,5 +1,6 @@
 import xCloudPlayer from '../player'
 import VideoComponent from './video'
+import WebGPUComponent from './webgpu'
 
 interface OverlayInterface {
     debug: undefined | HTMLElement;
@@ -7,13 +8,13 @@ interface OverlayInterface {
 
 export default class Overlay {
     private _player:xCloudPlayer
-    private _videoComponent:VideoComponent
+    private _videoComponent:VideoComponent | WebGPUComponent
 
     private _overlays:OverlayInterface = {
         debug: undefined,
     }
 
-    constructor(videoComponent:VideoComponent, player:xCloudPlayer){
+    constructor(videoComponent:VideoComponent | WebGPUComponent, player:xCloudPlayer){
         this._videoComponent = videoComponent
         this._player = player
     }

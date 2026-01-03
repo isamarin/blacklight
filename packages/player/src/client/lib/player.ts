@@ -7,6 +7,7 @@ import Ice from './ice'
 import Stats from './stats'
 
 import VideoComponent from './render/video'
+import WebGpuComponent from './render/webgpu'
 import AudioComponent from './render/audio'
 
 export default class xCloudPlayer {
@@ -23,7 +24,7 @@ export default class xCloudPlayer {
     private _iceHelper = new Ice(this)
     private _statsHelper = new Stats(this)
 
-    private _videoComponent: VideoComponent | undefined
+    private _videoComponent: VideoComponent | WebGpuComponent | undefined
     private _audioComponent: AudioComponent | undefined
 
     constructor(elementId: string) {
@@ -36,7 +37,8 @@ export default class xCloudPlayer {
         this._peerConnection.ontrack = (event) => {
 
             if(event.track.kind === 'video'){
-                this._videoComponent = new VideoComponent(this)
+                // this._videoComponent = new VideoComponent(this)
+                this._videoComponent = new WebGpuComponent(this)
                 this._videoComponent.create(event.streams[0])
 
             } else if(event.track.kind === 'audio'){
