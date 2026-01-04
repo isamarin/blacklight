@@ -6,6 +6,7 @@ export default class WebGpuComponent {
 
     private _element:HTMLCanvasElement | undefined
     private _overlay:Overlay
+    private _isActive: boolean = true
 
     private _gpuReader:GPUCanvasContext | undefined
     private _gpuVideoTexture:GPUTexture | null = null
@@ -29,8 +30,10 @@ export default class WebGpuComponent {
         // videoElement.autoplay = true
         // videoElement.muted = true
         // videoElement.playsInline = true
-        videoElement.width = 1280
-        videoElement.height = 720
+        videoElement.width = 1920
+        videoElement.height = 1080
+        videoElement.style.willChange = 'contents'
+        // videoElement.style.imageRendering = 'pixelated' // or 'crisp-edges' for faster rendering
         // videoElement.style.objectFit = 'contain'
         // videoElement.style.backgroundColor = 'black'
         // videoElement.style.touchAction = 'none'
@@ -50,16 +53,22 @@ export default class WebGpuComponent {
                     return;
                 }
                 const format = navigator.gpu.getPreferredCanvasFormat();
-                context.configure({ device, format });
+                context.configure({
+                    device,
+                    format,
+                    alphaMode: 'opaque',
+                    toneMapping: {
+                        mode: 'extended'
+                    },
+                    // Add desynchronized for lowest latency
+                    compositingAlphaMode: 'opaque',
+                    usage: GPUTextureUsage.TEXTURE_BINDING |
+                            GPUTextureUsage.COPY_DST |
+                            GPUTextureUsage.RENDER_ATTACHMENT
+                });
 
                 this._gpuDevice = device
                 this._gpuContext = context
-
-                // Sampler
-                const sampler = this._gpuDevice.createSampler({
-                    magFilter: "nearest",
-                    minFilter: "nearest",
-                });
 
                 // Additional WebGPU setup and rendering logic would go here
 
@@ -125,6 +134,12 @@ export default class WebGpuComponent {
                     },
                     primitive: { topology: "triangle-strip" },
                     layout: "auto",
+                });
+
+                // Recreate bind group with new texture
+                const sampler = this._gpuDevice.createSampler({
+                    magFilter: "linear",
+                    minFilter: "linear",
                 });
 
                 // Process video frames from the MediaStream
@@ -257,7 +272,10 @@ export default class WebGpuComponent {
             frameRenderedTimeMs: frame.timestamp as number,
         })
 
-        requestAnimationFrame(this.videoLoop.bind(this));
+        if(this._isActive){
+            requestAnimationFrame(this.videoLoop.bind(this));
+            // this.videoLoop.bind(this);
+        }
     }
 
     videoLoop(timestamp?: number) {
@@ -321,7 +339,8 @@ export default class WebGpuComponent {
 
     destroy(){
         const streamHolder = document.getElementById(this._player.getElementId())
-        const element = streamHolder?.querySelector('video')
+        this._isActive = false
+        const element = streamHolder?.querySelector('canvas')
 
         if(this._resizeObserver){
             this._resizeObserver.disconnect()

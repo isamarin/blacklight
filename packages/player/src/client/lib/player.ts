@@ -21,6 +21,7 @@ export default class xCloudPlayer {
     }
 
     private _elementId: string
+    private _isDestoyed: boolean = false
     private _iceHelper = new Ice(this)
     private _statsHelper = new Stats(this)
 
@@ -114,19 +115,24 @@ export default class xCloudPlayer {
         return this._statsHelper
     }
 
-    // createOffer() {
-    //     return new Promise<RTCSessionDescriptionInit>((resolve, reject) => {
-    //         this._peerConnection.createOffer({
-    //             offerToReceiveAudio: true,
-    //             offerToReceiveVideo: true,
-    //         }).then((offer) => {
-    //             const platerOffer = 
-    //             this._peerConnection.setLocalDescription(offer)
+    destroy() {
+        if(this._isDestoyed === false){
+            this._peerConnection.close()
 
-    //             resolve(offer)
-    //         }).catch((error) => {
-    //             reject(error)
-    //         })
-    //     })
-    // }
+            if(this._peerConnection.onconnectionstatechange){
+                this._peerConnection.onconnectionstatechange(new Event('connectionstatechanged'))
+            }
+            
+            for(const channel in this._channels) {
+                this._channels[channel].destroy()
+            }
+
+            if(this._videoComponent){ this._videoComponent.destroy() }
+            if(this._audioComponent){ this._audioComponent.destroy() }
+
+            this._isDestoyed = true
+        } else {
+            console.log('Cannot destroy because the player is already destroyed.')
+        }
+    }
 }

@@ -159,7 +159,7 @@ export const StreamPlayer = forwardRef<StreamPlayerHandle, StreamPlayerProps>(
 
             return () => {
                 if(player){
-                    // player.destroy();
+                    player.destroy();
                     clearInterval(keepaliveInterval)
                 }
             }
