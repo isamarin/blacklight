@@ -11,4 +11,13 @@ export default class profileController {
 
         return await apiClient.providers['profile'].getCurrentUser()
     }
+
+    async getFriendsList(token:WebToken) {
+        const apiClient = new ((XboxApiClient as any) as { default: typeof XboxApiClient }).default({
+            uhs: token.uhs,
+            token: token.token
+        })
+
+        return await apiClient.providers['people'].getFriends()
+    }
 }

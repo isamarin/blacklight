@@ -1,0 +1,38 @@
+{
+  "name": "@greenlight/platform-playground",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "predev": "yarn workspace @greenlight/player build && yarn workspace @greenlight/platform build && yarn workspace @greenlight/player build",
+    "dev": "concurrently \"yarn server\" \"yarn vite\"",
+    "server": "tsx watch src/server/index.ts",
+    "vite": "vite",
+    "build": "yarn workspace @greenlight/platform build && yarn workspace @greenlight/player build && tsc && vite build",
+    "preview": "vite preview",
+    "clean": "rm -rf dist/"
+  },
+  "dependencies": {
+    "@greenlight/platform": "*",
+    "@tanstack/react-query": "^5.90.12",
+    "@trpc/client": "^11.8.0",
+    "@trpc/server": "^11.8.0",
+    "@trpc/tanstack-react-query": "^11.8.0",
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "zod": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.0.2",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.2",
+    "concurrently": "^9.1.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0"
+  }
+}

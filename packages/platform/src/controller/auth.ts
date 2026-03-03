@@ -16,9 +16,13 @@ export default class authController {
         return await msal.doPollForDeviceCodeAuth(devicecode, timeout)
     }
 
-    async getStreamingTokens(json_token:string) {
-        const token = JSON.parse(json_token) as IUserToken
-        
+    async refreshUserToken(token:IUserToken) {
+        const tokenStore = new ProxyStore(token);
+        const msal = new Msal(tokenStore)
+        return await msal.refreshUserToken()
+    }
+
+    async getStreamingTokens(token:IUserToken) {
         const tokenStore = new ProxyStore(token);
         const msal = new Msal(tokenStore)
 
@@ -45,9 +49,7 @@ export default class authController {
         return { xHomeToken: _xhomeToken, xCloudToken: _xcloudToken }
     }
 
-    async getWebToken(json_token:string) {
-        const token = JSON.parse(json_token) as IUserToken
-
+    async getWebToken(token:IUserToken) {
         const tokenStore = new ProxyStore(token);
         const msal = new Msal(tokenStore)
         return await msal.getWebToken()

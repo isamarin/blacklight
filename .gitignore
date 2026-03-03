@@ -3,3 +3,4 @@ packages/docs/.next
 next-env.d.ts
 packages/docs/out
 packages/docs/.source
+dist/

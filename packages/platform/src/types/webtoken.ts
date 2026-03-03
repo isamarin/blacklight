@@ -5,6 +5,6 @@ export interface WebToken {
 
 export interface xHomeToken {
     market: string;
-    region: string;
+    language: string;
     token: string;
 }

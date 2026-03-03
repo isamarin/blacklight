@@ -12,11 +12,15 @@
     "docs": "yarn workspace @greenlight/docs",
     "logger": "yarn workspace @greenlight/logger",
     "platform": "yarn workspace @greenlight/platform",
+    "playground": "yarn workspace @greenlight/platform-playground",
+    "player": "yarn workspace @greenlight/player",
     "test": "yarn logger test"
   },
   "workspaces": [
     "packages/logger",
+    "packages/player",
     "packages/platform",
+    "packages/platform-playground",
     "packages/desktop",
     "packages/docs"
   ],
