@@ -17,6 +17,14 @@ export default class WebGpuComponent {
     private _gpuSampler:GPUSampler | null = null
     private _resizeObserver:ResizeObserver | null = null
     private _containerElement:HTMLElement | null = null
+    private _isProcessingFrame: boolean = false
+    private _frameQueueSize: number = 0
+    private _droppedFrames: number = 0
+    private _lastFrameTime: number = 0
+    private _renderingFps: number = 0
+    private _frameTimeSamples: number[] = []
+    private _renderDelayMs: number = 0
+    private _renderDelaySamples: number[] = []
 
     constructor(player:any){
         this._player = player
@@ -153,8 +161,8 @@ export default class WebGpuComponent {
                     ]
                 });
 
-                // Start loop?
-                that.videoLoop();
+                // Start rendering loop
+                that.processVideoData();
             });
         });
 
@@ -198,11 +206,32 @@ export default class WebGpuComponent {
     }
 
     async processVideoData(timestamp?:number) {
+        if (this._isProcessingFrame || !this._isActive) {
+            return;
+        }
+
+        this._isProcessingFrame = true;
+
         try {
+            // Non-blocking read - check if frame is available without waiting
             const { value: frame, done } = await this._gpuReader.read();
-            if (done || !this._isActive) {
+            if (done || !this._isActive || !frame) {
+                this._isProcessingFrame = false;
                 return;
             }
+
+            // Frame dropping: if multiple frames queued, skip older ones to maintain order and latency
+            // This prevents frames from being processed out of order
+            if (this._frameQueueSize > 0) {
+                frame.close();
+                this._droppedFrames++;
+                this._isProcessingFrame = false;
+                // Continue processing next frame immediately without delay
+                this.videoLoop();
+                return;
+            }
+
+            this._frameQueueSize++;
 
             // Resize texture if video frame dimensions changed
             if (this._gpuVideoTexture && 
@@ -233,7 +262,21 @@ export default class WebGpuComponent {
 
             const renderStartTime = performance.now();
 
-            // Upload the video frame to GPU (non-blocking)
+            // Track frame timing for FPS calculation
+            if (this._lastFrameTime > 0) {
+                const frameTime = renderStartTime - this._lastFrameTime;
+                this._frameTimeSamples.push(frameTime);
+                // Keep only last 60 samples for smooth FPS average
+                if (this._frameTimeSamples.length > 60) {
+                    this._frameTimeSamples.shift();
+                }
+                // Update FPS based on average frame time
+                const avgFrameTime = this._frameTimeSamples.reduce((a, b) => a + b, 0) / this._frameTimeSamples.length;
+                this._renderingFps = Math.round(1000 / avgFrameTime);
+            }
+            this._lastFrameTime = renderStartTime;
+
+            // Upload the video frame to GPU
             this._gpuDevice.queue.copyExternalImageToTexture(
                 { source: frame },
                 { texture: this._gpuVideoTexture },
@@ -258,25 +301,41 @@ export default class WebGpuComponent {
 
             this._gpuDevice.queue.submit([commandEncoder.finish()]);
 
-            // Queue metadata frames
+            const renderEndTime = performance.now();
+            const renderDelay = renderEndTime - renderStartTime;
+
+            // Track render delay (time to process and submit frame to GPU)
+            this._renderDelaySamples.push(renderDelay);
+            // Keep only last 60 samples for smooth average
+            if (this._renderDelaySamples.length > 60) {
+                this._renderDelaySamples.shift();
+            }
+            // Update average render delay
+            this._renderDelayMs = Math.round(
+                this._renderDelaySamples.reduce((a, b) => a + b, 0) / this._renderDelaySamples.length * 100
+            ) / 100; // Round to 2 decimal places
+
+            // Queue metadata frames with actual render timing
             this._player._channels.input.queueMetadataFrame({
                 serverDataKey: frame.timestamp as number,
                 firstFramePacketArrivalTimeMs: frame.timestamp as number,
-                frameSubmittedTimeMs: frame.timestamp as number,
-                frameDecodedTimeMs: frame.timestamp as number,
-                frameRenderedTimeMs: renderStartTime,
+                frameSubmittedTimeMs: renderStartTime,
+                frameDecodedTimeMs: renderStartTime,
+                frameRenderedTimeMs: renderEndTime,
             })
 
             frame.close();
+            this._frameQueueSize--;
 
         } catch (error) {
             console.error('Error processing video frame:', error);
-        }
-
-        // Immediately continue to next frame without waiting for vsync
-        // This ensures we always render the latest frame with minimal latency
-        if(this._isActive){
-            this.videoLoop();
+        } finally {
+            this._isProcessingFrame = false;
+            
+            // Continue processing next frame immediately without vsync delay for low-latency streaming
+            if (this._isActive) {
+                this.videoLoop();
+            }
         }
     }
 
@@ -338,6 +397,16 @@ export default class WebGpuComponent {
 
     toggleDebugOverlay(){
         this._overlay.toggleDebug()
+    }
+
+    getFrameStats() {
+        return {
+            droppedFrames: this._droppedFrames,
+            queueSize: this._frameQueueSize,
+            isProcessing: this._isProcessingFrame,
+            renderingFps: this._renderingFps,
+            renderDelayMs: this._renderDelayMs
+        }
     }
 
     destroy(){

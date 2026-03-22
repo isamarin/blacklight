@@ -58,7 +58,15 @@ export default class Overlay {
 
             this._overlays.debug.appendChild(this.createLabel('Local Play', this._player.getStats()._remoteIsLocal ? 'Local' : 'Remote', 'ok'))
             this._overlays.debug.appendChild(this.createLabel('Resolution', this._player.getStats()._videoWidth+'x'+this._player.getStats()._videoHeight, 'ok'))
-            this._overlays.debug.appendChild(this.createLabel('FPS', this._player.getStats()._videoFps.toString(), this._player.getStats()._videoFps >= 58 ? 'ok' : 'warning'))
+            this._overlays.debug.appendChild(this.createLabel('Stream FPS', this._player.getStats()._videoFps.toString(), this._player.getStats()._videoFps >= 58 ? 'ok' : 'warning'))
+            
+            // Display rendering FPS if available
+            const frameStats = (this._videoComponent as any).getFrameStats?.();
+            if (frameStats) {
+                this._overlays.debug.appendChild(this.createLabel('Render FPS', frameStats.renderingFps.toString(), frameStats.renderingFps >= 58 ? 'ok' : 'warning'))
+                this._overlays.debug.appendChild(this.createLabel('Render Delay', frameStats.renderDelayMs.toString() + ' ms', frameStats.renderDelayMs < 16 ? 'ok' : frameStats.renderDelayMs < 33 ? 'warning' : 'error'))
+            }
+            
             this._overlays.debug.appendChild(this.createLabel('Connection', this._player.getStats()._remoteIsIpv6 ? 'IPv6' : 'IPv4', 'ok'))
             this._overlays.debug.appendChild(this.createLabel('Video', this._player.getStats()._videoCodec, 'ok'))
             const rttButtonState = (this._player.getStats()._rtt*1000 > 75) ? 'error' : (this._player.getStats()._rtt*1000 > 40) ? 'warning' : 'ok'
