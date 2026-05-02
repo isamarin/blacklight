@@ -291,3 +291,36 @@ jobs:
           path: |
             packages/desktop/dist/*.exe
         if: matrix.os == 'windows-latest' && contains(github.event.head_commit.message, '[build]')
+
+  dependabot-merge:
+    name: "Dependabot Auto-Merge Check"
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.actor == 'dependabot[bot]' && github.event.pull_request.user.login == 'dependabot[bot]'
+    needs: [flatpak, release]
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+
+      - name: Merge when build succeeds
+        uses: actions/github-script@v7
+        with:
+          script: |
+            console.log('Build passed, automerging Dependabot PR...');
+
+            await github.rest.pulls.createReview({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              event: 'APPROVE',
+              body: 'Build passed, automerging Dependabot PR...',
+            });
+            console.log('Dependabot PR approved successfully.');
+
+            await github.rest.pulls.merge({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              merge_method: 'merge',
+            });
+            console.log('Dependabot PR merged successfully.');
