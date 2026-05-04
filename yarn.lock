@@ -2832,10 +2832,10 @@
   resolved "https://registry.yarnpkg.com/@trpc/server/-/server-11.11.0.tgz#03a0c7f48f43eba0941329f00b11d8d00ad732f5"
   integrity sha512-5CBK5Oit8qv2k2zgIHrUsa12tnCIVpZIJLvMa4n2tejuWz/d7Qb1B1v9zZioapr7y8sEvnk8zPcNnxcT2LlQxg==
 
-"@trpc/tanstack-react-query@^11.12.0":
-  version "11.12.0"
-  resolved "https://registry.yarnpkg.com/@trpc/tanstack-react-query/-/tanstack-react-query-11.12.0.tgz#b3734aba3cae9de2eade4b2393c31b73a84146b5"
-  integrity sha512-CIOR3shjVgvTcsbsqb4X2pQCbJ1I2+2j6tqDX4aFKLdqz0S32Y+iPH3ArDowrlS0npWycfkgsEEX3qwgP0j0vg==
+"@trpc/tanstack-react-query@^11.17.0":
+  version "11.17.0"
+  resolved "https://registry.yarnpkg.com/@trpc/tanstack-react-query/-/tanstack-react-query-11.17.0.tgz#36d95a25e2eb0fba1a5dea55a064d86d07512c48"
+  integrity sha512-OFxjvCgisP0yaCj7lgP6qPaFwJvJDgnrAUxH3cNIPPR89TpYbndn5vsdKNkc7EnvER9b6wq9Yz8aCcPcOBpDXg==
 
 "@ts-morph/common@~0.28.1":
   version "0.28.1"
