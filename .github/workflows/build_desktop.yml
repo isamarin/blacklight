@@ -303,7 +303,7 @@ jobs:
     steps:
 
       - name: Merge when build succeeds
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             console.log('Build passed, automerging Dependabot PR...');
