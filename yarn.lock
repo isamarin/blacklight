@@ -6225,10 +6225,10 @@ fsevents@~2.3.2, fsevents@~2.3.3:
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.3.tgz#cac6407785d03675a2a5e1a5305c697b347d90d6"
   integrity sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==
 
-fumadocs-core@^16.8.7:
-  version "16.8.7"
-  resolved "https://registry.yarnpkg.com/fumadocs-core/-/fumadocs-core-16.8.7.tgz#e904a3e1265d142a89b6a3346ce471be18531c78"
-  integrity sha512-y7awKyp4PwA2fGCsa/9z7a6/SlhAIABV9B/kmUAy9NlM+eo1Lm3P0A+Bcs7R36YsVsJd9tqiVuExbpLQ7n01Jw==
+fumadocs-core@^16.8.10:
+  version "16.8.10"
+  resolved "https://registry.yarnpkg.com/fumadocs-core/-/fumadocs-core-16.8.10.tgz#64b68cf16afd256b1c24c3539898d22f9fa3ad86"
+  integrity sha512-dXSk2tVMAlQQ5NOCwtu2n+2nw0nB6JCYvTKmCCImHJk8ZVy3Y3Y3qDIU9QUScD5Fsa/t3+k5Wce+mPdwqlcGRw==
   dependencies:
     "@orama/orama" "^3.1.18"
     estree-util-value-to-estree "^3.5.0"
@@ -6248,10 +6248,10 @@ fumadocs-core@^16.8.7:
     unist-util-visit "^5.1.0"
     vfile "^6.0.3"
 
-fumadocs-mdx@^14.3.2:
-  version "14.3.2"
-  resolved "https://registry.yarnpkg.com/fumadocs-mdx/-/fumadocs-mdx-14.3.2.tgz#1325164b59dcd5b62a64d169ab1e6152f49facc7"
-  integrity sha512-73SoZkbUuqnD91G/0zBcaQdM1TMnYw5JJzKgkGvQTiZbtLQFuWTt8/uRqnzFMuNIUu/WY9Lo9d1iZ8G+jOVieA==
+fumadocs-mdx@^15.0.3:
+  version "15.0.3"
+  resolved "https://registry.yarnpkg.com/fumadocs-mdx/-/fumadocs-mdx-15.0.3.tgz#ae077cf0e6d8bf403864438356d890d720b33b45"
+  integrity sha512-TxttSMwgBA13jyFAQgNH41tpRXLYMNJuE0nZrafrSEacgu1re4pOVBijCvs7GM6i6Uae5E39FI/Yw8fIBs4P5Q==
   dependencies:
     "@mdx-js/mdx" "^3.1.1"
     "@standard-schema/spec" "^1.1.0"
@@ -6260,16 +6260,15 @@ fumadocs-mdx@^14.3.2:
     estree-util-value-to-estree "^3.5.0"
     js-yaml "^4.1.1"
     mdast-util-mdx "^3.0.0"
-    mdast-util-to-markdown "^2.1.2"
     picocolors "^1.1.1"
     picomatch "^4.0.4"
-    tinyexec "^1.1.1"
+    tinyexec "^1.1.2"
     tinyglobby "^0.2.16"
     unified "^11.0.5"
     unist-util-remove-position "^5.0.0"
     unist-util-visit "^5.1.0"
     vfile "^6.0.3"
-    zod "^4.3.6"
+    zod "^4.4.3"
 
 fumadocs-typescript@^5.2.6:
   version "5.2.6"
@@ -6286,10 +6285,10 @@ fumadocs-typescript@^5.2.6:
     unified "^11.0.5"
     unist-util-visit "^5.1.0"
 
-fumadocs-ui@^16.8.7:
-  version "16.8.7"
-  resolved "https://registry.yarnpkg.com/fumadocs-ui/-/fumadocs-ui-16.8.7.tgz#a9502eef4ab394a14797d623d7bd0548bc94d247"
-  integrity sha512-ICTA2y+R++f8UKF3RL6mT3jCk6l7F5wpfuPV5dc7VRWNGxeFeiEwHdqo6Zb51HTjt1jDc7PQ1/T8I+gwPniU8g==
+fumadocs-ui@^16.8.10:
+  version "16.8.10"
+  resolved "https://registry.yarnpkg.com/fumadocs-ui/-/fumadocs-ui-16.8.10.tgz#a8e6dea9261280ec03006bf6cc722430c0db7ba9"
+  integrity sha512-sw+ZBoNBFRqiKVK7Ig5r0E4TgOhdY/Eq2+rFRTpxN/eq0Bys9OSoIXxLNkUBzaj+YGaXU8jHY4qOsDQgymHVTQ==
   dependencies:
     "@fumadocs/tailwind" "0.0.5"
     "@radix-ui/react-accordion" "^1.2.12"
@@ -11013,7 +11012,7 @@ tinyexec@^0.3.2:
   resolved "https://registry.yarnpkg.com/tinyexec/-/tinyexec-0.3.2.tgz#941794e657a85e496577995c6eef66f53f42b3d2"
   integrity sha512-KQQR9yN7R5+OSwaK0XQoj22pwHoTlgYqmUscPYoknOoWCWfj/5/ABTMRi69FrKU5ffPVh5QcFikpWJI/P1ocHA==
 
-tinyexec@^1.1.1:
+tinyexec@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/tinyexec/-/tinyexec-1.1.2.tgz#11feef204b706d4668ca4013db29f3bd64f5c4dc"
   integrity sha512-dAqSqE/RabpBKI8+h26GfLq6Vb3JVXs30XYQjdMjaj/c2tS8IYYMbIzP599KtRj7c57/wYApb3QjgRgXmrCukA==
@@ -11978,10 +11977,10 @@ yoctocolors@^2.1.1:
   resolved "https://registry.yarnpkg.com/zod-validation-error/-/zod-validation-error-4.0.2.tgz#bc605eba49ce0fcd598c127fee1c236be3f22918"
   integrity sha512-Q6/nZLe6jxuU80qb/4uJ4t5v2VEZ44lzQjPDhYJNztRQ4wyWc6VF3D3Kb/fAuPetZQnhS3hnajCf9CsWesghLQ==
 
-"zod@^3.25.0 || ^4.0.0", zod@^4.2.0, zod@^4.3.5, zod@^4.3.6:
-  version "4.3.6"
-  resolved "https://registry.yarnpkg.com/zod/-/zod-4.3.6.tgz#89c56e0aa7d2b05107d894412227087885ab112a"
-  integrity sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==
+"zod@^3.25.0 || ^4.0.0", zod@^4.2.0, zod@^4.3.5, zod@^4.4.3:
+  version "4.4.3"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-4.4.3.tgz#b680f172885d18bbebf21a834ea25e55a1bbf356"
+  integrity sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==
 
 zwitch@^2.0.0, zwitch@^2.0.4:
   version "2.0.4"
