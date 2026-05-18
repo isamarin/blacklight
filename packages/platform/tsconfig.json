@@ -17,7 +17,8 @@
     "declarationMap": true,
     "paths": {
       "@/*": ["./src/*"],
-    }
+    },
+    "types": ["@cloudflare/workers-types"]
   },
   "include": ["next-env.d.ts", "src/**/*.ts"],
   "exclude": ["node_modules"]

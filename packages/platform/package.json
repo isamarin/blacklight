@@ -8,10 +8,14 @@
     "start": "yarn build && node dist/index.js",
     "build": "yarn clean && tsc --build",
     "clean": "rm -rf dist/",
-    "test": "yarn build && mocha tests/**.ts tests/**/*.ts"
+    "test": "yarn build && mocha tests/**.ts tests/**/*.ts",
+    "dev": "wrangler dev --local",
+    "dev:test": "start-server-and-test 'wrangler dev --local' http://127.0.0.1:8787 'tsx src/client.ts'"
   },
   "dependencies": {
+    "@cloudflare/workers-types": "^4.20260518.1",
     "@trpc/server": "^11.11.0",
+    "wrangler": "^4.92.0",
     "xal-node": "^1.1.5",
     "xbox-webapi": "2.0.0-beta4",
     "zod": "^4.3.5"

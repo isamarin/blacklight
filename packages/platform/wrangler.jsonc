@@ -1,0 +1,10 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "cloudflare-workers",
+  "main": "src/worker.ts",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  // Set this to today's date
+  "compatibility_date": "2026-05-18"
+}
