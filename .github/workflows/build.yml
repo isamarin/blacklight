@@ -598,7 +598,7 @@ jobs:
     name: "Dependabot Auto-Merge Check"
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' && github.actor == 'dependabot[bot]' && github.event.pull_request.user.login == 'dependabot[bot]'
-    needs: [build_docs, flatpak, release]
+    needs: [build_docs, flatpak, release, flatpak_v3, release_v3]
     permissions:
       pull-requests: write
       contents: write
