@@ -4,7 +4,7 @@
  */
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "polished-hall-11d4",
+	"name": "greenlight",
 	"main": "src/index.ts",
 	"compatibility_date": "2026-05-18",
 	"compatibility_flags": [
