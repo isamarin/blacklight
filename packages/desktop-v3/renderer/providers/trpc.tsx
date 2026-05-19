@@ -3,6 +3,7 @@ import { httpBatchLink, createTRPCClient, TRPCClientError } from '@trpc/client';
 import { useState, ReactNode } from 'react';
 import { TRPCProvider } from '../utils/trpc';
 import { appRouter } from '@greenlight/platform';
+import { ipcLink } from '../utils/ipc-link';
 
 function makeQueryClient() {
   return new QueryClient({
@@ -60,20 +61,12 @@ export const TrpcProviderComponent = ({ children }: { children: ReactNode }) => 
   const [trpcClient] = useState(() =>
     createTRPCClient<typeof appRouter>({
       links: [
-        // wsLink({
-        //     client: createWSClient({
-        //         url: createWebsocketUrl(),
-        //     }),
-        // })
-        httpBatchLink({
-          url: 'https://greenlight.info-5b7.workers.dev/trpc',
-          // Optional: Add headers or other configuration
-          // headers() {
-          //   return {
-          //     authorization: getAuthToken(),
-          //   };
-          // },
-        }),
+        // Use IPC when running inside Electron, fall back to HTTP for web builds
+        typeof window !== 'undefined' && 'trpcIpc' in window
+          ? ipcLink<typeof appRouter>()
+          : httpBatchLink({
+              url: 'https://greenlight.info-5b7.workers.dev/trpc',
+            }),
       ],
     }),
   );

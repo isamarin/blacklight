@@ -2,6 +2,7 @@ import path from 'path'
 import { app, ipcMain } from 'electron'
 import serve from 'electron-serve'
 import { createWindow } from './helpers/create-window'
+import { setupTrpcHandler } from './trpc-handler'
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -12,6 +13,7 @@ if (isProd) {
 }
 
 ;(async () => {
+  setupTrpcHandler()
   await app.whenReady()
 
   const mainWindow = createWindow('main', {

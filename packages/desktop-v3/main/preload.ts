@@ -15,6 +15,14 @@ const handler = {
   },
 }
 
+const trpcIpcHandler = {
+  invoke(op: { path: string; type: string; input: unknown }) {
+    return ipcRenderer.invoke('trpc', op)
+  },
+}
+
 contextBridge.exposeInMainWorld('ipc', handler)
+contextBridge.exposeInMainWorld('trpcIpc', trpcIpcHandler)
 
 export type IpcHandler = typeof handler
+export type TrpcIpcHandler = typeof trpcIpcHandler
