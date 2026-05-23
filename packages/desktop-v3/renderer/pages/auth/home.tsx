@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Head from 'next/head'
 
 // import { useQueryClient } from "@tanstack/react-query";
-// import { useTRPC } from "../../utils/trpc";
+import { useTRPC, RouterOutputs } from "../../utils/trpc";
 import { useAuth } from '../../contexts/AuthContext';
 
 export default function HomePage() {
@@ -10,16 +10,27 @@ export default function HomePage() {
   // const queryClient = useQueryClient();
 
   // const { isAuthenticated, isAuthenticating, authState, startAuth } = useAuth();
-  const { startAuth } = useAuth();
+  const { startAuth, verifyCode } = useAuth();
+  const [authFlow, setAuthFlow] = useState<RouterOutputs["auth_msal_start"] | undefined>(undefined);
 
-  const getMessage = () => {
-    startAuth().then((result) => {
-      console.log('Authentication result:', result);
-      document.getElementById('login-message')!.textContent = result?.message || 'Authentication failed';
+  if(!authFlow){
+    // const authState = useQuery(trpc.auth_msal_start.queryOptions());
+    // const authState = await queryClient.fetchQuery(trpc.auth_msal_start.queryOptions());
+    startAuth().then(async (authState) => {
+      console.log('Authentication flow started:', authState);
+      setAuthFlow(authState)
+
+      if(authState) {
+        const tokens = await verifyCode(authState.device_code);
+        console.log('Device code verified, tokens:', tokens);
+
+      } else {
+        console.error('Failed to start authentication flow');
+      }
+
     }).catch((error) => {
-      console.error('Error during authentication:', error);
+      console.error('Failed to start authentication flow:', error);
     });
-    return "Retrieving login details...";
   }
 
   return (
@@ -43,7 +54,7 @@ export default function HomePage() {
                     <h2 className="text-2xl font-bold text-white mb-1">You need to authenticate</h2>
                     <p className="text-white/40 text-sm">Login with your xbox account to continue</p>
 
-                    <p id="login-message">{getMessage()}</p>
+                    <p id="login-message">{ authFlow?.message || 'Retrieving login details...'}</p>
                   </div>
                 </div>
               </div>
