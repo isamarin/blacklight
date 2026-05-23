@@ -65,7 +65,7 @@ export const TrpcProviderComponent = ({ children }: { children: ReactNode }) => 
         typeof window !== 'undefined' && 'trpcIpc' in window
           ? ipcLink<typeof appRouter>()
           : httpBatchLink({
-              url: 'https://greenlight.info-5b7.workers.dev/trpc',
+              url: '/trpc',
             }),
       ],
     }),
