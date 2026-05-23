@@ -100,9 +100,11 @@ export default class Authentication {
         }).catch((err) => {
             this._application.log('authenticationV2', '[startSilentFlow()] Failed to retrieve streaming tokens:', err)
             dialog.showMessageBox({
-                message: this.t('errors.failedToRetrieveStreamingTokens') + ' ' + JSON.stringify(err),
+                message: "Failed to retrieve streaming tokens. Please sign in again.",
                 type: 'error',
             })
+            // @TODO: If we fail to get streaming tokens, we should probably start the auth flow to let the user re-authenticate and get new tokens.
+            this.startAuthflow()
         })
     }
 
