@@ -11,6 +11,7 @@
 		"cf-typegen": "wrangler types"
 	},
 	"devDependencies": {
+		"@greenlight/platform": "*",
 		"@cloudflare/vitest-pool-workers": "^0.12.4",
 		"@types/node": "^25.0.2",
 		"typescript": "^5.5.2",
