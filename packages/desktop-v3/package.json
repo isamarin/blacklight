@@ -23,7 +23,7 @@
     "@trpc/tanstack-react-query": "^11.17.0",
     "electron-serve": "^3.0.0",
     "electron-store": "^11.0.2",
-    "react-qr-code": "^2.0.21",
+    "react-qr-code": "^2.2.0",
     "wrangler": "^4.92.0"
   },
   "devDependencies": {
