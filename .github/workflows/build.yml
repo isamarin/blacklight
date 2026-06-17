@@ -632,6 +632,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build_docs
     if: github.ref == 'refs/heads/main-v2'
+    continue-on-error: true
     permissions:
       pages: write
       id-token: write
@@ -639,6 +640,7 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment-pages
         uses: actions/deploy-pages@v5
+        continue-on-error: true
 
       - name: Info
         run: echo "Deployed to ${{ steps.deployment-pages.outputs.page_url }}"
