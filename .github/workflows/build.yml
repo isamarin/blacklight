@@ -288,108 +288,6 @@ jobs:
           path: |
             packages/desktop-v3/web-out/*
 
-  release_v3:
-    name: "V3: Build/release Electron app"
-    runs-on: ${{ matrix.os }}
-    needs: [test_v3]
-
-    strategy:
-      matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
-
-    steps:
-      - name: Checkout Git repository
-        uses: actions/checkout@v6
-        with:
-          submodules: recursive
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.4.1
-
-      - name: Install Node.js
-        uses: actions/setup-node@v6.4.0
-        with:
-          node-version: ${{ env.node_version }}
-          cache: 'pnpm'
-
-      - name: Set up node_modules cache
-        if: matrix.os != 'windows-latest'
-        uses: actions/cache@v5
-        continue-on-error: false
-        with:
-          path: |
-            node_modules/
-          key: ${{ runner.os }}-${{ runner.arch }}-pnpm-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: ${{ runner.os }}-${{ runner.arch }}-pnpm-
-
-      - name: Install rimraf (if reset_cache enabled)
-        if: env.reset_cache == 'true'
-        run: npm install -g rimraf
-
-      - name: Reset node_modules cache (if reset_cache enabled)
-        if: env.reset_cache == 'true'
-        run: rimraf node_modules/
-
-      - name: Clean node_modules on Windows
-        if: matrix.os == 'windows-latest'
-        shell: pwsh
-        run: |
-          if (Test-Path node_modules) {
-            Remove-Item -Recurse -Force node_modules
-          }
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build workspace dependencies
-        run: pnpm build:depsv3
-
-      - name: Build Electron app
-        run: pnpm desktopv3 build
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Publish Electron release
-        if: startsWith(github.ref, 'refs/tags/v3')
-        working-directory: packages/desktop-v3
-        run: npx electron-builder --publish always
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Publish Linux AppImage
-        uses: actions/upload-artifact@v7
-        with:
-          name: greenlight-v3-linux.AppImage
-          path: |
-            packages/desktop-v3/dist/*.AppImage
-        if: matrix.os == 'ubuntu-latest' && contains(github.event.head_commit.message, '[build]')
-
-      - name: Publish Linux DEB
-        uses: actions/upload-artifact@v7
-        with:
-          name: greenlight-v3-linux.deb
-          path: |
-            packages/desktop-v3/dist/*.deb
-        if: matrix.os == 'ubuntu-latest' && contains(github.event.head_commit.message, '[build]')
-
-      - name: Publish Mac DMG
-        uses: actions/upload-artifact@v7
-        with:
-          name: greenlight-v3-macos.dmg
-          path: |
-            packages/desktop-v3/dist/*.dmg
-        if: matrix.os == 'macos-latest' && contains(github.event.head_commit.message, '[build]')
-
-      - name: Publish Windows EXE
-        uses: actions/upload-artifact@v7
-        with:
-          name: greenlight-v3-win.zip
-          path: |
-            packages/desktop-v3/dist/*.zip
-        if: matrix.os == 'windows-latest' && contains(github.event.head_commit.message, '[build]')
-
   tauri_macos:
     name: "Tauri: Build macOS"
     runs-on: macos-latest
@@ -596,7 +494,7 @@ jobs:
     name: "Dependabot Auto-Merge Check"
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' && github.actor == 'dependabot[bot]' && github.event.pull_request.user.login == 'dependabot[bot]'
-    needs: [build_docs, release, release_v3, tauri_macos, tauri_windows]
+    needs: [build_docs, release, tauri_macos, tauri_windows]
     permissions:
       pull-requests: write
       contents: write

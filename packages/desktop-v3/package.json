@@ -1,35 +1,27 @@
 {
   "private": true,
   "name": "greenlight-desktop-v3",
-  "description": "Greenlight is a streaming application for Xbox and xCloud",
+  "description": "Greenlight desktop UI (Next.js renderer for Tauri)",
   "version": "2026.07.1-alpha.1",
   "author": "Igor Samarin <mako.mmw@gmail.com>",
   "type": "module",
-  "main": "app/main.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/isamarin/greenlight.git"
   },
   "scripts": {
-    "dev": "nextron",
+    "dev": "pnpm --filter greenlight-desktop-tauri dev",
+    "dev:renderer": "cd renderer && next dev",
     "dev:web": "cd renderer && BUILD_TARGET=web next build && cd ../ && npx wrangler pages dev",
-    "build": "nextron build",
     "build:renderer": "node scripts/build-renderer.mjs",
-    "build:web": "cd renderer && BUILD_TARGET=web next build",
-    "flatpak-build": "nextron build --no-pack && electron-builder --dir",
-    "postinstall": "electron-builder install-app-deps"
+    "build:web": "cd renderer && BUILD_TARGET=web next build"
   },
   "dependencies": {
     "@greenlight/player": "workspace:*",
     "@tauri-apps/plugin-opener": "^2.5.0",
     "@tanstack/react-query": "^5.100.11",
     "@trpc/client": "^11.17.0",
-    "@trpc/server": "^11.17.0",
     "@trpc/tanstack-react-query": "^11.17.0",
-    "electron-serve": "^3.0.0",
-    "electron-store": "^11.0.2",
-    "express": "^5.2.1",
-    "express-http-proxy": "^2.1.1",
     "i18next": "^25.8.0",
     "react-i18next": "^17.0.7",
     "react-qr-code": "^2.2.0",
@@ -38,13 +30,9 @@
   "devDependencies": {
     "@greenlight/platform": "workspace:*",
     "@tailwindcss/postcss": "^4.2.2",
-    "@types/express": "^5.0.6",
     "@types/node": "^22.15.0",
     "@types/react": "^19.2.17",
-    "electron": "^42.4.1",
-    "electron-builder": "^26.8.1",
     "next": "^16.2.1",
-    "nextron": "^10.0.0",
     "postcss": "^8.5.8",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",

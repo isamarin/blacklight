@@ -5,7 +5,7 @@ import SettingsSidebar from '../../components/settings/SettingsSidebar'
 import Card from '../../components/ui/Card'
 import Button from '../../components/ui/Button'
 import { useSettings } from '../../contexts/SettingsContext'
-import { getWebuiApi, isDesktopShell, isWebUIMode, openExternal } from '../../utils/electron'
+import { getWebuiApi, isDesktopShell, isWebUIMode, openExternal } from '../../utils/runtime'
 
 export default function SettingsWebUIPage() {
   const { t } = useTranslation()

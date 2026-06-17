@@ -15,17 +15,13 @@ export function isTauriApp(): boolean {
   return typeof window !== 'undefined' && '__TAURI_INTERNALS__' in window
 }
 
-export function isElectronApp(): boolean {
-  return typeof window !== 'undefined' && 'trpcIpc' in window
-}
-
 /** Browser tab pointed at the local WebUI server (not the desktop shell). */
 export function isWebUIMode(): boolean {
-  return typeof window !== 'undefined' && !isElectronApp() && !isTauriApp()
+  return typeof window !== 'undefined' && !isTauriApp()
 }
 
 export function isDesktopShell(): boolean {
-  return isElectronApp() || isTauriApp()
+  return isTauriApp()
 }
 
 export function getTrpcHttpUrl(): string {
@@ -40,20 +36,10 @@ export function getTrpcHttpUrl(): string {
   return '/trpc'
 }
 
-export function getGreenlightBridge() {
-  return typeof window !== 'undefined' ? window.greenlight : undefined
-}
-
 export async function openExternal(url: string): Promise<void> {
   if (isTauriApp()) {
     const { openUrl } = await import('@tauri-apps/plugin-opener')
     await openUrl(url)
-    return
-  }
-
-  const bridge = getGreenlightBridge()
-  if (bridge?.shell?.openExternal) {
-    await bridge.shell.openExternal(url)
     return
   }
 
@@ -101,10 +87,6 @@ export const tauriSidecar = {
 }
 
 export function getWebuiApi() {
-  const bridge = getGreenlightBridge()
-  if (bridge?.webui) {
-    return bridge.webui
-  }
   if (isTauriApp() || isWebUIMode()) {
     return tauriSidecar
   }

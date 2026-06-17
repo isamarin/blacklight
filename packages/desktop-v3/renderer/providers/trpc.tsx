@@ -3,29 +3,24 @@ import { httpBatchLink, createTRPCClient, TRPCClientError } from '@trpc/client';
 import { useState, ReactNode } from 'react';
 import { TRPCProvider } from '../utils/trpc';
 import { appRouter } from '@greenlight/platform';
-import { ipcLink } from '../utils/ipc-link';
-import { getTrpcHttpUrl, isElectronApp } from '../utils/runtime';
+import { getTrpcHttpUrl } from '../utils/runtime';
 
 function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        // With SSR, we usually want to set some default staleTime
-        // above 0 to avoid refetching immediately on the client
         staleTime: 1000 * 5,
       },
     },
     queryCache: new QueryCache({
       onError: (error) => {
         const message = getTrpcErrorMessage(error);
-        // showErrorToast(message);
         console.log("Query Error:", message);
       },
     }),
     mutationCache: new MutationCache({
       onError: (error) => {
         const message = getTrpcErrorMessage(error);
-        // showErrorToast(message);
         console.log("Mutation Error:", message);
       },
     }),
@@ -45,29 +40,15 @@ function getTrpcErrorMessage(error: unknown): string {
 function getQueryClient() {
     return makeQueryClient();
 }
-// function createWebsocketUrl() {
-//     let wsPort = 5050
-//     let wsHost = 'localhost'
-//     let wsProtocol = 'ws'
 
-//     if (typeof window !== "undefined") {
-//       wsPort = Number(localStorage.getItem('ws_port')) || 5050
-//       wsHost = localStorage.getItem('ws_host') || 'localhost'
-//       wsProtocol = localStorage.getItem('ws_protocol') || 'ws'
-//     }
-//     return `${wsProtocol}://${wsHost}:${wsPort}`;
-// }
 export const TrpcProviderComponent = ({ children }: { children: ReactNode }) => {
   const queryClient = getQueryClient();
   const [trpcClient] = useState(() =>
     createTRPCClient<typeof appRouter>({
       links: [
-        // Electron legacy: IPC. Tauri + WebUI: HTTP to local sidecar.
-        typeof window !== 'undefined' && isElectronApp()
-          ? ipcLink<typeof appRouter>()
-          : httpBatchLink({
-              url: getTrpcHttpUrl(),
-            }),
+        httpBatchLink({
+          url: getTrpcHttpUrl(),
+        }),
       ],
     }),
   );
