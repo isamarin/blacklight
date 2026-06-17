@@ -137,6 +137,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Remove node_modules before flatpak source generation
+        run: rm -rf node_modules/
+
       - name: Build pnpm cache
         run: flatpak-node-generator pnpm pnpm-lock.yaml -o ./deps-dist/pnpm-sources.json --electron-node-headers
 
@@ -184,12 +187,7 @@ jobs:
       - name: Free Disk Space (Ubuntu)
         uses: jlumbroso/free-disk-space@main
         with:
-          # this might remove tools that are actually needed,
-          # when set to "true" but frees about 6 GB
           tool-cache: true
-          
-          # all of these default to true, but feel free to set to
-          # "false" if necessary for your workflow
           android: true
           dotnet: true
           haskell: true
@@ -450,12 +448,7 @@ jobs:
       - name: Free Disk Space (Ubuntu)
         uses: jlumbroso/free-disk-space@main
         with:
-          # this might remove tools that are actually needed,
-          # when set to "true" but frees about 6 GB
           tool-cache: true
-          
-          # all of these default to true, but feel free to set to
-          # "false" if necessary for your workflow
           android: true
           dotnet: true
           haskell: true
@@ -637,11 +630,10 @@ jobs:
 
       - name: Upload static files as artifact
         id: deployment-pages
-        uses: actions/upload-pages-artifact@v5 # or specific "vX.X.X" version tag for this action
+        uses: actions/upload-pages-artifact@v5
         with:
           path: packages/docs/out/
 
-  # Deployment job
   deploy:
     name: "Global: Deploy Docs"
     environment:
@@ -663,9 +655,6 @@ jobs:
       - name: Info
         run: echo "Deployed to ${{ steps.deployment-pages.outputs.page_url }}"
 
-  ###
-  # Dependabot Auto-Merge Check
-  ###
   dependabot-merge:
     name: "Dependabot Auto-Merge Check"
     runs-on: ubuntu-latest
@@ -675,13 +664,11 @@ jobs:
       pull-requests: write
       contents: write
     steps:
-
       - name: Merge when build succeeds
         uses: actions/github-script@v9
         with:
           script: |
             console.log('Build passed, automerging Dependabot PR...');
-
             await github.rest.pulls.createReview({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -689,12 +676,9 @@ jobs:
               event: 'APPROVE',
               body: 'Build passed, automerging Dependabot PR...',
             });
-            console.log('Dependabot PR approved successfully.');
-
             await github.rest.pulls.merge({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: context.payload.pull_request.number,
               merge_method: 'merge',
             });
-            console.log('Dependabot PR merged successfully.');
