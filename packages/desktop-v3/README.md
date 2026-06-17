@@ -1,10 +1,8 @@
-# Greenlight Desktop v3
+# Greenlight Desktop UI
 
-Modern Electron + Next.js version of Greenlight.
+Next.js renderer and web build for Greenlight. Bundled into the Tauri desktop shell (`packages/desktop-tauri`).
 
 **Maintainer:** Igor Samarin ([@isamarin](https://github.com/isamarin)) — mako.mmw@gmail.com
-
-> Active development target of the [isamarin/greenlight](https://github.com/isamarin/greenlight) fork.
 
 ## Development
 
@@ -13,7 +11,13 @@ From the repository root:
 ```bash
 pnpm install
 pnpm build:depsv3
-pnpm desktopv3 dev
+pnpm desktop-tauri dev
+```
+
+Renderer only (without Tauri shell):
+
+```bash
+pnpm desktopv3 dev:renderer
 ```
 
 From this package directory:

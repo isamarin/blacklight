@@ -2,12 +2,13 @@
 
 [![Build](https://github.com/isamarin/greenlight/actions/workflows/build.yml/badge.svg)](https://github.com/isamarin/greenlight/actions/workflows/build.yml)
 
-Greenlight is an open-source client for xCloud and Xbox home streaming made in Javascript and Typescript. The client is an application wrapper around [xbox-xcloud-player](https://github.com/unknownskl/xbox-xcloud-player).
-The application runs on Linux, macOS, Windows and Steam Deck.
+Greenlight is an open-source client for xCloud and Xbox home streaming, built with JavaScript and TypeScript. The streaming engine is powered by [xbox-xcloud-player](https://github.com/unknownskl/xbox-xcloud-player).
+
+Desktop builds are available for **macOS** and **Windows** (Tauri). Linux desktop support is planned.
 
 **Maintainer:** Igor Samarin ([@isamarin](https://github.com/isamarin)) — mako.mmw@gmail.com
 
-> This repository is a fork of [unknownskl/greenlight](https://github.com/unknownskl/greenlight), maintained independently with CalVer versioning and continued development of desktop-v3.
+> Originally derived from [unknownskl/greenlight](https://github.com/unknownskl/greenlight). This project is now maintained independently under CalVer versioning.
 
 _DISCLAIMER: Greenlight is not affiliated with Microsoft, Xbox or Moonlight. All rights and trademarks are property of their respective owners._
 
@@ -26,10 +27,6 @@ _DISCLAIMER: Greenlight is not affiliated with Microsoft, Xbox or Moonlight. All
 ### Download pre-compiled binaries
 
 [Latest releases](https://github.com/isamarin/greenlight/releases)
-
-### Install from Flathub (upstream build)
-
-[Install on Flathub](https://flathub.org/apps/details/io.github.unknownskl.greenlight)
 
 ### Compile from source
 
@@ -84,6 +81,7 @@ Click on the Xbox logo at the top-left. It will ask you to confirm to close the 
 
 - Node.js ([https://nodejs.org/](https://nodejs.org/))
 - pnpm ([https://pnpm.io/](https://pnpm.io/))
+- Rust toolchain (for Tauri desktop builds)
 
 ### Steps to get up and running
 
@@ -96,17 +94,18 @@ Install dependencies:
 
     pnpm install
 
-Run development build (desktop v2):
+Run development build (Tauri desktop — recommended):
+
+    pnpm build:depsv3
+    pnpm desktop-tauri dev
+
+Run development build (legacy desktop v2, Electron):
 
     pnpm desktop dev
 
-Run development build (desktop v3):
+Create production build (Tauri):
 
-    pnpm desktopv3 dev
-
-Create production build:
-
-    pnpm desktop build
+    pnpm desktop-tauri build
 
 ## Translations
 

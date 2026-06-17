@@ -12,7 +12,7 @@ export const baseOptions: BaseLayoutProps = {
     title: 'Greenlight',
     url: '/docs'
   },
-  githubUrl: 'https://github.com/unknownskl/greenlight',
+  githubUrl: 'https://github.com/isamarin/greenlight',
   links: [
     {
       text: 'Home',

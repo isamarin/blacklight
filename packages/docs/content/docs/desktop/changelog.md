@@ -5,12 +5,13 @@ description: Changelogs
 
 ### Changelog
 
-> **Fork maintainer:** Igor Samarin ([@isamarin](https://github.com/isamarin)) — [isamarin/greenlight](https://github.com/isamarin/greenlight)
+> **Maintainer:** Igor Samarin ([@isamarin](https://github.com/isamarin)) — [isamarin/greenlight](https://github.com/isamarin/greenlight)
 >
 > Entries below v2.4.2 are from the original project by UnknownSKL ([unknownskl/greenlight](https://github.com/unknownskl/greenlight)).
 
-## Unreleased (fork)
+## Unreleased
 
+- Full product rebrand: `com.isamarin.greenlight`, `io.github.isamarin.greenlight`
 - Tauri desktop shell for Windows/macOS with bundled Node sidecar
 - Electron V3 removed; `desktop-v3` is UI renderer only
 - CI: Tauri builds replace V3 Electron + Flatpak

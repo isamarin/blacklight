@@ -47,7 +47,16 @@ export default function SettingsHomePage() {
             </select>
           </Card>
           <Card>
-            <p className="text-white/40 text-sm mb-3">Greenlight desktop-v3</p>
+            <p className="text-white/40 text-sm mb-3">
+              <a
+                href="https://github.com/isamarin/greenlight"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-white/60"
+              >
+                github.com/isamarin/greenlight
+              </a>
+            </p>
             <Button label="Logout" onClick={logout} className="bg-red-900 hover:bg-red-800" />
           </Card>
         </div>

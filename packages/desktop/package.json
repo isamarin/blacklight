@@ -3,11 +3,11 @@
   "name": "greenlight-desktop",
   "description": "Greenlight is a streaming application for Xbox and xCloud",
   "version": "2.4.2",
-  "author": "UnknownSKL <info+github@jimkroon.nl>",
+  "author": "Igor Samarin <mako.mmw@gmail.com>",
   "main": "app/background.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/unknownskl/greenlight.git"
+    "url": "git+https://github.com/isamarin/greenlight.git"
   },
   "scripts": {
     "dev": "DEBUG=greenlight:* nextron",

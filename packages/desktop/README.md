@@ -1,10 +1,10 @@
 # Greenlight Desktop (v2)
 
-Legacy Electron client for Xbox and xCloud streaming.
+Legacy Electron client for Xbox and xCloud streaming. Kept for reference; active desktop development uses Tauri (`packages/desktop-tauri`).
 
 **Maintainer:** Igor Samarin ([@isamarin](https://github.com/isamarin))
 
-> Fork of [unknownskl/greenlight](https://github.com/unknownskl/greenlight). For general project info, see the [root README](../../README.md).
+For general project info, see the [root README](../../README.md).
 
 ## Local Development
 

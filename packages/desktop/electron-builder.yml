@@ -1,6 +1,6 @@
-appId: com.unknownskl.greenlight
+appId: com.isamarin.greenlight
 productName: Greenlight
-copyright: Copyright © 2021-2024 UnknownSKL
+copyright: Copyright © 2021-2024 UnknownSKL; Copyright © 2026 Igor Samarin
 
 directories:
   output: dist

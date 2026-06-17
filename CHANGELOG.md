@@ -6,6 +6,11 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
 
+### Changed (rebrand)
+- Product branding: `com.isamarin.greenlight` (Tauri + Electron), `io.github.isamarin.greenlight` (Flatpak)
+- Repository, docs, FUNDING, and in-app links point to [isamarin/greenlight](https://github.com/isamarin/greenlight)
+- README and package metadata reflect independent maintenance by Igor Samarin
+
 ### Added (desktop-tauri)
 - Bundled Node sidecar (`esbuild` + `pkg`) shipped as Tauri `externalBin`
 - Sidecar auto-spawn on app start with `GREENLIGHT_STATIC_DIR` and `GREENLIGHT_DATA_DIR`
