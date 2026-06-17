@@ -1,38 +1,11 @@
-<p align="center"><img src="https://i.imgur.com/a9QWW0v.png"></p>
+# Greenlight Desktop v3
 
-## Usage
+Modern Electron + Next.js version of Greenlight.
 
-### Create an App
+## Development
 
-```
-# with npx
-$ npx create-nextron-app my-app --example with-tailwindcss
-
-# with yarn
-$ yarn create nextron-app my-app --example with-tailwindcss
-
-# with pnpm
-$ pnpm dlx create-nextron-app my-app --example with-tailwindcss
-```
-
-### Install Dependencies
-
-```
-$ cd my-app
-
-# using yarn or npm
-$ yarn (or `npm install`)
-
-# using pnpm
-$ pnpm install --shamefully-hoist
-```
-
-### Use it
-
-```
-# development mode
-$ yarn dev (or `npm run dev` or `pnpm run dev`)
-
-# production build
-$ yarn build (or `npm run build` or `pnpm run build`)
+```bash
+yarn install
+cd packages/desktop-v3
+yarn dev
 ```
