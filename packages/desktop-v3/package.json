@@ -27,7 +27,7 @@
     "wrangler": "^4.92.0"
   },
   "devDependencies": {
-    "@greenlight/platform": "*",
+    "@greenlight/platform": "workspace:*",
     "@tailwindcss/postcss": "^4.2.2",
     "@types/node": "^22.15.0",
     "@types/react": "^19.2.17",

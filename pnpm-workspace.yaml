@@ -1,0 +1,9 @@
+packages:
+  - packages/logger
+  - packages/player
+  - packages/pages
+  - packages/platform
+  - packages/platform-playground
+  - packages/desktop
+  - packages/desktop-v3
+  - packages/docs

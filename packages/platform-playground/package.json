@@ -3,16 +3,16 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "predev": "yarn workspace @greenlight/player build && yarn workspace @greenlight/platform build && yarn workspace @greenlight/player build",
-    "dev": "concurrently \"yarn server\" \"yarn vite\"",
+    "predev": "pnpm --filter @greenlight/player build && pnpm --filter @greenlight/platform build",
+    "dev": "concurrently \"pnpm run server\" \"pnpm run vite\"",
     "server": "tsx watch src/server/index.ts",
     "vite": "vite",
-    "build": "yarn workspace @greenlight/platform build && yarn workspace @greenlight/player build && tsc && vite build",
+    "build": "pnpm --filter @greenlight/platform build && pnpm --filter @greenlight/player build && tsc && vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist/"
   },
   "dependencies": {
-    "@greenlight/platform": "*",
+    "@greenlight/platform": "workspace:*",
     "@tanstack/react-query": "^5.100.11",
     "@trpc/client": "^11.17.0",
     "@trpc/server": "^11.11.0",

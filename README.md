@@ -1,15 +1,13 @@
 # Greenlight
 
-[![Build/Desktop](https://github.com/unknownskl/greenlight/actions/workflows/build_desktop.yml/badge.svg)](https://github.com/unknownskl/greenlight/actions/workflows/build_desktop.yml)
-[![Build/Docs](https://github.com/unknownskl/greenlight/actions/workflows/build_docs.yml/badge.svg)](https://github.com/unknownskl/greenlight/actions/workflows/build_docs.yml)
-
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=unknownskl_greenlight&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=unknownskl_greenlight)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=unknownskl_greenlight&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=unknownskl_greenlight)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=unknownskl_greenlight&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=unknownskl_greenlight)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=unknownskl_greenlight&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=unknownskl_greenlight)
+[![Build](https://github.com/isamarin/greenlight/actions/workflows/build.yml/badge.svg)](https://github.com/isamarin/greenlight/actions/workflows/build.yml)
 
 Greenlight is an open-source client for xCloud and Xbox home streaming made in Javascript and Typescript. The client is an application wrapper around [xbox-xcloud-player](https://github.com/unknownskl/xbox-xcloud-player).
 The application runs on Linux, macOS, Windows and Steam Deck.
+
+**Maintainer:** Igor Samarin ([@isamarin](https://github.com/isamarin)) — mako.mmw@gmail.com
+
+> This repository is a fork of [unknownskl/greenlight](https://github.com/unknownskl/greenlight), maintained independently with CalVer versioning and continued development of desktop-v3.
 
 _DISCLAIMER: Greenlight is not affiliated with Microsoft, Xbox or Moonlight. All rights and trademarks are property of their respective owners._
 
@@ -25,15 +23,17 @@ _DISCLAIMER: Greenlight is not affiliated with Microsoft, Xbox or Moonlight. All
 
 ## Install
 
-### Install from Flathub:
-[Install on Flathub](https://flathub.org/apps/details/io.github.unknownskl.greenlight)
+### Download pre-compiled binaries
 
-### Download pre-compiled binaries:
-[Latest releases can be found here](https://github.com/unknownskl/greenlight/releases).
+[Latest releases](https://github.com/isamarin/greenlight/releases)
+
+### Install from Flathub (upstream build)
+
+[Install on Flathub](https://flathub.org/apps/details/io.github.unknownskl.greenlight)
 
 ### Compile from source
 
-See [Local development](?tab=readme-ov-file#local-development).
+See [Local development](#local-development).
 
 ## Keyboard controls
 
@@ -82,32 +82,36 @@ Click on the Xbox logo at the top-left. It will ask you to confirm to close the 
 
 ### Requirements
 
-- NodeJS ([https://nodejs.org/](https://nodejs.org/))
-- Yarn ([https://yarnpkg.com/](https://yarnpkg.com/))
+- Node.js ([https://nodejs.org/](https://nodejs.org/))
+- pnpm ([https://pnpm.io/](https://pnpm.io/))
 
 ### Steps to get up and running
 
 Clone the repository:
 
-    git clone https://github.com/unknownskl/greenlight.git
+    git clone https://github.com/isamarin/greenlight.git
     cd greenlight
 
 Install dependencies:
 
-    yarn
+    pnpm install
 
-Run development build:
+Run development build (desktop v2):
 
-    yarn desktop dev
+    pnpm desktop dev
+
+Run development build (desktop v3):
+
+    pnpm desktopv3 dev
 
 Create production build:
 
-    yarn desktop build
+    pnpm desktop build
 
 ## Translations
 
-Want to help out with new translations? Help us on [https://poeditor.com/join/project/9SfHRQDbfN](Poeditor.com)
+Want to help out with new translations? Help us on [Poeditor.com](https://poeditor.com/join/project/9SfHRQDbfN)
 
 ## Changelog
 
-See [changelog](https://unknownskl.github.io/greenlight/docs/desktop/changelog).
+See [CHANGELOG.md](CHANGELOG.md)

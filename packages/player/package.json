@@ -19,10 +19,10 @@
   "scripts": {
     "build:client": "vite build",
     "build:server": "tsup",
-    "build": "yarn clean && yarn build:client && yarn build:server",
+    "build": "pnpm run clean && pnpm run build:client && pnpm run build:server",
     "clean": "rm -rf dist/",
     "test": "mocha",
-    "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\"",
+    "dev": "concurrently \"pnpm run dev:server\" \"pnpm run dev:client\"",
     "dev:client": "vite build --watch",
     "dev:server": "tsup --watch"
   },

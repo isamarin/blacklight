@@ -2,35 +2,24 @@
   "private": true,
   "name": "greenlight",
   "description": "Greenlight is a streaming application for Xbox and xCloud",
-  "author": "UnknownSKL <info+github@jimkroon.nl>",
+  "author": "Igor Samarin <mako.mmw@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/unknownskl/greenlight.git"
+    "url": "git+https://github.com/isamarin/greenlight.git"
   },
   "scripts": {
-    "desktop": "yarn workspace greenlight-desktop",
-    "desktopv3": "yarn workspace greenlight-desktop-v3",
-    "docs": "yarn workspace @greenlight/docs",
-    "logger": "yarn workspace @greenlight/logger",
-    "platform": "yarn workspace @greenlight/platform",
-    "playground": "yarn workspace @greenlight/platform-playground",
-    "player": "yarn workspace @greenlight/player",
-    "pages": "yarn workspace @greenlight/pages",
-
-    "build:depsv3": "yarn logger build && yarn player build && yarn platform build",
-    "build:pages": "yarn build:depsv3 && yarn pages build",
-    "deploy:pages": "yarn pages deploy",
-    "test:v3": "yarn logger test && yarn platform test"
+    "desktop": "pnpm --filter greenlight-desktop",
+    "desktopv3": "pnpm --filter greenlight-desktop-v3",
+    "docs": "pnpm --filter @greenlight/docs",
+    "logger": "pnpm --filter @greenlight/logger",
+    "platform": "pnpm --filter @greenlight/platform",
+    "playground": "pnpm --filter @greenlight/platform-playground",
+    "player": "pnpm --filter @greenlight/player",
+    "pages": "pnpm --filter @greenlight/pages",
+    "build:depsv3": "pnpm logger build && pnpm player build && pnpm platform build",
+    "build:pages": "pnpm build:depsv3 && pnpm pages build",
+    "deploy:pages": "pnpm pages deploy",
+    "test:v3": "pnpm logger test && pnpm platform test"
   },
-  "workspaces": [
-    "packages/logger",
-    "packages/player",
-    "packages/pages",
-    "packages/platform",
-    "packages/platform-playground",
-    "packages/desktop",
-    "packages/desktop-v3",
-    "packages/docs"
-  ],
   "packageManager": "pnpm@10.4.1"
 }

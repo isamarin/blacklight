@@ -5,10 +5,10 @@
   "license": "MIT",
   "main": "dist/index.js",
   "scripts": {
-    "start": "yarn build && node dist/index.js",
+    "start": "pnpm run build && node dist/index.js",
     "build": "tsc --build",
     "clean": "rm -rf dist/",
-    "test": "yarn build && mocha tests/**.ts tests/**/*.ts"
+    "test": "pnpm run build && mocha tests/**.ts tests/**/*.ts"
   },
   "devDependencies": {
     "@types/chai": "^5.2.3",

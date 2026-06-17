@@ -9,14 +9,14 @@ on:
       - v*
     paths:
       - 'packages/**'
-      - 'yarn.lock'
+      - 'pnpm-lock.yaml'
       - '.github/workflows/*.yml'
   pull_request:
     branches:
       - main-v2
     paths:
       - 'packages/**'
-      - 'yarn.lock'
+      - 'pnpm-lock.yaml'
       - '.github/workflows/*.yml'
   workflow_dispatch:
     inputs:
@@ -43,29 +43,24 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Install Node.js, NPM and Yarn
+      - name: Install Node.js and pnpm
         uses: actions/setup-node@v6.4.0
         with:
           node-version: ${{ env.node_version }}
-      
-      - name: Set up node_modules cache
-        uses: actions/cache@v5
-        continue-on-error: false
-        with:
-          path: |
-            node_modules/
-          key: ${{ runner.os }}-${{ runner.arch }}-yarn-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}-${{ runner.arch }}-yarn-
+          cache: 'pnpm'
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Reset node_modules cache (if enabled)
         if: env.reset_cache == 'true'
         run: rm -rf node_modules/
 
-      - name: Install yarn dependencies
-        run: yarn
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Lint code
-        run: yarn desktop lint
+        run: pnpm desktop lint
 
   tests:
     name: "V2: Run tests"
@@ -77,25 +72,20 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Install Node.js, NPM and Yarn
+      - name: Install Node.js and pnpm
         uses: actions/setup-node@v6.4.0
         with:
           node-version: ${{ env.node_version }}
-      
-      - name: Set up node_modules cache
-        uses: actions/cache@v5
-        continue-on-error: false
-        with:
-          path: |
-            node_modules/
-          key: ${{ runner.os }}-${{ runner.arch }}-yarn-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}-${{ runner.arch }}-yarn-
+          cache: 'pnpm'
 
-      - name: Install yarn dependencies
-        run: yarn
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Run tests
-        run: yarn desktop test
+        run: pnpm desktop test
 
 
   cachedeps:
@@ -125,20 +115,24 @@ jobs:
       - name: Prep artifacts dir
         run: mkdir ./deps-dist/
 
-      - name: Install Node.js, NPM and Yarn
+      - name: Install Node.js and pnpm
         uses: actions/setup-node@v6.4.0
         with:
           node-version: ${{ env.node_version }}
+          cache: 'pnpm'
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Reset node_modules cache (if enabled)
         if: env.reset_cache == 'true'
         run: rm -rf node_modules/
 
-      - name: Install yarn dependencies
-        run: yarn
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-      - name: Build yarn cache
-        run: flatpak-node-generator yarn yarn.lock -o ./deps-dist/yarn-sources.json
+      - name: Build pnpm cache
+        run: flatpak-node-generator pnpm pnpm-lock.yaml -o ./deps-dist/pnpm-sources.json
 
       - uses: actions/upload-artifact@master
         with:
@@ -170,10 +164,14 @@ jobs:
           name: flatpak-sources
           path: packages/desktop/flatpak/
 
-      - name: Install Node.js, NPM and Yarn
+      - name: Install Node.js and pnpm
         uses: actions/setup-node@v6.4.0
         with:
           node-version: ${{ env.node_version }}
+          cache: 'pnpm'
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Free Disk Space (Ubuntu)
         uses: jlumbroso/free-disk-space@main
@@ -229,10 +227,14 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Install Node.js, NPM and Yarn
+      - name: Install Node.js and pnpm
         uses: actions/setup-node@v6.4.0
         with:
           node-version: ${{ env.node_version }}
+          cache: 'pnpm'
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Set up node_modules cache
         uses: actions/cache@v5
@@ -240,8 +242,8 @@ jobs:
         with:
           path: |
             node_modules/
-          key: ${{ runner.os }}-${{ runner.arch }}-yarn-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}-${{ runner.arch }}-yarn-
+          key: ${{ runner.os }}-${{ runner.arch }}-pnpm-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-${{ runner.arch }}-pnpm-
 
       - name: Install rimraf (if reset_cache enabled)
         if: env.reset_cache == 'true'
@@ -251,8 +253,8 @@ jobs:
         if: env.reset_cache == 'true'
         run: rimraf node_modules/
 
-      - name: Install yarn dependencies
-        run: yarn
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1.6.0
@@ -308,10 +310,14 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Install Node.js, NPM and Yarn
+      - name: Install Node.js and pnpm
         uses: actions/setup-node@v6.4.0
         with:
           node-version: ${{ env.node_version }}
+          cache: 'pnpm'
+
+      - name: Enable Corepack
+        run: corepack enable
       
       - name: Set up node_modules cache
         uses: actions/cache@v5
@@ -319,21 +325,21 @@ jobs:
         with:
           path: |
             node_modules/
-          key: ${{ runner.os }}-${{ runner.arch }}-yarn-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}-${{ runner.arch }}-yarn-
+          key: ${{ runner.os }}-${{ runner.arch }}-pnpm-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-${{ runner.arch }}-pnpm-
 
       - name: Reset node_modules cache (if enabled)
         if: env.reset_cache == 'true'
         run: rm -rf node_modules/
 
-      - name: Install yarn dependencies
-        run: yarn
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Build workspace dependencies
-        run: yarn build:depsv3
+        run: pnpm build:depsv3
 
       - name: Run tests
-        run: yarn test:v3
+        run: pnpm test:v3
 
   web_v3:
     name: "V3: Build Web App"
@@ -346,10 +352,14 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Install Node.js, NPM and Yarn
+      - name: Install Node.js and pnpm
         uses: actions/setup-node@v6.4.0
         with:
           node-version: ${{ env.node_version }}
+          cache: 'pnpm'
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Set up node_modules cache
         uses: actions/cache@v5
@@ -357,21 +367,21 @@ jobs:
         with:
           path: |
             node_modules/
-          key: ${{ runner.os }}-${{ runner.arch }}-yarn-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}-${{ runner.arch }}-yarn-
+          key: ${{ runner.os }}-${{ runner.arch }}-pnpm-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-${{ runner.arch }}-pnpm-
 
       - name: Reset node_modules cache (if enabled)
         if: env.reset_cache == 'true'
         run: rm -rf node_modules/
 
-      - name: Install yarn dependencies
-        run: yarn
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Build workspace dependencies
-        run: yarn build:depsv3
+        run: pnpm build:depsv3
 
       - name: Build web app
-        run: yarn build:depsv3 && yarn desktopv3 build:web
+        run: pnpm build:depsv3 && pnpm desktopv3 build:web
 
       - name: Publish web build
         uses: actions/upload-artifact@v7
@@ -400,10 +410,14 @@ jobs:
           name: flatpak-sources
           path: packages/desktop-v3/flatpak/
 
-      - name: Install Node.js, NPM and Yarn
+      - name: Install Node.js and pnpm
         uses: actions/setup-node@v6.4.0
         with:
           node-version: ${{ env.node_version }}
+          cache: 'pnpm'
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Free Disk Space (Ubuntu)
         uses: jlumbroso/free-disk-space@main
@@ -467,10 +481,14 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Install Node.js, NPM and Yarn
+      - name: Install Node.js and pnpm
         uses: actions/setup-node@v6.4.0
         with:
           node-version: ${{ env.node_version }}
+          cache: 'pnpm'
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Set up node_modules cache
         uses: actions/cache@v5
@@ -478,8 +496,8 @@ jobs:
         with:
           path: |
             node_modules/
-          key: ${{ runner.os }}-${{ runner.arch }}-yarn-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}-${{ runner.arch }}-yarn-
+          key: ${{ runner.os }}-${{ runner.arch }}-pnpm-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-${{ runner.arch }}-pnpm-
 
       - name: Install rimraf (if reset_cache enabled)
         if: env.reset_cache == 'true'
@@ -489,11 +507,11 @@ jobs:
         if: env.reset_cache == 'true'
         run: rimraf node_modules/
 
-      - name: Install yarn dependencies
-        run: yarn
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Build workspace dependencies
-        run: yarn build:depsv3
+        run: pnpm build:depsv3
 
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1.6.0
@@ -554,20 +572,24 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Setup Node.js
+      - name: Setup Node.js and pnpm
         uses: actions/setup-node@v6.4.0
         with:
           node-version: ${{ env.node_version }}
+          cache: 'pnpm'
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Reset node_modules cache (if enabled)
         if: env.reset_cache == 'true'
         run: rm -rf node_modules/
 
-      - name: Install yarn dependencies
-        run: yarn
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
   
       - name: Build docs
-        run: yarn docs build
+        run: pnpm docs build
 
       - name: Upload static files as artifact
         id: deployment-pages

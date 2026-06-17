@@ -6,12 +6,12 @@
 		"deploy": "wrangler deploy",
 		"dev": "wrangler dev",
 		"start": "wrangler dev",
-		"build": "cd ../desktop-v3 && yarn build:web && mkdir -p ../pages/public/ && cp -r web-out/* ../pages/public/",
+		"build": "cd ../desktop-v3 && pnpm run build:web && mkdir -p ../pages/public/ && cp -r web-out/* ../pages/public/",
 		"test": "vitest",
 		"cf-typegen": "wrangler types"
 	},
 	"devDependencies": {
-		"@greenlight/platform": "*",
+		"@greenlight/platform": "workspace:*",
 		"@cloudflare/vitest-pool-workers": "^0.12.4",
 		"@types/node": "^25.9.1",
 		"typescript": "^5.5.2",

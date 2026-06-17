@@ -5,6 +5,15 @@ description: Changelogs
 
 ### Changelog
 
+> **Fork maintainer:** Igor Samarin ([@isamarin](https://github.com/isamarin)) — [isamarin/greenlight](https://github.com/isamarin/greenlight)
+>
+> Entries below v2.4.2 are from the original project by UnknownSKL ([unknownskl/greenlight](https://github.com/unknownskl/greenlight)).
+
+## 2026.06.2-alpha.1 - 2026-06-17 (fork)
+- Switched to CalVer versioning
+- Updated desktop-v3 dependencies (Electron ^42.4.1, TypeScript ^5.8.2)
+- Migrated package manager from Yarn to pnpm
+
 ## v2.4.2 - 2026-04-24
 - Fix frontend error message when token was expired #1581
 - Added German language (credits to @crt0mega) #1567
