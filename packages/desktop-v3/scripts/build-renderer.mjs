@@ -3,14 +3,9 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const packageRoot = join(dirname(fileURLToPath(import.meta.url)), '..')
-const nextBin = join(
-  packageRoot,
-  'node_modules',
-  '.bin',
-  process.platform === 'win32' ? 'next.CMD' : 'next',
-)
+const nextCli = join(packageRoot, 'node_modules', 'next', 'dist', 'bin', 'next')
 
-const result = spawnSync(nextBin, ['build'], {
+const result = spawnSync(process.execPath, [nextCli, 'build'], {
   cwd: join(packageRoot, 'renderer'),
   env: { ...process.env, NODE_ENV: 'production' },
   stdio: 'inherit',
