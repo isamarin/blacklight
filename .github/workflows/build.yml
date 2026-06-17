@@ -196,23 +196,15 @@ jobs:
           large-packages: true
           swap-storage: true
 
-      - name: Set up flatpak build cache
-        if: env.reset_cache != 'true'
-        uses: actions/cache@v5
-        continue-on-error: false
-        with:
-          path: |
-            build/
-            .flatpak-builder/
-          key: ${{ runner.os }}-${{ runner.arch }}-flatpak-v2-${{ hashFiles('pnpm-lock.yaml', 'packages/desktop/flatpak/**') }}
-
-      - name: Clear stale offline pnpm store
-        run: rm -rf flatpak-node/
+      - name: Clear flatpak builder state
+        run: rm -rf build/ .flatpak-builder/ flatpak-node/
 
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
           bundle: greenlight.flatpak
           manifest-path: packages/desktop/flatpak/io.github.unknownskl.greenlight.yml
+          cache: 'false'
+          restore-cache: 'false'
           cache-key: flatpak-v2-${{ hashFiles('pnpm-lock.yaml') }}-${{ github.sha }}
 
       - name: Release flatpak
@@ -459,23 +451,15 @@ jobs:
           large-packages: true
           swap-storage: true
 
-      - name: Set up flatpak build cache
-        if: env.reset_cache != 'true'
-        uses: actions/cache@v5
-        continue-on-error: false
-        with:
-          path: |
-            build/
-            .flatpak-builder/
-          key: ${{ runner.os }}-${{ runner.arch }}-flatpak-v3-${{ hashFiles('pnpm-lock.yaml', 'packages/desktop-v3/flatpak/**') }}
-
-      - name: Clear stale offline pnpm store
-        run: rm -rf flatpak-node/
+      - name: Clear flatpak builder state
+        run: rm -rf build/ .flatpak-builder/ flatpak-node/
 
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
           bundle: greenlight.flatpak
           manifest-path: packages/desktop-v3/flatpak/io.github.unknownskl.greenlight.yml
+          cache: 'false'
+          restore-cache: 'false'
           cache-key: flatpak-v3-${{ hashFiles('pnpm-lock.yaml') }}-${{ github.sha }}
 
       - name: Publish Linux AppImage
