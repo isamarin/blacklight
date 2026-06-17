@@ -35,6 +35,7 @@ modules:
       - cp -a ../extralib/reduceSoFiles.sh -t /app/extralib
       - pushd /app/extralib && ln -s libLLVM-16.0.6.so libLLVM-16.so && chmod +x reduceSoFiles.sh && ./reduceSoFiles.sh && popd
       - npm install -g /run/build/greenlight/pnpm-pkg/pnpm-10.4.1.tgz --prefix /run/build/greenlight/npm-global --offline
+      - echo "store-dir=/run/build/greenlight/flatpak-node/pnpm-store" >> .npmrc
       - pnpm install --offline
       - |
         set -ex
