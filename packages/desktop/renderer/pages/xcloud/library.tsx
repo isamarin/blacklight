@@ -36,7 +36,7 @@ function xCloudLibrary() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - {t('page.xCloudLibrary.pageTitle')}</title>
+                <title>Blacklight - {t('page.xCloudLibrary.pageTitle')}</title>
             </Head>
 
             <BreadcrumbBar>

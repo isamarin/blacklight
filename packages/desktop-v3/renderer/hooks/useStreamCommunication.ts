@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
-import type { xCloudStreamConfig, xStreamToken } from '@greenlight/player/client'
+import type { xCloudStreamConfig, xStreamToken } from '@blacklight/player/client'
 import { useTRPC } from '../utils/trpc'
 import { useAuth } from '../contexts/AuthContext'
 

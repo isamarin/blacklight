@@ -13,7 +13,7 @@ const defaults: SidecarSettings = {
 }
 
 function settingsPath(): string {
-  const base = process.env.GREENLIGHT_DATA_DIR ?? path.join(os.homedir(), '.greenlight')
+  const base = process.env.BLACKLIGHT_DATA_DIR ?? path.join(os.homedir(), '.blacklight')
   fs.mkdirSync(base, { recursive: true })
   return path.join(base, 'sidecar-settings.json')
 }

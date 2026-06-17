@@ -15,7 +15,7 @@ import {
   sendICECandidates,
   sendMsalToken,
   sendKeepalive
- } from '@greenlight/player/server'
+ } from '@blacklight/player/server'
 
 const t = initTRPC.create();
 export const router = t.router;

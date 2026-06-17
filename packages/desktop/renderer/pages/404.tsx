@@ -8,7 +8,7 @@ function Error404Page() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - {t("page.page404.title")}</title>
+                <title>Blacklight - {t("page.page404.title")}</title>
             </Head>
 
             <p>{t("page.page404.message")}</p>

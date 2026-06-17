@@ -1,4 +1,4 @@
-# Greenlight Desktop (v2)
+# Blacklight Desktop (v2)
 
 Legacy Electron client for Xbox and xCloud streaming. Kept for reference; active desktop development uses Tauri (`packages/desktop-tauri`).
 

@@ -251,7 +251,7 @@ function Stream() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - {t('streamWindow.pageTitle')} {router.query.serverid}</title>
+                <title>Blacklight - {t('streamWindow.pageTitle')} {router.query.serverid}</title>
             </Head>
 
             { (xPlayer !== undefined) ? <StreamComponent onDisconnect={ () => {

@@ -17,7 +17,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/client/index.tsx'),
-      name: 'GreenlightPlayer',
+      name: 'BlacklightPlayer',
       fileName: 'client',
       formats: ['es'],
     },

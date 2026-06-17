@@ -1,8 +1,8 @@
-# Greenlight Desktop (Tauri)
+# Blacklight Desktop (Tauri)
 
 Windows and macOS desktop shell without Electron. Linux is out of scope.
 
-The UI is the same static export as `greenlight-desktop-v3`. A bundled Node sidecar serves the UI and `@greenlight/platform` tRPC on `http://127.0.0.1:9003`. Tauri spawns the sidecar automatically on app start.
+The UI is the same static export as `blacklight-desktop-v3`. A bundled Node sidecar serves the UI and `@blacklight/platform` tRPC on `http://127.0.0.1:9003`. Tauri spawns the sidecar automatically on app start.
 
 ## Prerequisites
 
@@ -42,6 +42,6 @@ Artifacts land in `packages/desktop-tauri/src-tauri/target/release/bundle/`.
 | Piece | Role |
 |---|---|
 | `sidecar/server.ts` | Express + tRPC + static `desktop-v3/app` |
-| `sidecar/build.mjs` | Bundle sidecar → `src-tauri/binaries/greenlight-sidecar-*` |
-| `src-tauri/` | Native window; spawns sidecar with `GREENLIGHT_STATIC_DIR` / `GREENLIGHT_DATA_DIR` |
+| `sidecar/build.mjs` | Bundle sidecar → `src-tauri/binaries/blacklight-sidecar-*` |
+| `src-tauri/` | Native window; spawns sidecar with `BLACKLIGHT_STATIC_DIR` / `BLACKLIGHT_DATA_DIR` |
 | `desktop-v3/renderer` | Shared UI (HTTP tRPC) |

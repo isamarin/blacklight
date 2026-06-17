@@ -1,7 +1,7 @@
-import { StreamPlayer, xCloudStreamConfig, StreamPlayerHandle, xStreamToken } from '@greenlight/player/client';
-import { Gamepad } from '@greenlight/player/client';
-import '@greenlight/player/client.css';
-// import type { xCloudStreamConfig } from '@greenlight/player/server';
+import { StreamPlayer, xCloudStreamConfig, StreamPlayerHandle, xStreamToken } from '@blacklight/player/client';
+import { Gamepad } from '@blacklight/player/client';
+import '@blacklight/player/client.css';
+// import type { xCloudStreamConfig } from '@blacklight/player/server';
 
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useTRPC } from "../utils/trpc";

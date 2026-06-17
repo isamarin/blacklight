@@ -19,7 +19,7 @@ test.beforeAll('Setup', async () => {
 })
 
 test('Application can launch', async () => {
-    await expect(appWindow).toHaveTitle(/Greenlight/)
+    await expect(appWindow).toHaveTitle(/Blacklight/)
 })
 
 test('Application opens a new authentication window on fresh install', async () => {
@@ -55,11 +55,11 @@ test('Application opens a new authentication window on fresh install', async () 
 
 //     await appWindow.isVisible('div#component_header')
 //     await delay(500)
-//     await expect(appWindow.locator('div#component_header a[href="/profile"]')).toHaveText('GreenlightE2E')
+//     await expect(appWindow.locator('div#component_header a[href="/profile"]')).toHaveText('BlacklightE2E')
 // })
 
 // test('Is still authenticated', async () => {
-//     await expect(appWindow.locator('div#component_header a[href="/profile"]')).toHaveText('GreenlightE2E')
+//     await expect(appWindow.locator('div#component_header a[href="/profile"]')).toHaveText('BlacklightE2E')
 // })
 
 test.afterAll('Setup', async () => {

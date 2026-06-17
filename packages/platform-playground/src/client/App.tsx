@@ -6,7 +6,7 @@ import { QueryPage } from './pages/Query';
 import { PlayerPage } from './pages/Player'
 
 import { useAuth } from './contexts/AuthContext';
-import { type xCloudStreamConfig } from '@greenlight/player/client';
+import { type xCloudStreamConfig } from '@blacklight/player/client';
 
 function App() {
   const { getWebToken, getxCloudToken, getxHomeToken } = useAuth();
@@ -98,7 +98,7 @@ function App() {
   return (
     <>
       <header id="header">
-        <h1>Greenlight Platform Playground</h1>
+        <h1>Blacklight Platform Playground</h1>
       </header>
       <div id="main-container">
         <div id="submenu">

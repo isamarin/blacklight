@@ -49,12 +49,12 @@ export default function SettingsHomePage() {
           <Card>
             <p className="text-white/40 text-sm mb-3">
               <a
-                href="https://github.com/isamarin/greenlight"
+                href="https://github.com/isamarin/blacklight"
                 target="_blank"
                 rel="noreferrer"
                 className="hover:text-white/60"
               >
-                github.com/isamarin/greenlight
+                github.com/isamarin/blacklight
               </a>
             </p>
             <Button label="Logout" onClick={logout} className="bg-red-900 hover:bg-red-800" />

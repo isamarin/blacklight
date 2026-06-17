@@ -16,7 +16,7 @@ function Profile() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - Profile {router.query.xuid}</title>
+                <title>Blacklight - Profile {router.query.xuid}</title>
             </Head>
 
             <div style={{ paddingTop: '20px' }}>

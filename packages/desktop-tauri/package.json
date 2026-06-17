@@ -1,18 +1,18 @@
 {
   "private": true,
-  "name": "greenlight-desktop-tauri",
-  "description": "Greenlight desktop shell (Tauri, Windows/macOS)",
+  "name": "blacklight-desktop-tauri",
+  "description": "Blacklight desktop shell (Tauri, Windows/macOS)",
   "version": "2026.7.1-alpha.1",
   "author": "Igor Samarin <mako.mmw@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/isamarin/greenlight.git"
+    "url": "git+https://github.com/isamarin/blacklight.git"
   },
   "type": "module",
   "scripts": {
     "sidecar": "tsx sidecar/server.ts",
     "sidecar:watch": "tsx watch sidecar/server.ts",
-    "build:renderer": "pnpm --filter greenlight-desktop-v3 run build:renderer",
+    "build:renderer": "pnpm --filter blacklight-desktop-v3 run build:renderer",
     "build:sidecar": "node sidecar/build.mjs",
     "build:bundle": "pnpm build:renderer && pnpm build:sidecar",
     "dev": "tauri dev",
@@ -20,7 +20,7 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@greenlight/platform": "workspace:*",
+    "@blacklight/platform": "workspace:*",
     "@trpc/server": "^11.17.0",
     "express": "^5.2.1"
   },

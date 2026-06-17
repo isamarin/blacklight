@@ -8,8 +8,8 @@ const root = path.dirname(fileURLToPath(import.meta.url))
 const packageRoot = path.join(root, '..')
 const binariesDir = path.join(packageRoot, 'src-tauri', 'binaries')
 const distDir = path.join(root, 'dist')
-const bundlePath = path.join(distDir, 'greenlight-sidecar.cjs')
-const sidecarName = 'greenlight-sidecar'
+const bundlePath = path.join(distDir, 'blacklight-sidecar.cjs')
+const sidecarName = 'blacklight-sidecar'
 
 function hostTuple() {
   try {

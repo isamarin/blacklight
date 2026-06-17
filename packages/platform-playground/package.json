@@ -1,18 +1,18 @@
 {
-  "name": "@greenlight/platform-playground",
+  "name": "@blacklight/platform-playground",
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "predev": "pnpm --filter @greenlight/player build && pnpm --filter @greenlight/platform build",
+    "predev": "pnpm --filter @blacklight/player build && pnpm --filter @blacklight/platform build",
     "dev": "concurrently \"pnpm run server\" \"pnpm run vite\"",
     "server": "tsx watch src/server/index.ts",
     "vite": "vite",
-    "build": "pnpm --filter @greenlight/platform build && pnpm --filter @greenlight/player build && tsc && vite build",
+    "build": "pnpm --filter @blacklight/platform build && pnpm --filter @blacklight/player build && tsc && vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist/"
   },
   "dependencies": {
-    "@greenlight/platform": "workspace:*",
+    "@blacklight/platform": "workspace:*",
     "@tanstack/react-query": "^5.100.11",
     "@trpc/client": "^11.17.0",
     "@trpc/server": "^11.11.0",

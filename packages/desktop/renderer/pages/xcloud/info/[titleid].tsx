@@ -24,7 +24,7 @@ function xCloudInfo() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - {t('page.titleInfo.pageTitle')} { router.query.titleid }</title>
+                <title>Blacklight - {t('page.titleInfo.pageTitle')} { router.query.titleid }</title>
             </Head>
 
             <BreadcrumbBar>

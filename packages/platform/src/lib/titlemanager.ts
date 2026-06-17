@@ -32,7 +32,7 @@ export default class TitleManager {
                 const result = await this._httpClient.postRequest('catalog.gamepass.com', `/v3/products?hydration=RemoteHighSapphire0&market=US&language=en-us`, {
                     'Authorization': `Bearer ${token}`,
                     'ms-cv': '0.0',
-                    'calling-app-name': 'Greenlight',
+                    'calling-app-name': 'Blacklight',
                     'calling-app-version': '3.0.0',
                 },{
                     Products: itemsToProcess,

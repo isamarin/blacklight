@@ -169,7 +169,7 @@ export const StreamPlayer = forwardRef<StreamPlayerHandle, StreamPlayerProps>(
             <div ref={playerInstance}>
                 <div id="playerContainer"></div>
                 <p>
-                    Player loaded from <span className='redPlayer'>@greenlight/player/client</span>
+                    Player loaded from <span className='redPlayer'>@blacklight/player/client</span>
                 </p>
                 <pre>{JSON.stringify(communicationHandler.getStreamConfig(), null, 2)}</pre>
                 <pre>Status: {playerState}</pre>

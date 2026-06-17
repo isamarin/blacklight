@@ -4,7 +4,7 @@ import {
   StreamPlayer,
   type StreamPlayerHandle,
   type xCloudStreamConfig,
-} from '@greenlight/player/client'
+} from '@blacklight/player/client'
 import StreamOverlay from '../../components/stream/StreamOverlay'
 import Loader from '../../components/ui/Loader'
 import { useSettings } from '../../contexts/SettingsContext'

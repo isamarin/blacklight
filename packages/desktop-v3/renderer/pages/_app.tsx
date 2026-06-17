@@ -10,7 +10,7 @@ import { initI18n } from '../lib/i18n'
 import i18n from '../lib/i18n'
 
 import '../styles/globals.css'
-import '@greenlight/player/client.css'
+import '@blacklight/player/client.css'
 
 function I18nBootstrap({ children }: { children: React.ReactNode }) {
   const { settings } = useSettings()
@@ -22,7 +22,7 @@ function I18nBootstrap({ children }: { children: React.ReactNode }) {
   return <I18nextProvider i18n={i18n}>{children}</I18nextProvider>
 }
 
-function GreenlightDesktop({ Component, pageProps }: AppProps) {
+function BlacklightDesktop({ Component, pageProps }: AppProps) {
   return (
     <TrpcProviderComponent>
       <AuthProvider>
@@ -40,4 +40,4 @@ function GreenlightDesktop({ Component, pageProps }: AppProps) {
   )
 }
 
-export default GreenlightDesktop
+export default BlacklightDesktop

@@ -146,7 +146,7 @@ export default class IpcApp extends IpcBase {
         returnValue.push({
             name: 'Application',
             data: [
-                { name: 'Name', value: 'Greenlight' },
+                { name: 'Name', value: 'Blacklight' },
                 { name: 'Version', value: electron.app.getVersion() },
                 { name: 'GPU Info', value: gpuInfo.auxAttributes.glRenderer },
             ],

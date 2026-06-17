@@ -3,7 +3,7 @@ import Link from 'next/link';
 export default function HomePage() {
   return (
     <main className="flex flex-1 flex-col justify-center text-center">
-      <h1 className="mb-4 text-2xl font-bold">Greenlight Documentation</h1>
+      <h1 className="mb-4 text-2xl font-bold">Blacklight Documentation</h1>
       <p className="text-fd-muted-foreground">
         Check out{' '}
         <Link
@@ -12,7 +12,7 @@ export default function HomePage() {
         >
           getting started
         </Link>{' '}
-        to start using Greenlight.
+        to start using Blacklight.
       </p>
     </main>
   );

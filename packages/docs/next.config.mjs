@@ -6,7 +6,7 @@ const withMDX = createMDX();
 const config = {
   output: 'export',
   reactStrictMode: true,
-  basePath: '/greenlight',
+  basePath: '/blacklight',
 };
 
 export default withMDX(config);

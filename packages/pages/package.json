@@ -1,5 +1,5 @@
 {
-	"name": "@greenlight/pages",
+	"name": "@blacklight/pages",
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
@@ -11,7 +11,7 @@
 		"cf-typegen": "wrangler types"
 	},
 	"devDependencies": {
-		"@greenlight/platform": "workspace:*",
+		"@blacklight/platform": "workspace:*",
 		"@cloudflare/vitest-pool-workers": "^0.12.4",
 		"@types/node": "^25.9.1",
 		"typescript": "^5.5.2",

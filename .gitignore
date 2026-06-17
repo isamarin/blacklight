@@ -12,7 +12,7 @@
 **/build
 **/dist
 packages/desktop-tauri/sidecar/dist/
-packages/desktop-tauri/src-tauri/binaries/greenlight-sidecar*
+packages/desktop-tauri/src-tauri/binaries/blacklight-sidecar*
 !packages/desktop-tauri/src-tauri/binaries/.gitkeep
 
 # misc

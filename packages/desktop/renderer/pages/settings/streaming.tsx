@@ -69,7 +69,7 @@ function SettingsStreaming() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - {t('settings.streaming.pageTitle')}</title>
+                <title>Blacklight - {t('settings.streaming.pageTitle')}</title>
             </Head>
 
             <SettingsSidebar>

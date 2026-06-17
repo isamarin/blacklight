@@ -9,8 +9,8 @@ export default defineConfig({
   publicDir: '../../public',
   resolve: {
     alias: {
-      '@greenlight/platform': path.resolve(__dirname, '../platform/dist/src/index.js'),
-      '@greenlight/player': path.resolve(__dirname, '../player/dist/'),
+      '@blacklight/platform': path.resolve(__dirname, '../platform/dist/src/index.js'),
+      '@blacklight/player': path.resolve(__dirname, '../player/dist/'),
     },
   },
   build: {

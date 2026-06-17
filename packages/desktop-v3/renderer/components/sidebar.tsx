@@ -23,7 +23,7 @@ export default function Sidebar() {
   return (
     <aside className="w-64 h-full flex flex-col bg-[#0d0d0d] border-r border-white/5 relative z-20">
       <div className="p-6">
-        <h2 className="text-2xl font-bold text-white mb-1">Greenlight</h2>
+        <h2 className="text-2xl font-bold text-white mb-1">Blacklight</h2>
         <p className="text-white/40 text-sm">{gamertag}</p>
         <button onClick={handleLogout} className="text-white/50 text-sm hover:text-white mt-1">
           Logout

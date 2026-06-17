@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
-  <id>io.github.isamarin.greenlight</id>
-  <launchable type="desktop-id">io.github.isamarin.greenlight.desktop</launchable>
-  <name>Greenlight</name>
+  <id>io.github.isamarin.blacklight</id>
+  <launchable type="desktop-id">io.github.isamarin.blacklight.desktop</launchable>
+  <name>Blacklight</name>
   <project_license>MIT</project_license>
   <developer_name>Igor Samarin</developer_name>
-  <summary>Greenlight is an open-source client for xCloud and Xbox home streaming</summary>
+  <summary>Blacklight is an open-source client for xCloud and Xbox home streaming</summary>
   <metadata_license>CC0-1.0</metadata_license>
-  <url type="homepage">https://github.com/isamarin/greenlight</url>
-  <url type="help">https://github.com/isamarin/greenlight/issues</url>
-  <url type="bugtracker">https://github.com/isamarin/greenlight/issues</url>
+  <url type="homepage">https://github.com/isamarin/blacklight</url>
+  <url type="help">https://github.com/isamarin/blacklight/issues</url>
+  <url type="bugtracker">https://github.com/isamarin/blacklight/issues</url>
   <description>
-    <p>Greenlight is an open-source client for xCloud and Xbox home streaming.</p>
+    <p>Blacklight is an open-source client for xCloud and Xbox home streaming.</p>
   </description>
   <screenshots>
     <screenshot type="default">
-      <image type="source">https://raw.githubusercontent.com/isamarin/greenlight/main-v2/images/main-nowindow.jpg</image>
+      <image type="source">https://raw.githubusercontent.com/isamarin/blacklight/main-v2/images/main-nowindow.jpg</image>
     </screenshot>
     <screenshot>
-      <image type="source">https://raw.githubusercontent.com/isamarin/greenlight/main-v2/images/stream-nowindow.jpg</image>
+      <image type="source">https://raw.githubusercontent.com/isamarin/blacklight/main-v2/images/stream-nowindow.jpg</image>
     </screenshot>
   </screenshots>
   <releases>
@@ -89,7 +89,7 @@
     <release version="2.2.0" date="2024-03-05">
      <description>
         <ul>
-          <li>Added a WebUI function to make Greenlight available on devices with the chromium browser.</li>
+          <li>Added a WebUI function to make Blacklight available on devices with the chromium browser.</li>
           <li>Added toggles for muting audio and hiding the video</li>
           <li>Other improvements</li>
         </ul>

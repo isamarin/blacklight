@@ -29,11 +29,11 @@ body:
         examples:
           - **OS**: Ubuntu 20.04/Windows/MacOS
           - **Device**: PC/Steamdeck
-          - **Greenlight version**: 2.0.1
+          - **Blacklight version**: 2.0.1
       value: |
           - OS: 
           - Device: 
-          - Greenlight version: 
+          - Blacklight version: 
       render: markdown
     validations:
       required: false

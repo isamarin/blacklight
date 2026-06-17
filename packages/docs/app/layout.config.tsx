@@ -9,10 +9,10 @@ import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
  */
 export const baseOptions: BaseLayoutProps = {
   nav: {
-    title: 'Greenlight',
+    title: 'Blacklight',
     url: '/docs'
   },
-  githubUrl: 'https://github.com/isamarin/greenlight',
+  githubUrl: 'https://github.com/isamarin/blacklight',
   links: [
     {
       text: 'Home',

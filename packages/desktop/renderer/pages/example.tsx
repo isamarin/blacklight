@@ -6,7 +6,7 @@ function Home() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - Example</title>
+                <title>Blacklight - Example</title>
             </Head>
 
             <div>

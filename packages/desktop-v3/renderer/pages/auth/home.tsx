@@ -30,7 +30,7 @@ export default function AuthHome() {
   return (
     <>
       <Head>
-        <title>Greenlight Authentication</title>
+        <title>Blacklight Authentication</title>
       </Head>
       <div className="flex h-screen bg-[#0d0d0d] bg-pattern overflow-hidden">
         <main className="flex-1 flex items-center justify-center p-8">

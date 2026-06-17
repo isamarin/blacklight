@@ -42,8 +42,8 @@ export default class Application {
     private t = i18n.t.bind(i18n);
 
     constructor(){
-        console.log(__filename+'[constructor()] Starting Greenlight v'+pkg.version)
-        this._log = Debug('greenlight')
+        console.log(__filename+'[constructor()] Starting Blacklight v'+pkg.version)
+        this._log = Debug('blacklight')
 
         // ElectronApp.commandLine.appendSwitch('use-vulkan')
         // ElectronApp.commandLine.appendSwitch('use-angle', 'vulkan')
@@ -210,7 +210,7 @@ export default class Application {
         this.log('electron', __filename+'[openMainWindow()] Creating new main window')
 
         const windowOptions:any = {
-            title: 'Greenlight',
+            title: 'Blacklight',
             backgroundColor: 'rgb(26, 27, 30)',
         }
         if(this._startupFlags.fullscreen === true){

@@ -52,7 +52,7 @@ function SettingsWebUI() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - {t('settings.webUI.pageTitle')}</title>
+                <title>Blacklight - {t('settings.webUI.pageTitle')}</title>
             </Head>
 
             <SettingsSidebar>
@@ -62,8 +62,8 @@ function SettingsWebUI() {
                     <p>
                         <label>{t('settings.webUI.enableWebUILabel')}</label>
                         <label style={{ minWidth: 0 }}>
-                            <Button onClick={ () => setWebUIEnabled() } disabled={ window.Greenlight.isWebUI() } className={ ((webuiRunning) ? 'btn-cancel' : 'btn-primary') + ' btn-small' } label={ webuiRunning ? t('settings.webUI.stopWebUIBtn') : t('settings.webUI.startWebUIBtn') }></Button> &nbsp;
-                            <Button onClick={ () => window.Greenlight.openExternal('http://127.0.0.1:'+settings.webui_port) } className={ 'btn-small' } label={ t('settings.webUI.openWebUIBtn') }></Button>
+                            <Button onClick={ () => setWebUIEnabled() } disabled={ window.Blacklight.isWebUI() } className={ ((webuiRunning) ? 'btn-cancel' : 'btn-primary') + ' btn-small' } label={ webuiRunning ? t('settings.webUI.stopWebUIBtn') : t('settings.webUI.startWebUIBtn') }></Button> &nbsp;
+                            <Button onClick={ () => window.Blacklight.openExternal('http://127.0.0.1:'+settings.webui_port) } className={ 'btn-small' } label={ t('settings.webUI.openWebUIBtn') }></Button>
                         </label>
                     </p>
 

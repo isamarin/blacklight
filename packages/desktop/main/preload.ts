@@ -77,4 +77,4 @@ export const Preload = {
     },
 }
 
-contextBridge.exposeInMainWorld('Greenlight', Preload)
+contextBridge.exposeInMainWorld('Blacklight', Preload)

@@ -13,7 +13,7 @@
 
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
 import { WorkerEntrypoint } from 'cloudflare:workers';
-import { appRouter } from '@greenlight/platform';
+import { appRouter } from '@blacklight/platform';
 
 export default {
 	async fetch(request, env, ctx): Promise<Response> {

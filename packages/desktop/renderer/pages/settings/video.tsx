@@ -49,7 +49,7 @@ function SettingsVideo() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - {t('settings.videoAudio.pageTitle')}</title>
+                <title>Blacklight - {t('settings.videoAudio.pageTitle')}</title>
             </Head>
 
             <SettingsSidebar>

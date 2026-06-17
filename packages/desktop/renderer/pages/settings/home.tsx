@@ -7,7 +7,7 @@ import Ipc from '../../lib/ipc'
 
 import SettingsSidebar from '../../components/settings/sidebar'
 import Image from 'next/image'
-import GreenlightLogo from '../../public/images/logo.png'
+import BlacklightLogo from '../../public/images/logo.png'
 import Card from '../../components/ui/card'
 import Button from '../../components/ui/button'
 
@@ -42,7 +42,7 @@ function SettingsHome() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - {t('settings.about.title')}</title>
+                <title>Blacklight - {t('settings.about.title')}</title>
             </Head>
 
             <SettingsSidebar>
@@ -62,7 +62,7 @@ function SettingsHome() {
                             <p>
                                 {t('settings.about.gamerscore')}: { user.gamerscore }
                             </p>
-                            <Button label={t('settings.about.logout')} className='btn' disabled={(window.Greenlight.isWebUI() === false) ? false : true } onClick={ () => {
+                            <Button label={t('settings.about.logout')} className='btn' disabled={(window.Blacklight.isWebUI() === false) ? false : true } onClick={ () => {
                                 logout()
                             } }></Button>
                         </div>
@@ -75,14 +75,14 @@ function SettingsHome() {
 
                 <Card>
                     <div style={{ textAlign: 'center' }}>
-                        <Image src={ GreenlightLogo } width="100" height="100" alt="Greenlight" />
+                        <Image src={ BlacklightLogo } width="100" height="100" alt="Blacklight" />
 
-                        <h2>Greenlight</h2>
+                        <h2>Blacklight</h2>
                         <p>
-                            {t('settings.about.version')}: { window.Greenlight.getVersion() }<br /><br />
+                            {t('settings.about.version')}: { window.Blacklight.getVersion() }<br /><br />
                             <small>{t('settings.about.website')}: <Link href="#" title={t('settings.about.websiteLinkTitle')} onClick={ () => {
-                                window.Greenlight.openExternal('https://github.com/isamarin/greenlight')
-                            }}>github.com/isamarin/greenlight</Link></small><br />
+                                window.Blacklight.openExternal('https://github.com/isamarin/blacklight')
+                            }}>github.com/isamarin/blacklight</Link></small><br />
                             <small>{t('authorOfLocalization')}</small>
                         </p>
                     </div>

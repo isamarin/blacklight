@@ -84,7 +84,7 @@ function Header({
     }
 
     function confirmQuit() {
-        if(window.Greenlight.isWebUI() === true)
+        if(window.Blacklight.isWebUI() === true)
             return
 
         if(confirm(t('header.quitQuestion'))){

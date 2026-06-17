@@ -13,8 +13,8 @@ export PATH=${PATH}:${HOME}/.local/bin
 cd ..
 
 flatpak-node-generator pnpm ../../pnpm-lock.yaml -o ./pnpm-sources.json
-flatpak-builder --force-clean build-dir ./io.github.isamarin.greenlight.yml
+flatpak-builder --force-clean build-dir ./io.github.isamarin.blacklight.yml
 flatpak build-export export-dir build-dir
-flatpak build-bundle export-dir Greenlight.flatpak io.github.isamarin.greenlight --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo
+flatpak build-bundle export-dir Blacklight.flatpak io.github.isamarin.blacklight --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo
 
 echo done

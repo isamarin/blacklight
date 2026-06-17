@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Blacklight
+Comment=Blacklight is an open-source client for xCloud and Xbox home streaming
+Icon=io.github.isamarin.blacklight
+Exec=run.sh
+Terminal=false
+StartupWMClass=blacklight
+Categories=Network;Game;
+Keywords=Game;Streaming;Xbox;xCloud;Console;

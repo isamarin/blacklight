@@ -1,17 +1,17 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Greenlight",
+  "productName": "Blacklight",
   "version": "2026.7.1-alpha.1",
-  "identifier": "com.isamarin.greenlight",
+  "identifier": "com.isamarin.blacklight",
   "build": {
     "devUrl": "http://127.0.0.1:9003/home/",
-    "beforeBuildCommand": "pnpm --filter greenlight-desktop-tauri run build:bundle",
+    "beforeBuildCommand": "pnpm --filter blacklight-desktop-tauri run build:bundle",
     "frontendDist": "../../desktop-v3/app"
   },
   "app": {
     "windows": [
       {
-        "title": "Greenlight",
+        "title": "Blacklight",
         "width": 1000,
         "height": 600,
         "resizable": true
@@ -24,7 +24,7 @@
   "bundle": {
     "active": true,
     "targets": ["dmg", "nsis"],
-    "externalBin": ["binaries/greenlight-sidecar"],
+    "externalBin": ["binaries/blacklight-sidecar"],
     "resources": {
       "../../desktop-v3/app/": "app/"
     },

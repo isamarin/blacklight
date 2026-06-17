@@ -157,7 +157,7 @@ function SettingsInput() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - {t('settings.input.pageTitle')}</title>
+                <title>Blacklight - {t('settings.input.pageTitle')}</title>
             </Head>
 
             <SettingsSidebar>

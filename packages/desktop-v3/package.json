@@ -1,23 +1,23 @@
 {
   "private": true,
-  "name": "greenlight-desktop-v3",
-  "description": "Greenlight desktop UI (Next.js renderer for Tauri)",
+  "name": "blacklight-desktop-v3",
+  "description": "Blacklight desktop UI (Next.js renderer for Tauri)",
   "version": "2026.07.1-alpha.1",
   "author": "Igor Samarin <mako.mmw@gmail.com>",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/isamarin/greenlight.git"
+    "url": "git+https://github.com/isamarin/blacklight.git"
   },
   "scripts": {
-    "dev": "pnpm --filter greenlight-desktop-tauri dev",
+    "dev": "pnpm --filter blacklight-desktop-tauri dev",
     "dev:renderer": "cd renderer && next dev",
     "dev:web": "cd renderer && BUILD_TARGET=web next build && cd ../ && npx wrangler pages dev",
     "build:renderer": "node scripts/build-renderer.mjs",
     "build:web": "cd renderer && BUILD_TARGET=web next build"
   },
   "dependencies": {
-    "@greenlight/player": "workspace:*",
+    "@blacklight/player": "workspace:*",
     "@tauri-apps/plugin-opener": "^2.5.0",
     "@tanstack/react-query": "^5.100.11",
     "@trpc/client": "^11.17.0",
@@ -28,7 +28,7 @@
     "wrangler": "^4.92.0"
   },
   "devDependencies": {
-    "@greenlight/platform": "workspace:*",
+    "@blacklight/platform": "workspace:*",
     "@tailwindcss/postcss": "^4.2.2",
     "@types/node": "^22.15.0",
     "@types/react": "^19.2.17",

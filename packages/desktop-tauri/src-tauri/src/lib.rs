@@ -30,10 +30,10 @@ fn spawn_sidecar(app: &tauri::AppHandle) {
 
     let (mut rx, child) = app
         .shell()
-        .sidecar("greenlight-sidecar")
+        .sidecar("blacklight-sidecar")
         .expect("failed to create sidecar command")
-        .env("GREENLIGHT_STATIC_DIR", static_dir)
-        .env("GREENLIGHT_DATA_DIR", data_dir)
+        .env("BLACKLIGHT_STATIC_DIR", static_dir)
+        .env("BLACKLIGHT_DATA_DIR", data_dir)
         .spawn()
         .expect("failed to spawn sidecar");
 
@@ -43,7 +43,7 @@ fn spawn_sidecar(app: &tauri::AppHandle) {
         while let Some(event) = rx.recv().await {
             if let CommandEvent::Stdout(line) | CommandEvent::Stderr(line) = event {
                 let text = String::from_utf8_lossy(&line);
-                eprintln!("[greenlight-sidecar] {text}");
+                eprintln!("[blacklight-sidecar] {text}");
                 let _ = app_handle.emit("sidecar-log", text.to_string());
             }
         }
@@ -73,7 +73,7 @@ pub fn run() {
             Ok(())
         })
         .build(tauri::generate_context!())
-        .expect("error while building Greenlight")
+        .expect("error while building Blacklight")
         .run(|app, event| {
             if matches!(event, RunEvent::Exit) {
                 stop_sidecar(app);

@@ -6,14 +6,18 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
 
+### Changed (rename)
+- **Greenlight → Blacklight** — product name, packages (`@blacklight/*`), bundle IDs, sidecar binary, env vars
+- Tagline: *an Xbox streaming tool* (xCloud + home streaming)
+- Repository target: [isamarin/blacklight](https://github.com/isamarin/blacklight)
+
 ### Changed (rebrand)
-- Product branding: `com.isamarin.greenlight` (Tauri + Electron), `io.github.isamarin.greenlight` (Flatpak)
-- Repository, docs, FUNDING, and in-app links point to [isamarin/greenlight](https://github.com/isamarin/greenlight)
+- Product branding: `com.isamarin.blacklight` (Tauri + Electron), `io.github.isamarin.blacklight` (Flatpak)
 - README and package metadata reflect independent maintenance by Igor Samarin
 
 ### Added (desktop-tauri)
 - Bundled Node sidecar (`esbuild` + `pkg`) shipped as Tauri `externalBin`
-- Sidecar auto-spawn on app start with `GREENLIGHT_STATIC_DIR` and `GREENLIGHT_DATA_DIR`
+- Sidecar auto-spawn on app start with `BLACKLIGHT_STATIC_DIR` and `BLACKLIGHT_DATA_DIR`
 - Static UI assets bundled under `Resources/app/` (macOS) / `app/` (Windows)
 
 ### Changed
@@ -33,12 +37,12 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 - MSAL token refresh on startup when stored tokens expire
 
 ### Changed
-- electron-builder branding: `com.unknownskl.greenlight`, Greenlight product name
+- electron-builder branding: `com.unknownskl.blacklight`, Blacklight product name
 - CI: fixed V3 release artifact paths (`packages/desktop-v3/dist/*`)
 
 ## [2026.06.2-alpha.1] - 2026-06-17
 
-### Fork (isamarin/greenlight)
+### Fork (isamarin/blacklight)
 - Switched to CalVer versioning
 - Updated dependencies in `packages/desktop-v3` (Electron ^42.4.1, TypeScript ^5.8.2, etc.)
 - Updated repository URL to point to fork

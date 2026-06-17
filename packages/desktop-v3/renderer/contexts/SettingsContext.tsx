@@ -6,7 +6,7 @@ interface SettingsContextType {
   setSettings: (settings: AppSettings) => void
 }
 
-const STORAGE_KEY = 'greenlight-settings'
+const STORAGE_KEY = 'blacklight-settings'
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined)
 

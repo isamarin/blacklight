@@ -1,14 +1,14 @@
 import path from 'path'
 import express from 'express'
 import { createExpressMiddleware } from '@trpc/server/adapters/express'
-import { appRouter } from '@greenlight/platform'
+import { appRouter } from '@blacklight/platform'
 import { loadSidecarSettings, saveSidecarSettings } from './settings.js'
 
 function defaultStaticDir(): string {
   return path.resolve(process.cwd(), '../desktop-v3/app')
 }
 
-const staticDir = process.env.GREENLIGHT_STATIC_DIR ?? defaultStaticDir()
+const staticDir = process.env.BLACKLIGHT_STATIC_DIR ?? defaultStaticDir()
 
 let httpServer: ReturnType<express.Express['listen']> | undefined
 let running = false
@@ -83,8 +83,8 @@ function startServer(port?: number): void {
   const app = createApp()
 
   httpServer = app.listen(listenPort, '127.0.0.1', () => {
-    console.log(`[greenlight-sidecar] http://127.0.0.1:${listenPort}`)
-    console.log(`[greenlight-sidecar] static: ${staticDir}`)
+    console.log(`[blacklight-sidecar] http://127.0.0.1:${listenPort}`)
+    console.log(`[blacklight-sidecar] static: ${staticDir}`)
   })
 
   running = true
@@ -95,16 +95,16 @@ function stopServer(): void {
   httpServer.close()
   httpServer = undefined
   running = false
-  console.log('[greenlight-sidecar] stopped')
+  console.log('[blacklight-sidecar] stopped')
 }
 
 const settings = loadSidecarSettings()
-const cliPort = process.env.GREENLIGHT_PORT ? Number(process.env.GREENLIGHT_PORT) : undefined
+const cliPort = process.env.BLACKLIGHT_PORT ? Number(process.env.BLACKLIGHT_PORT) : undefined
 
 if (settings.webui_autostart || cliPort) {
   startServer(cliPort ?? settings.webui_port)
 } else {
-  console.log('[greenlight-sidecar] waiting for /api/webui/start (autostart disabled)')
+  console.log('[blacklight-sidecar] waiting for /api/webui/start (autostart disabled)')
 }
 
 process.on('SIGINT', () => {

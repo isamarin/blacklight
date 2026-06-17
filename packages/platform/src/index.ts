@@ -1,6 +1,6 @@
 import { appRouter as trpcAppRouter, createCallerFactory as trpcCreateCallerFactory } from './trpc.js'
 
-export default class GreenlightPlatform {
+export default class BlacklightPlatform {
     appRouter:typeof trpcAppRouter = trpcAppRouter
 }
 

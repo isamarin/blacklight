@@ -1,4 +1,4 @@
-import type { xCloudStreamConfig } from '@greenlight/player/client'
+import type { xCloudStreamConfig } from '@blacklight/player/client'
 
 export function parseStreamRoute(serverid: string): { type: 'home' | 'cloud'; id: string } {
   if (serverid.startsWith('xcloud_')) {

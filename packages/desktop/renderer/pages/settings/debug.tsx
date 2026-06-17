@@ -20,7 +20,7 @@ function SettingsDebug() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - {t('settings.debug.pageTitle')}</title>
+                <title>Blacklight - {t('settings.debug.pageTitle')}</title>
             </Head>
 
             <SettingsSidebar>

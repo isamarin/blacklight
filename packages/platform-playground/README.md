@@ -1,6 +1,6 @@
-# @greenlight/platform-playground
+# @blacklight/platform-playground
 
-A web-based playground for interacting with the Greenlight platform library via tRPC.
+A web-based playground for interacting with the Blacklight platform library via tRPC.
 
 ## Development
 

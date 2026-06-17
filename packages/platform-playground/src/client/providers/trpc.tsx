@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider, QueryCache, MutationCache } from '@ta
 import { httpBatchLink, createTRPCClient, TRPCClientError } from '@trpc/client';
 import { useState, ReactNode } from 'react';
 import { TRPCProvider } from '../utils/trpc';
-import { appRouter } from '@greenlight/platform';
+import { appRouter } from '@blacklight/platform';
 
 function makeQueryClient() {
   return new QueryClient({

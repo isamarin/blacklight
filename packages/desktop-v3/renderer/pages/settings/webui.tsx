@@ -73,7 +73,7 @@ export default function SettingsWebUIPage() {
 
               {inWebUI && (
                 <p className="text-orange-300 text-sm">
-                  You are viewing Greenlight through WebUI. Server controls are disabled in this mode.
+                  You are viewing Blacklight through WebUI. Server controls are disabled in this mode.
                 </p>
               )}
 

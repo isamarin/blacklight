@@ -85,7 +85,7 @@ function Profile() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - My Profile</title>
+                <title>Blacklight - My Profile</title>
             </Head>
 
             <div style={{ paddingTop: '20px' }}>

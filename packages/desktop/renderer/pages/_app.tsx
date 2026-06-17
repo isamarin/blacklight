@@ -135,7 +135,7 @@ export default function MyApp({ Component, pageProps }) {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight</title>
+                <title>Blacklight</title>
             </Head>
 
             <div style={ {

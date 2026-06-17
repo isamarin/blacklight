@@ -5,13 +5,14 @@ description: Changelogs
 
 ### Changelog
 
-> **Maintainer:** Igor Samarin ([@isamarin](https://github.com/isamarin)) — [isamarin/greenlight](https://github.com/isamarin/greenlight)
+> **Maintainer:** Igor Samarin ([@isamarin](https://github.com/isamarin)) — [isamarin/blacklight](https://github.com/isamarin/blacklight)
 >
 > Entries below v2.4.2 are from the original project by UnknownSKL ([unknownskl/greenlight](https://github.com/unknownskl/greenlight)).
 
 ## Unreleased
 
-- Full product rebrand: `com.isamarin.greenlight`, `io.github.isamarin.greenlight`
+- Rename Greenlight → **Blacklight** (product, packages, bundle IDs)
+- Full product rebrand: `com.isamarin.blacklight`, `io.github.isamarin.blacklight`
 - Tauri desktop shell for Windows/macOS with bundled Node sidecar
 - Electron V3 removed; `desktop-v3` is UI renderer only
 - CI: Tauri builds replace V3 Electron + Flatpak
@@ -54,7 +55,7 @@ description: Changelogs
 - Fixed authentication on a fresh installation. #1168
 
 ## v2.2.0 - 2024-03-05
-- Added a WebUI option to make Greenlight available over the network. Enables usage of Greenlight on devices with a chromium based webbrowser. #673
+- Added a WebUI option to make Blacklight available over the network. Enables usage of Blacklight on devices with a chromium based webbrowser. #673
 - Adding human readable waiting time when queued for a xCloud stream (credits to @NiccoMaganeli)
 - Added a low resolution mode for the Steam Deck to set a lower resolution then 720p for using FSR #1133
 - Updated icons #1127 (credits to @el2zay, and thanks for @jxhug for the suggestion)
@@ -161,7 +162,7 @@ description: Changelogs
 - Fixed a display issue with controllers on the settings page #469
 
 ## v2.0.0-beta1 - 2022-09-20
-- Complete rewrite of application and rebrand to Greenlight
+- Complete rewrite of application and rebrand to Blacklight
 - Updated xbox-xcloud-player to 2.0.0 with low latency streaming and rumble support! (Only xCloud)
 - Optimised authentication flow to make it more reliable and faster
 

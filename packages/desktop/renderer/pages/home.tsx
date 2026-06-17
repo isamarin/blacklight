@@ -18,7 +18,7 @@ function Home() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - {t('page.myConsoles.pageTitle')}</title>
+                <title>Blacklight - {t('page.myConsoles.pageTitle')}</title>
             </Head>
 
             <div style={ {

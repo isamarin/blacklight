@@ -1,4 +1,4 @@
-# @greenlight/logger
+# @blacklight/logger
 
 This package is the log handler. The logger contains a singleton structure which holds all the log data in sinks.
 The sinks can then later be used to scan through and use to debug better.

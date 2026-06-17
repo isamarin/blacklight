@@ -4,7 +4,7 @@ function getApiPort(): number {
   if (typeof localStorage === 'undefined') {
     return DEFAULT_API_PORT
   }
-  return Number(localStorage.getItem('greenlight-api-port')) || DEFAULT_API_PORT
+  return Number(localStorage.getItem('blacklight-api-port')) || DEFAULT_API_PORT
 }
 
 export function getApiOrigin(): string {

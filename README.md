@@ -1,8 +1,8 @@
-# Greenlight
+# Blacklight
 
-[![Build](https://github.com/isamarin/greenlight/actions/workflows/build.yml/badge.svg)](https://github.com/isamarin/greenlight/actions/workflows/build.yml)
+[![Build](https://github.com/isamarin/blacklight/actions/workflows/build.yml/badge.svg)](https://github.com/isamarin/blacklight/actions/workflows/build.yml)
 
-Greenlight is an open-source client for xCloud and Xbox home streaming, built with JavaScript and TypeScript. The streaming engine is powered by [xbox-xcloud-player](https://github.com/unknownskl/xbox-xcloud-player).
+**Blacklight** is an open-source Xbox streaming tool — xCloud and console home streaming from macOS and Windows. Built with JavaScript and TypeScript; streaming engine powered by [xbox-xcloud-player](https://github.com/unknownskl/xbox-xcloud-player).
 
 Desktop builds are available for **macOS** and **Windows** (Tauri). Linux desktop support is planned.
 
@@ -10,7 +10,7 @@ Desktop builds are available for **macOS** and **Windows** (Tauri). Linux deskto
 
 > Originally derived from [unknownskl/greenlight](https://github.com/unknownskl/greenlight). This project is now maintained independently under CalVer versioning.
 
-_DISCLAIMER: Greenlight is not affiliated with Microsoft, Xbox or Moonlight. All rights and trademarks are property of their respective owners._
+_DISCLAIMER: Blacklight is not affiliated with Microsoft, Xbox or Moonlight. All rights and trademarks are property of their respective owners._
 
 ## Features
 
@@ -26,7 +26,7 @@ _DISCLAIMER: Greenlight is not affiliated with Microsoft, Xbox or Moonlight. All
 
 ### Download pre-compiled binaries
 
-[Latest releases](https://github.com/isamarin/greenlight/releases)
+[Latest releases](https://github.com/isamarin/blacklight/releases)
 
 ### Compile from source
 
@@ -87,8 +87,8 @@ Click on the Xbox logo at the top-left. It will ask you to confirm to close the 
 
 Clone the repository:
 
-    git clone https://github.com/isamarin/greenlight.git
-    cd greenlight
+    git clone https://github.com/isamarin/blacklight.git
+    cd blacklight
 
 Install dependencies:
 

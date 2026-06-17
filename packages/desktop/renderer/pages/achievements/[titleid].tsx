@@ -52,7 +52,7 @@ function AchievmentTitle() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - View achievements</title>
+                <title>Blacklight - View achievements</title>
             </Head>
 
             <div style={{ paddingTop: '20px' }}>

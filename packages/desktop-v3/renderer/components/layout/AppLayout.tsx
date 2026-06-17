@@ -12,7 +12,7 @@ export default function AppLayout({
   return (
     <>
       <Head>
-        <title>{title ? `Greenlight - ${title}` : 'Greenlight'}</title>
+        <title>{title ? `Blacklight - ${title}` : 'Blacklight'}</title>
       </Head>
       <div className="flex h-screen bg-[#0d0d0d] bg-pattern overflow-hidden">
         <Sidebar />

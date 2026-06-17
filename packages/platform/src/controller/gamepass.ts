@@ -65,7 +65,7 @@ export default class gamepassController {
         const result = await this._httpClient.postRequest('catalog.gamepass.com', `/v3/products?hydration=RemoteHighSapphire0&market=${token.market}&language=${token.language}`, {
             'Authorization': `Bearer ${token.token}`,
             'ms-cv': '0.0',
-            'calling-app-name': 'Greenlight',
+            'calling-app-name': 'Blacklight',
             'calling-app-version': '3.0.0',
         },{
             Products: productIds,

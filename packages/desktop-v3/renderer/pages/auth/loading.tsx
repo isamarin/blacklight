@@ -9,7 +9,7 @@ export default function AuthLoadingPage() {
   return (
     <React.Fragment>
       <Head>
-        <title>Greenlight Authenticating...</title>
+        <title>Blacklight Authenticating...</title>
       </Head>
       <div className="flex h-screen bg-[#0d0d0d] bg-pattern overflow-hidden">
             {/* Main content */}

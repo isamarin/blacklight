@@ -1,16 +1,16 @@
 {
   "private": true,
-  "name": "greenlight-desktop",
-  "description": "Greenlight is a streaming application for Xbox and xCloud",
+  "name": "blacklight-desktop",
+  "description": "Blacklight is a streaming application for Xbox and xCloud",
   "version": "2.4.2",
   "author": "Igor Samarin <mako.mmw@gmail.com>",
   "main": "app/background.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/isamarin/greenlight.git"
+    "url": "git+https://github.com/isamarin/blacklight.git"
   },
   "scripts": {
-    "dev": "DEBUG=greenlight:* nextron",
+    "dev": "DEBUG=blacklight:* nextron",
     "build": "nextron build",
     "lint": "eslint . --ext .ts && eslint renderer/ --ext .tsx",
     "lint:fix": "eslint . --ext .ts --fix && eslint renderer/ --ext .tsx --fix",

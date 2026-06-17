@@ -162,7 +162,7 @@ jobs:
       - name: Publish Linux AppImage
         uses: actions/upload-artifact@v7
         with:
-          name: greenlight-linux.AppImage
+          name: blacklight-linux.AppImage
           path: |
             packages/desktop/dist/*.AppImage
         if: matrix.os == 'ubuntu-latest' && contains(github.event.head_commit.message, '[build]')
@@ -170,7 +170,7 @@ jobs:
       - name: Publish Linux DEB
         uses: actions/upload-artifact@v7
         with:
-          name: greenlight-linux.deb
+          name: blacklight-linux.deb
           path: |
             packages/desktop/dist/*.deb
         if: matrix.os == 'ubuntu-latest' && contains(github.event.head_commit.message, '[build]')
@@ -178,7 +178,7 @@ jobs:
       - name: Publish Mac DMG
         uses: actions/upload-artifact@v7
         with:
-          name: greenlight-macos.dmg
+          name: blacklight-macos.dmg
           path: |
             packages/desktop/dist/*.dmg
         if: matrix.os == 'macos-latest' && contains(github.event.head_commit.message, '[build]')
@@ -186,7 +186,7 @@ jobs:
       - name: Publish Windows EXE
         uses: actions/upload-artifact@v7
         with:
-          name: greenlight-win.zip
+          name: blacklight-win.zip
           path: |
             packages/desktop/dist/*.exe
         if: matrix.os == 'windows-latest' && contains(github.event.head_commit.message, '[build]')
@@ -284,7 +284,7 @@ jobs:
       - name: Publish web build
         uses: actions/upload-artifact@v7
         with:
-          name: greenlight-web
+          name: blacklight-web
           path: |
             packages/desktop-v3/web-out/*
 
@@ -343,7 +343,7 @@ jobs:
       - name: Publish Mac DMG
         uses: actions/upload-artifact@v7
         with:
-          name: greenlight-tauri-macos.dmg
+          name: blacklight-tauri-macos.dmg
           path: |
             packages/desktop-tauri/src-tauri/target/release/bundle/dmg/*.dmg
         if: contains(github.event.head_commit.message, '[build]')
@@ -412,7 +412,7 @@ jobs:
       - name: Publish Windows installer
         uses: actions/upload-artifact@v7
         with:
-          name: greenlight-tauri-win.exe
+          name: blacklight-tauri-win.exe
           path: |
             packages/desktop-tauri/src-tauri/target/release/bundle/nsis/*.exe
         if: contains(github.event.head_commit.message, '[build]')
@@ -461,7 +461,7 @@ jobs:
         run: pnpm install --frozen-lockfile
   
       - name: Build docs
-        run: pnpm --filter @greenlight/docs build
+        run: pnpm --filter @blacklight/docs build
 
       - name: Upload static files as artifact
         id: deployment-pages

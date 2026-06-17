@@ -17,7 +17,7 @@ function xCloudHome() {
     return (
         <React.Fragment>
             <Head>
-                <title>Greenlight - {t('page.xCloud.pageTitle')}</title>
+                <title>Blacklight - {t('page.xCloud.pageTitle')}</title>
             </Head>
 
             <BreadcrumbBar>
