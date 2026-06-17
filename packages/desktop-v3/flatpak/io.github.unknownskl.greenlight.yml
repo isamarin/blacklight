@@ -24,12 +24,13 @@ modules:
   - name: greenlight
     buildsystem: simple
     build-options:
+      append-path: /run/build/greenlight/npm-global/bin:/usr/lib/sdk/node24/bin
       env:
         XDG_CACHE_HOME: /run/build/greenlight/flatpak-node/cache
         npm_config_cache: /run/build/greenlight/flatpak-node/npm-cache
         npm_config_offline: 'true'
     build-commands:
-      - corepack enable
+      - npm install -g pnpm@10.4.1 --prefix /run/build/greenlight/npm-global
       - pnpm install --offline
       - pnpm --filter greenlight-desktop-v3 run flatpak-build --offline -- --linux
       # Add icon, metadata and desktop file
@@ -37,7 +38,7 @@ modules:
       - install -Dm 644 packages/desktop/flatpak/io.github.unknownskl.greenlight.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
       - install -Dm 644 packages/desktop/flatpak/io.github.unknownskl.greenlight.metainfo.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.appdata.xml
       # Bundle app and dependencies
-      - cp -a packages/desktop/dist/linux*unpacked /app/main
+      - cp -a packages/desktop-v3/dist/linux*unpacked /app/main
       # Install app wrapper
       - install -Dm755 -t /app/bin/ ../run.sh
     subdir: main
@@ -58,4 +59,4 @@ modules:
         commands:
           - echo runtime LD_LIBRARY_PATH = $LD_LIBRARY_PATH
           - echo runtime ARCH = $(uname -m)-$(uname -s | tr '[:upper:]' '[:lower:]')
-          - zypak-wrapper.sh /app/main/greenlight-desktop "$@"
+          - zypak-wrapper.sh /app/main/greenlight-desktop-v3 "$@"

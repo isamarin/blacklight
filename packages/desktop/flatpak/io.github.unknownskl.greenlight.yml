@@ -24,6 +24,7 @@ modules:
   - name: greenlight
     buildsystem: simple
     build-options:
+      append-path: /run/build/greenlight/npm-global/bin:/usr/lib/sdk/node22/bin
       env:
         XDG_CACHE_HOME: /run/build/greenlight/flatpak-node/cache
         npm_config_cache: /run/build/greenlight/flatpak-node/npm-cache
@@ -33,7 +34,7 @@ modules:
       - gunzip /app/extralib/libLLVM-16.0.6.so.gz
       - cp -a ../extralib/reduceSoFiles.sh -t /app/extralib
       - pushd /app/extralib && ln -s libLLVM-16.0.6.so libLLVM-16.so && chmod +x reduceSoFiles.sh && ./reduceSoFiles.sh && popd
-      - corepack enable
+      - npm install -g pnpm@10.4.1 --prefix /run/build/greenlight/npm-global
       - pnpm install --offline
       - pnpm --filter greenlight-desktop run flatpak-build --offline -- --linux
       # Add icon, metadata and desktop file
