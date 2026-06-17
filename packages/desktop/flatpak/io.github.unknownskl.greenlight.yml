@@ -28,14 +28,14 @@ modules:
         XDG_CACHE_HOME: /run/build/greenlight/flatpak-node/cache
         npm_config_cache: /run/build/greenlight/flatpak-node/npm-cache
         npm_config_offline: 'true'
-        yarn_config_cache: /run/build/greenlight/flatpak-node/yarn-mirror
     build-commands:
       - cp -a ../extralib/extralib -t /app/
       - gunzip /app/extralib/libLLVM-16.0.6.so.gz
       - cp -a ../extralib/reduceSoFiles.sh -t /app/extralib
       - pushd /app/extralib && ln -s libLLVM-16.0.6.so libLLVM-16.so && chmod +x reduceSoFiles.sh && ./reduceSoFiles.sh && popd
-      - yarn --offline
-      - yarn desktop run flatpak-build --offline -- --linux
+      - corepack enable
+      - pnpm install --offline
+      - pnpm --filter greenlight-desktop run flatpak-build --offline -- --linux
       # Add icon, metadata and desktop file
       - install -Dm 644 packages/desktop/flatpak/io.github.unknownskl.greenlight.png ${FLATPAK_DEST}/share/icons/hicolor/512x512/apps/${FLATPAK_ID}.png
       - install -Dm 644 packages/desktop/flatpak/io.github.unknownskl.greenlight.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
@@ -59,12 +59,7 @@ modules:
         url: https://github.com/Originalimoc/amd-patched-mesa
         dest: extralib
         commit: "a70058baf35f1823613f2577c30a477e93cd106a"
-      - yarn-sources.json
-      - type: inline
-        dest-filename: .yarnrc
-        contents: |
-          yarn-offline-mirror "/run/build/greenlight/flatpak-node/yarn-mirror"
-          yarn-offline-mirror-pruning true
+      - pnpm-sources.json
       # Wrapper to launch the app
       - type: script
         dest-filename: run.sh

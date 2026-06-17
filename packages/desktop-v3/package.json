@@ -18,17 +18,24 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
+    "@greenlight/player": "workspace:*",
+    "@tanstack/react-query": "^5.100.11",
     "@trpc/client": "^11.17.0",
     "@trpc/server": "^11.17.0",
     "@trpc/tanstack-react-query": "^11.17.0",
     "electron-serve": "^3.0.0",
     "electron-store": "^11.0.2",
+    "express": "^5.2.1",
+    "express-http-proxy": "^2.1.1",
+    "i18next": "^25.8.0",
+    "react-i18next": "^17.0.7",
     "react-qr-code": "^2.2.0",
     "wrangler": "^4.92.0"
   },
   "devDependencies": {
     "@greenlight/platform": "workspace:*",
     "@tailwindcss/postcss": "^4.2.2",
+    "@types/express": "^5.0.6",
     "@types/node": "^22.15.0",
     "@types/react": "^19.2.17",
     "electron": "^42.4.1",

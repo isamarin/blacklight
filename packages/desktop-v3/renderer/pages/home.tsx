@@ -1,81 +1,35 @@
-import React from 'react'
-import Head from 'next/head'
-import Sidebar from '../components/sidebar'
-// import Link from 'next/link'
-// import Image from 'next/image'
-
-import { useQueryClient } from "@tanstack/react-query";
-import { useTRPC } from "../utils/trpc";
-import { useAuth } from '../contexts/AuthContext';
+import Link from 'next/link'
+import { useTranslation } from 'react-i18next'
+import AppLayout from '../components/layout/AppLayout'
+import TitleRow from '../components/xcloud/TitleRow'
+import Button from '../components/ui/Button'
+import { useTitleCatalog } from '../contexts/TitleCatalogContext'
 
 export default function HomePage() {
-  const trpc = useTRPC();
-  const queryClient = useQueryClient();
-
-
-
-const { isAuthenticated, isAuthenticating, authState } = useAuth();
-
-console.log('Authentication status in _app:', { isAuthenticated, isAuthenticating, authState });
-
-
-
-  const ping = () => {
-    queryClient.fetchQuery(trpc.ping.queryOptions())
-      .then((data) => {
-          console.log(data)
-      })
-      .catch((error) => {
-          console.error('Error fetching data:', error);
-      });
-  }
-  
-  const getVersion = () => {
-    queryClient.fetchQuery(trpc.version.queryOptions())
-      .then((data) => {
-          console.log(data)
-      })
-      .catch((error) => {
-          console.error('Error fetching data:', error);
-      });
-  }
+  const { t } = useTranslation()
+  const { recentIds, newIds, isLoading } = useTitleCatalog()
 
   return (
-    <React.Fragment>
-      <Head>
-        <title>Greenlight</title>
-      </Head>
-      <div className="flex h-screen bg-[#0d0d0d] bg-pattern overflow-hidden">
-            {/* Sidebar */}
-            <Sidebar />
-
-            {/* Main content */}
-            <main className="flex-1 overflow-hidden relative">
-              {/* Ambient background glow */}
-              <div className="absolute top-0 right-0 w-96 h-96 bg-[#107C10]/3 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#107C10]/2 rounded-full blur-3xl pointer-events-none" />
-
-              {/* Main content area */}
-
-              <div className="h-full overflow-y-auto">
-                <div className="p-6 md:p-8 max-w-5xl mx-auto">
-                  {/* Header */}
-                  <div className="mb-6 animate-fade-in-up">
-                    <h2 className="text-2xl font-bold text-white mb-1">Game Library</h2>
-                    <p className="text-white/40 text-sm">0 titles in your collection</p>
-
-                    <button onClick={ping}>Ping</button>
-                    <button onClick={getVersion}>getVersion</button>
-
-
-                    <pre>{ JSON.stringify(authState, null, 2) }</pre>
-                  </div>
-                </div>
-              </div>
-
-              {/* End of main content */}
-            </main>
-          </div>
-    </React.Fragment>
+    <AppLayout title={t('page.xCloud.pageTitle')}>
+      <h1 className="text-2xl font-bold text-white mb-6">{t('page.xCloud.pageTitle')}</h1>
+      {isLoading ? (
+        <p className="text-white/40">Loading library...</p>
+      ) : (
+        <>
+          <TitleRow title={t('page.xCloud.recentGames')} titleIds={recentIds} />
+          <TitleRow
+            title={
+              <span className="flex items-center gap-3">
+                {t('page.xCloud.recentlyAdded')}
+                <Link href="/xcloud/library/">
+                  <Button label={t('page.xCloud.viewLibraryBtn')} className="text-xs py-1 px-3" />
+                </Link>
+              </span>
+            }
+            titleIds={newIds}
+          />
+        </>
+      )}
+    </AppLayout>
   )
 }

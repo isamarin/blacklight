@@ -28,10 +28,10 @@ modules:
         XDG_CACHE_HOME: /run/build/greenlight/flatpak-node/cache
         npm_config_cache: /run/build/greenlight/flatpak-node/npm-cache
         npm_config_offline: 'true'
-        yarn_config_cache: /run/build/greenlight/flatpak-node/yarn-mirror
     build-commands:
-      - yarn --offline
-      - yarn desktop run flatpak-build --offline -- --linux
+      - corepack enable
+      - pnpm install --offline
+      - pnpm --filter greenlight-desktop-v3 run flatpak-build --offline -- --linux
       # Add icon, metadata and desktop file
       - install -Dm 644 packages/desktop/flatpak/io.github.unknownskl.greenlight.png ${FLATPAK_DEST}/share/icons/hicolor/512x512/apps/${FLATPAK_ID}.png
       - install -Dm 644 packages/desktop/flatpak/io.github.unknownskl.greenlight.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
@@ -51,12 +51,7 @@ modules:
       #   tag: v2.0.0-beta15
       #   commit: 862b0e2502eeb9539126ba7a8d4aeb630a41b148
       #   dest: main
-      - yarn-sources.json
-      - type: inline
-        dest-filename: .yarnrc
-        contents: |
-          yarn-offline-mirror "/run/build/greenlight/flatpak-node/yarn-mirror"
-          yarn-offline-mirror-pruning true
+      - pnpm-sources.json
       # Wrapper to launch the app
       - type: script
         dest-filename: run.sh

@@ -3,8 +3,10 @@ import { app, ipcMain } from 'electron'
 import serve from 'electron-serve'
 import { createWindow } from './helpers/create-window'
 import { setupTrpcHandler } from './trpc-handler'
+import { setupWebUIHandlers, maybeAutostartWebUI } from './webui'
 
 const isProd = process.env.NODE_ENV === 'production'
+const devPort = process.argv[2]
 
 if (isProd) {
   serve({ directory: 'app' })
@@ -14,7 +16,10 @@ if (isProd) {
 
 ;(async () => {
   setupTrpcHandler()
+  setupWebUIHandlers(isProd, devPort)
   await app.whenReady()
+
+  maybeAutostartWebUI(isProd, devPort)
 
   const mainWindow = createWindow('main', {
     width: 1000,
@@ -27,8 +32,7 @@ if (isProd) {
   if (isProd) {
     await mainWindow.loadURL('app://./home')
   } else {
-    const port = process.argv[2]
-    await mainWindow.loadURL(`http://localhost:${port}/home`)
+    await mainWindow.loadURL(`http://localhost:${devPort}/home`)
     mainWindow.webContents.openDevTools()
   }
 })()

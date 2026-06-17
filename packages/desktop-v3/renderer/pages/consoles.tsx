@@ -1,75 +1,57 @@
-import React from 'react'
-import Head from 'next/head'
-import Sidebar from '../components/sidebar'
-// import Link from 'next/link'
-// import Image from 'next/image'
+import Link from 'next/link'
+import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
+import AppLayout from '../components/layout/AppLayout'
+import Card from '../components/ui/Card'
+import Label from '../components/ui/Label'
+import Button from '../components/ui/Button'
+import Loader from '../components/ui/Loader'
+import { useTRPC } from '../utils/trpc'
+import { useAuth } from '../contexts/AuthContext'
 
-// import { useQueryClient } from "@tanstack/react-query";
-// import { useTRPC } from "../utils/trpc";
-// import { useAuth } from '../contexts/AuthContext';
+export default function ConsolesPage() {
+  const { t } = useTranslation()
+  const trpc = useTRPC()
+  const { getWebToken } = useAuth()
 
-export default function HomePage() {
-  // const trpc = useTRPC();
-  // const queryClient = useQueryClient();
+  const consoles = useQuery({
+    ...trpc.smartglass_consoles_list.queryOptions(getWebToken()),
+    staleTime: 60 * 1000,
+  })
 
-
-  // const ping = () => {
-  //   queryClient.fetchQuery(trpc.ping.queryOptions())
-  //     .then((data) => {
-  //         console.log(data)
-  //     })
-  //     .catch((error) => {
-  //         console.error('Error fetching data:', error);
-  //     });
-  // }
-  
-  // const getVersion = () => {
-  //   queryClient.fetchQuery(trpc.version.queryOptions())
-  //     .then((data) => {
-  //         console.log(data)
-  //     })
-  //     .catch((error) => {
-  //         console.error('Error fetching data:', error);
-  //     });
-  // }
+  const list = consoles.data?.data?.result || []
 
   return (
-    <React.Fragment>
-      <Head>
-        <title>Greenlight</title>
-      </Head>
-      <div className="flex h-screen bg-[#0d0d0d] bg-pattern overflow-hidden">
-            {/* Sidebar */}
-            <Sidebar />
-
-            {/* Main content */}
-            <main className="flex-1 overflow-hidden relative">
-              {/* Ambient background glow */}
-              <div className="absolute top-0 right-0 w-96 h-96 bg-[#107C10]/3 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#107C10]/2 rounded-full blur-3xl pointer-events-none" />
-
-              {/* Main content area */}
-
-              <div className="h-full overflow-y-auto">
-
-                <div className="p-6 md:p-8 max-w-5xl mx-auto">
-                  {/* Header */}
-                  <div className="mb-6 animate-fade-in-up">
-                    <h2 className="text-2xl font-bold text-white mb-1">My Consoles</h2>
-                    <p className="text-white/40 text-sm">Manage and stream from your home consoles</p>
-
-                    {/* <button onClick={ping}>Ping</button>
-                    <button onClick={getVersion}>getVersion</button>
-
-
-                    <pre>{ JSON.stringify(authState, null, 2) }</pre> */}
-                  </div>
-                </div>
+    <AppLayout title={t('page.myConsoles.pageTitle')}>
+      <h1 className="text-2xl font-bold text-white mb-6">{t('page.myConsoles.pageTitle')}</h1>
+      <div className="flex flex-wrap gap-4">
+        {consoles.isLoading ? (
+          <Loader />
+        ) : list.length === 0 ? (
+          <Card>{t('page.myConsoles.noConsoles')}</Card>
+        ) : (
+          list.map((item: any) => (
+            <Card key={item.id} className="w-72">
+              <h2 className="text-lg font-semibold text-white mb-2">{item.name}</h2>
+              <p className="text-xs text-white/40 mb-3">{item.id}</p>
+              {item.remoteManagementEnabled && item.consoleStreamingEnabled ? (
+                item.powerState === 'On' ? (
+                  <Label variant="green">{t('page.myConsoles.poweredOn')}</Label>
+                ) : (
+                  <Label>{item.powerState}</Label>
+                )
+              ) : (
+                <Label variant="orange">{t('page.myConsoles.warningLabel')}</Label>
+              )}
+              <div className="mt-4">
+                <Link href={`/stream/${item.id}/`}>
+                  <Button label={t('page.myConsoles.startStreamBtn')} />
+                </Link>
               </div>
-
-              {/* End of main content */}
-            </main>
-          </div>
-    </React.Fragment>
+            </Card>
+          ))
+        )}
+      </div>
+    </AppLayout>
   )
 }
