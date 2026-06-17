@@ -34,7 +34,7 @@ modules:
       - gunzip /app/extralib/libLLVM-16.0.6.so.gz
       - cp -a ../extralib/reduceSoFiles.sh -t /app/extralib
       - pushd /app/extralib && ln -s libLLVM-16.0.6.so libLLVM-16.so && chmod +x reduceSoFiles.sh && ./reduceSoFiles.sh && popd
-      - npm install -g /run/build/greenlight/main/pnpm-pkg/pnpm-10.4.1.tgz --prefix /run/build/greenlight/npm-global --offline
+      - npm install -g /run/build/greenlight/pnpm-pkg/pnpm-10.4.1.tgz --prefix /run/build/greenlight/npm-global --offline
       - pnpm install --offline
       - pnpm --filter greenlight-desktop run flatpak-build --offline -- --linux
       # Add icon, metadata and desktop file
