@@ -45,3 +45,9 @@ Thumbs.db
 .notes
 .next
 out
+
+# flatpak: generated sources (CI cachedeps) and local simulation
+deps-dist/
+packages/desktop/flatpak/pnpm-sources.json
+packages/desktop-v3/flatpak/pnpm-sources.json
+/scripts/
