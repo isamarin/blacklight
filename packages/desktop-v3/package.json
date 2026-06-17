@@ -2,13 +2,13 @@
   "private": true,
   "name": "greenlight-desktop-v3",
   "description": "Greenlight is a streaming application for Xbox and xCloud",
-  "version": "3.0.0-alpha.0",
+  "version": "3.0.0-alpha.1",
   "author": "UnknownSKL <info+github@jimkroon.nl>",
   "type": "module",
   "main": "app/main.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/unknownskl/greenlight.git"
+    "url": "git+https://github.com/isamarin/greenlight.git"
   },
   "scripts": {
     "dev": "nextron",
@@ -29,9 +29,9 @@
   "devDependencies": {
     "@greenlight/platform": "*",
     "@tailwindcss/postcss": "^4.2.2",
-    "@types/node": "^25.9.1",
+    "@types/node": "^22.15.0",
     "@types/react": "^19.2.17",
-    "electron": "^41.0.3",
+    "electron": "^42.4.1",
     "electron-builder": "^26.8.1",
     "next": "^16.2.1",
     "nextron": "^10.0.0",
@@ -39,6 +39,6 @@
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "tailwindcss": "^4.2.2",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.2"
   }
 }
