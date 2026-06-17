@@ -14,7 +14,7 @@
     "dev": "nextron",
     "dev:web": "cd renderer && BUILD_TARGET=web next build && cd ../ && npx wrangler pages dev",
     "build": "nextron build",
-    "build:renderer": "cd renderer && NODE_ENV=production next build",
+    "build:renderer": "node scripts/build-renderer.mjs",
     "build:web": "cd renderer && BUILD_TARGET=web next build",
     "flatpak-build": "nextron build --no-pack && electron-builder --dir",
     "postinstall": "electron-builder install-app-deps"
