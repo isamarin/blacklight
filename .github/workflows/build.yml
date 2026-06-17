@@ -247,6 +247,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Set up node_modules cache
+        if: matrix.os != 'windows-latest'
         uses: actions/cache@v5
         continue-on-error: false
         with:
@@ -262,6 +263,14 @@ jobs:
       - name: Reset node_modules cache (if reset_cache enabled)
         if: env.reset_cache == 'true'
         run: rimraf node_modules/
+
+      - name: Clean node_modules on Windows
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: |
+          if (Test-Path node_modules) {
+            Remove-Item -Recurse -Force node_modules
+          }
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -512,6 +521,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Set up node_modules cache
+        if: matrix.os != 'windows-latest'
         uses: actions/cache@v5
         continue-on-error: false
         with:
@@ -527,6 +537,14 @@ jobs:
       - name: Reset node_modules cache (if reset_cache enabled)
         if: env.reset_cache == 'true'
         run: rimraf node_modules/
+
+      - name: Clean node_modules on Windows
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: |
+          if (Test-Path node_modules) {
+            Remove-Item -Recurse -Force node_modules
+          }
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
