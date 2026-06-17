@@ -5,7 +5,7 @@ import SettingsSidebar from '../../components/settings/SettingsSidebar'
 import Card from '../../components/ui/Card'
 import Button from '../../components/ui/Button'
 import { useSettings } from '../../contexts/SettingsContext'
-import { getGreenlightBridge, isWebUIMode } from '../../utils/electron'
+import { getWebuiApi, isDesktopShell, isWebUIMode, openExternal } from '../../utils/electron'
 
 export default function SettingsWebUIPage() {
   const { t } = useTranslation()
@@ -13,37 +13,37 @@ export default function SettingsWebUIPage() {
   const [running, setRunning] = useState(false)
   const inWebUI = isWebUIMode()
 
-  useEffect(() => {
-    const bridge = getGreenlightBridge()
-    if (!bridge) return
+  const webuiApi = getWebuiApi()
 
-    const refresh = () => bridge.webui.getStatus().then(setRunning)
+  useEffect(() => {
+    if (!webuiApi) return
+
+    const refresh = () => webuiApi.getStatus().then(setRunning)
     refresh()
     const interval = setInterval(refresh, 1000)
     return () => clearInterval(interval)
-  }, [])
+  }, [webuiApi])
 
   const syncToMain = (next: typeof settings) => {
-    getGreenlightBridge()?.webui.saveSettings({
+    webuiApi?.saveSettings({
       webui_autostart: next.webui_autostart,
       webui_port: Number(next.webui_port) || 9003,
     })
   }
 
   const toggleServer = async () => {
-    const bridge = getGreenlightBridge()
-    if (!bridge) return
+    if (!webuiApi) return
     if (running) {
-      await bridge.webui.stop()
+      await webuiApi.stop()
     } else {
-      await bridge.webui.start(Number(settings.webui_port) || 9003)
+      await webuiApi.start(Number(settings.webui_port) || 9003)
     }
-    setRunning(await bridge.webui.getStatus())
+    setRunning(await webuiApi.getStatus())
   }
 
   const openInBrowser = () => {
     const port = Number(settings.webui_port) || 9003
-    getGreenlightBridge()?.shell.openExternal(`http://127.0.0.1:${port}/home/`)
+    void openExternal(`http://127.0.0.1:${port}/home/`)
   }
 
   return (
@@ -74,6 +74,13 @@ export default function SettingsWebUIPage() {
               {inWebUI && (
                 <p className="text-orange-300 text-sm">
                   You are viewing Greenlight through WebUI. Server controls are disabled in this mode.
+                </p>
+              )}
+
+              {isDesktopShell() && !isWebUIMode() && (
+                <p className="text-white/50 text-sm">
+                  Tauri/Electron shell uses the local API server on 127.0.0.1. Start it before opening
+                  streams if autostart is disabled.
                 </p>
               )}
 

@@ -1,0 +1,28 @@
+{
+  "private": true,
+  "name": "greenlight-desktop-tauri",
+  "description": "Greenlight desktop shell (Tauri, Windows/macOS)",
+  "version": "2026.07.1-alpha.1",
+  "type": "module",
+  "scripts": {
+    "sidecar": "tsx sidecar/server.ts",
+    "sidecar:watch": "tsx watch sidecar/server.ts",
+    "build:renderer": "pnpm --filter greenlight-desktop-v3 run build:renderer",
+    "dev": "concurrently -k -n sidecar,tauri -c green,blue \"pnpm sidecar\" \"tauri dev\"",
+    "build": "pnpm build:renderer && tauri build",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@greenlight/platform": "workspace:*",
+    "@trpc/server": "^11.17.0",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.10.0",
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.15.0",
+    "concurrently": "^9.2.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.8.2"
+  }
+}

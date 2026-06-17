@@ -4,6 +4,7 @@ import { useState, ReactNode } from 'react';
 import { TRPCProvider } from '../utils/trpc';
 import { appRouter } from '@greenlight/platform';
 import { ipcLink } from '../utils/ipc-link';
+import { getTrpcHttpUrl, isElectronApp } from '../utils/runtime';
 
 function makeQueryClient() {
   return new QueryClient({
@@ -61,11 +62,11 @@ export const TrpcProviderComponent = ({ children }: { children: ReactNode }) => 
   const [trpcClient] = useState(() =>
     createTRPCClient<typeof appRouter>({
       links: [
-        // Use IPC when running inside Electron, fall back to HTTP for web builds
-        typeof window !== 'undefined' && 'trpcIpc' in window
+        // Electron legacy: IPC. Tauri + WebUI: HTTP to local sidecar.
+        typeof window !== 'undefined' && isElectronApp()
           ? ipcLink<typeof appRouter>()
           : httpBatchLink({
-              url: '/trpc',
+              url: getTrpcHttpUrl(),
             }),
       ],
     }),

@@ -6,4 +6,5 @@ packages:
   - packages/platform-playground
   - packages/desktop
   - packages/desktop-v3
+  - packages/desktop-tauri
   - packages/docs

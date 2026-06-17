@@ -10,6 +10,7 @@
   "scripts": {
     "desktop": "pnpm --filter greenlight-desktop",
     "desktopv3": "pnpm --filter greenlight-desktop-v3",
+    "desktop-tauri": "pnpm --filter greenlight-desktop-tauri",
     "docs": "pnpm --filter @greenlight/docs",
     "logger": "pnpm --filter @greenlight/logger",
     "platform": "pnpm --filter @greenlight/platform",

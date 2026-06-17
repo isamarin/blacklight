@@ -38,7 +38,7 @@ export class WebUIServer {
       const staticDir = path.join(import.meta.dirname, '../app')
       app.use(express.static(staticDir))
 
-      app.get('*', (req, res) => {
+      app.get('/{*path}', (req, res) => {
         const reqPath = req.path.endsWith('/') ? req.path.slice(0, -1) : req.path
         const htmlPath = path.join(staticDir, reqPath, 'index.html')
         res.sendFile(htmlPath, (err) => {

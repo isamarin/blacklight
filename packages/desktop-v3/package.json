@@ -14,12 +14,14 @@
     "dev": "nextron",
     "dev:web": "cd renderer && BUILD_TARGET=web next build && cd ../ && npx wrangler pages dev",
     "build": "nextron build",
+    "build:renderer": "cd renderer && NODE_ENV=production next build",
     "build:web": "cd renderer && BUILD_TARGET=web next build",
     "flatpak-build": "nextron build --no-pack && electron-builder --dir",
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
     "@greenlight/player": "workspace:*",
+    "@tauri-apps/plugin-opener": "^2.5.0",
     "@tanstack/react-query": "^5.100.11",
     "@trpc/client": "^11.17.0",
     "@trpc/server": "^11.17.0",
