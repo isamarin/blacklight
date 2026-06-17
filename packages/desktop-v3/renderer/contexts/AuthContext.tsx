@@ -22,6 +22,27 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+type UserTokenPayload = RouterOutputs['auth_msal_verify'];
+
+const normalizeUserToken = (
+  token: UserTokenPayload | RouterOutputs['auth_msal_refresh'],
+): UserTokenPayload => {
+  if ('data' in token) {
+    const { data } = token;
+    return {
+      token_type: data.token_type,
+      scope: data.scope,
+      expires_in: data.expires_in,
+      ext_expires_in: data.ext_expires_in ?? data.expires_in,
+      access_token: data.access_token,
+      refresh_token: data.refresh_token,
+      id_token: data.id_token ?? '',
+    };
+  }
+
+  return token;
+};
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const trpc = useTRPC();
   const queryClient = useQueryClient();
@@ -40,6 +61,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false);
   const [hasLoadedFromStorage, setHasLoadedFromStorage] = useState<boolean>(false);
 
+  const fetchTokensForUser = async (userToken: UserTokenPayload) => {
+    const [webToken, streamingTokens] = await Promise.all([
+      queryClient.fetchQuery(trpc.auth_get_webtoken.queryOptions(userToken)),
+      queryClient.fetchQuery(trpc.auth_get_streamingtokens.queryOptions(userToken)),
+    ]);
+
+    setAuthState({
+      userToken,
+      webToken,
+      streamingTokens,
+    });
+    setIsAuthenticated(true);
+  };
+
+  const clearAuth = () => {
+    setAuthState({
+      userToken: null,
+      webToken: null,
+      streamingTokens: null,
+    });
+    setIsAuthenticated(false);
+    localStorage.removeItem('userToken');
+  };
+
   // Load saved auth state from localStorage on mount
   useEffect(() => {
     const loadAuthState = async () => {
@@ -47,46 +92,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const savedUserToken = localStorage.getItem('userToken');
       if (savedUserToken) {
         try {
-          const userToken = JSON.parse(savedUserToken);
-          
-          // Fetch fresh web and streaming tokens (don't load from storage)
+          const userToken = normalizeUserToken(
+            JSON.parse(savedUserToken) as UserTokenPayload | RouterOutputs['auth_msal_refresh'],
+          );
+
           try {
-            const [webToken, streamingTokens] = await Promise.all([
-              queryClient.fetchQuery(trpc.auth_get_webtoken.queryOptions(userToken)),
-              queryClient.fetchQuery(trpc.auth_get_streamingtokens.queryOptions(userToken)),
-            ]);
-            
-            setAuthState({
-              userToken,
-              webToken: webToken,
-              streamingTokens,
-            });
-            
-            setIsAuthenticated(true);
+            await fetchTokensForUser(userToken);
           } catch (error) {
-            console.error('Failed to fetch tokens:', error);
+            console.error('Failed to fetch tokens, attempting refresh:', error);
 
-            // Check if we can refresh the tokens
-            // const refreshedToken = await queryClient.fetchQuery(trpc.auth_msal_refresh.queryOptions(userToken.refresh_token))
-
-            // Clear invalid userToken only on auth failure
-            // localStorage.removeItem('userToken');
-
-            // setAuthState({
-            //   userToken: null,
-            //   webToken: null,
-            //   streamingTokens: null,
-            // });
-            // setIsAuthenticated(false);
+            try {
+              const refreshedToken = normalizeUserToken(
+                await queryClient.fetchQuery(trpc.auth_msal_refresh.queryOptions(userToken)),
+              );
+              localStorage.setItem('userToken', JSON.stringify(refreshedToken));
+              await fetchTokensForUser(refreshedToken);
+            } catch (refreshError) {
+              console.error('Failed to refresh tokens:', refreshError);
+              clearAuth();
+            }
           }
         } catch (e) {
           console.error('Failed to parse saved user token', e);
+          clearAuth();
         }
       }
       setHasLoadedFromStorage(true);
       setIsAuthenticating(false);
     };
-    
+
     loadAuthState();
   }, []);
 
@@ -114,20 +148,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Save userToken immediately to localStorage
       localStorage.setItem('userToken', JSON.stringify(userToken));
       
-      // Fetch web token and streaming tokens using the userToken
-      const [webToken, streamingTokens] = await Promise.all([
-        queryClient.fetchQuery(trpc.auth_get_webtoken.queryOptions(userToken)),
-        queryClient.fetchQuery(trpc.auth_get_streamingtokens.queryOptions(userToken)),
-      ]);
-      
-      setAuthState({
-        userToken,
-        webToken,
-        streamingTokens,
-      });
-      
-      setIsAuthenticated(true);
-      
+      await fetchTokensForUser(userToken);
+
       return userToken;
     } finally {
       setIsAuthenticating(false);
@@ -135,13 +157,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = () => {
-    setAuthState({
-      userToken: null,
-      webToken: null,
-      streamingTokens: null,
-    });
-    setIsAuthenticated(false);
-    localStorage.removeItem('userToken');
+    clearAuth();
   };
 
   const getBrowserLanguage = () => {

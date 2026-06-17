@@ -1,6 +1,6 @@
-appId: com.example.nextron
-productName: My Nextron App
-copyright: Copyright © 2026 Yoshihide Shiono
+appId: com.unknownskl.greenlight
+productName: Greenlight
+copyright: Copyright © 2026 Igor Samarin
 directories:
   output: dist
   buildResources: resources
