@@ -30,7 +30,7 @@ modules:
         npm_config_cache: /run/build/greenlight/flatpak-node/npm-cache
         npm_config_offline: 'true'
     build-commands:
-      - npm install -g pnpm@10.4.1 --prefix /run/build/greenlight/npm-global
+      - npm install -g pnpm-pkg/pnpm-10.4.1.tgz --prefix /run/build/greenlight/npm-global --offline
       - pnpm install --offline
       - pnpm --filter greenlight-desktop-v3 run flatpak-build --offline -- --linux
       # Add icon, metadata and desktop file
@@ -53,6 +53,10 @@ modules:
       #   commit: 862b0e2502eeb9539126ba7a8d4aeb630a41b148
       #   dest: main
       - pnpm-sources.json
+      - type: file
+        url: https://registry.npmjs.org/pnpm/-/pnpm-10.4.1.tgz
+        sha256: 4b702887986995933d4300836b04d6d02a43bc72b52e4f7e93a4ca608b959197
+        dest: pnpm-pkg
       # Wrapper to launch the app
       - type: script
         dest-filename: run.sh

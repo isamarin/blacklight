@@ -10,3 +10,21 @@ files:
       - package.json
       - app
 publish: null
+
+mac:
+  icon: icon.icns
+  category: public.app-category.games
+  target:
+    - dmg
+
+win:
+  icon: icon.ico
+  target:
+    - zip
+
+linux:
+  icon: ../../desktop/flatpak/io.github.unknownskl.greenlight.png
+  category: Game
+  target:
+    - AppImage
+    - deb

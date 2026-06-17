@@ -34,7 +34,7 @@ modules:
       - gunzip /app/extralib/libLLVM-16.0.6.so.gz
       - cp -a ../extralib/reduceSoFiles.sh -t /app/extralib
       - pushd /app/extralib && ln -s libLLVM-16.0.6.so libLLVM-16.so && chmod +x reduceSoFiles.sh && ./reduceSoFiles.sh && popd
-      - npm install -g pnpm@10.4.1 --prefix /run/build/greenlight/npm-global
+      - npm install -g pnpm-pkg/pnpm-10.4.1.tgz --prefix /run/build/greenlight/npm-global --offline
       - pnpm install --offline
       - pnpm --filter greenlight-desktop run flatpak-build --offline -- --linux
       # Add icon, metadata and desktop file
@@ -61,6 +61,10 @@ modules:
         dest: extralib
         commit: "a70058baf35f1823613f2577c30a477e93cd106a"
       - pnpm-sources.json
+      - type: file
+        url: https://registry.npmjs.org/pnpm/-/pnpm-10.4.1.tgz
+        sha256: 4b702887986995933d4300836b04d6d02a43bc72b52e4f7e93a4ca608b959197
+        dest: pnpm-pkg
       # Wrapper to launch the app
       - type: script
         dest-filename: run.sh
