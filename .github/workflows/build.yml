@@ -137,11 +137,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Remove node_modules before flatpak source generation
-        run: rm -rf node_modules/
-
       - name: Build pnpm cache
         run: flatpak-node-generator pnpm pnpm-lock.yaml -o ./deps-dist/pnpm-sources.json --electron-node-headers
+
+      - name: Verify flatpak sources manifest
+        run: |
+          grep -q 'axios-1.18.0.tgz' ./deps-dist/pnpm-sources.json
+          grep -q 'populate_pnpm_store.py' ./deps-dist/pnpm-sources.json
 
       - uses: actions/upload-artifact@master
         with:
@@ -202,9 +204,10 @@ jobs:
           path: |
             build/
             .flatpak-builder/
-            flatpak-node/
           key: ${{ runner.os }}-${{ runner.arch }}-flatpak-v2-${{ hashFiles('pnpm-lock.yaml', 'packages/desktop/flatpak/**') }}
-          restore-keys: ${{ runner.os }}-${{ runner.arch }}-flatpak-v2-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Clear stale offline pnpm store
+        run: rm -rf flatpak-node/
 
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
@@ -464,9 +467,10 @@ jobs:
           path: |
             build/
             .flatpak-builder/
-            flatpak-node/
           key: ${{ runner.os }}-${{ runner.arch }}-flatpak-v3-${{ hashFiles('pnpm-lock.yaml', 'packages/desktop-v3/flatpak/**') }}
-          restore-keys: ${{ runner.os }}-${{ runner.arch }}-flatpak-v3-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Clear stale offline pnpm store
+        run: rm -rf flatpak-node/
 
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
