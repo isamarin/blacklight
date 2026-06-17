@@ -27,6 +27,7 @@ modules:
       append-path: /run/build/greenlight/npm-global/bin:/usr/lib/sdk/node24/bin
       env:
         XDG_CACHE_HOME: /run/build/greenlight/flatpak-node/cache
+        ELECTRON_CACHE: /run/build/greenlight/flatpak-node/cache/electron
         npm_config_cache: /run/build/greenlight/flatpak-node/npm-cache
         npm_config_store_dir: /run/build/greenlight/flatpak-node/pnpm-store
         npm_config_offline: 'true'
@@ -39,6 +40,15 @@ modules:
       - |
         set -ex
         . ../flatpak-node/electron-builder-arch-args.sh
+        case "$FLATPAK_ARCH" in
+          x86_64) ELECTRON_LINUX_ARCH=x64 ;;
+          aarch64) ELECTRON_LINUX_ARCH=arm64 ;;
+          arm) ELECTRON_LINUX_ARCH=armv7l ;;
+          i386) ELECTRON_LINUX_ARCH=ia32 ;;
+        esac
+        ELECTRON_ZIP="../flatpak-node/cache/electron/electron-v42.4.1-linux-${ELECTRON_LINUX_ARCH}.zip"
+        test -f "$ELECTRON_ZIP"
+        printf '\nelectronDist: %s\n' "$ELECTRON_ZIP" >> packages/desktop-v3/electron-builder.yml
         sed -i 's/- AppImage/- dir/' packages/desktop-v3/electron-builder.yml
         sed -i '/- deb/d' packages/desktop-v3/electron-builder.yml
         pnpm --filter greenlight-desktop-v3 exec nextron build --no-pack
