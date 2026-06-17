@@ -6,7 +6,7 @@
   "build": {
     "devUrl": "http://127.0.0.1:9003/home/",
     "beforeBuildCommand": "pnpm --filter greenlight-desktop-tauri run build:renderer",
-    "frontendDist": "../desktop-v3/app"
+    "frontendDist": "../../desktop-v3/app"
   },
   "app": {
     "windows": [
