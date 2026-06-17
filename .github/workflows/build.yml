@@ -195,6 +195,7 @@ jobs:
           swap-storage: true
 
       - name: Set up flatpak build cache
+        if: env.reset_cache != 'true'
         uses: actions/cache@v5
         continue-on-error: false
         with:
@@ -202,14 +203,14 @@ jobs:
             build/
             .flatpak-builder/
             flatpak-node/
-          key: ${{ runner.os }}-${{ runner.arch }}-flatpak-builder-${{ hashFiles('flatpak/*') }}
-          restore-keys: ${{ runner.os }}-${{ runner.arch }}-flatpak-builder-
+          key: ${{ runner.os }}-${{ runner.arch }}-flatpak-v2-${{ hashFiles('pnpm-lock.yaml', 'packages/desktop/flatpak/**') }}
+          restore-keys: ${{ runner.os }}-${{ runner.arch }}-flatpak-v2-${{ hashFiles('pnpm-lock.yaml') }}
 
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
           bundle: greenlight.flatpak
           manifest-path: packages/desktop/flatpak/io.github.unknownskl.greenlight.yml
-          cache-key: flatpak-builder-${{ github.sha }}
+          cache-key: flatpak-v2-${{ hashFiles('pnpm-lock.yaml') }}-${{ github.sha }}
 
       - name: Release flatpak
         uses: softprops/action-gh-release@v3
@@ -456,6 +457,7 @@ jobs:
           swap-storage: true
 
       - name: Set up flatpak build cache
+        if: env.reset_cache != 'true'
         uses: actions/cache@v5
         continue-on-error: false
         with:
@@ -463,14 +465,14 @@ jobs:
             build/
             .flatpak-builder/
             flatpak-node/
-          key: ${{ runner.os }}-${{ runner.arch }}-flatpak-builder-${{ hashFiles('flatpak/*') }}
-          restore-keys: ${{ runner.os }}-${{ runner.arch }}-flatpak-builder-
+          key: ${{ runner.os }}-${{ runner.arch }}-flatpak-v3-${{ hashFiles('pnpm-lock.yaml', 'packages/desktop-v3/flatpak/**') }}
+          restore-keys: ${{ runner.os }}-${{ runner.arch }}-flatpak-v3-${{ hashFiles('pnpm-lock.yaml') }}
 
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
           bundle: greenlight.flatpak
           manifest-path: packages/desktop-v3/flatpak/io.github.unknownskl.greenlight.yml
-          cache-key: flatpak-builder-${{ github.sha }}
+          cache-key: flatpak-v3-${{ hashFiles('pnpm-lock.yaml') }}-${{ github.sha }}
 
       - name: Publish Linux AppImage
         uses: actions/upload-artifact@v7
