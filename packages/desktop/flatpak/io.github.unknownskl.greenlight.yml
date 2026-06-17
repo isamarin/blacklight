@@ -28,6 +28,7 @@ modules:
       env:
         XDG_CACHE_HOME: /run/build/greenlight/flatpak-node/cache
         npm_config_cache: /run/build/greenlight/flatpak-node/npm-cache
+        npm_config_store_dir: /run/build/greenlight/flatpak-node/pnpm-store
         npm_config_offline: 'true'
     build-commands:
       - cp -a ../extralib/extralib -t /app/
@@ -35,8 +36,8 @@ modules:
       - cp -a ../extralib/reduceSoFiles.sh -t /app/extralib
       - pushd /app/extralib && ln -s libLLVM-16.0.6.so libLLVM-16.so && chmod +x reduceSoFiles.sh && ./reduceSoFiles.sh && popd
       - npm install -g /run/build/greenlight/pnpm-pkg/pnpm-10.4.1.tgz --prefix /run/build/greenlight/npm-global --offline
-      - echo "store-dir=/run/build/greenlight/flatpak-node/pnpm-store" >> .npmrc
-      - pnpm install --offline
+      - python3 /run/build/greenlight/flatpak-node/populate_pnpm_store.py /run/build/greenlight/flatpak-node/pnpm-manifest.json /run/build/greenlight/flatpak-node/pnpm-tarballs /run/build/greenlight/flatpak-node/pnpm-store
+      - pnpm install --offline --frozen-lockfile
       - |
         set -ex
         . ../flatpak-node/electron-builder-arch-args.sh
@@ -68,6 +69,12 @@ modules:
         dest: extralib
         commit: "a70058baf35f1823613f2577c30a477e93cd106a"
       - pnpm-sources.json
+      - type: inline
+        dest: main
+        dest-filename: .npmrc
+        contents: |
+          shamefully-hoist=true
+          store-dir=/run/build/greenlight/flatpak-node/pnpm-store
       - type: file
         url: https://registry.npmjs.org/pnpm/-/pnpm-10.4.1.tgz
         sha256: 4b702887986995933d4300836b04d6d02a43bc72b52e4f7e93a4ca608b959197

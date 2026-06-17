@@ -138,12 +138,13 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build pnpm cache
-        run: flatpak-node-generator pnpm pnpm-lock.yaml -o ./deps-dist/pnpm-sources.json --electron-node-headers
+        run: flatpak-node-generator pnpm pnpm-lock.yaml -o ./deps-dist/pnpm-sources.json --electron-node-headers --pnpm-store-version v10
 
       - name: Verify flatpak sources manifest
         run: |
           grep -q 'axios-1.18.0.tgz' ./deps-dist/pnpm-sources.json
           grep -q 'populate_pnpm_store.py' ./deps-dist/pnpm-sources.json
+          grep -q '"store_version":"v10"' ./deps-dist/pnpm-sources.json
 
       - uses: actions/upload-artifact@master
         with:

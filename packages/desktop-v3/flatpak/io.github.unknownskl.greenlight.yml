@@ -28,11 +28,12 @@ modules:
       env:
         XDG_CACHE_HOME: /run/build/greenlight/flatpak-node/cache
         npm_config_cache: /run/build/greenlight/flatpak-node/npm-cache
+        npm_config_store_dir: /run/build/greenlight/flatpak-node/pnpm-store
         npm_config_offline: 'true'
     build-commands:
       - npm install -g /run/build/greenlight/pnpm-pkg/pnpm-10.4.1.tgz --prefix /run/build/greenlight/npm-global --offline
-      - echo "store-dir=/run/build/greenlight/flatpak-node/pnpm-store" >> .npmrc
-      - pnpm install --offline
+      - python3 /run/build/greenlight/flatpak-node/populate_pnpm_store.py /run/build/greenlight/flatpak-node/pnpm-manifest.json /run/build/greenlight/flatpak-node/pnpm-tarballs /run/build/greenlight/flatpak-node/pnpm-store
+      - pnpm install --offline --frozen-lockfile
       - pnpm build:depsv3 --offline
       - |
         set -ex
@@ -61,6 +62,12 @@ modules:
       #   commit: 862b0e2502eeb9539126ba7a8d4aeb630a41b148
       #   dest: main
       - pnpm-sources.json
+      - type: inline
+        dest: main
+        dest-filename: .npmrc
+        contents: |
+          shamefully-hoist=true
+          store-dir=/run/build/greenlight/flatpak-node/pnpm-store
       - type: file
         url: https://registry.npmjs.org/pnpm/-/pnpm-10.4.1.tgz
         sha256: 4b702887986995933d4300836b04d6d02a43bc72b52e4f7e93a4ca608b959197
