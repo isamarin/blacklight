@@ -138,7 +138,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build pnpm cache
-        run: flatpak-node-generator pnpm pnpm-lock.yaml -o ./deps-dist/pnpm-sources.json --electron-node-headers --pnpm-store-version v10
+        run: flatpak-node-generator pnpm pnpm-lock.yaml -o ./deps-dist/pnpm-sources.json --electron-node-headers --pnpm-store-version v11
 
       - name: Verify flatpak sources manifest
         run: |
@@ -153,7 +153,7 @@ jobs:
           )
           manifest = json.loads(manifest_src['contents'])
           store_version = manifest.get('store_version')
-          if store_version != 'v10':
+          if store_version != 'v11':
               raise SystemExit(f'unexpected pnpm store_version: {store_version!r}')
           PY
 
