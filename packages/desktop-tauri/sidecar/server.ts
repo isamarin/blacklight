@@ -1,15 +1,14 @@
 import path from 'path'
-import { fileURLToPath } from 'url'
 import express from 'express'
 import { createExpressMiddleware } from '@trpc/server/adapters/express'
 import { appRouter } from '@greenlight/platform'
 import { loadSidecarSettings, saveSidecarSettings } from './settings.js'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+function defaultStaticDir(): string {
+  return path.resolve(process.cwd(), '../desktop-v3/app')
+}
 
-const staticDir =
-  process.env.GREENLIGHT_STATIC_DIR ??
-  path.resolve(__dirname, '../../desktop-v3/app')
+const staticDir = process.env.GREENLIGHT_STATIC_DIR ?? defaultStaticDir()
 
 let httpServer: ReturnType<express.Express['listen']> | undefined
 let running = false

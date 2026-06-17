@@ -5,7 +5,7 @@
   "identifier": "com.unknownskl.greenlight",
   "build": {
     "devUrl": "http://127.0.0.1:9003/home/",
-    "beforeBuildCommand": "pnpm --filter greenlight-desktop-tauri run build:renderer",
+    "beforeBuildCommand": "pnpm --filter greenlight-desktop-tauri run build:bundle",
     "frontendDist": "../../desktop-v3/app"
   },
   "app": {
@@ -24,6 +24,10 @@
   "bundle": {
     "active": true,
     "targets": ["dmg", "nsis"],
+    "externalBin": ["binaries/greenlight-sidecar"],
+    "resources": {
+      "../../desktop-v3/app/": "app/"
+    },
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",

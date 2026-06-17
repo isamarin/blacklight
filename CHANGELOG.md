@@ -4,13 +4,28 @@ All versions use **CalVer (YYYY.MM.PATCH)** after the fork.
 
 Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
+## [Unreleased]
+
+### Added (desktop-tauri)
+- Bundled Node sidecar (`esbuild` + `pkg`) shipped as Tauri `externalBin`
+- Sidecar auto-spawn on app start with `GREENLIGHT_STATIC_DIR` and `GREENLIGHT_DATA_DIR`
+- Static UI assets bundled under `Resources/app/` (macOS) / `app/` (Windows)
+
+### Changed
+- **desktop-v3:** Electron removed; package is renderer + web only (`build:renderer`, `build:web`)
+- **CI:** V3 Electron release job removed; Tauri macOS → Windows pipeline is the desktop track
+- **CI:** Flatpak jobs removed (Linux out of scope for Tauri)
+
+### Removed
+- `packages/desktop-v3/main/` Electron shell, nextron, electron-builder, flatpak manifests
+- Renderer IPC tRPC path (`trpcIpc` / `ipc-link`)
+
 ## [2026.07.1-alpha.1] - 2026-06-17
 
 ### Added (desktop-v3)
 - Ported v2 functionality via tRPC: consoles, xCloud library, streaming, settings, i18n
 - Localhost WebUI server (Express + HTTP tRPC) on `127.0.0.1:9003`
 - MSAL token refresh on startup when stored tokens expire
-- `flatpak-build` script for Linux packaging
 
 ### Changed
 - electron-builder branding: `com.unknownskl.greenlight`, Greenlight product name

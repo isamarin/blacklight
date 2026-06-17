@@ -2,7 +2,7 @@
 
 Windows and macOS desktop shell without Electron. Linux is out of scope.
 
-The UI is the same static export as `greenlight-desktop-v3`. A local Node sidecar serves the UI and `@greenlight/platform` tRPC on `http://127.0.0.1:9003`.
+The UI is the same static export as `greenlight-desktop-v3`. A bundled Node sidecar serves the UI and `@greenlight/platform` tRPC on `http://127.0.0.1:9003`. Tauri spawns the sidecar automatically on app start.
 
 ## Prerequisites
 
@@ -17,7 +17,7 @@ From the repository root:
 pnpm install
 pnpm build:depsv3
 pnpm desktop-tauri run build:renderer   # first time / after UI changes
-pnpm desktop-tauri dev                  # sidecar + tauri dev window
+pnpm desktop-tauri dev                  # spawns sidecar + opens window
 ```
 
 Sidecar only (browser at http://127.0.0.1:9003/home/):
@@ -33,21 +33,15 @@ pnpm build:depsv3
 pnpm desktop-tauri build
 ```
 
+This builds the renderer, packages the sidecar binary (`esbuild` + `pkg`), and bundles `.dmg` / `.exe` installers with UI assets under `Resources/app/`.
+
 Artifacts land in `packages/desktop-tauri/src-tauri/target/release/bundle/`.
-
-Generate proper `.ico` / `.icns` once:
-
-```bash
-cd packages/desktop-tauri
-pnpm tauri icon src-tauri/icons/icon.png
-```
 
 ## Architecture
 
 | Piece | Role |
 |---|---|
 | `sidecar/server.ts` | Express + tRPC + static `desktop-v3/app` |
-| `src-tauri/` | Native window (Tauri 2) |
-| `desktop-v3/renderer` | Shared UI (HTTP tRPC in Tauri mode) |
-
-Electron V3 remains available via `pnpm desktopv3 dev` until feature parity and CI cutover.
+| `sidecar/build.mjs` | Bundle sidecar → `src-tauri/binaries/greenlight-sidecar-*` |
+| `src-tauri/` | Native window; spawns sidecar with `GREENLIGHT_STATIC_DIR` / `GREENLIGHT_DATA_DIR` |
+| `desktop-v3/renderer` | Shared UI (HTTP tRPC) |

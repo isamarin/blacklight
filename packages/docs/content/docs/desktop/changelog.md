@@ -9,6 +9,12 @@ description: Changelogs
 >
 > Entries below v2.4.2 are from the original project by UnknownSKL ([unknownskl/greenlight](https://github.com/unknownskl/greenlight)).
 
+## Unreleased (fork)
+
+- Tauri desktop shell for Windows/macOS with bundled Node sidecar
+- Electron V3 removed; `desktop-v3` is UI renderer only
+- CI: Tauri builds replace V3 Electron + Flatpak
+
 ## 2026.06.2-alpha.1 - 2026-06-17 (fork)
 - Switched to CalVer versioning
 - Updated desktop-v3 dependencies (Electron ^42.4.1, TypeScript ^5.8.2)

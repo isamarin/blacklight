@@ -8,8 +8,10 @@
     "sidecar": "tsx sidecar/server.ts",
     "sidecar:watch": "tsx watch sidecar/server.ts",
     "build:renderer": "pnpm --filter greenlight-desktop-v3 run build:renderer",
-    "dev": "concurrently -k -n sidecar,tauri -c green,blue \"pnpm sidecar\" \"tauri dev\"",
-    "build": "pnpm build:renderer && tauri build",
+    "build:sidecar": "node sidecar/build.mjs",
+    "build:bundle": "pnpm build:renderer && pnpm build:sidecar",
+    "dev": "tauri dev",
+    "build": "tauri build",
     "tauri": "tauri"
   },
   "dependencies": {
@@ -21,7 +23,9 @@
     "@tauri-apps/cli": "^2.10.0",
     "@types/express": "^5.0.6",
     "@types/node": "^22.15.0",
+    "@yao-pkg/pkg": "^6.20.0",
     "concurrently": "^9.2.1",
+    "esbuild": "^0.28.1",
     "tsx": "^4.21.0",
     "typescript": "^5.8.2"
   }
