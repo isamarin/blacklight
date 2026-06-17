@@ -144,7 +144,18 @@ jobs:
         run: |
           grep -q 'axios-1.18.0.tgz' ./deps-dist/pnpm-sources.json
           grep -q 'populate_pnpm_store.py' ./deps-dist/pnpm-sources.json
-          grep -q '"store_version":"v10"' ./deps-dist/pnpm-sources.json
+          python3 - <<'PY'
+          import json
+          with open('./deps-dist/pnpm-sources.json', encoding='utf-8') as fp:
+              sources = json.load(fp)
+          manifest_src = next(
+              s for s in sources if s.get('dest-filename') == 'pnpm-manifest.json'
+          )
+          manifest = json.loads(manifest_src['contents'])
+          store_version = manifest.get('store_version')
+          if store_version != 'v10':
+              raise SystemExit(f'unexpected pnpm store_version: {store_version!r}')
+          PY
 
       - uses: actions/upload-artifact@master
         with:
