@@ -36,7 +36,13 @@ modules:
       - pushd /app/extralib && ln -s libLLVM-16.0.6.so libLLVM-16.so && chmod +x reduceSoFiles.sh && ./reduceSoFiles.sh && popd
       - npm install -g /run/build/greenlight/pnpm-pkg/pnpm-10.4.1.tgz --prefix /run/build/greenlight/npm-global --offline
       - pnpm install --offline
-      - pnpm --filter greenlight-desktop run flatpak-build --offline -- --linux
+      - |
+        set -ex
+        . ../flatpak-node/electron-builder-arch-args.sh
+        sed -i 's/"AppImage"/"dir"/' packages/desktop/electron-builder.yml
+        sed -i '/"deb"/d' packages/desktop/electron-builder.yml
+        pnpm --filter greenlight-desktop exec nextron build --no-pack
+        pnpm --filter greenlight-desktop exec electron-builder --dir --linux $ELECTRON_BUILDER_ARCH_ARGS
       # Add icon, metadata and desktop file
       - install -Dm 644 packages/desktop/flatpak/io.github.unknownskl.greenlight.png ${FLATPAK_DEST}/share/icons/hicolor/512x512/apps/${FLATPAK_ID}.png
       - install -Dm 644 packages/desktop/flatpak/io.github.unknownskl.greenlight.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
