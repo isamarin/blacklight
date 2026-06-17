@@ -2,7 +2,7 @@
   "private": true,
   "name": "greenlight-desktop-v3",
   "description": "Greenlight is a streaming application for Xbox and xCloud",
-  "version": "2026.06.2-alpha.1",
+  "version": "2026.07.1-alpha.1",
   "author": "Igor Samarin <mako.mmw@gmail.com>",
   "type": "module",
   "main": "app/main.js",

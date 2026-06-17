@@ -4,6 +4,18 @@ All versions use **CalVer (YYYY.MM.PATCH)** after the fork.
 
 Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
+## [2026.07.1-alpha.1] - 2026-06-17
+
+### Added (desktop-v3)
+- Ported v2 functionality via tRPC: consoles, xCloud library, streaming, settings, i18n
+- Localhost WebUI server (Express + HTTP tRPC) on `127.0.0.1:9003`
+- MSAL token refresh on startup when stored tokens expire
+- `flatpak-build` script for Linux packaging
+
+### Changed
+- electron-builder branding: `com.unknownskl.greenlight`, Greenlight product name
+- CI: fixed V3 release artifact paths (`packages/desktop-v3/dist/*`)
+
 ## [2026.06.2-alpha.1] - 2026-06-17
 
 ### Fork (isamarin/greenlight)

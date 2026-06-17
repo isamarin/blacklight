@@ -525,33 +525,33 @@ jobs:
       - name: Publish Linux AppImage
         uses: actions/upload-artifact@v7
         with:
-          name: greenlight-linux.AppImage
+          name: greenlight-v3-linux.AppImage
           path: |
-            packages/desktop/dist/*.AppImage
+            packages/desktop-v3/dist/*.AppImage
         if: matrix.os == 'ubuntu-latest' && contains(github.event.head_commit.message, '[build]')
 
       - name: Publish Linux DEB
         uses: actions/upload-artifact@v7
         with:
-          name: greenlight-linux.deb
+          name: greenlight-v3-linux.deb
           path: |
-            packages/desktop/dist/*.deb
+            packages/desktop-v3/dist/*.deb
         if: matrix.os == 'ubuntu-latest' && contains(github.event.head_commit.message, '[build]')
 
       - name: Publish Mac DMG
         uses: actions/upload-artifact@v7
         with:
-          name: greenlight-macos.dmg
+          name: greenlight-v3-macos.dmg
           path: |
-            packages/desktop/dist/*.dmg
+            packages/desktop-v3/dist/*.dmg
         if: matrix.os == 'macos-latest' && contains(github.event.head_commit.message, '[build]')
 
       - name: Publish Windows EXE
         uses: actions/upload-artifact@v7
         with:
-          name: greenlight-win.zip
+          name: greenlight-v3-win.zip
           path: |
-            packages/desktop/dist/*.exe
+            packages/desktop-v3/dist/*.zip
         if: matrix.os == 'windows-latest' && contains(github.event.head_commit.message, '[build]')
 
   ###
