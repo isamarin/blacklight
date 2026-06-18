@@ -1,6 +1,9 @@
+import type { VideoRendererMode } from '@blacklight/player/client'
+
 export const defaultSettings = {
   xhome_bitrate: 0,
   xcloud_bitrate: 0,
+  video_renderer: 'auto' as VideoRendererMode,
   video_profiles: [] as string[],
   preferred_game_language: 'en-US',
   controller_vibration: true,

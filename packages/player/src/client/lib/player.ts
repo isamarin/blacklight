@@ -7,9 +7,13 @@ import Ice from './ice'
 import Sdp from './sdp'
 import Stats from './stats'
 
-import VideoComponent from './render/video'
-import WebGpuComponent from './render/webgpu'
+import { attachVideoRenderer } from './render/factory'
+import type { VideoRenderer, VideoRendererMode } from './render/types'
 import AudioComponent from './render/audio'
+
+export interface xCloudPlayerOptions {
+    videoRenderer?: VideoRendererMode
+}
 
 export default class xCloudPlayer {
 
@@ -27,23 +31,27 @@ export default class xCloudPlayer {
     private _sdpHelper = new Sdp(this)
     private _statsHelper = new Stats(this)
 
-    private _videoComponent: VideoComponent | WebGpuComponent | undefined
+    private _videoComponent: VideoRenderer | undefined
     private _audioComponent: AudioComponent | undefined
+    private _videoRendererMode: VideoRendererMode
 
-    constructor(elementId: string) {
+    constructor(elementId: string, options: xCloudPlayerOptions = {}) {
         console.log('xCloudPlayer constructing...');
 
         this._elementId = elementId;
+        this._videoRendererMode = options.videoRenderer ?? 'auto'
         this._peerConnection.addTransceiver('audio', { direction: 'sendrecv' })
         const videoTransceiver = this._peerConnection.addTransceiver('video', { direction: 'recvonly' })
         videoTransceiver.setCodecPreferences(this._sdpHelper.getDefaultCodecPreferences())
 
-        this._peerConnection.ontrack = (event) => {
+        this._peerConnection.ontrack = async (event) => {
 
             if(event.track.kind === 'video'){
-                // this._videoComponent = new VideoComponent(this)
-                this._videoComponent = new WebGpuComponent(this)
-                this._videoComponent.create(event.streams[0])
+                try {
+                    this._videoComponent = await attachVideoRenderer(this, event.streams[0], this._videoRendererMode)
+                } catch (error) {
+                    console.error('[xPlayer] Failed to attach video renderer:', error)
+                }
 
             } else if(event.track.kind === 'audio'){
                 this._audioComponent = new AudioComponent(this)

@@ -1,14 +1,16 @@
 import xCloudPlayer from '../player'
 import Overlay from './overlay'
+import type { VideoRenderer, VideoRendererInfo, VideoFrameStats } from './types'
 
-export default class WebGpuComponent {
+export default class WebGpuComponent implements VideoRenderer {
     private _player:xCloudPlayer
 
     private _element:HTMLCanvasElement | undefined
     private _overlay:Overlay
     private _isActive: boolean = true
+    private _adapterLabel: string = 'unknown'
 
-    private _gpuReader:GPUCanvasContext | undefined
+    private _gpuReader:ReadableStreamDefaultReader<VideoFrame> | undefined
     private _gpuVideoTexture:GPUTexture | null = null
     private _gpuDevice:GPUDevice | null = null
     private _gpuContext:GPUCanvasContext | null = null
@@ -31,59 +33,61 @@ export default class WebGpuComponent {
         this._overlay = new Overlay(this, this._player)
     }
 
-    create(stream:MediaStream) {
-        const videoElement = document.createElement('canvas')
-        console.log('Creating WebGPU canvas element for stream:', stream);
+    async create(stream:MediaStream): Promise<void> {
+        if (!navigator.gpu) {
+            throw new Error('WebGPU is not available')
+        }
 
-        // videoElement.srcObject = stream
-        // videoElement.autoplay = true
-        // videoElement.muted = true
-        // videoElement.playsInline = true
+        const track = stream.getVideoTracks()[0]
+        if (!track) {
+            throw new Error('No video track in MediaStream')
+        }
+
+        if (typeof MediaStreamTrackProcessor === 'undefined') {
+            throw new Error('MediaStreamTrackProcessor is not available')
+        }
+
+        const videoElement = document.createElement('canvas')
+        console.log('Creating WebGPU canvas element for stream:', stream)
+
         videoElement.width = 1920
         videoElement.height = 1080
         videoElement.style.willChange = 'contents'
-        // videoElement.style.imageRendering = 'pixelated' // or 'crisp-edges' for faster rendering
-        // videoElement.style.objectFit = 'contain'
-        // videoElement.style.backgroundColor = 'black'
-        // videoElement.style.touchAction = 'none'
 
-        const that:WebGpuComponent = this
+        const adapter = await navigator.gpu.requestAdapter({ powerPreference: 'high-performance' })
+        if (!adapter) {
+            throw new Error('Failed to get WebGPU adapter')
+        }
 
-        navigator.gpu.requestAdapter().then((adapter:any) => {
-            if (!adapter) {
-                console.error('Failed to get GPU adapter');
-                return;
-            }
-            console.log('WebGPU adapter:', adapter);
-            adapter.requestDevice().then((device:any) => {
-                const context = videoElement.getContext("webgpu");
-                if (!context) {
-                    console.error('Failed to get WebGPU context');
-                    return;
-                }
-                const format = navigator.gpu.getPreferredCanvasFormat();
-                context.configure({
-                    device,
-                    format,
-                    alphaMode: 'opaque',
-                    // Enable desynchronized mode for lower latency and reduced jitter
-                    usage: GPUTextureUsage.RENDER_ATTACHMENT
-                });
+        this._adapterLabel = adapter.info?.description || adapter.info?.device || 'WebGPU adapter'
+        console.log('WebGPU adapter:', this._adapterLabel)
 
-                this._gpuDevice = device
-                this._gpuContext = context
+        const device = await adapter.requestDevice()
+        const context = videoElement.getContext('webgpu') as GPUCanvasContext | null
+        if (!context) {
+            throw new Error('Failed to get WebGPU context')
+        }
 
-                // Additional WebGPU setup and rendering logic would go here
+        const format = navigator.gpu.getPreferredCanvasFormat()
+        context.configure({
+            device,
+            format,
+            alphaMode: 'opaque',
+            usage: GPUTextureUsage.RENDER_ATTACHMENT,
+        })
 
-                that._gpuVideoTexture = this._gpuDevice.createTexture({
-                    size: [videoElement.width, videoElement.height],
-                    format: "rgba8unorm",
-                    usage: GPUTextureUsage.TEXTURE_BINDING |
-                            GPUTextureUsage.COPY_DST |
-                            GPUTextureUsage.RENDER_ATTACHMENT
-                });
+        this._gpuDevice = device
+        this._gpuContext = context
 
-                const vertexModule = this._gpuDevice.createShaderModule({
+        this._gpuVideoTexture = this._gpuDevice.createTexture({
+            size: [videoElement.width, videoElement.height],
+            format: 'rgba8unorm',
+            usage: GPUTextureUsage.TEXTURE_BINDING |
+                    GPUTextureUsage.COPY_DST |
+                    GPUTextureUsage.RENDER_ATTACHMENT,
+        })
+
+        const vertexModule = this._gpuDevice.createShaderModule({
                     code: `
                         struct VertexOutput {
                             @builtin(position) position: vec4<f32>,
@@ -185,62 +189,41 @@ export default class WebGpuComponent {
                     addressModeV: "clamp-to-edge",
                 });
 
-                // Process video frames from the MediaStream
-                // console.log('Stream tracks:', stream);
-                const track = stream.getVideoTracks()[0];
-                const processor = new MediaStreamTrackProcessor({ track });
-                this._gpuReader = processor.readable.getReader();
+        const processor = new MediaStreamTrackProcessor({ track })
+        this._gpuReader = processor.readable.getReader()
 
-                this._gpuBindGroup = this._gpuDevice.createBindGroup({
-                    layout: this._gpuPipeline.getBindGroupLayout(0),
-                    entries: [
-                        { binding: 0, resource: this._gpuVideoTexture.createView() },
-                        { binding: 1, resource: this._gpuSampler },
-                    ]
-                });
-
-                // Start rendering loop
-                that.processVideoData();
-            });
-        });
-
-        // console.log('WebGPU adapter:', adapter, navigator.gpu);
-        // const device = adapter.requestDevice();
-        // console.log('Device:', device);
-        // const context = videoElement.getContext("webgpu");
-        // console.log('Context:', context);
-
-        // const format = navigator.gpu.getPreferredCanvasFormat();
-        // context.configure({ device, format });
-
-        // Rest
+        this._gpuBindGroup = this._gpuDevice.createBindGroup({
+            layout: this._gpuPipeline.getBindGroupLayout(0),
+            entries: [
+                { binding: 0, resource: this._gpuVideoTexture.createView() },
+                { binding: 1, resource: this._gpuSampler },
+            ],
+        })
 
         const element = document.getElementById(this._player.getElementId())
-        if(element === null) {return}
+        if (element === null) {
+            throw new Error('Player container element not found')
+        }
 
         this._element = videoElement
         this._containerElement = element
         element.appendChild(this._element)
-        const isStatic = getComputedStyle(element).position === 'static' ? true : false
-        if(isStatic === true){
+        const isStatic = getComputedStyle(element).position === 'static'
+        if (isStatic) {
             element.style.position = 'relative'
         }
 
-        // Make canvas fill the container
         this._element.style.width = '100%'
         this._element.style.height = '100%'
         this._element.style.display = 'block'
 
-        // Set up resize observer to handle canvas resizing
         this._resizeObserver = new ResizeObserver(() => {
             this.resizeCanvas()
         })
         this._resizeObserver.observe(element)
 
-        // Initial resize
         this.resizeCanvas()
-
-        // this._element.requestVideoFrameCallback(this.processVideoMetadata.bind(this))
+        this.processVideoData()
     }
 
     async processVideoData(timestamp?:number) {
@@ -444,6 +427,13 @@ export default class WebGpuComponent {
             isProcessing: this._isProcessingFrame,
             renderingFps: this._renderingFps,
             renderDelayMs: this._renderDelayMs
+        }
+    }
+
+    getRendererInfo(): VideoRendererInfo {
+        return {
+            mode: 'webgpu',
+            adapter: this._adapterLabel,
         }
     }
 

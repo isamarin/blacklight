@@ -1,7 +1,8 @@
 import xCloudPlayer from '../player'
 import Overlay from './overlay'
+import type { VideoRenderer, VideoRendererInfo } from './types'
 
-export default class VideoComponent {
+export default class VideoComponent implements VideoRenderer {
     private _player:xCloudPlayer
 
     private _element:HTMLVideoElement | undefined
@@ -12,7 +13,7 @@ export default class VideoComponent {
         this._overlay = new Overlay(this, this._player)
     }
 
-    create(stream:MediaStream) {
+    async create(stream: MediaStream): Promise<void> {
         const videoElement = document.createElement('video')
         videoElement.srcObject = stream
         videoElement.autoplay = true
@@ -25,12 +26,14 @@ export default class VideoComponent {
         videoElement.style.touchAction = 'none'
 
         const element = document.getElementById(this._player.getElementId())
-        if(element === null) {return}
+        if (element === null) {
+            throw new Error('Player container element not found')
+        }
 
         this._element = videoElement
         element.appendChild(this._element)
-        const isStatic = getComputedStyle(element).position === 'static' ? true : false
-        if(isStatic === true){
+        const isStatic = getComputedStyle(element).position === 'static'
+        if (isStatic) {
             element.style.position = 'relative'
         }
 
@@ -57,6 +60,10 @@ export default class VideoComponent {
 
     toggleDebugOverlay(){
         this._overlay.toggleDebug()
+    }
+
+    getRendererInfo(): VideoRendererInfo {
+        return { mode: 'video' }
     }
 
     destroy(){

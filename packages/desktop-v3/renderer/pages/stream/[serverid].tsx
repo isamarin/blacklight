@@ -98,6 +98,7 @@ export default function StreamPage() {
         ref={streamPlayerRef}
         onStatusChanged={setStatus}
         communicationHandler={communicationHandler}
+        videoRenderer={settings.video_renderer}
       />
       <StreamOverlay
         status={status}

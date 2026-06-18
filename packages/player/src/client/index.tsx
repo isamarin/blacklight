@@ -6,6 +6,9 @@ import type { xStreamToken, xCloudStreamConfig, startStreamResponse } from '../t
 export type { xStreamToken, startStreamResponse, xCloudStreamConfig };
 
 import xCloudPlayer from './lib/player';
+import type { VideoRendererMode } from './lib/render/types';
+
+export type { VideoRendererMode };
 
 // Proxy inputs
 import Gamepad from './lib/input/gamepad';
@@ -17,6 +20,7 @@ import Touch from './lib/input/touch';
 export interface StreamPlayerProps {
     onStatusChanged: (newStatus: string) => void;
     communicationHandler: communicationHandler
+    videoRenderer?: VideoRendererMode
 }
 export interface StreamPlayerHandle {
     ping: (echo: string) => void;
@@ -39,7 +43,8 @@ export interface communicationHandler {
 export const StreamPlayer = forwardRef<StreamPlayerHandle, StreamPlayerProps>(
     ({
         onStatusChanged,
-        communicationHandler
+        communicationHandler,
+        videoRenderer = 'auto',
     }, ref): ReactElement => {
         const [playerState, setPlayerState] = useState<string>('Initializing');
 
@@ -114,7 +119,7 @@ export const StreamPlayer = forwardRef<StreamPlayerHandle, StreamPlayerProps>(
 
             if(playerState === 'Provisioned'){
                 console.log('Xbox is ready to connect... Lets render xCloudPlayer lib...')
-                setPlayer(new xCloudPlayer('playerContainer'))
+                setPlayer(new xCloudPlayer('playerContainer', { videoRenderer }))
             }
 
             return () => {

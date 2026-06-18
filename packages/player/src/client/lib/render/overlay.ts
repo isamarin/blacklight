@@ -1,6 +1,5 @@
 import xCloudPlayer from '../player'
-import VideoComponent from './video'
-import WebGPUComponent from './webgpu'
+import type { VideoRenderer } from './types'
 
 interface OverlayInterface {
     debug: undefined | HTMLElement;
@@ -8,13 +7,13 @@ interface OverlayInterface {
 
 export default class Overlay {
     private _player:xCloudPlayer
-    private _videoComponent:VideoComponent | WebGPUComponent
+    private _videoComponent: VideoRenderer
 
     private _overlays:OverlayInterface = {
         debug: undefined,
     }
 
-    constructor(videoComponent:VideoComponent | WebGPUComponent, player:xCloudPlayer){
+    constructor(videoComponent: VideoRenderer, player: xCloudPlayer) {
         this._videoComponent = videoComponent
         this._player = player
     }
@@ -57,12 +56,17 @@ export default class Overlay {
         if(this._overlays.debug !== undefined){
             this._overlays.debug.innerHTML = ''
 
+            const rendererInfo = this._videoComponent.getRendererInfo()
+            this._overlays.debug.appendChild(this.createLabel('Renderer', rendererInfo.mode, 'ok'))
+            if (rendererInfo.adapter) {
+                this._overlays.debug.appendChild(this.createLabel('GPU', rendererInfo.adapter, 'ok'))
+            }
+
             this._overlays.debug.appendChild(this.createLabel('Local Play', this._player.getStats()._remoteIsLocal ? 'Local' : 'Remote', 'ok'))
             this._overlays.debug.appendChild(this.createLabel('Resolution', this._player.getStats()._videoWidth+'x'+this._player.getStats()._videoHeight, 'ok'))
             this._overlays.debug.appendChild(this.createLabel('Stream FPS', this._player.getStats()._videoFps.toString(), this._player.getStats()._videoFps >= 58 ? 'ok' : 'warning'))
             
-            // Display rendering FPS if available
-            const frameStats = (this._videoComponent as any).getFrameStats?.();
+            const frameStats = this._videoComponent.getFrameStats?.()
             if (frameStats) {
                 this._overlays.debug.appendChild(this.createLabel('Render FPS', frameStats.renderingFps.toString(), frameStats.renderingFps >= 58 ? 'ok' : 'warning'))
                 this._overlays.debug.appendChild(this.createLabel('Render Delay', frameStats.renderDelayMs.toString() + ' ms', frameStats.renderDelayMs < 16 ? 'ok' : frameStats.renderDelayMs < 33 ? 'warning' : 'error'))
