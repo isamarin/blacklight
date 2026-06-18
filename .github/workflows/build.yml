@@ -32,7 +32,7 @@ env:
 
 jobs:
   ###
-  # Build Desktop V2
+  # Build Desktop V2 (legacy Electron — lint/tests only on push; release builds on v2 tags)
   ###
   lint:
     name: "V2: Lint code"
@@ -96,6 +96,8 @@ jobs:
     name: "V2: Build/release Electron app"
     runs-on: ${{ matrix.os }}
     needs: ['tests']
+    # Legacy V2 Electron; Tauri is the primary desktop target. Only build on v2 release tags.
+    if: startsWith(github.ref, 'refs/tags/v2')
 
     strategy:
       matrix:
@@ -494,7 +496,7 @@ jobs:
     name: "Dependabot Auto-Merge Check"
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' && github.actor == 'dependabot[bot]' && github.event.pull_request.user.login == 'dependabot[bot]'
-    needs: [build_docs, release, tauri_macos, tauri_windows]
+    needs: [build_docs, tauri_macos, tauri_windows]
     permissions:
       pull-requests: write
       contents: write
