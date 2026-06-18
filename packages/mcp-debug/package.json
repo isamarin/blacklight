@@ -1,0 +1,20 @@
+{
+  "name": "@blacklight/mcp-debug",
+  "private": true,
+  "version": "0.1.0",
+  "description": "MCP server for local Blacklight sidecar and UI debugging",
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/server.ts",
+    "doctor": "tsx src/server.ts --self-test"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "zod": "^4.3.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.8.2"
+  }
+}

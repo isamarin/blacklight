@@ -8,3 +8,4 @@ packages:
   - packages/desktop-v3
   - packages/desktop-tauri
   - packages/docs
+  - packages/mcp-debug

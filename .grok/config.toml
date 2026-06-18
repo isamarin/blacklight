@@ -1,0 +1,9 @@
+[mcp_servers.blacklight-debug]
+command = "pnpm"
+args = ["--filter", "@blacklight/mcp-debug", "start"]
+enabled = true
+startup_timeout_sec = 20
+tool_timeout_sec = 60
+
+[mcp_servers.blacklight-debug.env]
+BLACKLIGHT_PORT = "9003"
