@@ -11,7 +11,7 @@ export default class Logger {
         this._sink = new Sink(name)
         this.name = name
 
-        const debugSelector = (process.env.DEBUG_GREENLIGHT !== undefined) ? process.env.DEBUG_GREENLIGHT : process.env.DEBUG
+        const debugSelector = process.env.DEBUG_BLACKLIGHT ?? process.env.DEBUG_GREENLIGHT ?? process.env.DEBUG
         const debugArgs = debugSelector?.split(',')
         if(debugArgs !== undefined && (debugArgs.includes(this.name) || debugArgs.includes('*'))) {
             this._enableStdout = true

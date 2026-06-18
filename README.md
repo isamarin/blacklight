@@ -109,7 +109,7 @@ Create production build (Tauri):
 
 ## Translations
 
-Want to help out with new translations? Help us on [Poeditor.com](https://poeditor.com/join/project/9SfHRQDbfN)
+Want to help with translations? Open an [issue](https://github.com/isamarin/blacklight/issues) or submit a PR with updated locale files.
 
 ## Changelog
 

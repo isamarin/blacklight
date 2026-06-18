@@ -15,10 +15,10 @@
   </description>
   <screenshots>
     <screenshot type="default">
-      <image type="source">https://raw.githubusercontent.com/isamarin/blacklight/main-v2/images/main-nowindow.jpg</image>
+      <image type="source">https://raw.githubusercontent.com/isamarin/blacklight/main/images/main-nowindow.jpg</image>
     </screenshot>
     <screenshot>
-      <image type="source">https://raw.githubusercontent.com/isamarin/blacklight/main-v2/images/stream-nowindow.jpg</image>
+      <image type="source">https://raw.githubusercontent.com/isamarin/blacklight/main/images/stream-nowindow.jpg</image>
     </screenshot>
   </screenshots>
   <releases>

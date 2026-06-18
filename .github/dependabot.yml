@@ -5,7 +5,7 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    target-branch: "main-v2"
+    target-branch: "main"
     labels:
       - "github-actions"
       - "dependencies"
@@ -17,7 +17,7 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    target-branch: "main-v2"
+    target-branch: "main"
     labels:
       - "pnpm"
       - "dependencies"
