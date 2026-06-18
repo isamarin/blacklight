@@ -348,7 +348,7 @@ jobs:
           name: blacklight-tauri-macos.dmg
           path: |
             packages/desktop-tauri/src-tauri/target/release/bundle/dmg/*.dmg
-        if: contains(github.event.head_commit.message, '[build]')
+        if: github.ref == 'refs/heads/main-v2' || contains(github.event.head_commit.message, '[build]')
 
       - name: Release Mac DMG
         uses: softprops/action-gh-release@v3
@@ -417,7 +417,7 @@ jobs:
           name: blacklight-tauri-win.exe
           path: |
             packages/desktop-tauri/src-tauri/target/release/bundle/nsis/*.exe
-        if: contains(github.event.head_commit.message, '[build]')
+        if: github.ref == 'refs/heads/main-v2' || contains(github.event.head_commit.message, '[build]')
 
       - name: Release Windows installer
         uses: softprops/action-gh-release@v3
