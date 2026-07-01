@@ -38,14 +38,14 @@ importers:
         specifier: ^4.0.6
         version: 4.0.6
       i18next:
-        specifier: ^25.8.0
-        version: 25.10.10(typescript@5.9.3)
+        specifier: ^26.3.4
+        version: 26.3.4(typescript@5.9.3)
       ip-address:
         specifier: ^10.2.0
         version: 10.2.0
       react-i18next:
         specifier: ^17.0.7
-        version: 17.0.8(i18next@25.10.10(typescript@5.9.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@5.9.3)
+        version: 17.0.8(i18next@26.3.4(typescript@5.9.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@5.9.3)
       react-query:
         specifier: ^3.39.3
         version: 3.39.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -178,11 +178,11 @@ importers:
         specifier: ^11.17.0
         version: 11.17.0(@tanstack/react-query@5.101.0(react@19.2.7))(@trpc/client@11.17.0(@trpc/server@11.17.0(typescript@5.9.3))(typescript@5.9.3))(@trpc/server@11.17.0(typescript@5.9.3))(react@19.2.7)(typescript@5.9.3)
       i18next:
-        specifier: ^25.8.0
-        version: 25.10.10(typescript@5.9.3)
+        specifier: ^26.3.4
+        version: 26.3.4(typescript@5.9.3)
       react-i18next:
         specifier: ^17.0.7
-        version: 17.0.8(i18next@25.10.10(typescript@5.9.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@5.9.3)
+        version: 17.0.8(i18next@26.3.4(typescript@5.9.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@5.9.3)
       react-qr-code:
         specifier: ^2.2.0
         version: 2.2.0(react@19.2.7)
@@ -4779,6 +4779,10 @@ packages:
     resolution: {integrity: sha512-eKpRKAovdpZtR1WopLHxlBWvAgPny3c4gX1G5Jhwmmw4XJj0ifSD5qB5TOo8hmA0wlRKDAOAhEE1yVPgs6Fgcg==}
     engines: {node: '>=14.14'}
 
+  fs-extra@11.3.6:
+    resolution: {integrity: sha512-w8ZNZr2mKIc7qeNaQ9AVPT1+iFaI+Avd4xudVOvdDJ8VytREi1Ft5Ih7hd9jjehod8vAM5GMsfQ/TpPf4EyoEA==}
+    engines: {node: '>=14.14'}
+
   fs-extra@7.0.1:
     resolution: {integrity: sha512-YJDaCJZEnBmcbw13fvdAM9AwNOJwOzrE4pqMqBq5nFiEqXUqHwlK4B+3pUw6JNvfSPtX05xFHtYy/1ni01eGCw==}
     engines: {node: '>=6 <7 || >=8'}
@@ -5145,8 +5149,8 @@ packages:
     resolution: {integrity: sha512-eKCa6bwnJhvxj14kZk5NCPc6Hb6BdsU9DZcOnmQKSnO1VKrfV0zCvtttPZUsBvjmNDn8rpcJfpwSYnHBjc95MQ==}
     engines: {node: '>=18.18.0'}
 
-  i18next@25.10.10:
-    resolution: {integrity: sha512-cqUW2Z3EkRx7NqSyywjkgCLK7KLCL6IFVFcONG7nVYIJ3ekZ1/N5jUsihHV6Bq37NfhgtczxJcxduELtjTwkuQ==}
+  i18next@26.3.4:
+    resolution: {integrity: sha512-pa7m0d7pBDqGHZxljT+WPFeyFgQ7P7SciPPo1tTqYuO0z4sqADYhwnBESmmGp/wEof1inwdls/k8ZgTg8rxFHA==}
     peerDependencies:
       typescript: ^5 || ^6
     peerDependenciesMeta:
@@ -8901,7 +8905,7 @@ snapshots:
     dependencies:
       cross-dirname: 0.1.0
       debug: 4.4.3(supports-color@8.1.1)
-      fs-extra: 11.3.5
+      fs-extra: 11.3.6
       minimist: 1.2.8
       postject: 1.0.0-alpha.6
     transitivePeerDependencies:
@@ -12518,6 +12522,13 @@ snapshots:
       jsonfile: 6.2.1
       universalify: 2.0.1
 
+  fs-extra@11.3.6:
+    dependencies:
+      graceful-fs: 4.2.11
+      jsonfile: 6.2.1
+      universalify: 2.0.1
+    optional: true
+
   fs-extra@7.0.1:
     dependencies:
       graceful-fs: 4.2.11
@@ -12988,9 +12999,7 @@ snapshots:
 
   human-signals@8.0.1: {}
 
-  i18next@25.10.10(typescript@5.9.3):
-    dependencies:
-      '@babel/runtime': 7.29.7
+  i18next@26.3.4(typescript@5.9.3):
     optionalDependencies:
       typescript: 5.9.3
 
@@ -14523,11 +14532,11 @@ snapshots:
       react: 19.2.7
       scheduler: 0.27.0
 
-  react-i18next@17.0.8(i18next@25.10.10(typescript@5.9.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@5.9.3):
+  react-i18next@17.0.8(i18next@26.3.4(typescript@5.9.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@5.9.3):
     dependencies:
       '@babel/runtime': 7.29.7
       html-parse-stringify: 3.0.1
-      i18next: 25.10.10(typescript@5.9.3)
+      i18next: 26.3.4(typescript@5.9.3)
       react: 19.2.7
       use-sync-external-store: 1.6.0(react@19.2.7)
     optionalDependencies:
