@@ -3,6 +3,7 @@
   "name": "blacklight",
   "description": "Blacklight — an Xbox streaming tool for xCloud and home streaming",
   "author": "Igor Samarin <mako.mmw@gmail.com>",
+  "license": "PolyForm-Noncommercial-1.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/isamarin/blacklight.git"

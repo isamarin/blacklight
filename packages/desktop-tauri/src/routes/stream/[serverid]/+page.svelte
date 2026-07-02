@@ -4,10 +4,12 @@
 	import { classifyError, extractErrorMessage } from '$lib/errors';
 	import { t } from '$lib/i18n';
 	import { trpc } from '$lib/trpc';
+	import { ensureConsoleAwake } from '$lib/consoles';
 	import { buildStreamConfig, parseStreamRoute } from '$lib/stream';
 	import { createCommunicationHandler } from '$lib/stream/communication';
 	import {
 		getUserRefreshToken,
+		getWebToken,
 		getxCloudToken,
 		getxHomeToken
 	} from '$lib/stores/auth.svelte';
@@ -115,7 +117,13 @@
 	}
 
 	function toggleMic() {
-		micEnabled = !micEnabled;
+		if (!playerHandle) return;
+		try {
+			micEnabled = playerHandle.toggleMic();
+		} catch (e) {
+			micEnabled = false;
+			console.error('Microphone error:', extractErrorMessage(e));
+		}
 	}
 
 	const parsed = $derived(serverid ? parseStreamRoute(serverid) : null);
@@ -158,24 +166,39 @@
 			return;
 		}
 
-		trpc.streaming_start_stream
-			.mutate({ token, xCloudStreamConfig: config })
-			.then((result) => {
-				if (cancelled) return;
-				if (!('sessionId' in result) || !('sessionPath' in result)) {
-					throw new Error('Invalid stream session response');
-				}
-				streamConfig = config;
-				session = {
-					sessionId: result.sessionId,
-					sessionPath: result.sessionPath,
-					state: result.state ?? 'Provisioning'
-				};
-				status = t('streamWindow.connectingToConsole');
-			})
-			.catch((e: Error) => {
+		const startSession = () =>
+			trpc.streaming_start_stream
+				.mutate({ token, xCloudStreamConfig: config })
+				.then((result) => {
+					if (cancelled) return;
+					if (!('sessionId' in result) || !('sessionPath' in result)) {
+						throw new Error('Invalid stream session response');
+					}
+					streamConfig = config;
+					session = {
+						sessionId: result.sessionId,
+						sessionPath: result.sessionPath,
+						state: result.state ?? 'Provisioning'
+					};
+					status = t('streamWindow.connectingToConsole');
+				});
+
+		if (parsed.type === 'home') {
+			const webToken = getWebToken();
+			status = t('streamWindow.wakingConsole');
+			ensureConsoleAwake(webToken, parsed.id)
+				.then(() => {
+					if (cancelled) return;
+					return startSession();
+				})
+				.catch((e: Error) => {
+					if (!cancelled) setStreamError(e);
+				});
+		} else {
+			startSession().catch((e: Error) => {
 				if (!cancelled) setStreamError(e);
 			});
+		}
 
 		return () => {
 			cancelled = true;

@@ -8,6 +8,8 @@ export type UserErrorCode =
 	| 'stream_timeout'
 	| 'stream_failed'
 	| 'consoles_load_failed'
+	| 'console_wake_failed'
+	| 'mic_failed'
 	| 'unknown';
 
 export function extractErrorMessage(error: unknown): string {
@@ -31,6 +33,12 @@ export function classifyError(error: unknown): UserErrorCode {
 	}
 	if (text.includes('console') && (text.includes('list') || text.includes('load'))) {
 		return 'consoles_load_failed';
+	}
+	if (text.includes('console wake') || text.includes('wake timed out')) {
+		return 'console_wake_failed';
+	}
+	if (text.includes('microphone') || text.includes('getusermedia') || text.includes('mic')) {
+		return 'mic_failed';
 	}
 	if (
 		text.includes('expired') ||

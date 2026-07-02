@@ -19,6 +19,7 @@ export function PlayerPage() {
     const startStreamMutation = useMutation(trpc.streaming_start_stream.mutationOptions());
     const streamGetStatus = useMutation(trpc.streaming_get_status.mutationOptions());
     const streamSendSDPOffer = useMutation(trpc.streaming_send_sdp_offer.mutationOptions());
+    const streamSendChatSDPOffer = useMutation(trpc.streaming_send_chat_sdp_offer.mutationOptions());
     const streamSendICECandidates = useMutation(trpc.streaming_send_ice_candidates.mutationOptions());
     const streamSendMSALToken = useMutation(trpc.streaming_send_msal_token.mutationOptions());
     const streamSendKeepalive = useMutation(trpc.streaming_send_keepalive.mutationOptions());
@@ -86,6 +87,15 @@ export function PlayerPage() {
 
         async sendSDPOffer(sdpOffer:RTCSessionDescriptionInit) {
             return await streamSendSDPOffer.mutateAsync({
+                token: this._token,
+                xCloudStreamConfig: this._streamConfig,
+                sessionPath: this._sessionPath,
+                sdpOffer: sdpOffer
+            });
+        }
+
+        async sendChatSDPOffer(sdpOffer:RTCSessionDescriptionInit) {
+            return await streamSendChatSDPOffer.mutateAsync({
                 token: this._token,
                 xCloudStreamConfig: this._streamConfig,
                 sessionPath: this._sessionPath,

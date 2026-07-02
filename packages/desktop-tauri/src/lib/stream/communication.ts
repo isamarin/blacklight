@@ -34,6 +34,14 @@ export function createCommunicationHandler(
 				sdpOffer
 			});
 		},
+		async sendChatSDPOffer(sdpOffer: RTCSessionDescriptionInit) {
+			return trpc.streaming_send_chat_sdp_offer.mutate({
+				token,
+				xCloudStreamConfig: streamConfig,
+				sessionPath: session.sessionPath,
+				sdpOffer
+			});
+		},
 		async sendICECandidates(candidates: Array<unknown>) {
 			return trpc.streaming_send_ice_candidates.mutate({
 				token,

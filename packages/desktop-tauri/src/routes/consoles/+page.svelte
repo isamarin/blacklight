@@ -1,8 +1,15 @@
 <script lang="ts">
 	import { t } from '$lib/i18n';
 	import { classifyError, extractErrorMessage, type UserErrorCode } from '$lib/errors';
-	import { trpc } from '$lib/trpc';
 	import { getWebToken } from '$lib/stores/auth.svelte';
+	import {
+		type ConsoleInfo,
+		ensureConsoleAwake,
+		fetchConsoles,
+		isConsoleReady,
+		wakeConsole,
+		waitForConsolePowerOn
+	} from '$lib/consoles';
 	import AppLayout from '$lib/components/layout/AppLayout.svelte';
 	import Card from '$lib/components/ui/Card.svelte';
 	import Label from '$lib/components/ui/Label.svelte';
@@ -11,10 +18,25 @@
 	import ErrorPanel from '$lib/components/ui/ErrorPanel.svelte';
 
 	let loading = $state(false);
-	let list = $state<Array<Record<string, unknown>>>([]);
+	let list = $state<ConsoleInfo[]>([]);
 	let errorCode = $state<UserErrorCode | null>(null);
 	let errorDetail = $state<string | null>(null);
+	let wakingConsoleId = $state<string | null>(null);
 	let loadGeneration = 0;
+
+	function powerStateLabel(item: ConsoleInfo): string {
+		if (item.powerState === 'On') return t('page.myConsoles.poweredOn');
+		if (item.powerState === 'ConnectedStandby') return t('page.myConsoles.standby');
+		return item.powerState || t('page.myConsoles.offline');
+	}
+
+	function canStream(item: ConsoleInfo): boolean {
+		return Boolean(item.remoteManagementEnabled && item.consoleStreamingEnabled);
+	}
+
+	function canWake(item: ConsoleInfo): boolean {
+		return canStream(item) && !isConsoleReady(item);
+	}
 
 	async function loadConsoles() {
 		const token = getWebToken();
@@ -32,9 +54,9 @@
 		errorDetail = null;
 
 		try {
-			const data = await trpc.smartglass_consoles_list.query(token);
+			const data = await fetchConsoles(token);
 			if (generation !== loadGeneration) return;
-			list = (data?.data?.result as Array<Record<string, unknown>>) || [];
+			list = data;
 		} catch (e) {
 			if (generation !== loadGeneration) return;
 			errorCode = classifyError(e);
@@ -44,6 +66,50 @@
 			if (generation === loadGeneration) {
 				loading = false;
 			}
+		}
+	}
+
+	async function handleWake(item: ConsoleInfo) {
+		const token = getWebToken();
+		if (!token.token || !token.uhs) {
+			errorCode = 'web_tokens';
+			return;
+		}
+
+		wakingConsoleId = item.id;
+		errorCode = null;
+		errorDetail = null;
+
+		try {
+			await wakeConsole(token, item.id);
+			await waitForConsolePowerOn(token, item.id);
+			await loadConsoles();
+		} catch (e) {
+			errorCode = 'console_wake_failed';
+			errorDetail = extractErrorMessage(e);
+		} finally {
+			wakingConsoleId = null;
+		}
+	}
+
+	async function handleWakeAndStream(item: ConsoleInfo) {
+		const token = getWebToken();
+		if (!token.token || !token.uhs) {
+			errorCode = 'web_tokens';
+			return;
+		}
+
+		wakingConsoleId = item.id;
+		errorCode = null;
+		errorDetail = null;
+
+		try {
+			await ensureConsoleAwake(token, item.id);
+			window.location.href = `/stream/${item.id}`;
+		} catch (e) {
+			errorCode = 'console_wake_failed';
+			errorDetail = extractErrorMessage(e);
+			wakingConsoleId = null;
 		}
 	}
 
@@ -67,23 +133,43 @@
 				</div>
 			</Card>
 		{:else}
-			{#each list as item (item.id as string)}
+			{#each list as item (item.id)}
 				<Card class="w-72">
-					<h2 class="text-lg font-semibold text-white mb-2">{item.name as string}</h2>
-					<p class="text-xs text-white/40 mb-3">{item.id as string}</p>
-					{#if item.remoteManagementEnabled && item.consoleStreamingEnabled}
-						{#if item.powerState === 'On'}
-							<Label variant="green">{t('page.myConsoles.poweredOn')}</Label>
+					<h2 class="text-lg font-semibold text-white mb-2">{item.name}</h2>
+					<p class="text-xs text-white/40 mb-3">{item.id}</p>
+					{#if canStream(item)}
+						{#if isConsoleReady(item)}
+							<Label variant="green">{powerStateLabel(item)}</Label>
 						{:else}
-							<Label>{item.powerState as string}</Label>
+							<Label>{powerStateLabel(item)}</Label>
 						{/if}
 					{:else}
 						<Label variant="orange">{t('page.myConsoles.warningLabel')}</Label>
 					{/if}
-					<div class="mt-4">
-						<a href="/stream/{item.id as string}">
-							<Button label={t('page.myConsoles.startStreamBtn')} />
-						</a>
+					<div class="mt-4 flex flex-col gap-2">
+						{#if canStream(item)}
+							{#if canWake(item)}
+								<Button
+									label={wakingConsoleId === item.id
+										? t('page.myConsoles.wakingBtn')
+										: t('page.myConsoles.wakeBtn')}
+									onclick={() => handleWake(item)}
+									disabled={wakingConsoleId !== null}
+									class="text-sm"
+								/>
+								<Button
+									label={wakingConsoleId === item.id
+										? t('page.myConsoles.wakingBtn')
+										: t('page.myConsoles.wakeAndStreamBtn')}
+									onclick={() => handleWakeAndStream(item)}
+									disabled={wakingConsoleId !== null}
+								/>
+							{:else}
+								<a href="/stream/{item.id}">
+									<Button label={t('page.myConsoles.startStreamBtn')} />
+								</a>
+							{/if}
+						{/if}
 					</div>
 				</Card>
 			{/each}

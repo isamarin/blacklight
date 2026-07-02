@@ -218,6 +218,10 @@
         "managementWarning": "Remote management not enabled",
         "streamingWarning": "Console streaming not enabled",
         "startStreamBtn": "Start Stream",
+        "wakeBtn": "Wake console",
+        "wakingBtn": "Waking console...",
+        "wakeAndStreamBtn": "Wake and stream",
+        "offline": "Offline",
         "noConsoles": "No consoles found on your account. If you do have an Xbox console then make sure that remote playing is enabled and that the console is visible in the official Xbox App."
       },
 
@@ -271,6 +275,7 @@
       "itsTakingALittleLonger": "It's taking a little longer.. Your stream may start soon.",
       "startingConnection": "Starting connection...",
       "connectingToConsole": "Connecting to console...",
+      "wakingConsole": "Waking console...",
       "clientHasBeenDisconnected": "The client has been disconnected."
     },
 
@@ -300,6 +305,8 @@
         "stream_timeout": "The stream is taking too long to connect. Try again or go back.",
         "stream_failed": "The stream failed to start. Try again or check your console connection.",
         "consoles_load_failed": "Failed to load your consoles. Try again or sign in again.",
+        "console_wake_failed": "Failed to wake your console. Make sure remote power-on is enabled and try again.",
+        "mic_failed": "Microphone access failed. Check permissions in system settings.",
         "unknown": "Something went wrong. Try again."
       },
       "failedToRetrieveUserProfile": "Error: Failed to retrieve user profile:",

@@ -10,7 +10,7 @@
 
 **Maintainer:** Igor Samarin ([@isamarin](https://github.com/isamarin)) — mako.mmw@gmail.com
 
-**Versioning:** [CalVer](https://calver.org/) (`2026.7.2`). Release tags: `v2026.7.2` (not the old fork `v3.*` prefix).
+**Versioning:** [CalVer](https://calver.org/) (`2026.7.3`). Release tags: `v2026.7.3` (not the old fork `v3.*` prefix).
 
 _DISCLAIMER: Blacklight is not affiliated with Microsoft, Xbox or Moonlight. All rights and trademarks are property of their respective owners._
 
@@ -108,8 +108,8 @@ Create production build:
 
 Release tag (triggers CI draft release with DMG + NSIS):
 
-    git tag -a v2026.7.2 -m "Blacklight 2026.7.2"
-    git push origin v2026.7.2
+    git tag -a v2026.7.3 -m "Blacklight 2026.7.3"
+    git push origin v2026.7.3
 
 Typecheck the Tauri UI:
 
@@ -118,6 +118,12 @@ Typecheck the Tauri UI:
 ## Translations
 
 Want to help with translations? Open an [issue](https://github.com/isamarin/blacklight/issues) or submit a PR with updated locale files.
+
+## License
+
+Blacklight is licensed under the [PolyForm Noncommercial License 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0). You may use, modify, and distribute the software for **noncommercial** purposes only. Commercial use (including selling, sublicensing for profit, or using the software in a commercial product or service) is not permitted without separate permission from the copyright holders.
+
+See [LICENSE](LICENSE) for the full text.
 
 ## Changelog
 

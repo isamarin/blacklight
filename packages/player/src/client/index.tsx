@@ -29,6 +29,8 @@ export interface StreamPlayerHandle {
     attachMouseKeyboard: (index?: number) => VirtualMKB;
     toggleDebugOverlay: () => void;
     pressMenu: () => void;
+    toggleMic: () => boolean;
+    isMicEnabled: () => boolean;
 }
 
 export interface communicationHandler {
@@ -38,6 +40,7 @@ export interface communicationHandler {
     getSessionPath: () => string;
     getStreamConfig: () => xCloudStreamConfig;
     sendSDPOffer: (sdpOffer:RTCSessionDescriptionInit) => Promise<any>;
+    sendChatSDPOffer: (sdpOffer:RTCSessionDescriptionInit) => Promise<any>;
     sendICECandidates: (candidates:Array<any>) => Promise<any>;
     sendMSALToken: () => Promise<any>;
     sendKeepalive: () => Promise<any>;
@@ -99,6 +102,24 @@ export const StreamPlayer = forwardRef<StreamPlayerHandle, StreamPlayerProps>(
             },
             pressMenu() {
                 ensureGamepad().sendGamepadButtonPress('Nexus')
+            },
+            toggleMic() {
+                if(!player){
+                    throw new Error('Player is not initialized yet');
+                }
+                const chat = player.getChatChannel()
+                if (chat.isPaused) {
+                    chat.startMic()
+                    return true
+                }
+                chat.stopMic()
+                return false
+            },
+            isMicEnabled() {
+                if(!player){
+                    return false
+                }
+                return !player.getChatChannel().isPaused
             }
         }));
 
@@ -180,6 +201,17 @@ export const StreamPlayer = forwardRef<StreamPlayerHandle, StreamPlayerProps>(
             let keepaliveInterval : NodeJS.Timeout;
             if(player){
                 player.init();
+
+                player.setChatSdpHandler(async (offer) => {
+                    try {
+                        const serverOffer = await communicationHandler.sendChatSDPOffer(offer)
+                        const remoteSDP = JSON.parse(serverOffer.exchangeResponse)
+                        await player.setRemoteSDP(remoteSDP.sdp)
+                    } catch (error) {
+                        console.error('Chat SDP exchange error:', error)
+                        player.getChatChannel().stopMic()
+                    }
+                })
 
                 player.createOffer().then(async (offer) => {
                     console.log('Created offer:', offer);

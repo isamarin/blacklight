@@ -208,6 +208,10 @@
         "managementWarning": "Remote-Verwaltung nicht aktiviert",
         "streamingWarning": "Konsolen-Streaming nicht aktiviert",
         "startStreamBtn": "Starte Stream",
+        "wakeBtn": "Konsole aufwecken",
+        "wakingBtn": "Konsole wird aufgeweckt...",
+        "wakeAndStreamBtn": "Aufwecken und streamen",
+        "offline": "Aus",
         "noConsoles": "Es wurden keine Konsolen im Account gefunden. Wenn du eine Xbox-Konsole hast, stelle sicher, dass PlayTo aktiviert ist und die Konsole in der offiziellen Xbox App sichtbar ist."
       },
       "titleInfo": {
@@ -256,6 +260,7 @@
       "itsTakingALittleLonger": "Es dauert noch einen Moment.. Dein Stream startet bald.",
       "startingConnection": "Verbindungsaufbau...",
       "connectingToConsole": "Verbinde mit Konsole...",
+      "wakingConsole": "Konsole wird aufgeweckt...",
       "clientHasBeenDisconnected": "Der Client wurde getrennt."
     },
     "updater": {
@@ -283,6 +288,8 @@
         "stream_timeout": "Die Stream-Verbindung dauert zu lange. Erneut versuchen oder zurückgehen.",
         "stream_failed": "Der Stream konnte nicht gestartet werden. Erneut versuchen oder die Konsolenverbindung prüfen.",
         "consoles_load_failed": "Konsolen konnten nicht geladen werden. Erneut versuchen oder neu anmelden.",
+        "console_wake_failed": "Konsole konnte nicht aufgeweckt werden. Stelle sicher, dass Remote-Einschalten aktiviert ist, und versuche es erneut.",
+        "mic_failed": "Mikrofonzugriff fehlgeschlagen. Berechtigungen in den Systemeinstellungen prüfen.",
         "unknown": "Etwas ist schiefgelaufen. Bitte erneut versuchen."
       },
       "failedToRetrieveUserProfile": "Fehler: Konnte Benutzerprofil nicht abrufen:",

@@ -2,19 +2,25 @@ import Channel from './channel'
 
 export default class ChatChannel extends Channel {
 
+    isCapturing = false
+    isPaused = true
     _micPermissions:'granted'|'denied'|'prompt' = 'prompt'
     _micStream:MediaStream | undefined
 
     constructor(player:any){
         super(player)
 
-        navigator.permissions.query({ name: 'microphone' }).then((permissionStatus) => {
-            this._micPermissions = permissionStatus.state
-        
-            permissionStatus.onchange = () => {
+        if (typeof navigator !== 'undefined' && navigator.permissions?.query) {
+            navigator.permissions.query({ name: 'microphone' as PermissionName }).then((permissionStatus) => {
                 this._micPermissions = permissionStatus.state
-            }
-        })
+
+                permissionStatus.onchange = () => {
+                    this._micPermissions = permissionStatus.state
+                }
+            }).catch(() => {
+                // Permission API unavailable (e.g. some WebViews)
+            })
+        }
     }
 
     getChannelName() {
@@ -28,57 +34,60 @@ export default class ChatChannel extends Channel {
         }
     }
 
-    // startMicrophone() {
-    //     if(this._micPermissions === 'denied'){
-    //         alert('Microphone permissions are denied. Please enable them in your browser settings.')
-    //         return
-    //     }
-    //     if(this._micStream !== undefined){
-    //         console.log('Microphone already started. You need to stop it first by calling stopMicrophone()')
-    //         return
-    //     }
+    startMic() {
+        if(this._micPermissions === 'denied'){
+            throw new Error('Microphone permissions are denied')
+        }
 
-    //     navigator.mediaDevices.getUserMedia({ audio: {
-    //         channelCount: 1,
-    //         sampleRate: 24e3,
-    //     } }).then((stream) => {
-    //         if(this._micStream !== undefined){
-    //             return
-    //         }
+        if(this.isCapturing === true){
+            this.isPaused = false
+            return
+        }
 
-    //         this._micStream = stream
+        navigator.mediaDevices.getUserMedia({
+            audio: {
+                channelCount: 1,
+                sampleRate: 24e3,
+            },
+        }).then((stream) => {
+            this.isCapturing = true
+            this._micStream = stream
+            this.isPaused = false
 
-    //         // Add to SDP
-    //         this.getPlayer()._peerConnection.addTrack(stream.getAudioTracks()[0], stream)
-    //         this.getPlayer().createOffer().then((offer) => {
-    //             if(this.getPlayer()._sdpHandler){
-    //                 this.getPlayer()._sdpHandler(offer)
-    //             } else {
-    //                 console.log('No SDP handler set. Set an SDP Handler via player.setChatSdpHandler()')
-    //             }
-    //         })
-    //     }).catch((err) => {
-    //         alert(`Error connecting to microphone: ${err}`)
-    //     })
-    // }
+            stream.getTracks().forEach((track) => {
+                this.getPlayer()._peerConnection.addTrack(track, stream)
+            })
 
-    // stopMicrophone() {
-    //     if(this._micStream === undefined) {return}
+            this.getPlayer().sdpNegotiationChat()
+        }).catch((err) => {
+            this.isCapturing = false
+            this._micStream = undefined
+            this.isPaused = true
+            console.error('Microphone error:', err)
+        })
+    }
 
-    //     this._micStream.getTracks().forEach((track) => {
-    //         track.stop()
-    //     })
+    stopMic() {
+        if(this._micStream !== undefined) {
+            this._micStream.getTracks().forEach((track) => {
+                track.stop()
+            })
+            this._micStream = undefined
+        }
 
-    //     this.getPlayer()._peerConnection.getSenders().forEach((sender) => {
-    //         if(sender.track && sender.track.kind === 'audio'){
-    //             this.getPlayer()._peerConnection.removeTrack(sender)
-    //         }
-    //     })
+        this.getPlayer()._peerConnection.getSenders().forEach((sender) => {
+            if(sender.track && sender.track.kind === 'audio'){
+                this.getPlayer()._peerConnection.removeTrack(sender)
+            }
+        })
 
-    //     this._micStream = undefined
-    // }
+        this.isCapturing = false
+        this.isPaused = true
+    }
 
     destroy() {
-        // console.log('DebugChannel destroy() called')
+        if(this.isCapturing){
+            this.stopMic()
+        }
     }
 }

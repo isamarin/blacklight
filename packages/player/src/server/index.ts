@@ -32,6 +32,19 @@ export const getWaitingTimes = async (xStreamToken:xStreamToken, xCloudStreamCon
     return await httpGet<{ estimatedTotalWaitTimeInSeconds: number }>(xStreamToken, xCloudStreamConfig, '/v1/waittime/'+targetId)
 }
 
+export const sendChatSDPOffer = async (xStreamToken:xStreamToken, xCloudStreamConfig:xCloudStreamConfig, sessionPath:string, sdpOffer:RTCSessionDescriptionInit) => {
+    await httpPost<StatusResponse>(xStreamToken, xCloudStreamConfig, '/'+sessionPath+'/sdp', JSON.stringify({
+        'messageType':'offer',
+        'sdp': sdpOffer.sdp,
+        'configuration':{
+            'isMediaStreamsChatRenegotiation': true,
+        },
+    }))
+
+    const sdpResponse = await httpGet<SDPResponse>(xStreamToken, xCloudStreamConfig, '/'+sessionPath+'/sdp')
+    return sdpResponse
+}
+
 export const sendSDPOffer = async (xStreamToken:xStreamToken, xCloudStreamConfig:xCloudStreamConfig, sessionPath:string, sdpOffer:RTCSessionDescriptionInit) => {
     await httpPost<StatusResponse>(xStreamToken, xCloudStreamConfig, '/'+sessionPath+'/sdp', JSON.stringify({
         'messageType':'offer',

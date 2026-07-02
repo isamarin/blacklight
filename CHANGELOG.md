@@ -6,11 +6,14 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
 
+## [2026.7.3] - 2026-07-02
+
+### Added (desktop-tauri)
+- **P0 Remote Play wake** ([#702](https://github.com/unknownskl/greenlight/issues/702), [#1042](https://github.com/unknownskl/greenlight/issues/1042)): SmartGlass `powerOn`, wake / wake-and-stream on consoles page, auto-wake before home stream
+- **P0 Mic WebRTC** ([#365](https://github.com/unknownskl/greenlight/issues/365)): chat SDP renegotiation + stream overlay mic toggle wired to WebRTC
+
 ### Changed
-- **Phase 9 polish:** remove stream player debug overlay; consoles error + retry; auth Clear Data; settings/stream overlay i18n; `~` debug hotkey; xCloud queue wait UI; stream overlay menu/mic/end controls; settings version + Clear Data
-- **Product identity:** Blacklight is maintained as an independent product (`isamarin/blacklight`); drop fork-era `v3.*` release tags and scripts (`build:depsv3`, `desktopv3`, `test:v3`)
-- **Release tags:** CalVer `v2026.M.P` (e.g. `v2026.7.2`); CI draft releases trigger on `v20*` tags
-- **Scripts:** `build:depsv3` → `build:deps`; `desktopv3` → `desktop-renderer`
+- **License:** MIT → [PolyForm Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0) — commercial use is not permitted without separate permission
 
 ## [2026.7.2] - 2026-07-02
 

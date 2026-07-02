@@ -34,6 +34,7 @@ export default class xCloudPlayer {
     private _videoComponent: VideoRenderer | undefined
     private _audioComponent: AudioComponent | undefined
     private _videoRendererMode: VideoRendererMode
+    _sdpHandler: ((offer: RTCSessionDescriptionInit) => void) | undefined
 
     constructor(elementId: string, options: xCloudPlayerOptions = {}) {
         console.log('xCloudPlayer constructing...');
@@ -122,6 +123,24 @@ export default class xCloudPlayer {
         if(this._videoComponent){
             this._videoComponent.toggleDebugOverlay()
         }
+    }
+
+    setChatSdpHandler(handler: (offer: RTCSessionDescriptionInit) => void) {
+        this._sdpHandler = handler
+    }
+
+    sdpNegotiationChat() {
+        this.createOffer().then((offer) => {
+            if(this._sdpHandler){
+                this._sdpHandler(offer)
+            } else {
+                console.log('No SDP handler set. Set an SDP Handler via player.setChatSdpHandler()')
+            }
+        })
+    }
+
+    getChatChannel() {
+        return this._channels.chat
     }
 
     getStats() {
