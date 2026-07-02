@@ -7,7 +7,7 @@
 		{ href: '/home', labelKey: 'page.xCloud.breadcrumb', fallback: 'xCloud' },
 		{ href: '/consoles', labelKey: 'page.myConsoles.pageTitle', fallback: 'My Consoles' },
 		{ href: '/xcloud/library', labelKey: 'page.xCloudLibrary.breadcrumb2', fallback: 'Library' },
-		{ href: '/settings/home', labelKey: 'page.settings.sidebar.about', fallback: 'Settings' }
+		{ href: '/settings/home', labelKey: 'settings.sidebar.about', fallback: 'Settings' }
 	];
 
 	const authState = $derived(getAuthState());
@@ -17,7 +17,7 @@
 	);
 
 	function handleLogout() {
-		if (confirm('Are you sure you want to logout?')) logout();
+		if (confirm(t('auth.logoutQuestion'))) logout();
 	}
 
 	function isActive(href: string) {
@@ -36,7 +36,7 @@
 			{gamertag}
 		</a>
 		<button onclick={handleLogout} class="text-white/50 text-sm hover:text-white mt-1">
-			Logout
+			{t('auth.logoutBtn')}
 		</button>
 	</div>
 	<ul class="px-4 space-y-1">

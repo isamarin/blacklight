@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from '$lib/i18n';
 	import { getSettings, setSettings } from '$lib/stores/settings.svelte';
 	import AppLayout from '$lib/components/layout/AppLayout.svelte';
 	import SettingsSidebar from '$lib/components/settings/SettingsSidebar.svelte';
@@ -7,7 +8,7 @@
 	const settings = $derived(getSettings());
 </script>
 
-<AppLayout title="Video Settings">
+<AppLayout title={t('settings.videoAudio.pageTitle')}>
 	<div class="flex gap-8">
 		<SettingsSidebar />
 		<div class="flex-1 space-y-4">
@@ -19,7 +20,7 @@
 						onchange={() => setSettings({ ...settings, video_enabled: !settings.video_enabled })}
 						class="accent-[#107C10]"
 					/>
-					Enable video
+					{t('settings.videoAudio.enableVideoLabel')}
 				</label>
 			</Card>
 			<Card>
@@ -30,7 +31,7 @@
 						onchange={() => setSettings({ ...settings, audio_enabled: !settings.audio_enabled })}
 						class="accent-[#107C10]"
 					/>
-					Enable audio
+					{t('settings.videoAudio.enableAudioLabel')}
 				</label>
 			</Card>
 			<Card>
@@ -42,8 +43,9 @@
 							setSettings({ ...settings, app_lowresolution: !settings.app_lowresolution })}
 						class="accent-[#107C10]"
 					/>
-					Low resolution mode (720p)
+					{t('settings.videoAudio.forceLowResLabel')}
 				</label>
+				<p class="text-white/40 text-xs mt-2">{t('settings.videoAudio.forceLowResDescription')}</p>
 			</Card>
 		</div>
 	</div>

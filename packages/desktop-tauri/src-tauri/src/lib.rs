@@ -93,6 +93,7 @@ pub fn run() {
 			commands::get_user_token,
 			commands::save_user_token,
 			commands::clear_user_token,
+			commands::clear_app_data,
 			commands::get_api_origin,
 			commands::get_trpc_url,
 			start_api,

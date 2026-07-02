@@ -58,6 +58,10 @@ export async function clearUserTokenFromTauri(): Promise<void> {
 	await invoke('clear_user_token');
 }
 
+export async function clearAppDataFromTauri(): Promise<void> {
+	await invoke('clear_app_data');
+}
+
 export async function getApiOriginFromTauri(): Promise<string> {
 	return invoke<string>('get_api_origin');
 }

@@ -115,7 +115,7 @@ export const StreamPlayer = forwardRef<StreamPlayerHandle, StreamPlayerProps>(
 
                             } else if(state.state === 'Failed'){
                                 clearInterval(interval)
-                                setPlayerState('Error');
+                                setPlayerState('Error: Stream session failed');
                             }
                         }
 
@@ -178,13 +178,8 @@ export const StreamPlayer = forwardRef<StreamPlayerHandle, StreamPlayerProps>(
         }, [player]);
 
         return (
-            <div ref={playerInstance}>
-                <div id="playerContainer"></div>
-                <p>
-                    Player loaded from <span className='redPlayer'>@blacklight/player/client</span>
-                </p>
-                <pre>{JSON.stringify(communicationHandler.getStreamConfig(), null, 2)}</pre>
-                <pre>Status: {playerState}</pre>
+            <div ref={playerInstance} className="stream-player-host">
+                <div id="playerContainer" />
             </div>
         );
     }

@@ -162,3 +162,17 @@ pub fn clear_user_token(app: AppHandle) -> Result<(), String> {
     }
     Ok(())
 }
+
+#[tauri::command]
+pub fn clear_app_data(app: AppHandle) -> Result<(), String> {
+    for path in [
+        user_token_path(&app)?,
+        app_settings_path(&app)?,
+        settings_path(&app)?,
+    ] {
+        if path.exists() {
+            fs::remove_file(&path).map_err(|e| e.to_string())?;
+        }
+    }
+    app.restart();
+}

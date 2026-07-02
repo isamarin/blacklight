@@ -25,6 +25,7 @@
       "logoutBtn": "Выйти",
       "loginWithXbox": "Войти через Xbox",
       "pleaseAuthenticate": "Пожалуйста, авторизуйтесь ниже для доступа к xCloud и xHome Streaming",
+      "qrCodeHint": "Или отсканируйте QR-код на телефоне",
       "windowTitle": "Авторизация"
     },
 
@@ -41,6 +42,8 @@
       "about": {
         "logoutQuestion": "Вы уверены, что хотите выйти из аккаунта?",
         "title": "Настройки",
+        "profileTitle": "Профиль",
+        "languageTitle": "Язык",
         "gamerscore": "Игровой счет",
         "selectorSelectLanguage": "Выберите язык",
         "logout": "Выйти",
@@ -77,6 +80,7 @@
         "enableMouseKeyboard": "Включить мышь и клавиатуру",
         "legacyWarning": "Использование драйвера мыши и клавиатуры вместе с назначениями клавиш геймпада вызовет конфликты",
         "enableLegacy": "Включить клавиатуру как геймпад",
+        "enableNewGamepadLabel": "Новый драйвер геймпада",
         "enableLegacyDescription": "(Отключение этой функции отключит сопоставление клавиатуры с геймпадом и позволит управлять только с геймпада.)",
         "controllerDetectedTitle": "Обнаружены контроллеры",
         "controllerDetectedDescription": "Если у вас подключен контроллер, но он не отображается, попробуйте нажать кнопку на контроллере для обнаружения.",
@@ -137,13 +141,16 @@
         "preferredGameLanguageValueSwedish": "Шведский",
         "preferredGameLanguageValueTurkish": "Турецкий",
         "preferredGameLanguageValueChineseCN": "Китайский (упрощенный)",
-        "preferredGameLanguageValueChineseTW": "Китайский (традиционный)"
+        "preferredGameLanguageValueChineseTW": "Китайский (традиционный)",
+        "forceRegionHint": "Передаётся как X-Forwarded-For при аутентификации Xbox. Выйдите и войдите снова после изменения."
       },
 
       "videoAudio": {
         "pageTitle": "Настройки: Видео и Аудио",
         "videoTitle": "Видео",
         "disableVideoLabel": "Отключить видео",
+        "enableVideoLabel": "Включить видео",
+        "enableAudioLabel": "Включить аудио",
         "disabledLabel": "Отключено",
         "enabledLabel": "Включено",
         "aspectSizeLabel": "Размер видео",
@@ -257,6 +264,10 @@
       "enableMic": "Включить микрофон",
       "disableMic": "Выключить микрофон",
       "debugTitle": "Отладка",
+      "gamepadBtn": "Геймпад",
+      "keyboardBtn": "Клавиатура",
+      "debugBtn": "Отладка (~)",
+      "exitBtn": "Выход",
       "itsTakingALittleLonger": "Это занимает немного больше времени.. Ваша трансляция может скоро начаться.",
       "startingConnection": "Начало подключения...",
       "connectingToConsole": "Подключение к консоли...",
@@ -288,6 +299,7 @@
         "catalog_missing_token": "Токены стриминга отсутствуют. Войдите снова, чтобы загрузить библиотеку.",
         "stream_timeout": "Подключение к стриму занимает слишком много времени. Попробуйте снова или вернитесь назад.",
         "stream_failed": "Не удалось запустить стрим. Попробуйте снова или проверьте подключение консоли.",
+        "consoles_load_failed": "Не удалось загрузить список консолей. Попробуйте снова или войдите заново.",
         "unknown": "Что-то пошло не так. Попробуйте снова."
       },
       "failedToRetrieveUserProfile": "Ошибка! Не удалось получить профиль пользователя:",

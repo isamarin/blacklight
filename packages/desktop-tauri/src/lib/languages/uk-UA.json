@@ -25,6 +25,7 @@
       "logoutBtn": "Вийти",
       "loginWithXbox": "Увійти через Xbox",
       "pleaseAuthenticate": "Будь ласка, авторизуйтесь нижче для доступу до xCloud та xHome Streaming",
+      "qrCodeHint": "Або відскануйте QR-код на телефоні",
       "windowTitle": "Авторизація"
     },
 
@@ -41,6 +42,8 @@
       "about": {
         "logoutQuestion": "Ви впевнені, що хочете вийти з акаунту?",
         "title": "Налаштування",
+        "profileTitle": "Профіль",
+        "languageTitle": "Мова",
         "gamerscore": "Ігровий рахунок",
         "selectorSelectLanguage": "Оберіть мову",
         "logout": "Вийти",
@@ -77,6 +80,7 @@
         "enableMouseKeyboard": "Увімкнути мишу та клавіатуру",
         "legacyWarning": "Використання драйвера миші та клавіатури разом із призначеннями клавіш геймпада викличе конфлікти",
         "enableLegacy": "Увімкнути клавіатуру як геймпад",
+        "enableNewGamepadLabel": "Новий драйвер геймпада",
         "enableLegacyDescription": "(Вимкнення цієї функції вимкне зіставлення клавіатури з геймпадом і дозволить керувати лише з геймпада.)",
         "controllerDetectedTitle": "Виявлено контролери",
         "controllerDetectedDescription": "Якщо у вас підключено контролер, але він не відображається, спробуйте натиснути кнопку на контролері для виявлення.",
@@ -137,13 +141,16 @@
         "preferredGameLanguageValueSwedish": "Шведська",
         "preferredGameLanguageValueTurkish": "Турецька",
         "preferredGameLanguageValueChineseCN": "Китайська (спрощена)",
-        "preferredGameLanguageValueChineseTW": "Китайська (традиційна)"
+        "preferredGameLanguageValueChineseTW": "Китайська (традиційна)",
+        "forceRegionHint": "Передається як X-Forwarded-For під час автентифікації Xbox. Вийдіть і увійдіть знову після зміни."
       },
 
       "videoAudio": {
         "pageTitle": "Налаштування: Відео та Аудіо",
         "videoTitle": "Відео",
         "disableVideoLabel": "Вимкнути відео",
+        "enableVideoLabel": "Увімкнути відео",
+        "enableAudioLabel": "Увімкнути аудіо",
         "disabledLabel": "Вимкнено",
         "enabledLabel": "Увімкнено",
         "aspectSizeLabel": "Розмір відео",
@@ -257,6 +264,10 @@
       "enableMic": "Увімкнути мікрофон",
       "disableMic": "Вимкнути мікрофон",
       "debugTitle": "Відлагодження",
+      "gamepadBtn": "Геймпад",
+      "keyboardBtn": "Клавіатура",
+      "debugBtn": "Відлагодження (~)",
+      "exitBtn": "Вихід",
       "itsTakingALittleLonger": "Це займає трохи більше часу.. Ваша трансляція може скоро початися.",
       "startingConnection": "Початок підключення...",
       "connectingToConsole": "Підключення до консолі...",
@@ -288,6 +299,7 @@
         "catalog_missing_token": "Токени стрімінгу відсутні. Увійдіть знову, щоб завантажити бібліотеку.",
         "stream_timeout": "Підключення до стріму займає занадто багато часу. Спробуйте знову або поверніться назад.",
         "stream_failed": "Не вдалося запустити стрім. Спробуйте знову або перевірте підключення консолі.",
+        "consoles_load_failed": "Не вдалося завантажити список консолей. Спробуйте знову або увійдіть знову.",
         "unknown": "Щось пішло не так. Спробуйте знову."
       },
       "failedToRetrieveUserProfile": "Помилка! Не вдалося отримати профіль користувача:",

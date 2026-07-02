@@ -8,21 +8,21 @@
 
 	const VIDEO_RENDERER_OPTIONS: VideoRendererMode[] = ['auto', 'webgpu', 'video'];
 	const VIDEO_RENDERER_I18N_KEYS: Record<VideoRendererMode, string> = {
-		auto: 'page.settings.streaming.videoRendererValueAuto',
-		webgpu: 'page.settings.streaming.videoRendererValueWebgpu',
-		video: 'page.settings.streaming.videoRendererValueVideo'
+		auto: 'settings.streaming.videoRendererValueAuto',
+		webgpu: 'settings.streaming.videoRendererValueWebgpu',
+		video: 'settings.streaming.videoRendererValueVideo'
 	};
 
 	const settings = $derived(getSettings());
 </script>
 
-<AppLayout title="Streaming Settings">
+<AppLayout title={t('settings.streaming.pageTitle')}>
 	<div class="flex gap-8">
 		<SettingsSidebar />
 		<div class="flex-1 space-y-4">
 			<Card>
 				<label class="block text-white/70 text-sm mb-2">
-					{t('page.settings.streaming.videoRendererLabel', { defaultValue: 'Video renderer' })}
+					{t('settings.streaming.videoRendererLabel')}
 				</label>
 				<select
 					class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white"
@@ -34,12 +34,14 @@
 						})}
 				>
 					{#each VIDEO_RENDERER_OPTIONS as mode (mode)}
-						<option value={mode}>{t(VIDEO_RENDERER_I18N_KEYS[mode], { defaultValue: mode })}</option>
+						<option value={mode}>{t(VIDEO_RENDERER_I18N_KEYS[mode])}</option>
 					{/each}
 				</select>
 			</Card>
 			<Card>
-				<label class="block text-white/70 text-sm mb-2">xCloud bitrate (0 = auto)</label>
+				<label class="block text-white/70 text-sm mb-2">
+					{t('settings.streaming.xCloudStreamingBitrateLabel')} ({t('settings.streaming.unlimitedLabel')})
+				</label>
 				<input
 					type="number"
 					class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white"
@@ -52,7 +54,9 @@
 				/>
 			</Card>
 			<Card>
-				<label class="block text-white/70 text-sm mb-2">xHome bitrate (0 = auto)</label>
+				<label class="block text-white/70 text-sm mb-2">
+					{t('settings.streaming.xHomeStreamingBitrateLabel')} ({t('settings.streaming.unlimitedLabel')})
+				</label>
 				<input
 					type="number"
 					class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white"
@@ -65,7 +69,9 @@
 				/>
 			</Card>
 			<Card>
-				<label class="block text-white/70 text-sm mb-2">Preferred game language</label>
+				<label class="block text-white/70 text-sm mb-2">
+					{t('settings.streaming.preferredGameLanguageLabel')}
+				</label>
 				<input
 					type="text"
 					class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white"
@@ -78,11 +84,13 @@
 				/>
 			</Card>
 			<Card>
-				<label class="block text-white/70 text-sm mb-2">Force region IP</label>
+				<label class="block text-white/70 text-sm mb-2">
+					{t('settings.streaming.forceRegionTitle')}
+				</label>
 				<input
 					type="text"
 					class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white"
-					placeholder="e.g. 1.2.3.4 (European egress)"
+					placeholder={t('settings.streaming.setRegionValueEurope')}
 					value={settings.force_region_ip}
 					onchange={(e) =>
 						setSettings({
@@ -90,10 +98,7 @@
 							force_region_ip: (e.currentTarget as HTMLInputElement).value
 						})}
 				/>
-				<p class="text-white/40 text-xs mt-2">
-					Sent as X-Forwarded-For during Xbox authentication. Log out and sign in again after
-					changing this value.
-				</p>
+				<p class="text-white/40 text-xs mt-2">{t('settings.streaming.forceRegionHint')}</p>
 			</Card>
 		</div>
 	</div>

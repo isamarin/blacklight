@@ -5,6 +5,7 @@
 	import { errorI18nKey } from '$lib/errors';
 	import { t } from '$lib/i18n';
 	import {
+		clearAppData,
 		clearAuthError,
 		getAuthError,
 		retryStoredAuth,
@@ -17,6 +18,11 @@
 	let error = $state<string | null>(null);
 	let qrDataUrl = $state<string | null>(null);
 	let flowStarted = $state(false);
+
+	async function handleClearData() {
+		if (!confirm(t('auth.clearDataQuestion'))) return;
+		await clearAppData();
+	}
 
 	async function beginAuthFlow() {
 		flowStarted = true;
@@ -66,7 +72,7 @@
 </script>
 
 <svelte:head>
-	<title>Blacklight Authentication</title>
+	<title>{t('auth.windowTitle')}</title>
 </svelte:head>
 
 <div class="flex h-screen bg-[#0d0d0d] bg-pattern overflow-hidden">
@@ -87,13 +93,16 @@
 			</p>
 			{#if authFlow?.verification_uri && authFlow?.user_code}
 				<div class="flex flex-col items-center gap-4">
-					<p class="text-white/50 text-sm text-center">Or scan the QR code with your phone</p>
+					<p class="text-white/50 text-sm text-center">{t('auth.qrCodeHint')}</p>
 					{#if qrDataUrl}
 						<img src={qrDataUrl} alt="Login QR code" width="120" height="120" />
 					{/if}
 					<p class="text-white font-mono text-lg tracking-widest">{authFlow.user_code}</p>
 				</div>
 			{/if}
+			<div class="mt-6 pt-4 border-t border-white/10">
+				<Button label={t('auth.clearDataBtn')} onclick={handleClearData} class="text-sm" />
+			</div>
 		</div>
 	</main>
 </div>

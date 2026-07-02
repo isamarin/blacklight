@@ -23,6 +23,7 @@
       "logoutBtn": "Abmelden",
       "loginWithXbox": "Mit Xbox anmelden",
       "pleaseAuthenticate": "Bitte authentifiziere dich, um auf xCloud und xHome Streaming zuzugreifen",
+      "qrCodeHint": "Oder scanne den QR-Code mit deinem Handy",
       "windowTitle": "Authentifizierung"
     },
     "settings": {
@@ -37,6 +38,8 @@
       "about": {
         "logoutQuestion": "Bist du sicher, dass du dich abmelden möchtest?",
         "title": "Einstellungen",
+        "profileTitle": "Profil",
+        "languageTitle": "Sprache",
         "gamerscore": "Gamerscore",
         "selectorSelectLanguage": "Sprache auswählen",
         "logout": "Abmelden",
@@ -72,6 +75,7 @@
         "enableMouseKeyboard": "Maus & Tastatur aktivieren",
         "legacyWarning": "Maus & Tastatureingabe zusammen mit Gamepad-Tastaturbelegungen zu verwenden verursacht Konflikte",
         "enableLegacy": "Aktiviere Tastatur zu Gamepad",
+        "enableNewGamepadLabel": "Neuer Gamepad-Treiber",
         "enableLegacyDescription": "(Deaktivierung dieser Funktion hebt die Gamepad-Tastaturbelegung auf und gestattet nur die Steuerung per Gamepad.)",
         "controllerDetectedTitle": "Erkannte Controller",
         "controllerDetectedDescription": "Wenn du einen Controller besitzt, der nicht aufgeführt ist, versuche eine Taste zu drücken, um ihn zu erkennen.",
@@ -132,12 +136,15 @@
         "preferredGameLanguageValueSwedish": "Schwedisch",
         "preferredGameLanguageValueTurkish": "Türkisch",
         "preferredGameLanguageValueChineseCN": "Chinesisch (vereinfacht)",
-        "preferredGameLanguageValueChineseTW": "Chinesisch (traditionell)"
+        "preferredGameLanguageValueChineseTW": "Chinesisch (traditionell)",
+        "forceRegionHint": "Wird bei der Xbox-Authentifizierung als X-Forwarded-For gesendet. Nach Änderung abmelden und erneut anmelden."
       },
       "videoAudio": {
         "pageTitle": "Einstellungen: Video & Audio",
         "title": "Video",
         "disableVideoLabel": "Video deaktivieren",
+        "enableVideoLabel": "Video aktivieren",
+        "enableAudioLabel": "Audio aktivieren",
         "disabledLabel": "Deaktiviert",
         "enabledLabel": "Aktiviert",
         "aspectSizeLabel": "Seitenverhältnis",
@@ -242,6 +249,10 @@
       "enableMic": "Aktiviere Mikro",
       "disableMic": "Deaktiviere Mikro",
       "debugTitle": "Fehlersuche",
+      "gamepadBtn": "Gamepad",
+      "keyboardBtn": "Tastatur",
+      "debugBtn": "Debug (~)",
+      "exitBtn": "Beenden",
       "itsTakingALittleLonger": "Es dauert noch einen Moment.. Dein Stream startet bald.",
       "startingConnection": "Verbindungsaufbau...",
       "connectingToConsole": "Verbinde mit Konsole...",
@@ -271,6 +282,7 @@
         "catalog_missing_token": "Streaming-Token fehlen. Bitte erneut anmelden, um die Bibliothek zu laden.",
         "stream_timeout": "Die Stream-Verbindung dauert zu lange. Erneut versuchen oder zurückgehen.",
         "stream_failed": "Der Stream konnte nicht gestartet werden. Erneut versuchen oder die Konsolenverbindung prüfen.",
+        "consoles_load_failed": "Konsolen konnten nicht geladen werden. Erneut versuchen oder neu anmelden.",
         "unknown": "Etwas ist schiefgelaufen. Bitte erneut versuchen."
       },
       "failedToRetrieveUserProfile": "Fehler: Konnte Benutzerprofil nicht abrufen:",

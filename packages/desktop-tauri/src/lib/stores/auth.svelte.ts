@@ -2,6 +2,7 @@ import { authForceRegionIp, withAuthRegion } from '$lib/auth/region';
 import { classifyError, type UserErrorCode } from '$lib/errors';
 import { isTauriApp } from '$lib/runtime';
 import {
+	clearAppDataFromTauri,
 	clearUserTokenFromTauri,
 	getUserTokenFromTauri,
 	saveUserTokenToTauri
@@ -204,6 +205,19 @@ export async function retryStoredAuth(): Promise<boolean> {
 export function logout() {
 	authError = null;
 	clearAuth();
+}
+
+export async function clearAppData() {
+	authError = null;
+	clearAuth();
+	if (typeof localStorage !== 'undefined') {
+		localStorage.clear();
+	}
+	if (isTauriApp()) {
+		await clearAppDataFromTauri();
+		return;
+	}
+	window.location.reload();
 }
 
 export function clearAuthError() {

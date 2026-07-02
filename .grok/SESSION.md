@@ -32,7 +32,7 @@ pnpm desktop-tauri tauri:build
 |-------|--------|
 | 0–7 Migration + P0 | ✅ |
 | 8 Release RC | 🟡 CI + manual Xbox smoke |
-| 9 Polish | pending |
+| 9 Polish | 🟡 player/consoles/clear-data/i18n done; mic/queue overlay pending |
 | 10 Shell (updater, launch args) | pending |
 | 11 Legacy cleanup (desktop-v3, v2 CI) | pending |
 

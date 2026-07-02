@@ -25,6 +25,7 @@
       "logoutBtn": "Logout",
       "loginWithXbox": "Login with Xbox",
       "pleaseAuthenticate": "Please authenticate below to access xCloud and xHome Streaming",
+      "qrCodeHint": "Or scan the QR code with your phone",
       "windowTitle": "Authentication"
     },
 
@@ -41,6 +42,8 @@
       "about": {
         "logoutQuestion": "Are you sure you want to logout?",
         "title": "Settings",
+        "profileTitle": "Profile",
+        "languageTitle": "Language",
         "gamerscore": "Gamerscore",
         "selectorSelectLanguage": "Select language",
         "logout": "Logout",
@@ -77,6 +80,7 @@
         "enableMouseKeyboard": "Enable Mouse & Keyboard",
         "legacyWarning": "Using the Mouse & Keyboard driver together with the Gamepad keyboard mappings will cause conflicts",
         "enableLegacy": "Enable Keyboard to Gamepad",
+        "enableNewGamepadLabel": "New gamepad driver",
         "enableLegacyDescription": "(Disabling this feature will disable the keyboard to gamepad mapping and only allows controls from the gamepad.)",
         "controllerDetectedTitle": "Controllers detected",
         "controllerDetectedDescription": "If you have a controller connected but it is not showing up, try to press a button on the controller to detect it.",
@@ -137,13 +141,16 @@
         "preferredGameLanguageValueSwedish": "Swedish",
         "preferredGameLanguageValueTurkish": "Turkish",
         "preferredGameLanguageValueChineseCN": "Chinese (Simplified)",
-        "preferredGameLanguageValueChineseTW": "Chinese (Traditional)"
+        "preferredGameLanguageValueChineseTW": "Chinese (Traditional)",
+        "forceRegionHint": "Sent as X-Forwarded-For during Xbox authentication. Log out and sign in again after changing this value."
       },
 
       "videoAudio": {
         "pageTitle": "Settings: Video & Audio",
         "title": "Video",
         "disableVideoLabel": "Disable video",
+        "enableVideoLabel": "Enable video",
+        "enableAudioLabel": "Enable audio",
         "disabledLabel": "Disabled",
         "enabledLabel": "Enabled",
         "aspectSizeLabel": "Video aspect size",
@@ -257,6 +264,10 @@
       "enableMic": "Enable mic",
       "disableMic": "Disable mic",
       "debugTitle": "Debug",
+      "gamepadBtn": "Gamepad",
+      "keyboardBtn": "Keyboard",
+      "debugBtn": "Debug (~)",
+      "exitBtn": "Exit",
       "itsTakingALittleLonger": "It's taking a little longer.. Your stream may start soon.",
       "startingConnection": "Starting connection...",
       "connectingToConsole": "Connecting to console...",
@@ -288,6 +299,7 @@
         "catalog_missing_token": "Streaming tokens are missing. Sign in again to load the library.",
         "stream_timeout": "The stream is taking too long to connect. Try again or go back.",
         "stream_failed": "The stream failed to start. Try again or check your console connection.",
+        "consoles_load_failed": "Failed to load your consoles. Try again or sign in again.",
         "unknown": "Something went wrong. Try again."
       },
       "failedToRetrieveUserProfile": "Error: Failed to retrieve user profile:",

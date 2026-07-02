@@ -6,7 +6,7 @@
 		{ href: '/settings/home', key: 'about' },
 		{ href: '/settings/streaming', key: 'streaming' },
 		{ href: '/settings/input', key: 'input' },
-		{ href: '/settings/video', key: 'video' },
+		{ href: '/settings/video', key: 'videoAudio' },
 		{ href: '/settings/webui', key: 'webUI' },
 		{ href: '/settings/debug', key: 'debug' }
 	];
@@ -24,7 +24,7 @@
 				? 'bg-[#107C10]/20 text-[#107C10]'
 				: 'text-white/60 hover:text-white hover:bg-white/5'}"
 		>
-			{t(`page.settings.sidebar.${link.key}`, { defaultValue: link.key })}
+			{t(`settings.sidebar.${link.key}`, { defaultValue: link.key })}
 		</a>
 	{/each}
 </nav>

@@ -7,6 +7,7 @@ export type UserErrorCode =
 	| 'catalog_missing_token'
 	| 'stream_timeout'
 	| 'stream_failed'
+	| 'consoles_load_failed'
 	| 'unknown';
 
 export function extractErrorMessage(error: unknown): string {
@@ -25,7 +26,12 @@ export function classifyError(error: unknown): UserErrorCode {
 	}
 	if (text.includes('xcloud') && text.includes('token')) return 'streaming_tokens';
 	if (text.includes('gstoken') || text.includes('xhome token')) return 'streaming_tokens';
-	if (text.includes('web token') || text.includes('webtoken')) return 'web_tokens';
+	if (text.includes('web token') || text.includes('webtoken') || text.includes('smartglass')) {
+		return 'web_tokens';
+	}
+	if (text.includes('console') && (text.includes('list') || text.includes('load'))) {
+		return 'consoles_load_failed';
+	}
 	if (
 		text.includes('expired') ||
 		text.includes('invalid_grant') ||

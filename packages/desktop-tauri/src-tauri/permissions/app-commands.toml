@@ -10,6 +10,7 @@ commands.allow = [
     "get_user_token",
     "save_user_token",
     "clear_user_token",
+    "clear_app_data",
     "get_api_origin",
     "get_trpc_url",
     "start_api",
