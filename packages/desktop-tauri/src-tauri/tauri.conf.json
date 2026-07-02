@@ -4,10 +4,10 @@
   "version": "2026.7.3",
   "identifier": "com.isamarin.blacklight",
   "build": {
-    "beforeDevCommand": "pnpm dev:tauri",
+    "beforeDevCommand": "pnpm build",
     "beforeBuildCommand": "pnpm build && pnpm build:api",
-    "devUrl": "http://127.0.0.1:4173",
-    "frontendDist": "../build"
+    "frontendDist": "../build",
+    "additionalWatchFolders": ["../src", "../static"]
   },
   "app": {
     "withGlobalTauri": true,

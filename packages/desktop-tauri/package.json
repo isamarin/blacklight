@@ -12,7 +12,6 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
-		"dev:tauri": "bash scripts/tauri-dev-server.sh",
 		"tauri:stop": "bash scripts/stop-tauri-dev.sh",
 		"build": "vite build",
 		"preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
