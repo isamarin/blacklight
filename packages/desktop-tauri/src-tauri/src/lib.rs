@@ -103,11 +103,7 @@ pub fn run() {
 		])
 		.manage(ApiProcessState(Mutex::new(None)))
 		.setup(|app| {
-			let settings = commands::read_settings(app.handle())?;
-			if settings.webui_autostart {
-				spawn_api(app.handle())?;
-			}
-
+			spawn_api(app.handle())?;
 			Ok(())
 		})
 		.build(tauri::generate_context!())

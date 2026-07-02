@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import QRCode from 'qrcode';
 	import type { RouterOutputs } from '$lib/trpc';
-	import { errorI18nKey } from '$lib/errors';
+	import { classifyError, errorI18nKey } from '$lib/errors';
 	import { t } from '$lib/i18n';
 	import {
 		clearAppData,
@@ -35,7 +35,9 @@
 			await verifyCode(flow.device_code);
 		} catch (e: unknown) {
 			const authErr = getAuthError();
-			error = authErr ? t(errorI18nKey(authErr)) : (e as Error)?.message || t('errors.codes.unknown');
+			error = authErr
+				? t(errorI18nKey(authErr))
+				: t(errorI18nKey(classifyError(e)));
 		}
 	}
 

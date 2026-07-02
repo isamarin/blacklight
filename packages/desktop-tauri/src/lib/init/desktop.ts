@@ -1,4 +1,4 @@
-import { isTauriApp } from '$lib/runtime';
+import { getApiHealth, isTauriApp } from '$lib/runtime';
 import { defaultSettings } from '$lib/settings.defaults';
 import {
 	appSettingsForDisk,
@@ -9,14 +9,36 @@ import {
 import {
 	getAppSettingsFromTauri,
 	getSidecarSettings,
+	isApiRunning,
 	restartApi,
 	saveAppSettingsToTauri,
 	saveSidecarSettings,
+	startApi,
 	waitForTauriIpc
 } from '$lib/tauri';
 import { resetTrpcClient } from '$lib/trpc';
 
 const STORAGE_KEY = 'blacklight-settings';
+const API_HEALTH_TIMEOUT_MS = 15_000;
+const API_HEALTH_POLL_MS = 250;
+
+function sleep(ms: number) {
+	return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function ensureApiRunning() {
+	if (!(await isApiRunning())) {
+		await startApi();
+	}
+
+	const deadline = Date.now() + API_HEALTH_TIMEOUT_MS;
+	while (Date.now() < deadline) {
+		if (await getApiHealth()) return;
+		await sleep(API_HEALTH_POLL_MS);
+	}
+
+	throw new Error('API failed to start');
+}
 
 function loadLegacyLocalStorage(): Partial<typeof defaultSettings> | null {
 	if (typeof localStorage === 'undefined') return null;
@@ -34,6 +56,7 @@ export async function initDesktopShell() {
 
 	try {
 		await waitForTauriIpc();
+		await ensureApiRunning();
 		const [appSettings, apiSettings] = await Promise.all([
 			getAppSettingsFromTauri(),
 			getSidecarSettings()
@@ -67,7 +90,10 @@ export async function initDesktopShell() {
 		const legacy = loadLegacyLocalStorage();
 		if (legacy) {
 			hydrateSettings({ ...defaultSettings, ...legacy });
+			resetTrpcClient();
+			return;
 		}
+		throw e;
 	}
 }
 

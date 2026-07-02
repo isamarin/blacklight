@@ -52,7 +52,10 @@ export function classifyError(error: unknown): UserErrorCode {
 	if (
 		text.includes('network') ||
 		text.includes('fetch') ||
+		text.includes('load failed') ||
+		text.includes('failed to fetch') ||
 		text.includes('econnrefused') ||
+		text.includes('api failed to start') ||
 		text.includes('timeout')
 	) {
 		return 'network';

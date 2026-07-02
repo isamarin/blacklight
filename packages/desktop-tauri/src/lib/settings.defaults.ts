@@ -34,7 +34,7 @@ export const defaultSettings = {
 	app_lowresolution: false,
 	video_enabled: true,
 	audio_enabled: true,
-	webui_autostart: false,
+	webui_autostart: true,
 	webui_port: 9003,
 	language: 'en-US'
 };

@@ -22,7 +22,7 @@ pub struct SidecarSettings {
 impl Default for SidecarSettings {
     fn default() -> Self {
         Self {
-            webui_autostart: false,
+            webui_autostart: true,
             webui_port: 9003,
         }
     }
