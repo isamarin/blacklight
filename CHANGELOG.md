@@ -6,6 +6,15 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
 
+## [2026.7.5] - 2026-07-02
+
+### Added (desktop-tauri)
+- **Xbox auth UX:** copyable device code with one-click clipboard copy (`CopyableCode`)
+- **Microsoft login link** opens in the system browser via Tauri opener (not in-app WebView)
+
+### Changed (desktop-tauri)
+- **App icon** updated from new Blacklight artwork (cropped and compressed for Tauri + static assets)
+
 ## [2026.7.4] - 2026-07-02
 
 ### Fixed (desktop-tauri)
