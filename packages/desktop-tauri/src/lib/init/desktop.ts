@@ -1,6 +1,6 @@
 import { isTauriApp } from '$lib/runtime';
 import { getSettings, setSettings } from '$lib/stores/settings.svelte';
-import { getSidecarSettings, saveSidecarSettings } from '$lib/tauri';
+import { getSidecarSettings, restartApi, saveSidecarSettings } from '$lib/tauri';
 import { resetTrpcClient } from '$lib/trpc';
 
 export async function initDesktopShell() {
@@ -20,7 +20,7 @@ export async function initDesktopShell() {
 	}
 }
 
-export async function syncSidecarSettings(patch: {
+export async function syncApiSettings(patch: {
 	webui_autostart?: boolean;
 	webui_port?: number;
 }) {
@@ -29,8 +29,14 @@ export async function syncSidecarSettings(patch: {
 	try {
 		await saveSidecarSettings(patch);
 		resetTrpcClient();
+		if (patch.webui_port !== undefined) {
+			await restartApi();
+		}
 	} catch (e) {
-		console.error('Failed to save sidecar settings via Tauri', e);
+		console.error('Failed to save API settings via Tauri', e);
 		throw e;
 	}
 }
+
+/** @deprecated use syncApiSettings */
+export const syncSidecarSettings = syncApiSettings;

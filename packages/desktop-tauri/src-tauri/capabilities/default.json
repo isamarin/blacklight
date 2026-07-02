@@ -12,7 +12,7 @@
       "identifier": "shell:allow-spawn",
       "allow": [
         {
-          "name": "blacklight-sidecar",
+          "name": "blacklight-api",
           "sidecar": true
         }
       ]

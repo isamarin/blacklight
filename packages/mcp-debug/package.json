@@ -2,7 +2,7 @@
   "name": "@blacklight/mcp-debug",
   "private": true,
   "version": "0.1.0",
-  "description": "MCP server for local Blacklight sidecar and UI debugging",
+  "description": "MCP server for local Blacklight API and UI debugging",
   "type": "module",
   "scripts": {
     "start": "tsx src/server.ts",

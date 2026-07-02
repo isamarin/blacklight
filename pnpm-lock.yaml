@@ -143,9 +143,6 @@ importers:
       '@trpc/server':
         specifier: ^11.17.0
         version: 11.17.0(typescript@5.9.3)
-      express:
-        specifier: ^5.2.1
-        version: 5.2.1
       i18next:
         specifier: ^26.3.4
         version: 26.3.4(typescript@5.9.3)
@@ -177,9 +174,6 @@ importers:
       '@tauri-apps/cli':
         specifier: ^2.10.0
         version: 2.11.2
-      '@types/express':
-        specifier: ^5.0.6
-        version: 5.0.6
       '@types/node':
         specifier: ^25.9.3
         version: 25.9.3

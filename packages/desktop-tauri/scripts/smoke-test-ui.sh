@@ -2,10 +2,12 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
-API="http://127.0.0.1:9003"
-UI="http://localhost:5173"
+API_PORT="${BLACKLIGHT_PORT:-9003}"
+UI_PORT="${BLACKLIGHT_UI_PORT:-5173}"
+API="http://127.0.0.1:${API_PORT}"
+UI="http://localhost:${UI_PORT}"
 
-echo "[smoke] sidecar health"
+echo "[smoke] API health"
 curl -sf "$API/health" | grep -q '"ok":true'
 
 echo "[smoke] tRPC ping"

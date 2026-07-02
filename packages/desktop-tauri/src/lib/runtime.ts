@@ -62,49 +62,13 @@ export async function openExternal(url: string): Promise<void> {
 	window.open(url, '_blank', 'noopener,noreferrer');
 }
 
-async function sidecarFetch<T>(path: string, init?: RequestInit): Promise<T> {
-	const res = await fetch(`${getApiOrigin()}${path}`, {
-		...init,
-		headers: {
-			'content-type': 'application/json',
-			...(init?.headers ?? {})
-		}
-	});
-	if (!res.ok) {
-		throw new Error(`Sidecar ${path} failed: ${res.status}`);
+export async function getApiHealth(): Promise<boolean> {
+	try {
+		const res = await fetch(`${getApiOrigin()}/health`);
+		if (!res.ok) return false;
+		const body = (await res.json()) as { ok?: boolean };
+		return body.ok === true;
+	} catch {
+		return false;
 	}
-	return res.json() as Promise<T>;
-}
-
-export const tauriSidecar = {
-	getStatus(): Promise<boolean> {
-		return sidecarFetch<{ running: boolean }>('/api/webui/status').then((r) => r.running);
-	},
-	start(port?: number): Promise<boolean> {
-		return sidecarFetch<{ running: boolean }>('/api/webui/start', {
-			method: 'POST',
-			body: JSON.stringify({ port })
-		}).then((r) => r.running);
-	},
-	stop(): Promise<boolean> {
-		return sidecarFetch<{ running: boolean }>('/api/webui/stop', { method: 'POST' }).then(
-			(r) => r.running
-		);
-	},
-	getSettings(): Promise<{ webui_autostart: boolean; webui_port: number }> {
-		return sidecarFetch('/api/webui/settings');
-	},
-	saveSettings(settings: { webui_autostart?: boolean; webui_port?: number }) {
-		return sidecarFetch('/api/webui/settings', {
-			method: 'POST',
-			body: JSON.stringify(settings)
-		});
-	}
-};
-
-export function getWebuiApi() {
-	if (isTauriApp() || isWebUIMode()) {
-		return tauriSidecar;
-	}
-	return undefined;
 }
