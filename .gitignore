@@ -57,3 +57,4 @@ packages/desktop-v3/flatpak/pnpm-sources.json
 /scripts/
 
 .env
+.land
