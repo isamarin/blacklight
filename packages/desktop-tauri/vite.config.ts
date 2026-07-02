@@ -16,7 +16,7 @@ function fixTauriSpaPaths(): Plugin {
 			html = html
 				.replaceAll('href="/_app/', 'href="./_app/')
 				.replaceAll('import("/_app/', 'import("./_app/')
-				.replaceAll('style="display: contents"', 'id="svelte-app" style="min-height: 100vh"')
+				.replaceAll('style="display: contents"', 'id="svelte-app" style="height: 100%"')
 				.replace(
 					/(__sveltekit_\w+ = \{\s*)base: ""(\s*\};)/,
 					"$1base: new URL('.', location).pathname.slice(0, -1)$2"

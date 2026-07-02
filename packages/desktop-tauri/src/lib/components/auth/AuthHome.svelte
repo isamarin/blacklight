@@ -8,7 +8,6 @@
 		clearAppData,
 		clearAuthError,
 		getAuthError,
-		retryStoredAuth,
 		startAuth,
 		verifyCode
 	} from '$lib/stores/auth.svelte';
@@ -43,14 +42,9 @@
 	onMount(() => {
 		let cancelled = false;
 
-		retryStoredAuth()
-			.then((restored) => {
-				if (cancelled || restored) return;
-				return beginAuthFlow();
-			})
-			.catch((e: Error) => {
-				if (!cancelled) error = e?.message || t('errors.codes.unknown');
-			});
+		beginAuthFlow().catch((e: Error) => {
+			if (!cancelled) error = e?.message || t('errors.codes.unknown');
+		});
 
 		return () => {
 			cancelled = true;
@@ -75,7 +69,7 @@
 	<title>{t('auth.windowTitle')}</title>
 </svelte:head>
 
-<div class="flex h-screen bg-[#0d0d0d] bg-pattern overflow-hidden">
+<div class="flex h-full min-h-screen bg-[#0d0d0d] bg-pattern overflow-hidden">
 	<main class="flex-1 flex items-center justify-center p-8">
 		<div class="max-w-lg w-full glass rounded-2xl p-8 border border-white/5">
 			<h2 class="text-2xl font-bold text-white mb-2">{t('auth.loginWithXbox')}</h2>

@@ -14,7 +14,12 @@
 	>
 		<div id="boot-fallback" style="padding: 24px">Loading Blacklight…</div>
 		<div id="boot-error" style="display: none; padding: 24px; color: #f87171; white-space: pre-wrap"></div>
-		<div id="svelte-app" style="min-height: 100vh">%sveltekit.body%</div>
+		<div id="svelte-app" style="height: 100%">%sveltekit.body%</div>
+		<script>
+			if ('__TAURI_INTERNALS__' in window) {
+				document.documentElement.classList.add('tauri-shell');
+			}
+		</script>
 		<script>
 			const showBootError = (message) => {
 				const el = document.getElementById('boot-error');

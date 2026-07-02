@@ -108,11 +108,6 @@ pub fn run() {
 				spawn_api(app.handle())?;
 			}
 
-			#[cfg(debug_assertions)]
-			if let Some(window) = app.get_webview_window("main") {
-				let _ = window.open_devtools();
-			}
-
 			Ok(())
 		})
 		.build(tauri::generate_context!())

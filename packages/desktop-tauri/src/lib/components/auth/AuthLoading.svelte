@@ -3,8 +3,8 @@
 </svelte:head>
 
 <div
-	class="flex h-screen bg-[#0d0d0d] bg-pattern overflow-hidden"
-	style="min-height: 100vh; background: #0d0d0d; color: #fff"
+	class="flex h-full min-h-screen bg-[#0d0d0d] bg-pattern overflow-hidden"
+	style="background: #0d0d0d; color: #fff"
 >
 	<main class="flex-1 overflow-hidden relative">
 		<div

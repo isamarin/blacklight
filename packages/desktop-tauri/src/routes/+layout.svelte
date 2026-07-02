@@ -17,14 +17,25 @@
 
 	let { children } = $props();
 	let ready = $state(false);
+	let bootError = $state<string | null>(null);
+	let syncedLanguage = $state<string | null>(null);
+	let catalogRequested = $state(false);
 
 	onMount(async () => {
+		document.documentElement.classList.toggle(
+			'tauri-shell',
+			'__TAURI_INTERNALS__' in window
+		);
+
 		try {
 			await initDesktopShell();
 			await initAuth();
-			await initI18n(getSettings().language);
+			const language = getSettings().language;
+			syncedLanguage = language;
+			await initI18n(language);
 		} catch (error) {
 			console.error('Failed to initialize Blacklight shell', error);
+			bootError = error instanceof Error ? error.message : String(error);
 		} finally {
 			document.getElementById('boot-fallback')?.remove();
 			ready = true;
@@ -32,13 +43,24 @@
 	});
 
 	$effect(() => {
-		initI18n(getSettings().language);
+		if (!ready) return;
+
+		const language = getSettings().language;
+		if (language === syncedLanguage) return;
+
+		syncedLanguage = language;
+		void initI18n(language);
 	});
 
 	$effect(() => {
-		if (getIsAuthenticated()) {
-			refreshTitleCatalog();
+		if (!ready || !getIsAuthenticated()) {
+			catalogRequested = false;
+			return;
 		}
+
+		if (catalogRequested) return;
+		catalogRequested = true;
+		void refreshTitleCatalog();
 	});
 
 	const showApp = $derived(ready && getIsAuthenticated());
@@ -47,14 +69,19 @@
 	const storedAuthError = $derived(getAuthError());
 </script>
 
-{#if !ready}
-	<AuthLoading />
-{:else if showAuthLoading}
+{#if bootError}
+	<div class="flex h-full min-h-screen items-center justify-center bg-[#0d0d0d] p-8 text-red-400">
+		<div class="max-w-lg text-center">
+			<h1 class="mb-3 text-xl font-semibold text-white">Blacklight failed to start</h1>
+			<p class="text-sm">{bootError}</p>
+		</div>
+	</div>
+{:else if !ready || showAuthLoading}
 	<AuthLoading />
 	{#if storedAuthError}
-		<div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 max-w-md w-full px-4">
+		<div class="fixed bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-4">
 			<div class="glass rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-center">
-				<p class="text-red-400 text-sm">{t(errorI18nKey(storedAuthError))}</p>
+				<p class="text-sm text-red-400">{t(errorI18nKey(storedAuthError))}</p>
 			</div>
 		</div>
 	{/if}
