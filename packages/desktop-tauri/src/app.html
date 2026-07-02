@@ -13,6 +13,15 @@
 		style="margin: 0; background: #0d0d0d; color: #f0f0f0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
 	>
 		<div id="boot-fallback" style="padding: 24px">Loading Blacklight…</div>
+		<div id="boot-error" style="display: none; padding: 24px; color: #f87171"></div>
 		<div style="display: contents">%sveltekit.body%</div>
+		<script>
+			window.addEventListener('unhandledrejection', (event) => {
+				const el = document.getElementById('boot-error');
+				if (!el) return;
+				el.style.display = 'block';
+				el.textContent = `Failed to start: ${event.reason}`;
+			});
+		</script>
 	</body>
 </html>

@@ -17,8 +17,8 @@ function fixTauriSpaPaths(): Plugin {
 				.replaceAll('href="/_app/', 'href="./_app/')
 				.replaceAll('import("/_app/', 'import("./_app/')
 				.replace(
-					/__sveltekit_\w+ = \{\s*base: ""\s*\};/,
-					"__sveltekit_tauri = {\n\t\t\t\tbase: new URL('.', location).pathname.slice(0, -1)\n\t\t\t};"
+					/(__sveltekit_\w+ = \{\s*)base: ""(\s*\};)/,
+					"$1base: new URL('.', location).pathname.slice(0, -1)$2"
 				);
 
 			writeFileSync(indexPath, html);
