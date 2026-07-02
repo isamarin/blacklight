@@ -19,6 +19,8 @@
 		"tauri:build": "tauri build",
 		"prepare": "svelte-kit sync || echo ''",
 		"test": "vitest run",
+		"smoke:api": "tsx scripts/smoke-auth-stream.ts",
+		"smoke:e2e": "bash scripts/smoke-test-e2e.sh",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"api": "tsx api/server.ts",
