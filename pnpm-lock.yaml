@@ -131,6 +131,9 @@ importers:
       '@blacklight/player':
         specifier: workspace:*
         version: link:../player
+      '@tauri-apps/api':
+        specifier: ^2.10.0
+        version: 2.11.1
       '@tauri-apps/plugin-opener':
         specifier: ^2.5.0
         version: 2.5.4

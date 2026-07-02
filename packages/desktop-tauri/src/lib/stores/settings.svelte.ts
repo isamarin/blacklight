@@ -1,4 +1,6 @@
 import { defaultSettings, type AppSettings } from '$lib/settings.defaults';
+import { resetTrpcClient } from '$lib/trpc';
+import { setApiPort } from '$lib/runtime';
 
 const STORAGE_KEY = 'blacklight-settings';
 
@@ -20,6 +22,8 @@ if (typeof localStorage !== 'undefined') {
 $effect(() => {
 	if (!loaded || typeof localStorage === 'undefined') return;
 	localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+	setApiPort(settings.webui_port);
+	resetTrpcClient();
 });
 
 export function getSettings() {

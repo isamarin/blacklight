@@ -1,0 +1,10 @@
+[[permission]]
+identifier = "app-commands"
+description = "Blacklight application invoke commands"
+commands.allow = [
+    "get_app_info",
+    "get_sidecar_settings",
+    "save_sidecar_settings",
+    "get_api_origin",
+    "get_trpc_url"
+]

@@ -1,3 +1,5 @@
+mod commands;
+
 use std::path::PathBuf;
 use std::sync::Mutex;
 
@@ -67,6 +69,13 @@ pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_opener::init())
+        .invoke_handler(tauri::generate_handler![
+            commands::get_app_info,
+            commands::get_sidecar_settings,
+            commands::save_sidecar_settings,
+            commands::get_api_origin,
+            commands::get_trpc_url,
+        ])
         .manage(SidecarState(Mutex::new(None)))
         .setup(|app| {
             spawn_sidecar(app.handle());

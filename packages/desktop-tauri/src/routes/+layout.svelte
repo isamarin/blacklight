@@ -9,6 +9,7 @@
 	} from '$lib/stores/auth.svelte';
 	import { getSettings } from '$lib/stores/settings.svelte';
 	import { refreshTitleCatalog } from '$lib/stores/titleCatalog.svelte';
+	import { initDesktopShell } from '$lib/init/desktop';
 	import AuthHome from '$lib/components/auth/AuthHome.svelte';
 	import AuthLoading from '$lib/components/auth/AuthLoading.svelte';
 
@@ -16,6 +17,7 @@
 	let ready = $state(false);
 
 	onMount(async () => {
+		await initDesktopShell();
 		await initAuth();
 		await initI18n(getSettings().language);
 		ready = true;

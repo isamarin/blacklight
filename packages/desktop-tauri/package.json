@@ -26,6 +26,7 @@
 	"dependencies": {
 		"@blacklight/platform": "workspace:*",
 		"@blacklight/player": "workspace:*",
+		"@tauri-apps/api": "^2.10.0",
 		"@tauri-apps/plugin-opener": "^2.5.0",
 		"@trpc/client": "^11.17.0",
 		"@trpc/server": "^11.17.0",

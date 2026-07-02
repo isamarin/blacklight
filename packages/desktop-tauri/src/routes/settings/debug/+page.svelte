@@ -1,18 +1,30 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { trpc } from '$lib/trpc';
+	import { isTauriApp } from '$lib/runtime';
+	import { getAppInfo, getTrpcUrlFromTauri, type AppInfo } from '$lib/tauri';
 	import AppLayout from '$lib/components/layout/AppLayout.svelte';
 	import SettingsSidebar from '$lib/components/settings/SettingsSidebar.svelte';
 	import Card from '$lib/components/ui/Card.svelte';
 
 	let ping = $state<string | undefined>();
 	let version = $state<string | undefined>();
+	let appInfo = $state<AppInfo | undefined>();
+	let trpcUrl = $state<string | undefined>();
 
 	onMount(async () => {
 		try {
 			[ping, version] = await Promise.all([trpc.ping.query(), trpc.version.query()]);
 		} catch (e) {
 			console.error('Debug queries failed', e);
+		}
+
+		if (isTauriApp()) {
+			try {
+				[appInfo, trpcUrl] = await Promise.all([getAppInfo(), getTrpcUrlFromTauri()]);
+			} catch (e) {
+				console.error('Tauri debug info failed', e);
+			}
 		}
 	});
 </script>
@@ -26,6 +38,16 @@
 				<p class="text-white/60 text-sm">Ping: {ping}</p>
 				<p class="text-white/60 text-sm">Version: {version}</p>
 			</Card>
+			{#if appInfo}
+				<Card>
+					<h2 class="text-white font-semibold mb-2">Tauri shell</h2>
+					<p class="text-white/60 text-sm">Product: {appInfo.productName}</p>
+					<p class="text-white/60 text-sm">App version: {appInfo.version}</p>
+					<p class="text-white/60 text-sm">Platform: {appInfo.platform}</p>
+					<p class="text-white/60 text-sm">Data dir: {appInfo.dataDir}</p>
+					<p class="text-white/60 text-sm">tRPC URL: {trpcUrl}</p>
+				</Card>
+			{/if}
 			<Card>
 				<h2 class="text-white font-semibold mb-2">Environment</h2>
 				<pre class="text-xs text-white/50 overflow-auto">

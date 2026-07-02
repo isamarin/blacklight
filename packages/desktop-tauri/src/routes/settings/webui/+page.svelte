@@ -2,9 +2,11 @@
 	import { onMount } from 'svelte';
 	import { t } from '$lib/i18n';
 	import { getSettings, setSettings } from '$lib/stores/settings.svelte';
+	import { syncSidecarSettings } from '$lib/init/desktop';
 	import {
 		getWebuiApi,
 		isDesktopShell,
+		isTauriApp,
 		isWebUIMode,
 		openExternal
 	} from '$lib/runtime';
@@ -27,11 +29,16 @@
 		return () => clearInterval(interval);
 	});
 
-	function syncToMain(next: ReturnType<typeof getSettings>) {
-		webuiApi?.saveSettings({
+	async function syncToMain(next: ReturnType<typeof getSettings>) {
+		const patch = {
 			webui_autostart: next.webui_autostart,
 			webui_port: Number(next.webui_port) || 9003
-		});
+		};
+		if (isTauriApp()) {
+			await syncSidecarSettings(patch);
+			return;
+		}
+		await webuiApi?.saveSettings(patch);
 	}
 
 	async function toggleServer() {
