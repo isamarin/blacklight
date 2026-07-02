@@ -1,6 +1,10 @@
 # Blacklight
 
 [![Build](https://github.com/isamarin/blacklight/actions/workflows/build.yml/badge.svg)](https://github.com/isamarin/blacklight/actions/workflows/build.yml)
+[![Status](https://img.shields.io/badge/status-public%20beta-107C10)](https://blacklight.isamarin.xyz)
+[![Website](https://img.shields.io/badge/website-blacklight.isamarin.xyz-24292f)](https://blacklight.isamarin.xyz)
+
+**Status: Public beta** — macOS and Windows builds are available; feedback and bug reports are welcome.
 
 **Blacklight** is an independent open-source Xbox streaming tool — xCloud and console home streaming for **macOS** and **Windows** (Tauri). Built with TypeScript; streaming engine powered by [xbox-xcloud-player](https://github.com/unknownskl/xbox-xcloud-player).
 
