@@ -13,7 +13,7 @@
 		class?: string;
 		type?: 'button' | 'submit';
 		disabled?: boolean;
-		variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
+		variant?: 'primary' | 'secondary' | 'ghost' | 'white' | 'danger';
 		size?: 'sm' | 'md';
 	} = $props();
 
@@ -22,9 +22,11 @@
 			? 'glass-btn-secondary'
 			: variant === 'ghost'
 				? 'glass-btn-ghost'
-				: variant === 'danger'
-					? 'glass-btn-danger'
-					: 'glass-btn-primary'
+				: variant === 'white'
+					? 'glass-btn-white'
+					: variant === 'danger'
+						? 'glass-btn-danger'
+						: 'glass-btn-primary'
 	);
 
 	const sizeClass = $derived(size === 'sm' ? 'glass-btn-sm' : 'glass-btn-md');

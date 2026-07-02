@@ -12,6 +12,7 @@
 		verifyCode
 	} from '$lib/stores/auth.svelte';
 	import { getApiHealth, openExternal } from '$lib/runtime';
+	import AuthScreenBackdrop from '$lib/components/auth/AuthScreenBackdrop.svelte';
 	import Button from '$lib/components/ui/Button.svelte';
 	import CopyableCode from '$lib/components/ui/CopyableCode.svelte';
 
@@ -85,14 +86,14 @@
 	<title>{t('auth.windowTitle')}</title>
 </svelte:head>
 
-<div class="flex h-full min-h-screen bg-[#0d0d0d] bg-pattern overflow-hidden">
-	<main class="flex-1 flex items-center justify-center p-8">
-		<div class="glass max-w-lg w-full rounded-2xl p-8 shadow-2xl shadow-black/30">
-			<h2 class="text-2xl font-bold text-white mb-2">{t('auth.loginWithXbox')}</h2>
-			<p class="text-white/40 text-sm mb-6">{t('auth.pleaseAuthenticate')}</p>
+<AuthScreenBackdrop>
+	<main class="flex min-h-screen flex-1 items-center justify-center p-8">
+		<div class="glass-auth max-w-lg w-full rounded-2xl p-8 shadow-2xl shadow-black/30">
+			<h2 class="text-3xl font-bold text-white mb-2 text-center">{t('auth.loginWithXbox')}</h2>
+			<p class="text-white/40 text-base mb-6 text-center">{t('auth.pleaseAuthenticate')}</p>
 			{#if error}
 				<div class="mb-4 rounded-lg border border-red-500/30 bg-red-500/10 p-3">
-					<p class="text-red-400 text-sm">{error}</p>
+					<p class="text-red-400 text-base">{error}</p>
 					<div class="mt-3">
 						<Button label={t('errors.retryBtn')} onclick={beginAuthFlow} size="sm" />
 					</div>
@@ -100,7 +101,7 @@
 			{/if}
 			{#if authFlow?.verification_uri && authFlow?.user_code}
 				{@const loginUrl = authFlow.verification_uri}
-				<p class="text-white/80 mb-4">
+				<p class="text-white/80 text-base mb-4">
 					{t('auth.deviceLoginHint')}
 					<a
 						href={loginUrl}
@@ -112,18 +113,18 @@
 					</a>
 				</p>
 				<div class="flex flex-col items-center gap-4">
-					<p class="text-white/50 text-sm text-center">{t('auth.qrCodeHint')}</p>
+					<p class="text-white/50 text-base text-center">{t('auth.qrCodeHint')}</p>
 					{#if qrDataUrl}
 						<img src={qrDataUrl} alt="Login QR code" width="120" height="120" />
 					{/if}
 					<CopyableCode code={authFlow.user_code} />
 				</div>
 			{:else}
-				<p class="text-white/80 mb-4">{t('auth.loggingIn')}</p>
+				<p class="text-white/80 text-base mb-4">{t('auth.loggingIn')}</p>
 			{/if}
 			<div class="mt-6 pt-4 border-t border-white/10">
-				<Button label={t('auth.clearDataBtn')} onclick={handleClearData} variant="ghost" size="sm" />
+				<Button label={t('auth.clearDataBtn')} onclick={handleClearData} variant="white" size="sm" />
 			</div>
 		</div>
 	</main>
-</div>
+</AuthScreenBackdrop>

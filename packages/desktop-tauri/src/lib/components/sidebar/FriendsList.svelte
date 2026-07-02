@@ -62,7 +62,7 @@
 </script>
 
 <aside
-	class="glass-panel hidden w-56 flex-col border-l border-white/10 bg-surface/30 p-4 xl:flex"
+	class="glass-panel hidden w-56 shrink-0 flex-col overflow-y-auto border-r border-white/10 bg-surface/30 p-4 md:flex"
 >
 	<h3 class="mb-3 text-sm font-semibold text-white/60">
 		{t('sidebar.friends.title', { defaultValue: 'Friends' })}

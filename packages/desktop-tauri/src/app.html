@@ -12,13 +12,25 @@
 			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
 			rel="stylesheet"
 		/>
+		<style>
+			#boot-fallback {
+				display: flex;
+				min-height: 100vh;
+				align-items: center;
+				justify-content: center;
+				padding: 24px;
+				color: rgba(255, 255, 255, 0.88);
+				background: #0d0d0d url('%sveltekit.assets%/images/hero-background.png') center / cover
+					no-repeat;
+			}
+		</style>
 		%sveltekit.head%
 	</head>
 	<body
 		data-sveltekit-preload-data="hover"
 		style="margin: 0; background: #0d0d0d; color: #f0f0f0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
 	>
-		<div id="boot-fallback" style="padding: 24px">Loading Blacklight…</div>
+		<div id="boot-fallback">Loading Blacklight…</div>
 		<div id="boot-error" style="display: none; padding: 24px; color: #f87171; white-space: pre-wrap"></div>
 		<div id="svelte-app" style="height: 100%">%sveltekit.body%</div>
 		<script>

@@ -21,7 +21,7 @@
 </script>
 
 <div class="glass-control relative w-full max-w-sm px-4 py-3 pr-12">
-	<span class="block w-full text-center font-mono text-xl tracking-[0.3em] text-white select-all">
+	<span class="block w-full text-center font-mono text-2xl tracking-[0.3em] text-white select-all">
 		{code}
 	</span>
 	<button

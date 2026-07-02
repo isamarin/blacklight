@@ -6,6 +6,19 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
 
+## [2026.7.12] - 2026-07-02
+
+### Added (desktop-tauri)
+- **Auth screen:** hero background on boot and login; shared `AuthScreenBackdrop`; black tinted glass card
+- **Top navigation:** icon bar with sliding active indicator; friends panel on the left
+- **Page transitions** in main content area
+- **Makefile** at repo root (`make web-all`, `make preview-all`, `make dev`, etc.)
+- **Button** `white` variant for secondary actions on dark surfaces
+
+### Changed (desktop-tauri)
+- **Auth UI:** larger typography, centered “Login with Xbox” title, white Clear Data button
+- **Settings sidebar** visual refresh aligned with top nav
+
 ## [2026.7.11] - 2026-07-02
 
 ### Fixed (desktop-tauri, platform)
