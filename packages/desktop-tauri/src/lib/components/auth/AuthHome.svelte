@@ -11,20 +11,29 @@
 		startAuth,
 		verifyCode
 	} from '$lib/stores/auth.svelte';
+	import { openExternal } from '$lib/runtime';
 	import Button from '$lib/components/ui/Button.svelte';
+	import CopyableCode from '$lib/components/ui/CopyableCode.svelte';
 
 	let authFlow = $state<RouterOutputs['auth_msal_start'] | undefined>();
 	let error = $state<string | null>(null);
 	let qrDataUrl = $state<string | null>(null);
-	let flowStarted = $state(false);
 
 	async function handleClearData() {
 		if (!confirm(t('auth.clearDataQuestion'))) return;
 		await clearAppData();
 	}
 
+	async function openMicrosoftLogin(event: MouseEvent, url: string) {
+		event.preventDefault();
+		await openExternal(url);
+	}
+
+	function displayUrl(url: string): string {
+		return url.replace(/^https?:\/\//, '');
+	}
+
 	async function beginAuthFlow() {
-		flowStarted = true;
 		error = null;
 		clearAuthError();
 
@@ -84,17 +93,28 @@
 					</div>
 				</div>
 			{/if}
-			<p class="text-white/80 mb-4">
-				{authFlow?.message || (flowStarted ? t('auth.loggingIn') : t('auth.loggingIn'))}
-			</p>
 			{#if authFlow?.verification_uri && authFlow?.user_code}
+				{@const loginUrl = authFlow.verification_uri}
+				<p class="text-white/80 mb-4">
+					{t('auth.deviceLoginHint')}
+					<a
+						href={loginUrl}
+						onclick={(event) => openMicrosoftLogin(event, loginUrl)}
+						class="text-sky-400 hover:text-sky-300 underline break-all"
+						title={t('auth.microsoftLinkTitle')}
+					>
+						{displayUrl(loginUrl)}
+					</a>
+				</p>
 				<div class="flex flex-col items-center gap-4">
 					<p class="text-white/50 text-sm text-center">{t('auth.qrCodeHint')}</p>
 					{#if qrDataUrl}
 						<img src={qrDataUrl} alt="Login QR code" width="120" height="120" />
 					{/if}
-					<p class="text-white font-mono text-lg tracking-widest">{authFlow.user_code}</p>
+					<CopyableCode code={authFlow.user_code} />
 				</div>
+			{:else}
+				<p class="text-white/80 mb-4">{t('auth.loggingIn')}</p>
 			{/if}
 			<div class="mt-6 pt-4 border-t border-white/10">
 				<Button label={t('auth.clearDataBtn')} onclick={handleClearData} class="text-sm" />

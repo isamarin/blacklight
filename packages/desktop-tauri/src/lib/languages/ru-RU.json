@@ -25,6 +25,10 @@
       "logoutBtn": "Выйти",
       "loginWithXbox": "Войти через Xbox",
       "pleaseAuthenticate": "Пожалуйста, авторизуйтесь ниже для доступа к xCloud и xHome Streaming",
+      "deviceLoginHint": "Откройте страницу входа Microsoft в браузере: ",
+      "microsoftLinkTitle": "Открыть ссылку во внешнем браузере",
+      "copyCode": "Скопировать код",
+      "codeCopied": "Скопировано",
       "qrCodeHint": "Или отсканируйте QR-код на телефоне",
       "windowTitle": "Авторизация"
     },

@@ -23,6 +23,10 @@
       "logoutBtn": "Abmelden",
       "loginWithXbox": "Mit Xbox anmelden",
       "pleaseAuthenticate": "Bitte authentifiziere dich, um auf xCloud und xHome Streaming zuzugreifen",
+      "deviceLoginHint": "Öffne die Microsoft-Anmeldeseite im Browser: ",
+      "microsoftLinkTitle": "Link im externen Browser öffnen",
+      "copyCode": "Code kopieren",
+      "codeCopied": "Kopiert",
       "qrCodeHint": "Oder scanne den QR-Code mit deinem Handy",
       "windowTitle": "Authentifizierung"
     },
