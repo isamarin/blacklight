@@ -2,11 +2,10 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "${ROOT}"
+
 PORT="${BLACKLIGHT_PORT:-9003}"
 DATA_DIR="${BLACKLIGHT_DATA_DIR:-$HOME/.blacklight}"
-LOG_FILE="${ROOT}/.dev-api.log"
-PID_FILE="${ROOT}/.dev-api.pid"
-HEALTH_URL="http://127.0.0.1:${PORT}/health"
 MEDIA_PROBE_URL="http://127.0.0.1:${PORT}/media"
 
 stop_listener() {
@@ -17,6 +16,7 @@ stop_listener() {
 	local pids
 	pids="$(lsof -tiTCP:"${PORT}" -sTCP:LISTEN 2>/dev/null || true)"
 	if [ -n "${pids}" ]; then
+		echo "[dev] Stopping API listener on 127.0.0.1:${PORT}"
 		kill ${pids} 2>/dev/null || true
 		sleep 0.3
 	fi
@@ -41,27 +41,5 @@ if command -v lsof >/dev/null 2>&1; then
 fi
 
 mkdir -p "${DATA_DIR}"
-: > "${LOG_FILE}"
-
 echo "[dev] Starting blacklight-api (tsx) on 127.0.0.1:${PORT}"
-nohup env BLACKLIGHT_DATA_DIR="${DATA_DIR}" BLACKLIGHT_PORT="${PORT}" pnpm exec tsx api/server.ts >>"${LOG_FILE}" 2>&1 &
-API_PID=$!
-echo "${API_PID}" > "${PID_FILE}"
-disown "${API_PID}" 2>/dev/null || true
-
-for _ in $(seq 1 40); do
-	if curl -sf "${HEALTH_URL}" >/dev/null 2>&1; then
-		echo "[dev] API ready (${HEALTH_URL})"
-		exit 0
-	fi
-	if ! kill -0 "${API_PID}" 2>/dev/null; then
-		echo "[dev] API process exited early. Log:" >&2
-		tail -20 "${LOG_FILE}" >&2 || true
-		exit 1
-	fi
-	sleep 0.25
-done
-
-echo "[dev] API failed to become ready within 10s. Log:" >&2
-tail -20 "${LOG_FILE}" >&2 || true
-exit 1
+exec env BLACKLIGHT_DATA_DIR="${DATA_DIR}" BLACKLIGHT_PORT="${PORT}" pnpm exec tsx api/server.ts

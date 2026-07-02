@@ -11,7 +11,7 @@
 		"cf-typegen": "wrangler types"
 	},
 	"devDependencies": {
-		"@blacklight/platform": "workspace:*",
+		"@blacklight/platform": "github:blacklight-kit/platform#v1.0.1",
 		"@cloudflare/vitest-pool-workers": "^0.12.4",
 		"@types/node": "^25.9.3",
 		"typescript": "^5.5.2",

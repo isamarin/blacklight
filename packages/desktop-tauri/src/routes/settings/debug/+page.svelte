@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { fetchAppVersion, getBuildVersion } from '$lib/app-version';
 	import { trpc } from '$lib/trpc';
 	import { isTauriApp } from '$lib/runtime';
 	import { getAppInfo, getTrpcUrlFromTauri, type AppInfo } from '$lib/tauri';
@@ -9,12 +10,17 @@
 
 	let ping = $state<string | undefined>();
 	let version = $state<string | undefined>();
+	let appVersion = $state(getBuildVersion());
 	let appInfo = $state<AppInfo | undefined>();
 	let trpcUrl = $state<string | undefined>();
 
 	onMount(async () => {
 		try {
-			[ping, version] = await Promise.all([trpc.ping.query(), trpc.version.query()]);
+			[ping, version, appVersion] = await Promise.all([
+				trpc.ping.query(),
+				trpc.version.query(),
+				fetchAppVersion({ force: true })
+			]);
 		} catch (e) {
 			console.error('Debug queries failed', e);
 		}
@@ -34,9 +40,11 @@
 		<SettingsSidebar />
 		<div class="flex-1 space-y-4">
 			<Card>
-				<h2 class="text-white font-semibold mb-2">Platform</h2>
+				<h2 class="text-white font-semibold mb-2">API</h2>
 				<p class="text-white/60 text-sm">Ping: {ping}</p>
-				<p class="text-white/60 text-sm">Version: {version}</p>
+				<p class="text-white/60 text-sm">Platform package: {version}</p>
+				<p class="text-white/60 text-sm">App version: {appVersion}</p>
+				<p class="text-white/60 text-sm">UI build: {getBuildVersion()}</p>
 			</Card>
 			{#if appInfo}
 				<Card>

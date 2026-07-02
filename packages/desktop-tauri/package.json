@@ -26,22 +26,23 @@
 		"smoke:e2e": "bash scripts/smoke-test-e2e.sh",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"api": "tsx api/server.ts",
+		"api": "bash scripts/start-api-dev.sh",
 		"api:watch": "tsx watch api/server.ts",
 		"build:api": "node api/build.mjs"
 	},
 	"dependencies": {
-		"@blacklight/platform": "workspace:*",
-		"@blacklight/player": "workspace:*",
+		"@blacklight/platform": "github:blacklight-kit/platform#v1.0.1",
+		"@blacklight/player": "github:blacklight-kit/player#v1.0.1",
 		"@tauri-apps/api": "^2.10.0",
 		"@tauri-apps/plugin-opener": "^2.5.0",
-		"compare-versions": "^6.1.1",
 		"@trpc/client": "^11.17.0",
 		"@trpc/server": "^11.17.0",
+		"compare-versions": "^6.1.1",
 		"i18next": "^26.3.4",
 		"qrcode": "^1.5.4",
 		"react": "^19.2.7",
-		"react-dom": "^19.2.7"
+		"react-dom": "^19.2.7",
+		"sharp": "^0.35.3"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-static": "^3.0.10",

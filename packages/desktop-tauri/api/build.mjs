@@ -29,7 +29,7 @@ function hostTuple() {
 mkdirSync(binariesDir, { recursive: true });
 mkdirSync(distDir, { recursive: true });
 
-await esbuild.build({
+	await esbuild.build({
 	entryPoints: [path.join(root, 'server.ts')],
 	bundle: true,
 	platform: 'node',
@@ -37,6 +37,7 @@ await esbuild.build({
 	target: 'node22',
 	outfile: bundlePath,
 	packages: 'bundle',
+	external: ['sharp'],
 	sourcemap: false,
 	logLevel: 'info'
 });
@@ -57,7 +58,7 @@ function pkgTarget() {
 }
 
 execSync(
-	`pnpm exec pkg "${bundlePath}" --targets ${pkgTarget()} --output "${unstamped}" --compress GZip`,
+	`pnpm exec pkg "${bundlePath}" --targets ${pkgTarget()} --output "${unstamped}" --compress GZip --public-packages sharp`,
 	{ stdio: 'inherit', cwd: packageRoot }
 );
 

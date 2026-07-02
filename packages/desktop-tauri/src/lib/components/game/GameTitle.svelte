@@ -3,6 +3,7 @@
 	import { getxHomeToken } from '$lib/stores/auth.svelte';
 	import { getTitle } from '$lib/stores/titleCatalog.svelte';
 	import { getProducts } from '$lib/titles';
+	import CachedImage from '$lib/components/ui/CachedImage.svelte';
 	import Loader from '$lib/components/ui/Loader.svelte';
 
 	let { titleId }: { titleId: string } = $props();
@@ -57,8 +58,9 @@
 		</a>
 		<a href="/stream/xcloud_{titleId}" class="block">
 			{#if image?.URL}
-				<img
-					src="https:{image.URL}"
+				<CachedImage
+					src={image.URL}
+					preset="tile"
 					alt={name}
 					class="w-[140px] h-[140px] rounded object-cover"
 				/>

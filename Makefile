@@ -1,5 +1,6 @@
 .PHONY: help install build build-deps build-web build-desktop \
 	dev dev-clean api web web-all preview preview-all \
+	landing-dev landing-build landing-deploy \
 	test check smoke smoke-ui smoke-p0 smoke-e2e stop
 
 PNPM := pnpm
@@ -58,6 +59,15 @@ web-all: build-deps ## API + Vite dev (browser, hot reload)
 
 preview: build-web ## Serve built UI — http://127.0.0.1:$(WEB_PREVIEW_PORT)
 	TAURI_DEV_PREVIEW_PORT=$(WEB_PREVIEW_PORT) $(PNPM) desktop-tauri preview
+
+landing-dev: ## Nuxt landing dev server — http://127.0.0.1:3847
+	$(PNPM) dev:landing
+
+landing-build: ## Static export for blacklight.isamarin.xyz
+	$(PNPM) build:landing
+
+landing-deploy: landing-build ## Build + rsync to server (needs LANDING_DEPLOY_* env)
+	$(PNPM) --filter blacklight-site run deploy
 
 preview-all: build-web ## API + preview (login/catalog; /trpc proxied)
 	@trap 'kill 0' INT TERM; \

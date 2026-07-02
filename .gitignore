@@ -57,4 +57,6 @@ packages/desktop-v3/flatpak/pnpm-sources.json
 /scripts/
 
 .env
-.land
+# Local scratch under .land; the Nuxt site itself is tracked
+.land/*
+!.land/blacklight-site/

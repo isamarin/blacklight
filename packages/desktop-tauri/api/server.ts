@@ -5,10 +5,16 @@ import path from 'node:path';
 import { createHTTPHandler } from '@trpc/server/adapters/standalone';
 import { appRouter } from '@blacklight/platform';
 import { applyCors, handlePreflight } from './cors.js';
+import { handleMediaRequest } from './image-cache.js';
 import { parseSidecarSettings, resolveApiPort } from './port.js';
+import pkg from '../package.json';
+
+function resolveDataDir(): string {
+	return process.env.BLACKLIGHT_DATA_DIR ?? path.join(os.homedir(), '.blacklight');
+}
 
 function loadPort(): number {
-	const dataDir = process.env.BLACKLIGHT_DATA_DIR ?? path.join(os.homedir(), '.blacklight');
+	const dataDir = resolveDataDir();
 	try {
 		const raw = fs.readFileSync(path.join(dataDir, 'sidecar-settings.json'), 'utf8');
 		return resolveApiPort({ settings: parseSidecarSettings(raw) });
@@ -24,6 +30,7 @@ const trpcHandler = createHTTPHandler({
 });
 
 const port = process.env.BLACKLIGHT_PORT ? Number(process.env.BLACKLIGHT_PORT) : loadPort();
+const imageCacheDir = path.join(resolveDataDir(), 'image-cache');
 
 const server = http.createServer((req, res) => {
 	applyCors(req, res);
@@ -33,12 +40,25 @@ const server = http.createServer((req, res) => {
 
 	if (url === '/health') {
 		res.writeHead(200, { 'Content-Type': 'application/json' });
-		res.end(JSON.stringify({ ok: true, service: 'blacklight-api', running: true }));
+		res.end(
+			JSON.stringify({
+				ok: true,
+				service: 'blacklight-api',
+				running: true,
+				version: pkg.version,
+				media: true
+			})
+		);
 		return;
 	}
 
 	if (url === '/trpc' || url.startsWith('/trpc/')) {
 		trpcHandler(req, res);
+		return;
+	}
+
+	if (url === '/media') {
+		void handleMediaRequest(req, res, imageCacheDir);
 		return;
 	}
 

@@ -19,7 +19,8 @@ export default defineConfig({
 		strictPort: true,
 		proxy: {
 			'/trpc': { target: apiOrigin, changeOrigin: true },
-			'/health': { target: apiOrigin, changeOrigin: true }
+			'/health': { target: apiOrigin, changeOrigin: true },
+			'/media': { target: apiOrigin, changeOrigin: true }
 		},
 		hmr: {
 			protocol: 'ws',
@@ -36,7 +37,8 @@ export default defineConfig({
 		strictPort: true,
 		proxy: {
 			'/trpc': { target: apiOrigin, changeOrigin: true },
-			'/health': { target: apiOrigin, changeOrigin: true }
+			'/health': { target: apiOrigin, changeOrigin: true },
+			'/media': { target: apiOrigin, changeOrigin: true }
 		}
 	},
 	envPrefix: ['VITE_', 'TAURI_'],

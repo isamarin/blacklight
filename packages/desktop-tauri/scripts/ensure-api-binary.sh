@@ -7,10 +7,23 @@ cd "$ROOT"
 TARGET_TRIPLE="$(rustc --print host-tuple)"
 BINARY="src-tauri/binaries/blacklight-api-${TARGET_TRIPLE}"
 
-if [ -f "${BINARY}" ]; then
-	echo "[dev] API sidecar present: ${BINARY}"
-	exit 0
-fi
+needs_rebuild() {
+	if ! [ -f "${BINARY}" ]; then
+		return 0
+	fi
 
-echo "[dev] API sidecar missing, building once..."
-pnpm build:api
+	for source in api/server.ts api/image-cache.ts api/cors.ts api/port.ts; do
+		if [ "${ROOT}/${source}" -nt "${ROOT}/${BINARY}" ]; then
+			return 0
+		fi
+	done
+
+	return 1
+}
+
+if needs_rebuild; then
+	echo "[dev] Building API sidecar..."
+	pnpm build:api
+else
+	echo "[dev] API sidecar up to date: ${BINARY}"
+fi

@@ -8,6 +8,7 @@
 	import AppLayout from '$lib/components/layout/AppLayout.svelte';
 	import Breadcrumb from '$lib/components/ui/Breadcrumb.svelte';
 	import Button from '$lib/components/ui/Button.svelte';
+	import CachedImage from '$lib/components/ui/CachedImage.svelte';
 	import Loader from '$lib/components/ui/Loader.svelte';
 
 	const titleId = $derived(page.params.titleid ?? '');
@@ -62,8 +63,9 @@
 		<div class="flex gap-8">
 			<div class="shrink-0">
 				{#if (product.Image_Poster as { URL?: string })?.URL}
-					<img
-						src="https:{(product.Image_Poster as { URL: string }).URL}"
+					<CachedImage
+						src={(product.Image_Poster as { URL: string }).URL}
+						preset="poster"
 						alt={product.ProductTitle as string}
 						class="w-40 rounded-lg"
 					/>

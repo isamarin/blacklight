@@ -18,6 +18,12 @@
 		presenceDetails?: PresenceDetail[];
 	};
 
+	type FriendsListResponse = {
+		data?: {
+			people?: Friend[];
+		};
+	};
+
 	let friends = $state<Friend[]>([]);
 	let loading = $state(false);
 
@@ -40,9 +46,11 @@
 		const load = async () => {
 			loading = true;
 			try {
-				const data = await trpc.profile_get_friends.query(getWebToken());
+				const data = (await trpc.profile_get_friends.query(
+					getWebToken()
+				)) as FriendsListResponse;
 				if (!cancelled) {
-					const people = (data?.data?.people as Friend[] | undefined) ?? [];
+					const people = data.data?.people ?? [];
 					friends = people.filter((friend) => friend.presenceState !== 'Offline');
 				}
 			} catch (e) {

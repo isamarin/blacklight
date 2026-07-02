@@ -12,6 +12,7 @@
 	import AppLayout from '$lib/components/layout/AppLayout.svelte';
 	import Card from '$lib/components/ui/Card.svelte';
 	import ErrorPanel from '$lib/components/ui/ErrorPanel.svelte';
+	import CachedImage from '$lib/components/ui/CachedImage.svelte';
 	import Loader from '$lib/components/ui/Loader.svelte';
 
 	const PROFILE_TILE_LIMIT = 6;
@@ -135,11 +136,11 @@
 						{#each games as game (game.titleId)}
 							<article class="profile-game-tile">
 								{#if game.imageUrl}
-									<img
+									<CachedImage
 										src={game.imageUrl}
+										preset="cover"
 										alt=""
 										class="profile-game-tile-image"
-										loading="lazy"
 									/>
 								{:else}
 									<div class="profile-game-tile-fallback">?</div>
@@ -188,11 +189,11 @@
 						{#each recentAchievements as achievement (achievement.id + achievement.unlockedAt)}
 							<article class="profile-achievement-tile">
 								{#if achievement.iconUrl}
-									<img
+									<CachedImage
 										src={achievement.iconUrl}
+										preset="icon"
 										alt=""
 										class="profile-achievement-tile-icon"
-										loading="lazy"
 									/>
 								{:else}
 									<div class="profile-achievement-tile-fallback">★</div>

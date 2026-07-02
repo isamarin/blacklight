@@ -1,0 +1,96 @@
+name: Landing site
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.land/blacklight-site/**'
+      - '.github/workflows/landing.yml'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+  workflow_dispatch:
+
+concurrency:
+  group: landing-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: '24'
+  PNPM_VERSION: '10.4.1'
+
+jobs:
+  build:
+    name: Build static landing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate static site
+        run: pnpm build:landing
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: landing-static
+          path: .land/blacklight-site/.output/public/
+          if-no-files-found: error
+
+  deploy:
+    name: Deploy to blacklight.isamarin.xyz
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment: landing
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: landing-static
+          path: site
+
+      - name: Install SSH key
+        env:
+          DEPLOY_HOST: ${{ secrets.LANDING_SSH_HOST }}
+          DEPLOY_PORT: ${{ secrets.LANDING_SSH_PORT }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "${{ secrets.LANDING_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -p "${DEPLOY_PORT:-22}" "${DEPLOY_HOST}" >> ~/.ssh/known_hosts
+
+      - name: Rsync static files
+        env:
+          DEPLOY_HOST: ${{ secrets.LANDING_SSH_HOST }}
+          DEPLOY_USER: ${{ secrets.LANDING_SSH_USER }}
+          DEPLOY_PATH: ${{ secrets.LANDING_DEPLOY_PATH }}
+          DEPLOY_PORT: ${{ secrets.LANDING_SSH_PORT }}
+        run: |
+          TARGET_PATH="${DEPLOY_PATH:-/home/igor/blacklight.isamarin.xyz/public}"
+          rsync -az --delete -e "ssh -i ~/.ssh/id_ed25519 -p ${DEPLOY_PORT:-22}" \
+            site/ "${DEPLOY_USER}@${DEPLOY_HOST}:${TARGET_PATH}/"
+
+      - name: Restart nginx container
+        env:
+          DEPLOY_HOST: ${{ secrets.LANDING_SSH_HOST }}
+          DEPLOY_USER: ${{ secrets.LANDING_SSH_USER }}
+          DEPLOY_PORT: ${{ secrets.LANDING_SSH_PORT }}
+          CONTAINER: ${{ secrets.LANDING_DOCKER_CONTAINER }}
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -p "${DEPLOY_PORT:-22}" \
+            "${DEPLOY_USER}@${DEPLOY_HOST}" "docker restart ${CONTAINER:-blacklight-site}"

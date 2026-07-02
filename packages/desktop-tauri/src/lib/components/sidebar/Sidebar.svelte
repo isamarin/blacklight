@@ -13,13 +13,19 @@
 	};
 
 	const nav: NavItem[] = [
-		{ href: '/home', labelKey: 'page.xCloud.breadcrumb', fallback: 'xCloud', icon: 'home' },
+		{
+			href: '/profile',
+			labelKey: 'page.profile.pageTitle',
+			fallback: 'Profile',
+			icon: 'profile'
+		},
 		{
 			href: '/consoles',
 			labelKey: 'page.myConsoles.pageTitle',
 			fallback: 'My Consoles',
 			icon: 'consoles'
 		},
+		{ href: '/home', labelKey: 'page.xCloud.breadcrumb', fallback: 'xCloud', icon: 'home' },
 		{
 			href: '/xcloud/library',
 			labelKey: 'page.xCloudLibrary.breadcrumb2',
@@ -31,12 +37,6 @@
 			labelKey: 'settings.sidebar.about',
 			fallback: 'Settings',
 			icon: 'settings'
-		},
-		{
-			href: '/profile',
-			labelKey: 'page.profile.pageTitle',
-			fallback: 'Profile',
-			icon: 'profile'
 		}
 	];
 
