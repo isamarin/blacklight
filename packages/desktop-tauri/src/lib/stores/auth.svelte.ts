@@ -120,6 +120,9 @@ const fetchTokensForUser = async (userToken: UserTokenPayload) => {
 	authState = { userToken, webToken, streamingTokens };
 	isAuthenticated = true;
 	authError = null;
+	if (hasLoadedFromStorage) {
+		void persistUserToken(userToken);
+	}
 };
 
 async function restoreSessionFromStorage(): Promise<boolean> {
@@ -166,11 +169,6 @@ export async function initAuth() {
 	hasLoadedFromStorage = true;
 	isAuthenticating = false;
 }
-
-$effect(() => {
-	if (!hasLoadedFromStorage) return;
-	void persistUserToken(authState.userToken);
-});
 
 export async function startAuth() {
 	authError = null;

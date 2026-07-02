@@ -2,7 +2,10 @@
 	<title>Blacklight Authenticating...</title>
 </svelte:head>
 
-<div class="flex h-screen bg-[#0d0d0d] bg-pattern overflow-hidden">
+<div
+	class="flex h-screen bg-[#0d0d0d] bg-pattern overflow-hidden"
+	style="min-height: 100vh; background: #0d0d0d; color: #fff"
+>
 	<main class="flex-1 overflow-hidden relative">
 		<div
 			class="absolute top-0 right-0 w-96 h-96 bg-[#107C10]/3 rounded-full blur-3xl pointer-events-none"

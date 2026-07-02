@@ -28,19 +28,9 @@ export function appSettingsForDisk(next: AppSettings): AppSettingsPayload {
 	return rest;
 }
 
-if (typeof window !== 'undefined' && !isTauriApp()) {
-	const fromStorage = loadFromLocalStorage();
-	if (fromStorage) {
-		settings = fromStorage;
-	}
-	loaded = true;
-	persistEnabled = true;
-}
-
-$effect(() => {
+function schedulePersist(snapshot: AppSettings) {
 	if (!persistEnabled || !loaded) return;
 
-	const snapshot = settings;
 	setApiPort(snapshot.webui_port);
 	resetTrpcClient();
 
@@ -57,7 +47,17 @@ $effect(() => {
 	if (typeof localStorage !== 'undefined') {
 		localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot));
 	}
-});
+}
+
+if (typeof window !== 'undefined' && !isTauriApp()) {
+	const fromStorage = loadFromLocalStorage();
+	if (fromStorage) {
+		settings = fromStorage;
+		setApiPort(fromStorage.webui_port);
+	}
+	loaded = true;
+	persistEnabled = true;
+}
 
 export function getSettings() {
 	return settings;
@@ -65,12 +65,15 @@ export function getSettings() {
 
 export function setSettings(next: AppSettings) {
 	settings = next;
+	schedulePersist(next);
 }
 
 export function hydrateSettings(next: AppSettings) {
 	settings = next;
 	loaded = true;
 	persistEnabled = true;
+	setApiPort(next.webui_port);
+	schedulePersist(next);
 }
 
 export function settingsAreLoaded() {

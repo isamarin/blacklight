@@ -19,10 +19,16 @@
 	let ready = $state(false);
 
 	onMount(async () => {
-		await initDesktopShell();
-		await initAuth();
-		await initI18n(getSettings().language);
-		ready = true;
+		document.getElementById('boot-fallback')?.remove();
+		try {
+			await initDesktopShell();
+			await initAuth();
+			await initI18n(getSettings().language);
+		} catch (error) {
+			console.error('Failed to initialize Blacklight shell', error);
+		} finally {
+			ready = true;
+		}
 	});
 
 	$effect(() => {

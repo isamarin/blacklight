@@ -1,26 +1,27 @@
-import { getSettings } from '$lib/stores/settings.svelte';
-
 const DEFAULT_API_PORT = 9003;
 const API_PORT_STORAGE_KEY = 'blacklight-api-port';
 
+let cachedApiPort: number | null = null;
+
 export function getApiPort(): number {
-	if (typeof window !== 'undefined') {
-		try {
-			const fromSettings = getSettings().webui_port;
-			if (fromSettings) return Number(fromSettings) || DEFAULT_API_PORT;
-		} catch {
-			// settings store not ready during SSR
+	if (cachedApiPort !== null) {
+		return cachedApiPort;
+	}
+
+	if (typeof localStorage !== 'undefined') {
+		const stored = Number(localStorage.getItem(API_PORT_STORAGE_KEY));
+		if (stored) {
+			return stored;
 		}
 	}
-	if (typeof localStorage === 'undefined') {
-		return DEFAULT_API_PORT;
-	}
-	return Number(localStorage.getItem(API_PORT_STORAGE_KEY)) || DEFAULT_API_PORT;
+
+	return DEFAULT_API_PORT;
 }
 
 export function setApiPort(port: number) {
+	cachedApiPort = Number(port) || DEFAULT_API_PORT;
 	if (typeof localStorage !== 'undefined') {
-		localStorage.setItem(API_PORT_STORAGE_KEY, String(port));
+		localStorage.setItem(API_PORT_STORAGE_KEY, String(cachedApiPort));
 	}
 }
 
