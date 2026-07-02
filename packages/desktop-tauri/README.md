@@ -1,47 +1,42 @@
-# Blacklight Desktop (Tauri)
+# sv
 
-Windows and macOS desktop shell without Electron. Linux is out of scope.
+Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
-The UI is the same static export as `blacklight-desktop-v3`. A bundled Node sidecar serves the UI and `@blacklight/platform` tRPC on `http://127.0.0.1:9003`. Tauri spawns the sidecar automatically on app start.
+## Creating a project
 
-## Prerequisites
+If you're seeing this, you've probably already done this step. Congrats!
 
-- Node 22+ and pnpm (already used in the monorepo)
-- [Rust](https://rustup.rs/) and platform deps for [Tauri](https://v2.tauri.app/start/prerequisites/) (macOS: Xcode CLT; Windows: VS Build Tools + WebView2)
-
-## Development
-
-From the repository root:
-
-```bash
-pnpm install
-pnpm build:depsv3
-pnpm desktop-tauri run build:renderer   # first time / after UI changes
-pnpm desktop-tauri dev                  # spawns sidecar + opens window
+```sh
+# create a new project
+npx sv create my-app
 ```
 
-Sidecar only (browser at http://127.0.0.1:9003/home/):
+To recreate this project with the same configuration:
 
-```bash
-pnpm desktop-tauri run sidecar
+```sh
+# recreate this project
+npx sv@0.16.1 create --template minimal --types ts --no-install .
 ```
 
-## Production build
+## Developing
 
-```bash
-pnpm build:depsv3
-pnpm desktop-tauri build
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+
+```sh
+npm run dev
+
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
 ```
 
-This builds the renderer, packages the sidecar binary (`esbuild` + `pkg`), and bundles `.dmg` / `.exe` installers with UI assets under `Resources/app/`.
+## Building
 
-Artifacts land in `packages/desktop-tauri/src-tauri/target/release/bundle/`.
+To create a production version of your app:
 
-## Architecture
+```sh
+npm run build
+```
 
-| Piece | Role |
-|---|---|
-| `sidecar/server.ts` | Express + tRPC + static `desktop-v3/app` |
-| `sidecar/build.mjs` | Bundle sidecar → `src-tauri/binaries/blacklight-sidecar-*` |
-| `src-tauri/` | Native window; spawns sidecar with `BLACKLIGHT_STATIC_DIR` / `BLACKLIGHT_DATA_DIR` |
-| `desktop-v3/renderer` | Shared UI (HTTP tRPC) |
+You can preview the production build with `npm run preview`.
+
+> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.

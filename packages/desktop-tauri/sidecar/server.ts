@@ -5,7 +5,7 @@ import { appRouter } from '@blacklight/platform'
 import { loadSidecarSettings, saveSidecarSettings } from './settings.js'
 
 function defaultStaticDir(): string {
-  return path.resolve(process.cwd(), '../desktop-v3/app')
+  return path.resolve(process.cwd(), '../build')
 }
 
 const staticDir = process.env.BLACKLIGHT_STATIC_DIR ?? defaultStaticDir()

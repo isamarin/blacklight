@@ -4,30 +4,28 @@
   "version": "2026.7.1-alpha.1",
   "identifier": "com.isamarin.blacklight",
   "build": {
-    "devUrl": "http://127.0.0.1:9003/home/",
-    "beforeBuildCommand": "pnpm --filter blacklight-desktop-tauri run build:bundle",
-    "frontendDist": "../../desktop-v3/app"
+    "beforeDevCommand": "pnpm dev",
+    "beforeBuildCommand": "pnpm build",
+    "devUrl": "http://localhost:5173",
+    "frontendDist": "../build"
   },
   "app": {
     "windows": [
       {
         "title": "Blacklight",
-        "width": 1000,
-        "height": 600,
+        "width": 1200,
+        "height": 800,
         "resizable": true
       }
     ],
     "security": {
-      "csp": "default-src 'self' http://127.0.0.1:9003 http://localhost:9003; connect-src 'self' http://127.0.0.1:9003 http://localhost:9003 https: wss: ws:; img-src 'self' http://127.0.0.1:9003 http://localhost:9003 https: data: blob:; media-src 'self' https: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'"
+      "csp": null
     }
   },
   "bundle": {
     "active": true,
     "targets": ["dmg", "nsis"],
     "externalBin": ["binaries/blacklight-sidecar"],
-    "resources": {
-      "../../desktop-v3/app/": "app/"
-    },
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",

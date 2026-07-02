@@ -1,37 +1,60 @@
 {
-  "private": true,
-  "name": "blacklight-desktop-tauri",
-  "description": "Blacklight desktop shell (Tauri, Windows/macOS)",
-  "version": "2026.7.1-alpha.1",
-  "author": "Igor Samarin <mako.mmw@gmail.com>",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/isamarin/blacklight.git"
-  },
-  "type": "module",
-  "scripts": {
-    "sidecar": "tsx sidecar/server.ts",
-    "sidecar:watch": "tsx watch sidecar/server.ts",
-    "build:renderer": "pnpm --filter blacklight-desktop-v3 run build:renderer",
-    "build:sidecar": "node sidecar/build.mjs",
-    "build:bundle": "pnpm build:renderer && pnpm build:sidecar",
-    "dev": "tauri dev",
-    "build": "tauri build",
-    "tauri": "tauri"
-  },
-  "dependencies": {
-    "@blacklight/platform": "workspace:*",
-    "@trpc/server": "^11.17.0",
-    "express": "^5.2.1"
-  },
-  "devDependencies": {
-    "@tauri-apps/cli": "^2.10.0",
-    "@types/express": "^5.0.6",
-    "@types/node": "^25.9.3",
-    "@yao-pkg/pkg": "^6.20.0",
-    "concurrently": "^9.2.1",
-    "esbuild": "^0.28.1",
-    "tsx": "^4.21.0",
-    "typescript": "^5.8.2"
-  }
+	"private": true,
+	"name": "blacklight-desktop-tauri",
+	"description": "Blacklight desktop shell (Tauri, Windows/macOS)",
+	"version": "2026.7.1-alpha.1",
+	"author": "Igor Samarin <mako.mmw@gmail.com>",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/isamarin/blacklight.git"
+	},
+	"type": "module",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"tauri": "tauri",
+		"tauri:dev": "tauri dev",
+		"tauri:build": "tauri build",
+		"prepare": "svelte-kit sync || echo ''",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"sidecar": "tsx sidecar/server.ts",
+		"sidecar:watch": "tsx watch sidecar/server.ts",
+		"build:sidecar": "node sidecar/build.mjs"
+	},
+	"dependencies": {
+		"@blacklight/platform": "workspace:*",
+		"@blacklight/player": "workspace:*",
+		"@tauri-apps/plugin-opener": "^2.5.0",
+		"@trpc/client": "^11.17.0",
+		"@trpc/server": "^11.17.0",
+		"express": "^5.2.1",
+		"i18next": "^26.3.4",
+		"qrcode": "^1.5.4",
+		"react": "^19.2.7",
+		"react-dom": "^19.2.7"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-static": "^3.0.10",
+		"@sveltejs/kit": "^2.63.0",
+		"@sveltejs/vite-plugin-svelte": "^7.1.2",
+		"@tailwindcss/postcss": "^4.2.2",
+		"@tailwindcss/vite": "^4.2.2",
+		"@tauri-apps/cli": "^2.10.0",
+		"@types/express": "^5.0.6",
+		"@types/node": "^25.9.3",
+		"@types/qrcode": "^1.5.6",
+		"@types/react": "^19.2.17",
+		"@types/react-dom": "^19.2.3",
+		"@yao-pkg/pkg": "^6.20.0",
+		"concurrently": "^9.2.1",
+		"esbuild": "^0.28.1",
+		"svelte": "^5.56.1",
+		"svelte-check": "^4.6.0",
+		"tailwindcss": "^4.2.2",
+		"tsx": "^4.21.0",
+		"typescript": "^5.8.2",
+		"vite": "^8.0.16"
+	}
 }

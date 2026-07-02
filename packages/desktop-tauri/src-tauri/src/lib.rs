@@ -9,7 +9,7 @@ struct SidecarState(Mutex<Option<CommandChild>>);
 
 fn resolve_static_dir(resource_dir: &PathBuf) -> PathBuf {
     if cfg!(debug_assertions) {
-        PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../desktop-v3/app")
+        PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../build")
     } else {
         resource_dir.join("app")
     }

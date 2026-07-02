@@ -256,6 +256,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "blacklight-desktop-tauri"
+version = "2026.7.1-alpha.1"
+dependencies = [
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-opener",
+ "tauri-plugin-shell",
+]
+
+[[package]]
 name = "block-buffer"
 version = "0.10.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1356,18 +1368,6 @@ dependencies = [
  "glib-sys",
  "libc",
  "system-deps",
-]
-
-[[package]]
-name = "blacklight-desktop-tauri"
-version = "2026.7.1-alpha.1"
-dependencies = [
- "serde",
- "serde_json",
- "tauri",
- "tauri-build",
- "tauri-plugin-opener",
- "tauri-plugin-shell",
 ]
 
 [[package]]
