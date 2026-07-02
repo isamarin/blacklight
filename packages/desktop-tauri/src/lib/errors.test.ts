@@ -10,6 +10,9 @@ describe('errors', () => {
 
 	it('classifyError maps known patterns', () => {
 		expect(classifyError(new Error('streaming tokens missing'))).toBe('streaming_tokens');
+		expect(classifyError(new Error('(xHomeToken) No correct token provided UNAUTHORIZED'))).toBe(
+			'streaming_tokens'
+		);
 		expect(classifyError(new Error('web token expired'))).toBe('web_tokens');
 		expect(classifyError(new Error('console wake timed out'))).toBe('console_wake_failed');
 		expect(classifyError(new Error('Microphone permissions are denied'))).toBe('mic_failed');

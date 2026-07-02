@@ -20,14 +20,25 @@ export function extractErrorMessage(error: unknown): string {
 	return String(error);
 }
 
+function errorText(error: unknown): string {
+	const message = extractErrorMessage(error);
+	const code =
+		error && typeof error === 'object' && 'data' in error
+			? String((error as { data?: { code?: unknown } }).data?.code ?? '')
+			: '';
+
+	return `${message} ${code}`.toLowerCase();
+}
+
 export function classifyError(error: unknown): UserErrorCode {
-	const text = extractErrorMessage(error).toLowerCase();
+	const text = errorText(error);
 
 	if (text.includes('streaming token') || text.includes('streamingtoken')) {
 		return 'streaming_tokens';
 	}
 	if (text.includes('xcloud') && text.includes('token')) return 'streaming_tokens';
-	if (text.includes('gstoken') || text.includes('xhome token')) return 'streaming_tokens';
+	if (text.includes('gstoken') || text.includes('xhometoken')) return 'streaming_tokens';
+	if (text.includes('no correct token provided')) return 'streaming_tokens';
 	if (text.includes('web token') || text.includes('webtoken') || text.includes('smartglass')) {
 		return 'web_tokens';
 	}

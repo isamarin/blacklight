@@ -6,6 +6,12 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
 
+## [2026.7.10] - 2026-07-02
+
+### Fixed (desktop-tauri)
+- **xCloud library after login:** infer streaming `market` from UI locale when Xbox omits it; classify xHome TRPC errors as streaming-token issues (not “session expired”)
+- **Partial auth:** keep web features (consoles, friends) when streaming-token fetch fails; load catalog sections independently
+
 ## [2026.7.9] - 2026-07-02
 
 ### Fixed (desktop-tauri)

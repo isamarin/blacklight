@@ -53,13 +53,28 @@ export async function refreshTitleCatalog() {
 	}, CATALOG_TIMEOUT_MS);
 
 	try {
-		const [allTitles, recent, newTitles] = await Promise.all([
+		const [allResult, recentResult, newResult] = await Promise.allSettled([
 			trpc.gamepass_get_titles.query(token),
 			trpc.gamepass_get_recent_titles.query(token),
 			trpc.gamepass_get_new_titles.query(token)
 		]);
 
 		if (generation !== loadGeneration) return;
+
+		if (allResult.status === 'rejected') {
+			throw allResult.reason;
+		}
+
+		const allTitles = allResult.value;
+		const recent = recentResult.status === 'fulfilled' ? recentResult.value : null;
+		const newTitles = newResult.status === 'fulfilled' ? newResult.value : null;
+
+		if (recentResult.status === 'rejected') {
+			console.warn('Failed to load recent titles', recentResult.reason);
+		}
+		if (newResult.status === 'rejected') {
+			console.warn('Failed to load new titles', newResult.reason);
+		}
 
 		const baseEntries = parseTitlesResponse(allTitles);
 		const productIds = baseEntries.map((e) => e.productId).slice(0, 100);
@@ -74,10 +89,13 @@ export async function refreshTitleCatalog() {
 
 		const map = new Map(hydrated.map((t) => [t.titleId, t]));
 		titles = hydrated;
-		recentIds = parseRecentTitleIds(recent);
-		newIds = parseNewTitleIds(newTitles, map);
+		recentIds = recent ? parseRecentTitleIds(recent) : [];
+		newIds = newTitles ? parseNewTitleIds(newTitles, map) : [];
 		catalogMap = map;
-		catalogError = null;
+		catalogError =
+			recentResult.status === 'rejected' && newResult.status === 'rejected'
+				? classifyError(recentResult.reason)
+				: null;
 	} catch (e) {
 		if (generation !== loadGeneration) return;
 		console.error('Failed to load title catalog', e);

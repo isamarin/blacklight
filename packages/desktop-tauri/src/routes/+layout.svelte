@@ -4,9 +4,11 @@
 	import { errorI18nKey } from '$lib/errors';
 	import { initI18n, isI18nReady, t } from '$lib/i18n';
 	import {
+		clearAuthError,
 		getAuthError,
 		getIsAuthenticated,
 		getIsAuthenticating,
+		hasStreamingTokens,
 		initAuth
 	} from '$lib/stores/auth.svelte';
 	import { getSettings } from '$lib/stores/settings.svelte';
@@ -59,6 +61,10 @@
 		if (!ready || !getIsAuthenticated()) {
 			catalogRequested = false;
 			return;
+		}
+
+		if (hasStreamingTokens()) {
+			clearAuthError();
 		}
 
 		if (catalogRequested) return;

@@ -10,7 +10,7 @@
 
 **Maintainer:** Igor Samarin ([@isamarin](https://github.com/isamarin)) — mako.mmw@gmail.com
 
-**Versioning:** [CalVer](https://calver.org/) (`2026.7.9`). Release tags: `v2026.7.9` (not the old fork `v3.*` prefix).
+**Versioning:** [CalVer](https://calver.org/) (`2026.7.10`). Release tags: `v2026.7.10` (not the old fork `v3.*` prefix).
 
 _DISCLAIMER: Blacklight is not affiliated with Microsoft, Xbox or Moonlight. All rights and trademarks are property of their respective owners._
 
@@ -108,8 +108,8 @@ Create production build:
 
 Release tag (triggers CI draft release with DMG + NSIS):
 
-    git tag -a v2026.7.9 -m "Blacklight 2026.7.9"
-    git push origin v2026.7.9
+    git tag -a v2026.7.10 -m "Blacklight 2026.7.10"
+    git push origin v2026.7.10
 
 Typecheck the Tauri UI:
 
