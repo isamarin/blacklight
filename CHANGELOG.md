@@ -6,6 +6,13 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
 
+## [2026.7.4] - 2026-07-02
+
+### Fixed (desktop-tauri)
+- **WKWebView blank screen** on startup and in dev/release builds (SPA paths, `display: contents`, SvelteKit boot global)
+- **Xbox auth** — auto-start API sidecar, CORS + Vite preview proxy for `/trpc`, tRPC proxy and i18n nesting fixes
+- **Dev workflow** — stable `tauri:dev` via preview on `127.0.0.1:4173`, skip API rebuild loop, stop stale preview ports
+
 ### Added
 - **Tests:** unit coverage for platform tRPC/smartglass, player server/chat, desktop-tauri lib/api, Cloudflare pages worker; unified `pnpm test` in CI
 - **E2E smoke:** `pnpm smoke:e2e` — blacklight-api auth/stream checks + static UI routes; CI job `smoke_e2e`

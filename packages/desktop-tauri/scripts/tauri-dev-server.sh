@@ -14,4 +14,4 @@ fi
 
 bash "$(dirname "$0")/ensure-api-binary.sh"
 vite build
-exec vite preview --host "${HOST}" --port "${PORT}" --strictPort"
+exec vite preview --host "${HOST}" --port "${PORT}" --strictPort
