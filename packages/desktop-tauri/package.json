@@ -12,8 +12,9 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
+		"dev:tauri": "vite build && vite preview --host 127.0.0.1 --port 4173 --strictPort",
 		"build": "vite build",
-		"preview": "vite preview",
+		"preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
 		"tauri": "tauri",
 		"tauri:dev": "tauri dev",
 		"tauri:build": "tauri build",

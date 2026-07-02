@@ -107,6 +107,12 @@ pub fn run() {
 			if settings.webui_autostart {
 				spawn_api(app.handle())?;
 			}
+
+			#[cfg(debug_assertions)]
+			if let Some(window) = app.get_webview_window("main") {
+				window.open_devtools();
+			}
+
 			Ok(())
 		})
 		.build(tauri::generate_context!())
