@@ -106,3 +106,26 @@ pub fn get_api_origin(app: AppHandle) -> Result<String, String> {
 pub fn get_trpc_url(app: AppHandle) -> Result<String, String> {
     Ok(format!("{}/trpc", get_api_origin(app)?))
 }
+
+fn app_settings_path(app: &AppHandle) -> Result<PathBuf, String> {
+    let data_dir = app.path().app_data_dir().map_err(|e| e.to_string())?;
+    fs::create_dir_all(&data_dir).map_err(|e| e.to_string())?;
+    Ok(data_dir.join("app-settings.json"))
+}
+
+#[tauri::command]
+pub fn get_app_settings(app: AppHandle) -> Result<serde_json::Value, String> {
+    let path = app_settings_path(&app)?;
+    if !path.exists() {
+        return Ok(serde_json::json!({}));
+    }
+    let raw = fs::read_to_string(&path).map_err(|e| e.to_string())?;
+    serde_json::from_str(&raw).map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+pub fn save_app_settings(app: AppHandle, settings: serde_json::Value) -> Result<(), String> {
+    let path = app_settings_path(&app)?;
+    let json = serde_json::to_string_pretty(&settings).map_err(|e| e.to_string())?;
+    fs::write(path, json).map_err(|e| e.to_string())
+}

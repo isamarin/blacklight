@@ -1,4 +1,5 @@
 import { invoke } from '@tauri-apps/api/core';
+import type { AppSettings } from '$lib/settings.defaults';
 import { isTauriApp } from '$lib/runtime';
 
 export interface AppInfo {
@@ -33,6 +34,16 @@ export async function saveSidecarSettings(
 		webuiAutostart: patch.webui_autostart,
 		webuiPort: patch.webui_port
 	});
+}
+
+export type AppSettingsPayload = Omit<AppSettings, 'webui_autostart' | 'webui_port'>;
+
+export async function getAppSettingsFromTauri(): Promise<Partial<AppSettingsPayload>> {
+	return invoke<Partial<AppSettingsPayload>>('get_app_settings');
+}
+
+export async function saveAppSettingsToTauri(settings: AppSettingsPayload): Promise<void> {
+	await invoke('save_app_settings', { settings });
 }
 
 export async function getApiOriginFromTauri(): Promise<string> {

@@ -88,6 +88,8 @@ pub fn run() {
 			commands::get_app_info,
 			commands::get_sidecar_settings,
 			commands::save_sidecar_settings,
+			commands::get_app_settings,
+			commands::save_app_settings,
 			commands::get_api_origin,
 			commands::get_trpc_url,
 			start_api,
