@@ -195,6 +195,12 @@
         "viewGamePageIcon": "Переглянути сторінку гри"
       },
 
+      "profile": {
+        "pageTitle": "Профіль",
+        "xuidLabel": "XUID",
+        "comingSoon": "Повний профіль і досягнення з'являться в майбутніх версіях."
+      },
+
       "myConsoles": {
         "pageTitle": "Мої консолі",
         "poweredOn": "Увімкнена",

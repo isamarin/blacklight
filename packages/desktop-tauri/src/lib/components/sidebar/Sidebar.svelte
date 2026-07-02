@@ -28,7 +28,13 @@
 <aside class="w-64 h-full flex flex-col bg-[#0d0d0d] border-r border-white/5 relative z-20">
 	<div class="p-6">
 		<h2 class="text-2xl font-bold text-white mb-1">Blacklight</h2>
-		<p class="text-white/40 text-sm">{gamertag}</p>
+		<a
+			href="/profile"
+			class="text-white/40 text-sm hover:text-white transition-colors"
+			title={t('header.viewProfile')}
+		>
+			{gamertag}
+		</a>
 		<button onclick={handleLogout} class="text-white/50 text-sm hover:text-white mt-1">
 			Logout
 		</button>

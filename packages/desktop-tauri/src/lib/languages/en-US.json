@@ -195,6 +195,12 @@
         "viewGamePageIcon": "View game page"
       },
 
+      "profile": {
+        "pageTitle": "Profile",
+        "xuidLabel": "XUID",
+        "comingSoon": "Full profile and achievements view is planned for a future release."
+      },
+
       "myConsoles": {
         "pageTitle": "My Consoles",
         "poweredOn": "Powered on",

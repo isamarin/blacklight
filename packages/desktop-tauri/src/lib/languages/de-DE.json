@@ -185,6 +185,12 @@
         "nextPageBtn": "Seite vor",
         "viewGamePageIcon": "Spielseite anzeigen"
       },
+      "profile": {
+        "pageTitle": "Profil",
+        "xuidLabel": "XUID",
+        "comingSoon": "Vollständiges Profil und Erfolge sind für eine zukünftige Version geplant."
+      },
+
       "myConsoles": {
         "pageTitle": "Meine Konsolen",
         "poweredOn": "Eingeschaltet",
