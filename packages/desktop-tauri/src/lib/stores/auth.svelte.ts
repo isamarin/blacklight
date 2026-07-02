@@ -1,3 +1,9 @@
+import { isTauriApp } from '$lib/runtime';
+import {
+	clearUserTokenFromTauri,
+	getUserTokenFromTauri,
+	saveUserTokenToTauri
+} from '$lib/tauri';
 import { trpc, type RouterOutputs } from '$lib/trpc';
 
 type UserTokenPayload = RouterOutputs['auth_msal_verify'];
@@ -7,6 +13,8 @@ type AuthState = {
 	webToken: RouterOutputs['auth_get_webtoken'] | null;
 	streamingTokens: RouterOutputs['auth_get_streamingtokens'] | null;
 };
+
+const USER_TOKEN_STORAGE_KEY = 'userToken';
 
 let authState = $state<AuthState>({
 	userToken: null,
@@ -36,12 +44,66 @@ const normalizeUserToken = (
 	return token;
 };
 
+function loadLegacyLocalStorageToken(): string | null {
+	if (typeof localStorage === 'undefined') return null;
+	return localStorage.getItem(USER_TOKEN_STORAGE_KEY);
+}
+
+function clearLegacyLocalStorageToken() {
+	if (typeof localStorage !== 'undefined') {
+		localStorage.removeItem(USER_TOKEN_STORAGE_KEY);
+	}
+}
+
+async function loadStoredUserTokenRaw(): Promise<string | null> {
+	if (isTauriApp()) {
+		const token = await getUserTokenFromTauri();
+		if (token) {
+			return JSON.stringify(token);
+		}
+
+		const legacy = loadLegacyLocalStorageToken();
+		if (legacy) {
+			try {
+				const parsed = JSON.parse(legacy) as UserTokenPayload;
+				await saveUserTokenToTauri(parsed);
+				clearLegacyLocalStorageToken();
+				return legacy;
+			} catch (e) {
+				console.error('Failed to migrate legacy user token', e);
+				clearLegacyLocalStorageToken();
+			}
+		}
+
+		return null;
+	}
+
+	return loadLegacyLocalStorageToken();
+}
+
+async function persistUserToken(token: UserTokenPayload | null): Promise<void> {
+	if (isTauriApp()) {
+		if (token) {
+			await saveUserTokenToTauri(token);
+		} else {
+			await clearUserTokenFromTauri();
+		}
+		clearLegacyLocalStorageToken();
+		return;
+	}
+
+	if (typeof localStorage === 'undefined') return;
+	if (token) {
+		localStorage.setItem(USER_TOKEN_STORAGE_KEY, JSON.stringify(token));
+	} else {
+		localStorage.removeItem(USER_TOKEN_STORAGE_KEY);
+	}
+}
+
 const clearAuth = () => {
 	authState = { userToken: null, webToken: null, streamingTokens: null };
 	isAuthenticated = false;
-	if (typeof localStorage !== 'undefined') {
-		localStorage.removeItem('userToken');
-	}
+	void persistUserToken(null);
 };
 
 const fetchTokensForUser = async (userToken: UserTokenPayload) => {
@@ -59,8 +121,7 @@ export async function initAuth() {
 	initStarted = true;
 
 	isAuthenticating = true;
-	const savedUserToken =
-		typeof localStorage !== 'undefined' ? localStorage.getItem('userToken') : null;
+	const savedUserToken = await loadStoredUserTokenRaw();
 
 	if (savedUserToken) {
 		try {
@@ -76,7 +137,6 @@ export async function initAuth() {
 					const refreshedToken = normalizeUserToken(
 						await trpc.auth_msal_refresh.query(userToken)
 					);
-					localStorage.setItem('userToken', JSON.stringify(refreshedToken));
 					await fetchTokensForUser(refreshedToken);
 				} catch (refreshError) {
 					console.error('Failed to refresh tokens:', refreshError);
@@ -94,10 +154,8 @@ export async function initAuth() {
 }
 
 $effect(() => {
-	if (!hasLoadedFromStorage || typeof localStorage === 'undefined') return;
-	if (authState.userToken) {
-		localStorage.setItem('userToken', JSON.stringify(authState.userToken));
-	}
+	if (!hasLoadedFromStorage) return;
+	void persistUserToken(authState.userToken);
 });
 
 export async function startAuth() {
@@ -107,9 +165,6 @@ export async function startAuth() {
 export async function verifyCode(code: string) {
 	try {
 		const userToken = await trpc.auth_msal_verify.query(code);
-		if (typeof localStorage !== 'undefined') {
-			localStorage.setItem('userToken', JSON.stringify(userToken));
-		}
 		await fetchTokensForUser(userToken);
 		return userToken;
 	} finally {

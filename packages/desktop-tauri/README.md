@@ -57,5 +57,6 @@ Binaries are written to `src-tauri/binaries/blacklight-api-<target-triple>` (git
 
 - **App settings** (streaming, input, video, language): `app_data_dir/app-settings.json` via Tauri commands
 - **API settings** (`webui_autostart`, `webui_port`): `app_data_dir/sidecar-settings.json` via Tauri commands
+- **Auth token** (MSAL refresh token payload): `app_data_dir/user-token.json` via Tauri commands
 - **Browser-only dev** (`pnpm dev` without Tauri): falls back to `localStorage`
-- On first Tauri launch, existing `localStorage` settings are migrated into `app-settings.json`
+- On first Tauri launch, existing `localStorage` settings and auth tokens are migrated into app data files

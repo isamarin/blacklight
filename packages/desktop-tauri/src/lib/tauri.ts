@@ -46,6 +46,18 @@ export async function saveAppSettingsToTauri(settings: AppSettingsPayload): Prom
 	await invoke('save_app_settings', { settings });
 }
 
+export async function getUserTokenFromTauri<T = Record<string, unknown>>(): Promise<T | null> {
+	return invoke<T | null>('get_user_token');
+}
+
+export async function saveUserTokenToTauri(token: object): Promise<void> {
+	await invoke('save_user_token', { token });
+}
+
+export async function clearUserTokenFromTauri(): Promise<void> {
+	await invoke('clear_user_token');
+}
+
 export async function getApiOriginFromTauri(): Promise<string> {
 	return invoke<string>('get_api_origin');
 }
