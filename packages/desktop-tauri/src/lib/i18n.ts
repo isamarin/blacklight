@@ -5,13 +5,18 @@ import ruRU from '$lib/languages/ru-RU.json';
 import ukUA from '$lib/languages/uk-UA.json';
 
 const resources = {
-	'en-US': { translation: enUS },
-	'de-DE': { translation: deDE },
-	'ru-RU': { translation: ruRU },
-	'uk-UA': { translation: ukUA }
+	'en-US': { translation: enUS.translation },
+	'de-DE': { translation: deDE.translation },
+	'ru-RU': { translation: ruRU.translation },
+	'uk-UA': { translation: ukUA.translation }
 };
 
 let initialized = false;
+let renderEpoch = 0;
+
+function bumpRenderEpoch() {
+	renderEpoch += 1;
+}
 
 export async function initI18n(language: string) {
 	if (!initialized) {
@@ -22,15 +27,25 @@ export async function initI18n(language: string) {
 			interpolation: { escapeValue: false }
 		});
 		initialized = true;
+		bumpRenderEpoch();
 		return i18n;
 	}
 
-	await i18n.changeLanguage(language);
+	if (i18n.language !== language) {
+		await i18n.changeLanguage(language);
+		bumpRenderEpoch();
+	}
+
 	return i18n;
 }
 
+export function isI18nReady() {
+	return initialized;
+}
+
 export function t(key: string, options?: Record<string, unknown>): string {
-	return i18n.t(key, options);
+	void renderEpoch;
+	return String(i18n.t(key, options));
 }
 
 export { i18n };

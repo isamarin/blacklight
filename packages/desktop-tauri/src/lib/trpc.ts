@@ -30,13 +30,8 @@ type TrpcClient = ReturnType<typeof createTrpcClient>;
 
 export const trpc = new Proxy({} as TrpcClient, {
 	get(_target, prop) {
-		const current = getTrpcClient() as TrpcClient & Record<string, unknown>;
-		const value = current[prop as keyof TrpcClient];
-		if (typeof value === 'function') {
-			return (...args: unknown[]) =>
-				(value as (...callArgs: unknown[]) => unknown).apply(current, args);
-		}
-		return value;
+		const current = getTrpcClient();
+		return Reflect.get(current, prop, current);
 	}
 });
 

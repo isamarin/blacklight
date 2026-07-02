@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import '../app.css';
 	import { errorI18nKey } from '$lib/errors';
-	import { initI18n, t } from '$lib/i18n';
+	import { initI18n, isI18nReady, t } from '$lib/i18n';
 	import {
 		getAuthError,
 		getIsAuthenticated,
@@ -85,7 +85,7 @@
 			</div>
 		</div>
 	{/if}
-{:else if showAuthHome}
+{:else if showAuthHome && isI18nReady()}
 	<AuthHome />
 {:else if showApp}
 	{@render children()}
