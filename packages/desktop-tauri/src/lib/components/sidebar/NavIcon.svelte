@@ -1,5 +1,5 @@
 <script lang="ts">
-	let { name }: { name: 'home' | 'consoles' | 'library' | 'settings' } = $props();
+	let { name }: { name: 'home' | 'consoles' | 'library' | 'settings' | 'profile' } = $props();
 </script>
 
 {#if name === 'home'}
@@ -21,6 +21,19 @@
 {:else if name === 'library'}
 	<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
 		<path d="M4 6.5h5v11H4v-11ZM10 6.5h5v11h-5v-11ZM16 6.5h4v11h-4v-11Z" stroke-linejoin="round" />
+	</svg>
+{:else if name === 'profile'}
+	<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+		<path
+			d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+		/>
+		<path
+			d="M5.5 20.25a6.5 6.5 0 0 1 13 0"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+		/>
 	</svg>
 {:else}
 	<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">

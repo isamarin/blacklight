@@ -5,7 +5,7 @@ import Http from '../lib/http.js'
 export default class gamepassController {
     private _httpClient = new Http()
 
-    private _defaultCoreHost = 'weu.core.gssv-play-prod.xboxlive.com'
+    private _defaultCoreHost = 'uks.core.gssv-play-prodxhome.xboxlive.com'
 
     private _sigls = {
         new: 'f13cf6b4-57e6-4459-89df-6aec18cf0538'

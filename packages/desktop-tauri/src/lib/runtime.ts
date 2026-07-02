@@ -25,14 +25,17 @@ export function setApiPort(port: number) {
 	}
 }
 
-function usesDevPreviewProxy(): boolean {
+function usesDevProxy(): boolean {
 	if (typeof window === 'undefined') return false;
 	const { hostname, port } = window.location;
-	return (hostname === '127.0.0.1' || hostname === 'localhost') && port === '4173';
+	return (
+		(hostname === '127.0.0.1' || hostname === 'localhost') &&
+		(port === '4173' || port === '5173')
+	);
 }
 
 export function getApiOrigin(): string {
-	if (usesDevPreviewProxy()) {
+	if (usesDevProxy()) {
 		return window.location.origin;
 	}
 
@@ -57,10 +60,10 @@ export function getTrpcHttpUrl(): string {
 	}
 
 	if (isDesktopShell()) {
-		return usesDevPreviewProxy() ? '/trpc' : `${getApiOrigin()}/trpc`;
+		return usesDevProxy() ? '/trpc' : `${getApiOrigin()}/trpc`;
 	}
 
-	return '/trpc';
+	return usesDevProxy() ? '/trpc' : `${getApiOrigin()}/trpc`;
 }
 
 export async function openExternal(url: string): Promise<void> {

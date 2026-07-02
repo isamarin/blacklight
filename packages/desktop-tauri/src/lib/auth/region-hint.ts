@@ -9,7 +9,13 @@ export type RegionHintContext = {
 export function isLikelyRegionMismatchError(error: unknown): boolean {
 	const text = errorText(error);
 
-	if (text.includes('gssv') || text.includes('gssv-play-prod') || text.includes('gssv-play-prodxhome')) {
+	if (
+		text.includes('gssv') ||
+		text.includes('gssv-play-prod') ||
+		text.includes('gssv-play-prodxhome') ||
+		text.includes('catalog.gamepass.com') ||
+		text.includes('/v2/titles')
+	) {
 		if (
 			text.includes('401') ||
 			text.includes('403') ||

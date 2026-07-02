@@ -1,7 +1,12 @@
 import { authForceRegionIp, withAuthRegion } from '$lib/auth/region';
 import { resolveErrorWithRegionHint } from '$lib/auth/region-hint';
 import { classifyError, type UserErrorCode } from '$lib/errors';
-import { buildStreamingToken, resolveStreamingTokenData } from '$lib/streaming-token';
+import {
+	buildStreamingToken,
+	normalizeCatalogLanguage,
+	resolveStreamingTokenData
+} from '$lib/streaming-token';
+import { getSettings } from '$lib/stores/settings.svelte';
 import { isTauriApp } from '$lib/runtime';
 import {
 	clearAppDataFromTauri,
@@ -288,14 +293,37 @@ export function getWebToken() {
 	};
 }
 
+function getCatalogLanguage() {
+	const settingsLanguage = getSettings().language;
+	if (typeof settingsLanguage === 'string' && settingsLanguage.trim()) {
+		return normalizeCatalogLanguage(settingsLanguage);
+	}
+	return normalizeCatalogLanguage(getBrowserLanguage());
+}
+
+export async function refreshStreamingTokens(): Promise<boolean> {
+	if (!authState.userToken) return false;
+
+	try {
+		await fetchTokensForUser(authState.userToken);
+		return hasStreamingTokens();
+	} catch (error) {
+		console.error('Failed to refresh streaming tokens:', error);
+		authError = resolveErrorWithRegionHint(error, {
+			hasWebToken: Boolean(authState.webToken),
+			hasStreamingToken: false,
+			forceRegionIp: authForceRegionIp()
+		});
+		return false;
+	}
+}
+
 export function getxHomeToken() {
-	const language = getBrowserLanguage() || 'en-us';
-	return buildStreamingToken(authState.streamingTokens?.xHomeToken, language);
+	return buildStreamingToken(authState.streamingTokens?.xHomeToken, getCatalogLanguage());
 }
 
 export function getxCloudToken() {
-	const language = getBrowserLanguage() || 'en-us';
-	return buildStreamingToken(authState.streamingTokens?.xCloudToken, language);
+	return buildStreamingToken(authState.streamingTokens?.xCloudToken, getCatalogLanguage());
 }
 
 export function hasStreamingTokens() {

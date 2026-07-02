@@ -81,13 +81,22 @@ export default class Http {
                     if(responseData.toString() === ''){
                         resolve(new HttpResponse({}, res.headers, options))
                     } else {
-                        resolve(new HttpResponse(JSON.parse(responseData.toString()), res.headers, options))
+                        try {
+                            resolve(new HttpResponse(JSON.parse(responseData.toString()), res.headers, options))
+                        } catch {
+                            reject(new Error('Error fetching '+options.hostname+options.path+'. Details: '+ JSON.stringify({
+                                statuscode: res.statusCode,
+                                headers: res.headers,
+                                body: responseData.toString().slice(0, 500),
+                                message: 'Invalid JSON from '+options.hostname+options.path
+                            }, null, 2)))
+                        }
                     }
                 } else {
                     reject(new Error('Error fetching '+options.hostname+options.path+'. Details: '+ JSON.stringify({
                         statuscode: res.statusCode,
                         headers: res.headers,
-                        body: responseData.toString(),
+                        body: responseData.toString().slice(0, 500),
                         message: 'Error fetching '+options.hostname+options.path
                     }, null, 2)))
                 }

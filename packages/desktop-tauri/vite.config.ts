@@ -17,6 +17,10 @@ export default defineConfig({
 		host,
 		port,
 		strictPort: true,
+		proxy: {
+			'/trpc': { target: apiOrigin, changeOrigin: true },
+			'/health': { target: apiOrigin, changeOrigin: true }
+		},
 		hmr: {
 			protocol: 'ws',
 			host,

@@ -6,6 +6,23 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
 
+## [2026.7.13] - 2026-07-02
+
+### Added (desktop-tauri, platform)
+- **Profile page:** gamertag, gamerscore, avatar; 6-tile grid of recently played games with hours; 6 recent achievements
+- **API:** `profile_get_played_games` (title history, MinutesPlayed, recent unlocks)
+- **Top nav:** Profile as the last menu item with user icon
+- **Auth backdrop:** subtle mouse parallax on hero background
+
+### Fixed (desktop-tauri, platform)
+- **Browser dev login / library:** Vite dev proxy for `/trpc` and `/health` on port 5173
+- **xCloud library:** correct GSSV xHome host fallback, streaming-token refresh before catalog load, clearer catalog errors
+- **Profile play time:** parse `MinutesPlayed` from nested Xbox userstats `groups`
+- **Auth screen:** hide “Logging in…” when an error is shown; reset flow state on retry
+
+### Changed (desktop-tauri)
+- Profile tiles: large squares, play-time badge on game cards, games section before achievements
+
 ## [2026.7.12] - 2026-07-02
 
 ### Added (desktop-tauri)

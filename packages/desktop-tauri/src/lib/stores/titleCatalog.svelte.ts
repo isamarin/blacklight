@@ -9,7 +9,12 @@ import {
 	parseTitlesResponse,
 	type TitleEntry
 } from '$lib/titles';
-import { getIsAuthenticated, getxHomeToken } from '$lib/stores/auth.svelte';
+import {
+	getIsAuthenticated,
+	getxHomeToken,
+	hasStreamingTokens,
+	refreshStreamingTokens
+} from '$lib/stores/auth.svelte';
 
 const CATALOG_TIMEOUT_MS = 60_000;
 
@@ -22,6 +27,60 @@ let catalogErrorRaw = $state<unknown>(null);
 let catalogMap = $state(new Map<string, TitleEntry>());
 let loadGeneration = 0;
 
+async function ensureStreamingTokenReady(): Promise<boolean> {
+	if (hasStreamingTokens() && getxHomeToken().token) {
+		return true;
+	}
+
+	return refreshStreamingTokens();
+}
+
+async function loadCatalog(token: ReturnType<typeof getxHomeToken>, generation: number) {
+	const [allResult, recentResult, newResult] = await Promise.allSettled([
+		trpc.gamepass_get_titles.query(token),
+		trpc.gamepass_get_recent_titles.query(token),
+		trpc.gamepass_get_new_titles.query(token)
+	]);
+
+	if (generation !== loadGeneration) return;
+
+	if (allResult.status === 'rejected') {
+		throw allResult.reason;
+	}
+
+	const allTitles = allResult.value;
+	const recent = recentResult.status === 'fulfilled' ? recentResult.value : null;
+	const newTitles = newResult.status === 'fulfilled' ? newResult.value : null;
+
+	if (recentResult.status === 'rejected') {
+		console.warn('Failed to load recent titles', recentResult.reason);
+	}
+	if (newResult.status === 'rejected') {
+		console.warn('Failed to load new titles', newResult.reason);
+	}
+
+	const baseEntries = parseTitlesResponse(allTitles);
+	const productIds = baseEntries.map((e) => e.productId).slice(0, 100);
+
+	let hydrated = baseEntries;
+	if (productIds.length > 0) {
+		const catalogDetails = await trpc.gamepass_batch_productids.query({ token, productIds });
+		if (generation !== loadGeneration) return;
+		const products = getProducts(catalogDetails);
+		if (products) hydrated = hydrateCatalog(baseEntries, products);
+	}
+
+	const map = new Map(hydrated.map((t) => [t.titleId, t]));
+	titles = hydrated;
+	recentIds = recent ? parseRecentTitleIds(recent) : [];
+	newIds = newTitles ? parseNewTitleIds(newTitles, map) : [];
+	catalogMap = map;
+	if (recentResult.status === 'rejected' && newResult.status === 'rejected') {
+		catalogErrorRaw = recentResult.reason;
+		catalogError = resolveAppErrorWithRegionHint(recentResult.reason);
+	}
+}
+
 export async function refreshTitleCatalog() {
 	if (!getIsAuthenticated()) {
 		titles = [];
@@ -29,18 +88,6 @@ export async function refreshTitleCatalog() {
 		newIds = [];
 		catalogMap = new Map();
 		catalogError = null;
-		catalogErrorRaw = null;
-		isLoading = false;
-		return;
-	}
-
-	const token = getxHomeToken();
-	if (!token.token) {
-		titles = [];
-		recentIds = [];
-		newIds = [];
-		catalogMap = new Map();
-		catalogError = 'catalog_missing_token';
 		catalogErrorRaw = null;
 		isLoading = false;
 		return;
@@ -58,48 +105,27 @@ export async function refreshTitleCatalog() {
 	}, CATALOG_TIMEOUT_MS);
 
 	try {
-		const [allResult, recentResult, newResult] = await Promise.allSettled([
-			trpc.gamepass_get_titles.query(token),
-			trpc.gamepass_get_recent_titles.query(token),
-			trpc.gamepass_get_new_titles.query(token)
-		]);
-
+		const tokenReady = await ensureStreamingTokenReady();
 		if (generation !== loadGeneration) return;
 
-		if (allResult.status === 'rejected') {
-			throw allResult.reason;
+		let token = getxHomeToken();
+		if (!token.token) {
+			catalogError = 'catalog_missing_token';
+			return;
 		}
 
-		const allTitles = allResult.value;
-		const recent = recentResult.status === 'fulfilled' ? recentResult.value : null;
-		const newTitles = newResult.status === 'fulfilled' ? newResult.value : null;
+		try {
+			await loadCatalog(token, generation);
+		} catch (firstError) {
+			if (generation !== loadGeneration) throw firstError;
 
-		if (recentResult.status === 'rejected') {
-			console.warn('Failed to load recent titles', recentResult.reason);
-		}
-		if (newResult.status === 'rejected') {
-			console.warn('Failed to load new titles', newResult.reason);
-		}
+			const retried = await refreshStreamingTokens();
+			if (!retried) throw firstError;
 
-		const baseEntries = parseTitlesResponse(allTitles);
-		const productIds = baseEntries.map((e) => e.productId).slice(0, 100);
+			token = getxHomeToken();
+			if (!token.token) throw firstError;
 
-		let hydrated = baseEntries;
-		if (productIds.length > 0) {
-			const catalogDetails = await trpc.gamepass_batch_productids.query({ token, productIds });
-			if (generation !== loadGeneration) return;
-			const products = getProducts(catalogDetails);
-			if (products) hydrated = hydrateCatalog(baseEntries, products);
-		}
-
-		const map = new Map(hydrated.map((t) => [t.titleId, t]));
-		titles = hydrated;
-		recentIds = recent ? parseRecentTitleIds(recent) : [];
-		newIds = newTitles ? parseNewTitleIds(newTitles, map) : [];
-		catalogMap = map;
-		if (recentResult.status === 'rejected' && newResult.status === 'rejected') {
-			catalogErrorRaw = recentResult.reason;
-			catalogError = resolveAppErrorWithRegionHint(recentResult.reason);
+			await loadCatalog(token, generation);
 		}
 	} catch (e) {
 		if (generation !== loadGeneration) return;

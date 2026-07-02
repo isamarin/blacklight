@@ -36,6 +36,8 @@
 
 	async function beginAuthFlow() {
 		error = null;
+		authFlow = undefined;
+		qrDataUrl = null;
 		clearAuthError();
 
 		if (!(await getApiHealth())) {
@@ -119,7 +121,7 @@
 					{/if}
 					<CopyableCode code={authFlow.user_code} />
 				</div>
-			{:else}
+			{:else if !error}
 				<p class="text-white/80 text-base mb-4">{t('auth.loggingIn')}</p>
 			{/if}
 			<div class="mt-6 pt-4 border-t border-white/10">

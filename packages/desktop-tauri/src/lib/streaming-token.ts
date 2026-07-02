@@ -18,6 +18,29 @@ export function resolveStreamingTokenData(
 	return undefined;
 }
 
+export function normalizeCatalogLanguage(language: string | null | undefined): string {
+	if (typeof language !== 'string') return 'en-US';
+
+	const trimmed = language.trim();
+	if (!trimmed) return 'en-US';
+
+	const parts = trimmed.split('-');
+	if (parts.length >= 2) {
+		return `${parts[0].toLowerCase()}-${parts[1].toUpperCase()}`;
+	}
+
+	return `${parts[0].toLowerCase()}-US`;
+}
+
+export function defaultXHomeCoreHost(market?: string | null): string {
+	const normalized = market?.trim().toUpperCase();
+	if (normalized === 'US') return 'eastus.core.gssv-play-prodxhome.xboxlive.com';
+	if (normalized === 'JP') return 'japaneast.core.gssv-play-prodxhome.xboxlive.com';
+	if (normalized === 'AU') return 'australiaeast.core.gssv-play-prodxhome.xboxlive.com';
+	if (normalized === 'RU') return 'weu.core.gssv-play-prodxhome.xboxlive.com';
+	return 'uks.core.gssv-play-prodxhome.xboxlive.com';
+}
+
 export function marketFromLanguage(language: string | null | undefined): string {
 	if (typeof language !== 'string') return 'US';
 
@@ -60,8 +83,7 @@ export function buildStreamingToken(
 		| undefined,
 	language?: string | null
 ) {
-	const resolvedLanguage =
-		(typeof language === 'string' && language.trim()) || 'en-us';
+	const resolvedLanguage = normalizeCatalogLanguage(language);
 	const tokenData = resolveStreamingTokenData(streaming);
 	const market =
 		(typeof tokenData?.market === 'string' && tokenData.market.trim()) ||
@@ -71,6 +93,8 @@ export function buildStreamingToken(
 		market,
 		language: resolvedLanguage,
 		token: tokenData?.gsToken || '',
-		coreHost: coreHostFromOfferingSettings(tokenData?.offeringSettings)
+		coreHost:
+			coreHostFromOfferingSettings(tokenData?.offeringSettings) ??
+			defaultXHomeCoreHost(market)
 	};
 }

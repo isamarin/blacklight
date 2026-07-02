@@ -211,7 +211,19 @@
       "profile": {
         "pageTitle": "Профиль",
         "xuidLabel": "XUID",
-        "comingSoon": "Полный профиль и достижения появятся в будущих версиях."
+        "gamerscoreLabel": "Очки геймера",
+        "recentAchievements": "Недавние достижения",
+        "recentAchievementsHint": "Последние разблокировки по всем играм.",
+        "noRecentAchievements": "Недавних достижений не найдено.",
+        "recentlyPlayed": "Недавно играл",
+        "recentlyPlayedHint": "Сортировка по дате последней игры, время с Xbox.",
+        "gamesCount": "{{count}} игр",
+        "playTimeLabel": "наиграно",
+        "playTimeUnknown": "—",
+        "lastPlayedLabel": "Последний запуск",
+        "lastPlayedUnknown": "Неизвестно",
+        "achievementsProgress": "{{current}} / {{total}} достижений",
+        "noPlayedGames": "История недавних игр для этого аккаунта не найдена."
       },
 
       "myConsoles": {

@@ -9,7 +9,7 @@
 		href: string;
 		labelKey: string;
 		fallback: string;
-		icon: 'home' | 'consoles' | 'library' | 'settings';
+		icon: 'home' | 'consoles' | 'library' | 'settings' | 'profile';
 	};
 
 	const nav: NavItem[] = [
@@ -31,6 +31,12 @@
 			labelKey: 'settings.sidebar.about',
 			fallback: 'Settings',
 			icon: 'settings'
+		},
+		{
+			href: '/profile',
+			labelKey: 'page.profile.pageTitle',
+			fallback: 'Profile',
+			icon: 'profile'
 		}
 	];
 
@@ -47,6 +53,7 @@
 		const path = page.url.pathname;
 		if (href === '/home') return path === '/home' || path === '/';
 		if (href === '/settings/home') return path.startsWith('/settings');
+		if (href === '/profile') return path === '/profile';
 		return path === href || path.startsWith(`${href}/`);
 	}
 
@@ -131,10 +138,10 @@
 	</nav>
 
 	<div class="tv-topbar-actions">
-		<a href="/profile" class="tv-topbar-profile" title={t('header.viewProfile')}>
+		<div class="tv-topbar-profile" title={gamertag}>
 			<span class="tv-topbar-avatar" aria-hidden="true">{gamertag.slice(0, 1).toUpperCase()}</span>
 			<span class="hidden max-w-32 truncate text-sm text-white/80 md:inline">{gamertag}</span>
-		</a>
+		</div>
 		<button type="button" class="tv-topbar-logout" onclick={handleLogout}>
 			{t('auth.logoutBtn')}
 		</button>

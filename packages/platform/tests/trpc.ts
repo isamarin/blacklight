@@ -36,4 +36,13 @@ describe('appRouter', () => {
 			expect((error as { code?: string }).code).to.equal('UNAUTHORIZED')
 		}
 	})
+
+	it('profile_get_played_games rejects missing token', async function () {
+		try {
+			await caller.profile_get_played_games({ uhs: '', token: '' })
+			expect.fail('expected UNAUTHORIZED')
+		} catch (error) {
+			expect((error as { code?: string }).code).to.equal('UNAUTHORIZED')
+		}
+	})
 })

@@ -35,13 +35,23 @@ export function classifyError(error: unknown): UserErrorCode {
 	const text = errorText(error);
 
 	if (
-		(text.includes('gssv') || text.includes('gssv-play-prod') || text.includes('gssv-play-prodxhome')) &&
-		(text.includes('401') ||
+		text.includes('gssv') ||
+		text.includes('gssv-play-prod') ||
+		text.includes('gssv-play-prodxhome') ||
+		text.includes('catalog.gamepass.com') ||
+		text.includes('/v2/titles')
+	) {
+		if (
+			text.includes('401') ||
 			text.includes('403') ||
 			text.includes('unauthorized') ||
-			text.includes('forbidden'))
-	) {
-		return 'region_mismatch';
+			text.includes('forbidden')
+		) {
+			return 'region_mismatch';
+		}
+		if (text.includes('error fetching')) {
+			return 'streaming_tokens';
+		}
 	}
 
 	if (text.includes('streaming token') || text.includes('streamingtoken')) {

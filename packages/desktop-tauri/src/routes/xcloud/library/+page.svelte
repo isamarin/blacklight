@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { extractErrorMessage } from '$lib/errors';
 	import { t } from '$lib/i18n';
 	import AppLayout from '$lib/components/layout/AppLayout.svelte';
 	import Breadcrumb from '$lib/components/ui/Breadcrumb.svelte';
@@ -39,6 +40,7 @@
 	{#if catalogError}
 		<ErrorPanel
 			code={catalogError}
+			detail={extractErrorMessage(catalogErrorRaw)}
 			rawError={catalogErrorRaw}
 			onRetry={() => refreshTitleCatalog()}
 		/>

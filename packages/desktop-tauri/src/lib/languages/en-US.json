@@ -211,7 +211,19 @@
       "profile": {
         "pageTitle": "Profile",
         "xuidLabel": "XUID",
-        "comingSoon": "Full profile and achievements view is planned for a future release."
+        "gamerscoreLabel": "Gamerscore",
+        "recentAchievements": "Recent achievements",
+        "recentAchievementsHint": "Newest unlocks across your games.",
+        "noRecentAchievements": "No recent achievements found.",
+        "recentlyPlayed": "Recently played",
+        "recentlyPlayedHint": "Sorted by last played, with time tracked on Xbox.",
+        "gamesCount": "{{count}} games",
+        "playTimeLabel": "played",
+        "playTimeUnknown": "—",
+        "lastPlayedLabel": "Last played",
+        "lastPlayedUnknown": "Unknown",
+        "achievementsProgress": "{{current}} / {{total}} achievements",
+        "noPlayedGames": "No recent play history found for this account."
       },
 
       "myConsoles": {

@@ -114,6 +114,17 @@ export const appRouter = router({
 
     profile_get_current: publicProcedure.input(zodWebToken).query(async ({ input }) => await profile.getCurrentProfile(input)),
     profile_get_friends: publicProcedure.input(zodWebToken).query(async ({ input }) => await profile.getFriendsList(input)),
+    profile_get_played_games: publicProcedure
+      .input(
+        zodWebToken.extend({
+          limit: z.number().int().min(1).max(80).optional(),
+          achievementLimit: z.number().int().min(1).max(50).optional()
+        })
+      )
+      .query(async ({ input }) => {
+        const { limit, achievementLimit, ...token } = input
+        return await profile.getPlayedGames(token, limit, achievementLimit)
+      }),
     
     smartglass_consoles_list: publicProcedure.input(zodWebToken).query(async ({ input }) => await smartglass.getConsolesList(input)),
     smartglass_console_power_on: publicProcedure

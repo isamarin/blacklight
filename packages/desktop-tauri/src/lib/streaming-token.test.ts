@@ -2,7 +2,9 @@ import { describe, expect, it } from 'vitest';
 import {
 	buildStreamingToken,
 	coreHostFromOfferingSettings,
+	defaultXHomeCoreHost,
 	marketFromLanguage,
+	normalizeCatalogLanguage,
 	resolveStreamingTokenData,
 	streamHostFromCoreHost
 } from './streaming-token';
@@ -14,13 +16,18 @@ describe('streaming-token', () => {
 		expect(marketFromLanguage('de')).toBe('US');
 	});
 
-	it('buildStreamingToken falls back to locale market', () => {
+	it('buildStreamingToken falls back to locale market and xhome host', () => {
 		expect(buildStreamingToken({ gsToken: 'abc' }, 'ru-RU')).toEqual({
 			market: 'RU',
 			language: 'ru-RU',
 			token: 'abc',
-			coreHost: undefined
+			coreHost: defaultXHomeCoreHost('RU')
 		});
+	});
+
+	it('normalizeCatalogLanguage formats locale tags', () => {
+		expect(normalizeCatalogLanguage('en-us')).toBe('en-US');
+		expect(normalizeCatalogLanguage('ru-RU')).toBe('ru-RU');
 	});
 
 	it('marketFromLanguage tolerates missing language', () => {
