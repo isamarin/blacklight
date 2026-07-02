@@ -11,7 +11,8 @@ import {
 	getSidecarSettings,
 	restartApi,
 	saveAppSettingsToTauri,
-	saveSidecarSettings
+	saveSidecarSettings,
+	waitForTauriIpc
 } from '$lib/tauri';
 import { resetTrpcClient } from '$lib/trpc';
 
@@ -32,6 +33,7 @@ export async function initDesktopShell() {
 	if (!isTauriApp()) return;
 
 	try {
+		await waitForTauriIpc();
 		const [appSettings, apiSettings] = await Promise.all([
 			getAppSettingsFromTauri(),
 			getSidecarSettings()
