@@ -6,6 +6,11 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
 
+## [2026.7.6] - 2026-07-02
+
+### Fixed (desktop-tauri)
+- **CI / clean builds:** SPA path post-processing runs after `adapter-static` writes `build/index.html` (fixes `smoke:e2e` and release builds on GitHub Actions)
+
 ## [2026.7.5] - 2026-07-02
 
 ### Added (desktop-tauri)
