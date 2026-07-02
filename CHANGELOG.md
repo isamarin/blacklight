@@ -6,6 +6,11 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
 
+### Changed
+- **Product identity:** Blacklight is maintained as an independent product (`isamarin/blacklight`); drop fork-era `v3.*` release tags and scripts (`build:depsv3`, `desktopv3`, `test:v3`)
+- **Release tags:** CalVer `v2026.M.P` (e.g. `v2026.7.2`); CI draft releases trigger on `v20*` tags
+- **Scripts:** `build:depsv3` → `build:deps`; `desktopv3` → `desktop-renderer`
+
 ## [2026.7.2] - 2026-07-02
 
 ### Added (desktop-tauri)

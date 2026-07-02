@@ -9,7 +9,7 @@
   },
   "scripts": {
     "desktop": "pnpm --filter blacklight-desktop",
-    "desktopv3": "pnpm --filter blacklight-desktop-v3",
+    "desktop-renderer": "pnpm --filter blacklight-desktop-v3",
     "desktop-tauri": "pnpm --filter blacklight-desktop-tauri",
     "docs": "pnpm --filter @blacklight/docs",
     "logger": "pnpm --filter @blacklight/logger",
@@ -17,13 +17,12 @@
     "playground": "pnpm --filter @blacklight/platform-playground",
     "player": "pnpm --filter @blacklight/player",
     "pages": "pnpm --filter @blacklight/pages",
-    "build:depsv3": "pnpm logger build && pnpm player build && pnpm platform build",
-    "build:pages": "pnpm build:depsv3 && pnpm pages build",
-    "build:web": "pnpm build:depsv3 && pnpm desktop-tauri build",
-    "check:tauri": "pnpm build:depsv3 && pnpm desktop-tauri check",
+    "build:deps": "pnpm logger build && pnpm player build && pnpm platform build",
+    "build:pages": "pnpm build:deps && pnpm pages build",
+    "build:web": "pnpm build:deps && pnpm desktop-tauri build",
+    "check:tauri": "pnpm build:deps && pnpm desktop-tauri check",
     "deploy:pages": "pnpm pages deploy",
-    "test:workspace": "pnpm logger test && pnpm platform test",
-    "test:v3": "pnpm test:workspace"
+    "test:workspace": "pnpm logger test && pnpm platform test"
   },
   "packageManager": "pnpm@10.4.1"
 }

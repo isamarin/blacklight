@@ -2,13 +2,11 @@
 
 [![Build](https://github.com/isamarin/blacklight/actions/workflows/build.yml/badge.svg)](https://github.com/isamarin/blacklight/actions/workflows/build.yml)
 
-**Blacklight** is an open-source Xbox streaming tool — xCloud and console home streaming from macOS and Windows. Built with JavaScript and TypeScript; streaming engine powered by [xbox-xcloud-player](https://github.com/unknownskl/xbox-xcloud-player).
-
-Desktop builds are available for **macOS** and **Windows** (Tauri). Linux desktop support is planned.
+**Blacklight** is an independent open-source Xbox streaming tool — xCloud and console home streaming for **macOS** and **Windows** (Tauri). Built with TypeScript; streaming engine powered by [xbox-xcloud-player](https://github.com/unknownskl/xbox-xcloud-player).
 
 **Maintainer:** Igor Samarin ([@isamarin](https://github.com/isamarin)) — mako.mmw@gmail.com
 
-> Originally derived from [unknownskl/greenlight](https://github.com/unknownskl/greenlight). This project is now maintained independently under CalVer versioning.
+**Versioning:** [CalVer](https://calver.org/) (`2026.7.2`). Release tags: `v2026.7.2` (not the old fork `v3.*` prefix).
 
 _DISCLAIMER: Blacklight is not affiliated with Microsoft, Xbox or Moonlight. All rights and trademarks are property of their respective owners._
 
@@ -94,19 +92,20 @@ Install dependencies:
 
     pnpm install
 
-Run development build (Tauri desktop — recommended):
+Run development build:
 
-    pnpm build:depsv3
-    pnpm desktop-tauri dev
+    pnpm build:deps
+    pnpm desktop-tauri tauri:dev
 
-Run development build (legacy desktop v2, Electron):
+Create production build:
 
-    pnpm desktop dev
-
-Create production build (Tauri):
-
-    pnpm build:depsv3
+    pnpm build:deps
     pnpm desktop-tauri tauri:build
+
+Release tag (triggers CI draft release with DMG + NSIS):
+
+    git tag -a v2026.7.2 -m "Blacklight 2026.7.2"
+    git push origin v2026.7.2
 
 Typecheck the Tauri UI:
 

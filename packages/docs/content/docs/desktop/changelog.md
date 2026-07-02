@@ -11,11 +11,13 @@ description: Changelogs
 
 ## Unreleased
 
-- Rename Greenlight → **Blacklight** (product, packages, bundle IDs)
-- Full product rebrand: `com.isamarin.blacklight`, `io.github.isamarin.blacklight`
-- Tauri desktop shell for Windows/macOS with bundled Node sidecar
-- Electron V3 removed; `desktop-v3` is UI renderer only
-- CI: Tauri builds replace V3 Electron + Flatpak
+- **Blacklight** — independent product by Igor Samarin (`isamarin/blacklight`), CalVer `v2026.M.P` release tags
+- Tauri 2 desktop (SvelteKit UI) for Windows/macOS; minimal `blacklight-api` sidecar
+- Drop fork-era `v3.*` tags and `build:depsv3` script naming
+
+## 2026.7.2 - 2026-07-02
+
+- First Tauri desktop release track; P0 reliability (force region, tokens, library, stream errors)
 
 ## 2026.06.2-alpha.1 - 2026-06-17 (fork)
 - Switched to CalVer versioning

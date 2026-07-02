@@ -1,33 +1,17 @@
-# Blacklight Desktop UI
+# Legacy renderer (deprecated)
 
-Legacy Next.js renderer kept for reference. Active UI and static web builds live in `packages/desktop-tauri` (SvelteKit).
-
-**Maintainer:** Igor Samarin ([@isamarin](https://github.com/isamarin)) — mako.mmw@gmail.com
-
-## Development
+Next.js renderer kept for reference only. **Blacklight desktop** is `packages/desktop-tauri` (Tauri + SvelteKit).
 
 From the repository root:
 
 ```bash
 pnpm install
-pnpm build:depsv3
-pnpm desktop-tauri dev
+pnpm build:deps
+pnpm desktop-tauri tauri:dev
 ```
 
-Renderer only (without Tauri shell):
+Renderer-only (no Tauri shell):
 
 ```bash
-pnpm desktopv3 dev:renderer
-```
-
-From this package directory:
-
-```bash
-pnpm dev
-```
-
-## Web build
-
-```bash
-pnpm build:web
+pnpm desktop-renderer dev:renderer
 ```

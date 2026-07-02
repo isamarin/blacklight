@@ -91,8 +91,8 @@ deny = [
 # Agent orchestration cheat-sheet (repo: isamarin/blacklight):
 #   - Monitor CI:  github MCP actions_list / actions_get
 #   - Push branch: git push (needs gh auth setup-git) OR github push_files
-#   - Push tag:    git push origin v3.* (needs gh auth setup-git)
-#   - Release:     tag v3.* → CI builds draft release on GitHub
+#   - Push tag:    git push origin v2026.7.2  (CalVer, not fork v3.*)
+#   - Release:     tag v20* → CI builds draft release on GitHub
 #   - Smoke local: bash packages/desktop-tauri/scripts/smoke-test-p0.sh
 #   - Poll CI:     /loop 5m Check Build Workflow on main for isamarin/blacklight
 # ─────────────────────────────────────────────────────────────────────────
