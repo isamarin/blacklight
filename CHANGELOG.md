@@ -6,6 +6,9 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
 
+### Added
+- **Tests:** unit coverage for platform tRPC/smartglass, player server/chat, desktop-tauri lib/api, Cloudflare pages worker; unified `pnpm test` in CI
+
 ## [2026.7.3] - 2026-07-02
 
 ### Added (desktop-tauri)

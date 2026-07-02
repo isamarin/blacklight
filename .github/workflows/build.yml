@@ -9,6 +9,7 @@ on:
       - v*
     paths:
       - 'packages/**'
+      - 'package.json'
       - 'pnpm-lock.yaml'
       - '.github/workflows/*.yml'
   pull_request:
@@ -16,6 +17,7 @@ on:
       - main
     paths:
       - 'packages/**'
+      - 'package.json'
       - 'pnpm-lock.yaml'
       - '.github/workflows/*.yml'
   workflow_dispatch:
@@ -233,11 +235,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build workspace dependencies
-        run: pnpm build:deps
-
-      - name: Run tests
-        run: pnpm test:workspace
+      - name: Run workspace tests
+        run: pnpm test
 
   check_tauri:
     name: "Tauri: Typecheck UI"

@@ -115,6 +115,10 @@ Typecheck the Tauri UI:
 
     pnpm check:tauri
 
+Run the workspace test suite (logger, platform, player, desktop-tauri, pages):
+
+    pnpm test
+
 ## Translations
 
 Want to help with translations? Open an [issue](https://github.com/isamarin/blacklight/issues) or submit a PR with updated locale files.

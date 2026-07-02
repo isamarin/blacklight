@@ -7,7 +7,7 @@
 		"dev": "wrangler dev",
 		"start": "wrangler dev",
 		"build": "cd ../desktop-tauri && pnpm build && rm -rf ../pages/public && mkdir -p ../pages/public && cp -r build/* ../pages/public/",
-		"test": "vitest",
+		"test": "vitest run",
 		"cf-typegen": "wrangler types"
 	},
 	"devDependencies": {

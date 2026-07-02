@@ -22,7 +22,7 @@
     "build:server": "tsup",
     "build": "pnpm run clean && pnpm run build:client && pnpm run build:server",
     "clean": "rm -rf dist/",
-    "test": "mocha",
+    "test": "pnpm run build && mocha tests/**/*.ts",
     "dev": "concurrently \"pnpm run dev:server\" \"pnpm run dev:client\"",
     "dev:client": "vite build --watch",
     "dev:server": "tsup --watch"

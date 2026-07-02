@@ -23,7 +23,8 @@
     "build:web": "pnpm build:deps && pnpm desktop-tauri build",
     "check:tauri": "pnpm build:deps && pnpm desktop-tauri check",
     "deploy:pages": "pnpm pages deploy",
-    "test:workspace": "pnpm logger test && pnpm platform test"
+    "test": "pnpm build:deps && pnpm logger test && pnpm platform test && pnpm player test && pnpm desktop-tauri test && pnpm pages test",
+    "test:workspace": "pnpm test"
   },
   "packageManager": "pnpm@10.4.1"
 }

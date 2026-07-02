@@ -12,25 +12,27 @@
  */
 
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
-import { WorkerEntrypoint } from 'cloudflare:workers';
 import { appRouter } from '@blacklight/platform';
+import { matchPagesRoute } from './routing';
 
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
 		const url = new URL(request.url);
+		const route = matchPagesRoute(url.pathname, url.origin);
 
-		if(url.pathname.startsWith('/trpc')) {
+		if (route.type === 'trpc') {
 			return fetchRequestHandler({
 				endpoint: '/trpc',
 				req: request,
 				router: appRouter,
 				createContext: () => ({}),
 			});
-		} else if(url.pathname === '/') {
-			const homepage = new URL('/home', request.url).href;
-			return Response.redirect(homepage, 302);
-		} else {
-			return new Response('Not Found', { status: 404 });
 		}
+
+		if (route.type === 'redirect') {
+			return Response.redirect(route.location, 302);
+		}
+
+		return new Response('Not Found', { status: 404 });
 	},
 } satisfies ExportedHandler<Env>;

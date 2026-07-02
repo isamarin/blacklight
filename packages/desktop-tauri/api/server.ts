@@ -4,16 +4,15 @@ import os from 'node:os';
 import path from 'node:path';
 import { createHTTPHandler } from '@trpc/server/adapters/standalone';
 import { appRouter } from '@blacklight/platform';
+import { parseSidecarSettings, resolveApiPort } from './port.js';
 
 function loadPort(): number {
 	const dataDir = process.env.BLACKLIGHT_DATA_DIR ?? path.join(os.homedir(), '.blacklight');
 	try {
 		const raw = fs.readFileSync(path.join(dataDir, 'sidecar-settings.json'), 'utf8');
-		const parsed = JSON.parse(raw) as { webui_port?: number };
-		const port = Number(parsed.webui_port);
-		return port >= 1024 && port <= 65535 ? port : 9003;
+		return resolveApiPort({ settings: parseSidecarSettings(raw) });
 	} catch {
-		return 9003;
+		return resolveApiPort({});
 	}
 }
 
