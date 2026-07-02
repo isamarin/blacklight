@@ -25,7 +25,21 @@ export function setApiPort(port: number) {
 	}
 }
 
+function usesDevPreviewProxy(): boolean {
+	if (typeof window === 'undefined') return false;
+	const { hostname, port } = window.location;
+	return (
+		isTauriApp() &&
+		(hostname === '127.0.0.1' || hostname === 'localhost') &&
+		port === '4173'
+	);
+}
+
 export function getApiOrigin(): string {
+	if (usesDevPreviewProxy()) {
+		return window.location.origin;
+	}
+
 	return `http://127.0.0.1:${getApiPort()}`;
 }
 
@@ -47,7 +61,7 @@ export function getTrpcHttpUrl(): string {
 	}
 
 	if (isDesktopShell()) {
-		return `${getApiOrigin()}/trpc`;
+		return usesDevPreviewProxy() ? '/trpc' : `${getApiOrigin()}/trpc`;
 	}
 
 	return '/trpc';

@@ -26,11 +26,7 @@ function sleep(ms: number) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function ensureApiRunning() {
-	if (!(await isApiRunning())) {
-		await startApi();
-	}
-
+async function waitForApiHealth() {
 	const deadline = Date.now() + API_HEALTH_TIMEOUT_MS;
 	while (Date.now() < deadline) {
 		if (await getApiHealth()) return;
@@ -38,6 +34,20 @@ async function ensureApiRunning() {
 	}
 
 	throw new Error('API failed to start');
+}
+
+async function ensureApiRunning() {
+	if (!(await isApiRunning())) {
+		await startApi();
+	}
+
+	try {
+		await waitForApiHealth();
+		return;
+	} catch {
+		await restartApi();
+		await waitForApiHealth();
+	}
 }
 
 function loadLegacyLocalStorage(): Partial<typeof defaultSettings> | null {

@@ -4,6 +4,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { createHTTPHandler } from '@trpc/server/adapters/standalone';
 import { appRouter } from '@blacklight/platform';
+import { applyCors, handlePreflight } from './cors.js';
 import { parseSidecarSettings, resolveApiPort } from './port.js';
 
 function loadPort(): number {
@@ -25,11 +26,14 @@ const trpcHandler = createHTTPHandler({
 const port = process.env.BLACKLIGHT_PORT ? Number(process.env.BLACKLIGHT_PORT) : loadPort();
 
 const server = http.createServer((req, res) => {
+	applyCors(req, res);
+	if (handlePreflight(req, res)) return;
+
 	const url = req.url?.split('?')[0] ?? '/';
 
 	if (url === '/health') {
 		res.writeHead(200, { 'Content-Type': 'application/json' });
-		res.end(JSON.stringify({ ok: true, service: 'blacklight-api' }));
+		res.end(JSON.stringify({ ok: true, service: 'blacklight-api', running: true }));
 		return;
 	}
 
