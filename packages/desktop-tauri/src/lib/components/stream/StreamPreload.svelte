@@ -64,11 +64,7 @@
 			<p class="text-white/50 text-sm mt-4">{t('streamWindow.itsTakingALittleLonger')}</p>
 		{/if}
 		<div class="mt-6">
-			<Button
-				label={t('streamWindow.endStreamBtn')}
-				onclick={onExit}
-				class="text-sm bg-red-900 hover:bg-red-800"
-			/>
+			<Button label={t('streamWindow.endStreamBtn')} variant="danger" size="sm" onclick={onExit} />
 		</div>
 	</Card>
 </div>

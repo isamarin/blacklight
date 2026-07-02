@@ -129,7 +129,7 @@
 			<Card>
 				<p class="text-white/80">{t('page.myConsoles.noConsoles')}</p>
 				<div class="mt-4">
-					<Button label={t('errors.retryBtn')} onclick={loadConsoles} class="text-sm" />
+					<Button label={t('errors.retryBtn')} onclick={loadConsoles} size="sm" />
 				</div>
 			</Card>
 		{:else}
@@ -155,7 +155,7 @@
 										: t('page.myConsoles.wakeBtn')}
 									onclick={() => handleWake(item)}
 									disabled={wakingConsoleId !== null}
-									class="text-sm"
+									size="sm"
 								/>
 								<Button
 									label={wakingConsoleId === item.id
@@ -163,6 +163,7 @@
 										: t('page.myConsoles.wakeAndStreamBtn')}
 									onclick={() => handleWakeAndStream(item)}
 									disabled={wakingConsoleId !== null}
+									size="sm"
 								/>
 							{:else}
 								<a href="/stream/{item.id}">

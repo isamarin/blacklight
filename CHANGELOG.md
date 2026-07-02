@@ -6,6 +6,16 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
 
+## [2026.7.7] - 2026-07-02
+
+### Added (desktop-tauri)
+- **Update check on startup:** compares installed version with latest GitHub Release; `UpdatePrompt` modal with download link (packaged builds only)
+- **`AppInfo.isPackaged`** exposed from Tauri backend for dev vs release behavior
+
+### Changed (desktop-tauri)
+- **Glass UI** ported from landing: design tokens, glass buttons/cards, ambient glow, smoother motion (`--ease-smooth`, modal/loader animations)
+- Settings, sidebar, auth, stream overlay, and shared UI components restyled to match
+
 ## [2026.7.6] - 2026-07-02
 
 ### Fixed (desktop-tauri)

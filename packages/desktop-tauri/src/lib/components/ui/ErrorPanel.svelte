@@ -16,17 +16,17 @@
 	} = $props();
 </script>
 
-<div class="flex flex-col items-center justify-center gap-4 p-8 text-center">
-	<p class="text-red-400 text-sm max-w-md">{t(errorI18nKey(code))}</p>
+<div class="glass mx-auto flex max-w-lg flex-col items-center justify-center gap-4 rounded-2xl p-8 text-center">
+	<p class="max-w-md text-sm text-red-400">{t(errorI18nKey(code))}</p>
 	{#if detail}
-		<p class="text-white/30 text-xs max-w-md break-words">{detail}</p>
+		<p class="max-w-md break-words text-xs text-white/30">{detail}</p>
 	{/if}
 	<div class="flex flex-wrap items-center justify-center gap-3">
 		{#if onRetry}
-			<Button label={t('errors.retryBtn')} onclick={onRetry} />
+			<Button label={t('errors.retryBtn')} onclick={onRetry} size="sm" />
 		{/if}
 		{#if onBack}
-			<button class="text-white/60 text-sm underline hover:text-white" onclick={onBack}>
+			<button class="transition-soft text-sm text-white/60 underline hover:text-white" onclick={onBack}>
 				{t('errors.goBackBtn')}
 			</button>
 		{/if}

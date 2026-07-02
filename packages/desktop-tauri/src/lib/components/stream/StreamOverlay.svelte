@@ -39,50 +39,44 @@
 	});
 </script>
 
-<div class="absolute top-4 right-4 z-50 flex flex-col gap-2 max-w-[calc(100vw-2rem)]">
-	<div class="glass px-3 py-1 rounded text-xs text-white/70 truncate">{status}</div>
-	<div class="flex flex-wrap gap-2 justify-end">
-		<Button
-			label={t('streamWindow.endStreamBtn')}
-			onclick={onEndStream}
-			class="text-xs py-1 px-2 bg-red-900 hover:bg-red-800"
-		/>
+<div class="absolute top-4 right-4 z-50 flex max-w-[calc(100vw-2rem)] flex-col gap-2">
+	<div class="glass truncate rounded-lg px-3 py-1 text-xs text-white/70">{status}</div>
+	<div class="flex flex-wrap justify-end gap-2">
+		<Button label={t('streamWindow.endStreamBtn')} variant="danger" size="sm" onclick={onEndStream} />
 		<Button
 			label={t('streamWindow.disconnectBtn')}
+			variant="secondary"
+			size="sm"
 			onclick={onDisconnect}
-			class="text-xs py-1 px-2"
 		/>
-		<Button
-			label={t('streamWindow.menuBtn')}
-			onclick={onPressMenu}
-			class="text-xs py-1 px-2"
-		/>
+		<Button label={t('streamWindow.menuBtn')} variant="secondary" size="sm" onclick={onPressMenu} />
 		<Button
 			label={micEnabled ? t('streamWindow.micActive') : t('streamWindow.micMuted')}
+			variant="ghost"
+			size="sm"
+			class={micEnabled ? '' : 'opacity-60'}
 			onclick={onToggleMic}
-			class="text-xs py-1 px-2 {micEnabled ? '' : 'opacity-60'}"
 		/>
 	</div>
-	<div class="flex flex-wrap gap-2 justify-end">
+	<div class="flex flex-wrap justify-end gap-2">
 		<Button
 			label={t('streamWindow.gamepadBtn', { defaultValue: 'Gamepad' })}
+			variant="ghost"
+			size="sm"
 			onclick={onAttachGamepad}
-			class="text-xs py-1 px-2"
 		/>
 		<Button
 			label={t('streamWindow.keyboardBtn', { defaultValue: 'Keyboard' })}
+			variant="ghost"
+			size="sm"
 			onclick={onAttachMkb}
-			class="text-xs py-1 px-2"
 		/>
 		<Button
 			label={t('streamWindow.debugBtn', { defaultValue: 'Debug (~)' })}
+			variant="ghost"
+			size="sm"
 			onclick={onToggleDebug}
-			class="text-xs py-1 px-2"
 		/>
-		<Button
-			label={t('streamWindow.exitBtn', { defaultValue: 'Exit' })}
-			onclick={onExit}
-			class="text-xs py-1 px-2 bg-red-800"
-		/>
+		<Button label={t('streamWindow.exitBtn', { defaultValue: 'Exit' })} variant="danger" size="sm" onclick={onExit} />
 	</div>
 </div>

@@ -16,13 +16,11 @@
 	}
 </script>
 
-<nav class="w-48 shrink-0 space-y-1">
+<nav class="glass-panel w-52 shrink-0 space-y-1 rounded-2xl border border-white/10 p-2">
 	{#each links as link (link.href)}
 		<a
 			href={link.href}
-			class="block px-3 py-2 rounded-lg text-sm {isActive(link.href)
-				? 'bg-[#107C10]/20 text-[#107C10]'
-				: 'text-white/60 hover:text-white hover:bg-white/5'}"
+			class="glass-nav-link block {isActive(link.href) ? 'glass-nav-link-active' : ''}"
 		>
 			{t(`settings.sidebar.${link.key}`, { defaultValue: link.key })}
 		</a>

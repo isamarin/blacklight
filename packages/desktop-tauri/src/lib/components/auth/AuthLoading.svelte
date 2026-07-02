@@ -8,10 +8,10 @@
 >
 	<main class="flex-1 overflow-hidden relative">
 		<div
-			class="absolute top-0 right-0 w-96 h-96 bg-[#107C10]/3 rounded-full blur-3xl pointer-events-none"
+			class="pointer-events-none absolute right-0 top-0 h-96 w-96 rounded-full bg-xbox/10 blur-3xl"
 		></div>
 		<div
-			class="absolute bottom-0 left-0 w-64 h-64 bg-[#107C10]/2 rounded-full blur-3xl pointer-events-none"
+			class="pointer-events-none absolute bottom-0 left-0 h-64 w-64 rounded-full bg-xbox/5 blur-3xl"
 		></div>
 		<div class="h-full overflow-y-auto">
 			<div class="p-6 md:p-8 max-w-5xl mx-auto">

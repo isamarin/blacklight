@@ -48,6 +48,7 @@ export interface AppInfo {
 	platform: string;
 	dataDir: string;
 	isTauri: boolean;
+	isPackaged: boolean;
 }
 
 export interface SidecarSettings {

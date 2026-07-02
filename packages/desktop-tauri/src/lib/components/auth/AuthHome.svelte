@@ -82,14 +82,14 @@
 
 <div class="flex h-full min-h-screen bg-[#0d0d0d] bg-pattern overflow-hidden">
 	<main class="flex-1 flex items-center justify-center p-8">
-		<div class="max-w-lg w-full glass rounded-2xl p-8 border border-white/5">
+		<div class="glass max-w-lg w-full rounded-2xl p-8 shadow-2xl shadow-black/30">
 			<h2 class="text-2xl font-bold text-white mb-2">{t('auth.loginWithXbox')}</h2>
 			<p class="text-white/40 text-sm mb-6">{t('auth.pleaseAuthenticate')}</p>
 			{#if error}
 				<div class="mb-4 rounded-lg border border-red-500/30 bg-red-500/10 p-3">
 					<p class="text-red-400 text-sm">{error}</p>
 					<div class="mt-3">
-						<Button label={t('errors.retryBtn')} onclick={beginAuthFlow} class="text-xs py-1 px-3" />
+						<Button label={t('errors.retryBtn')} onclick={beginAuthFlow} size="sm" />
 					</div>
 				</div>
 			{/if}
@@ -117,7 +117,7 @@
 				<p class="text-white/80 mb-4">{t('auth.loggingIn')}</p>
 			{/if}
 			<div class="mt-6 pt-4 border-t border-white/10">
-				<Button label={t('auth.clearDataBtn')} onclick={handleClearData} class="text-sm" />
+				<Button label={t('auth.clearDataBtn')} onclick={handleClearData} variant="ghost" size="sm" />
 			</div>
 		</div>
 	</main>

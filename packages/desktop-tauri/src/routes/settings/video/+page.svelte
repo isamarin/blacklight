@@ -18,7 +18,7 @@
 						type="checkbox"
 						checked={settings.video_enabled}
 						onchange={() => setSettings({ ...settings, video_enabled: !settings.video_enabled })}
-						class="accent-[#107C10]"
+						class="accent-xbox"
 					/>
 					{t('settings.videoAudio.enableVideoLabel')}
 				</label>
@@ -29,7 +29,7 @@
 						type="checkbox"
 						checked={settings.audio_enabled}
 						onchange={() => setSettings({ ...settings, audio_enabled: !settings.audio_enabled })}
-						class="accent-[#107C10]"
+						class="accent-xbox"
 					/>
 					{t('settings.videoAudio.enableAudioLabel')}
 				</label>
@@ -41,7 +41,7 @@
 						checked={settings.app_lowresolution}
 						onchange={() =>
 							setSettings({ ...settings, app_lowresolution: !settings.app_lowresolution })}
-						class="accent-[#107C10]"
+						class="accent-xbox"
 					/>
 					{t('settings.videoAudio.forceLowResLabel')}
 				</label>

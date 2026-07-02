@@ -25,28 +25,28 @@
 	}
 </script>
 
-<aside class="w-64 h-full flex flex-col bg-[#0d0d0d] border-r border-white/5 relative z-20">
-	<div class="p-6">
-		<h2 class="text-2xl font-bold text-white mb-1">Blacklight</h2>
+<aside
+	class="glass-panel relative z-20 flex h-full w-64 flex-col border-r border-white/10 bg-surface/40"
+>
+	<div class="border-b border-white/5 p-6">
+		<h2 class="mb-1 text-2xl font-bold tracking-tight text-white">Blacklight</h2>
 		<a
 			href="/profile"
-			class="text-white/40 text-sm hover:text-white transition-colors"
+			class="transition-soft text-sm text-white/40 hover:text-white"
 			title={t('header.viewProfile')}
 		>
 			{gamertag}
 		</a>
-		<button onclick={handleLogout} class="text-white/50 text-sm hover:text-white mt-1">
+		<button onclick={handleLogout} class="transition-soft mt-1 text-sm text-white/50 hover:text-white">
 			{t('auth.logoutBtn')}
 		</button>
 	</div>
-	<ul class="px-4 space-y-1">
+	<ul class="space-y-1 px-3 py-4">
 		{#each nav as item (item.href)}
 			<li>
 				<a
 					href={item.href}
-					class="flex items-center px-3 py-2 rounded-lg text-sm {isActive(item.href)
-						? 'bg-[#107C10]/20 text-[#107C10]'
-						: 'text-white/60 hover:text-white hover:bg-white/5'}"
+					class="glass-nav-link {isActive(item.href) ? 'glass-nav-link-active' : ''}"
 				>
 					{t(item.labelKey, { defaultValue: item.fallback })}
 				</a>

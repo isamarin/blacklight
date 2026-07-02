@@ -36,8 +36,10 @@
 	});
 </script>
 
-<aside class="hidden xl:flex w-56 flex-col border-l border-white/5 bg-[#0a0a0a] p-4">
-	<h3 class="text-sm font-semibold text-white/60 mb-3">
+<aside
+	class="glass-panel hidden w-56 flex-col border-l border-white/10 bg-surface/30 p-4 xl:flex"
+>
+	<h3 class="mb-3 text-sm font-semibold text-white/60">
 		{t('sidebar.friends.title', { defaultValue: 'Friends' })}
 	</h3>
 	{#if loading}
@@ -47,8 +49,8 @@
 	{:else}
 		<ul class="space-y-2">
 			{#each friends as friend (friend.xuid)}
-				<li class="text-sm text-white/70 truncate">
-					<span class="inline-block w-2 h-2 rounded-full bg-[#107C10] mr-2"></span>
+				<li class="truncate text-sm text-white/70">
+					<span class="mr-2 inline-block h-2 w-2 rounded-full bg-xbox-glow"></span>
 					{friend.gamertag}
 				</li>
 			{/each}

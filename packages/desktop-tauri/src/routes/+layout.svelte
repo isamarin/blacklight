@@ -11,9 +11,11 @@
 	} from '$lib/stores/auth.svelte';
 	import { getSettings } from '$lib/stores/settings.svelte';
 	import { refreshTitleCatalog } from '$lib/stores/titleCatalog.svelte';
+	import { runUpdateCheck } from '$lib/stores/updater.svelte';
 	import { initDesktopShell } from '$lib/init/desktop';
 	import AuthHome from '$lib/components/auth/AuthHome.svelte';
 	import AuthLoading from '$lib/components/auth/AuthLoading.svelte';
+	import UpdatePrompt from '$lib/components/ui/UpdatePrompt.svelte';
 
 	let { children } = $props();
 	let ready = $state(false);
@@ -33,6 +35,7 @@
 			const language = getSettings().language;
 			syncedLanguage = language;
 			await initI18n(language);
+			void runUpdateCheck({ silent: true });
 		} catch (error) {
 			console.error('Failed to initialize Blacklight shell', error);
 			bootError = error instanceof Error ? error.message : String(error);
@@ -90,3 +93,5 @@
 {:else if showApp}
 	{@render children()}
 {/if}
+
+<UpdatePrompt />

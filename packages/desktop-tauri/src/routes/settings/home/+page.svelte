@@ -64,7 +64,7 @@
 					{t('settings.about.languageTitle')}
 				</h2>
 				<select
-					class="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white"
+					class="glass-control px-3 py-2"
 					value={settings.language}
 					onchange={(e) =>
 						setSettings({ ...settings, language: (e.currentTarget as HTMLSelectElement).value })}
@@ -95,12 +95,18 @@
 				<div class="flex flex-wrap gap-3">
 					<Button
 						label={t('settings.about.logout')}
+						variant="danger"
+						size="sm"
 						onclick={() => {
 							if (confirm(t('settings.about.logoutQuestion'))) logout();
 						}}
-						class="bg-red-900 hover:bg-red-800"
 					/>
-					<Button label={t('auth.clearDataBtn')} onclick={handleClearData} class="text-sm" />
+					<Button
+						label={t('auth.clearDataBtn')}
+						variant="ghost"
+						size="sm"
+						onclick={handleClearData}
+					/>
 				</div>
 			</Card>
 		</div>

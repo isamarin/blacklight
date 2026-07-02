@@ -25,7 +25,7 @@
 					{t('settings.streaming.videoRendererLabel')}
 				</label>
 				<select
-					class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white"
+					class="glass-control w-full px-3 py-2"
 					value={settings.video_renderer}
 					onchange={(e) =>
 						setSettings({
@@ -44,7 +44,7 @@
 				</label>
 				<input
 					type="number"
-					class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white"
+					class="glass-control w-full px-3 py-2"
 					value={settings.xcloud_bitrate}
 					onchange={(e) =>
 						setSettings({
@@ -59,7 +59,7 @@
 				</label>
 				<input
 					type="number"
-					class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white"
+					class="glass-control w-full px-3 py-2"
 					value={settings.xhome_bitrate}
 					onchange={(e) =>
 						setSettings({
@@ -74,7 +74,7 @@
 				</label>
 				<input
 					type="text"
-					class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white"
+					class="glass-control w-full px-3 py-2"
 					value={settings.preferred_game_language}
 					onchange={(e) =>
 						setSettings({
@@ -89,7 +89,7 @@
 				</label>
 				<input
 					type="text"
-					class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white"
+					class="glass-control w-full px-3 py-2"
 					placeholder={t('settings.streaming.setRegionValueEurope')}
 					value={settings.force_region_ip}
 					onchange={(e) =>

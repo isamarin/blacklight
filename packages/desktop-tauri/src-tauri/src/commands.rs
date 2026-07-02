@@ -11,6 +11,7 @@ pub struct AppInfo {
     pub platform: String,
     pub data_dir: String,
     pub is_tauri: bool,
+    pub is_packaged: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -71,6 +72,7 @@ pub fn get_app_info(app: AppHandle) -> Result<AppInfo, String> {
         platform: std::env::consts::OS.into(),
         data_dir: data_dir.display().to_string(),
         is_tauri: true,
+        is_packaged: !cfg!(debug_assertions),
     })
 }
 

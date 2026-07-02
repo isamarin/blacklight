@@ -30,7 +30,7 @@
 							type="checkbox"
 							checked={settings[key]}
 							onchange={() => toggle(key)}
-							class="accent-[#107C10]"
+							class="accent-xbox"
 						/>
 						{t(labelKey)}
 					</label>

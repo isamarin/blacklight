@@ -73,10 +73,11 @@
 						<div class="flex flex-wrap gap-2">
 							<Button
 								label={apiOnline ? t('settings.webUI.stopWebUIBtn') : t('settings.webUI.startWebUIBtn')}
+								variant={apiOnline ? 'danger' : 'primary'}
+								size="sm"
 								onclick={toggleApi}
-								class={apiOnline ? 'text-sm bg-red-800 hover:bg-red-700' : 'text-sm'}
 							/>
-							<Button label="Restart API" onclick={handleRestartApi} class="text-sm" />
+							<Button label="Restart API" variant="secondary" size="sm" onclick={handleRestartApi} />
 						</div>
 						<p class="text-white/50 text-sm">
 							The desktop app spawns a minimal Node API process for Xbox authentication and
@@ -93,7 +94,7 @@
 							onchange={(e) => {
 								void applyAutostartChange((e.currentTarget as HTMLInputElement).checked);
 							}}
-							class="accent-[#107C10]"
+							class="accent-xbox"
 						/>
 						<span>
 							{t('settings.webUI.autostartLabel')} (
@@ -110,7 +111,7 @@
 							type="number"
 							min="1024"
 							max="65535"
-							class="w-32 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white"
+							class="glass-control w-32 px-3 py-2"
 							placeholder={t('settings.webUI.portPlaceholder')}
 							value={settings.webui_port}
 							onchange={(e) => {

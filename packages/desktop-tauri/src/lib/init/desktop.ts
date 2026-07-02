@@ -18,6 +18,7 @@ import {
 } from '$lib/tauri';
 import { resetTrpcClient } from '$lib/trpc';
 
+
 const STORAGE_KEY = 'blacklight-settings';
 const API_HEALTH_TIMEOUT_MS = 15_000;
 const API_HEALTH_POLL_MS = 250;

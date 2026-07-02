@@ -32,7 +32,7 @@
 				<span class="flex items-center gap-3">
 					{t('page.xCloud.recentlyAdded')}
 					<a href="/xcloud/library">
-						<Button label={t('page.xCloud.viewLibraryBtn')} class="text-xs py-1 px-3" />
+						<Button label={t('page.xCloud.viewLibraryBtn')} variant="secondary" size="sm" />
 					</a>
 				</span>
 			{/snippet}
