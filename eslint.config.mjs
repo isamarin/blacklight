@@ -39,23 +39,6 @@ export default tseslint.config(
 		]
 	},
 	{
-		files: ['packages/logger/src/**/*.{ts,tsx}'],
-		languageOptions: {
-			parserOptions: {
-				projectService: true,
-				tsconfigRootDir: import.meta.dirname
-			}
-		},
-		rules: relaxedTsRules
-	},
-	{
-		files: ['packages/logger/tests/**/*.ts'],
-		languageOptions: {
-			globals: globals.mocha
-		},
-		rules: relaxedTsRules
-	},
-	{
 		files: ['packages/desktop-tauri/src/**/*.ts'],
 		ignores: ['**/*.test.ts'],
 		languageOptions: {

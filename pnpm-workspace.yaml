@@ -1,5 +1,4 @@
 packages:
-  - packages/logger
   - packages/pages
   - packages/platform-playground
   - packages/desktop
