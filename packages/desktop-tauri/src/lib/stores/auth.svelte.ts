@@ -1,3 +1,4 @@
+import { authForceRegionIp, withAuthRegion } from '$lib/auth/region';
 import { isTauriApp } from '$lib/runtime';
 import {
 	clearUserTokenFromTauri,
@@ -107,9 +108,10 @@ const clearAuth = () => {
 };
 
 const fetchTokensForUser = async (userToken: UserTokenPayload) => {
+	const request = withAuthRegion(userToken);
 	const [webToken, streamingTokens] = await Promise.all([
-		trpc.auth_get_webtoken.query(userToken),
-		trpc.auth_get_streamingtokens.query(userToken)
+		trpc.auth_get_webtoken.query(request),
+		trpc.auth_get_streamingtokens.query(request)
 	]);
 
 	authState = { userToken, webToken, streamingTokens };
@@ -135,7 +137,7 @@ export async function initAuth() {
 				console.error('Failed to fetch tokens, attempting refresh:', error);
 				try {
 					const refreshedToken = normalizeUserToken(
-						await trpc.auth_msal_refresh.query(userToken)
+						await trpc.auth_msal_refresh.query(withAuthRegion(userToken))
 					);
 					await fetchTokensForUser(refreshedToken);
 				} catch (refreshError) {
@@ -159,12 +161,16 @@ $effect(() => {
 });
 
 export async function startAuth() {
-	return trpc.auth_msal_start.query();
+	const forceRegionIp = authForceRegionIp();
+	return trpc.auth_msal_start.query(forceRegionIp ? { force_region_ip: forceRegionIp } : undefined);
 }
 
 export async function verifyCode(code: string) {
 	try {
-		const userToken = await trpc.auth_msal_verify.query(code);
+		const userToken = await trpc.auth_msal_verify.query({
+			code,
+			force_region_ip: authForceRegionIp()
+		});
 		await fetchTokensForUser(userToken);
 		return userToken;
 	} finally {

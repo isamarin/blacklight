@@ -48,6 +48,24 @@ const zodUserToken = z.object({
   id_token: z.string(),
 })
 
+const zodForceRegion = z.object({
+  force_region_ip: z.string().optional(),
+})
+
+const zodUserTokenRequest = zodUserToken.extend({
+  force_region_ip: z.string().optional(),
+})
+
+const zodAuthStartRequest = zodForceRegion.optional()
+
+const zodAuthVerifyRequest = z.union([
+  z.string(),
+  z.object({
+    code: z.string(),
+    force_region_ip: z.string().optional(),
+  }),
+])
+
 const xCloudStreamConfig = z.object({
     id: z.string(),
     type: z.enum(['home', 'cloud']),
@@ -61,11 +79,35 @@ export const appRouter = router({
     version: publicProcedure.query(() => pkg.version),
     echo: publicProcedure.input(z.string()).query(({ input }) => `echo: ${input}`),
 
-    auth_msal_start: publicProcedure.query(async () => await auth.startMsalAuth()),
-    auth_msal_verify: publicProcedure.input(z.string()).query(async ({ input }) => await auth.verifyDeviceCode(input)),
-    auth_msal_refresh: publicProcedure.input(zodUserToken).query(async ({ input }) => await auth.refreshUserToken(input)),
-    auth_get_streamingtokens: publicProcedure.input(zodUserToken).query(async ({ input }) => await auth.getStreamingTokens(input)),
-    auth_get_webtoken: publicProcedure.input(zodUserToken).query(async ({ input }) => await auth.getWebToken(input)),
+    auth_msal_start: publicProcedure
+      .input(zodAuthStartRequest)
+      .query(async ({ input }) => await auth.startMsalAuth(input?.force_region_ip)),
+    auth_msal_verify: publicProcedure
+      .input(zodAuthVerifyRequest)
+      .query(async ({ input }) => {
+        if (typeof input === 'string') {
+          return await auth.verifyDeviceCode(input)
+        }
+        return await auth.verifyDeviceCode(input.code, undefined, input.force_region_ip)
+      }),
+    auth_msal_refresh: publicProcedure
+      .input(zodUserTokenRequest)
+      .query(async ({ input }) => {
+        const { force_region_ip, ...token } = input
+        return await auth.refreshUserToken(token, force_region_ip)
+      }),
+    auth_get_streamingtokens: publicProcedure
+      .input(zodUserTokenRequest)
+      .query(async ({ input }) => {
+        const { force_region_ip, ...token } = input
+        return await auth.getStreamingTokens(token, force_region_ip)
+      }),
+    auth_get_webtoken: publicProcedure
+      .input(zodUserTokenRequest)
+      .query(async ({ input }) => {
+        const { force_region_ip, ...token } = input
+        return await auth.getWebToken(token, force_region_ip)
+      }),
 
     profile_get_current: publicProcedure.input(zodWebToken).query(async ({ input }) => await profile.getCurrentProfile(input)),
     profile_get_friends: publicProcedure.input(zodWebToken).query(async ({ input }) => await profile.getFriendsList(input)),

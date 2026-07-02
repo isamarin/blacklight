@@ -1,30 +1,25 @@
-import { Msal } from 'xal-node'
-import ProxyStore from '../utils/proxystore.js'
-import { IUserToken } from 'xal-node/dist/lib/tokens/usertoken.js'
+import type { IUserToken } from 'xal-node/dist/lib/tokens/usertoken.js'
+import { createMsal } from '../utils/msal.js'
 
 export default class authController {
 
-    async startMsalAuth() {
-        const tokenStore = new ProxyStore();
-        const msal = new Msal(tokenStore)
+    async startMsalAuth(forceRegionIp?: string) {
+        const msal = createMsal(undefined, forceRegionIp)
         return await msal.doDeviceCodeAuth()
     }
 
-    async verifyDeviceCode(devicecode:string, timeout?:number) {
-        const tokenStore = new ProxyStore();
-        const msal = new Msal(tokenStore)
+    async verifyDeviceCode(devicecode: string, timeout?: number, forceRegionIp?: string) {
+        const msal = createMsal(undefined, forceRegionIp)
         return await msal.doPollForDeviceCodeAuth(devicecode, timeout)
     }
 
-    async refreshUserToken(token:IUserToken) {
-        const tokenStore = new ProxyStore(token);
-        const msal = new Msal(tokenStore)
+    async refreshUserToken(token: IUserToken, forceRegionIp?: string) {
+        const msal = createMsal(token, forceRegionIp)
         return await msal.refreshUserToken()
     }
 
-    async getStreamingTokens(token:IUserToken) {
-        const tokenStore = new ProxyStore(token);
-        const msal = new Msal(tokenStore)
+    async getStreamingTokens(token: IUserToken, forceRegionIp?: string) {
+        const msal = createMsal(token, forceRegionIp)
 
         const gssvToken = await msal.getGssvToken()
 
@@ -49,9 +44,8 @@ export default class authController {
         return { xHomeToken: _xhomeToken, xCloudToken: _xcloudToken }
     }
 
-    async getWebToken(token:IUserToken) {
-        const tokenStore = new ProxyStore(token);
-        const msal = new Msal(tokenStore)
+    async getWebToken(token: IUserToken, forceRegionIp?: string) {
+        const msal = createMsal(token, forceRegionIp)
         return await msal.getWebToken()
     }
 }

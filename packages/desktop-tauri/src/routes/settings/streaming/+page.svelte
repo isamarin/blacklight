@@ -82,6 +82,7 @@
 				<input
 					type="text"
 					class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white"
+					placeholder="e.g. 1.2.3.4 (European egress)"
 					value={settings.force_region_ip}
 					onchange={(e) =>
 						setSettings({
@@ -89,6 +90,10 @@
 							force_region_ip: (e.currentTarget as HTMLInputElement).value
 						})}
 				/>
+				<p class="text-white/40 text-xs mt-2">
+					Sent as X-Forwarded-For during Xbox authentication. Log out and sign in again after
+					changing this value.
+				</p>
 			</Card>
 		</div>
 	</div>
