@@ -19,8 +19,11 @@
     "pages": "pnpm --filter @blacklight/pages",
     "build:depsv3": "pnpm logger build && pnpm player build && pnpm platform build",
     "build:pages": "pnpm build:depsv3 && pnpm pages build",
+    "build:web": "pnpm build:depsv3 && pnpm desktop-tauri build",
+    "check:tauri": "pnpm build:depsv3 && pnpm desktop-tauri check",
     "deploy:pages": "pnpm pages deploy",
-    "test:v3": "pnpm logger test && pnpm platform test"
+    "test:workspace": "pnpm logger test && pnpm platform test",
+    "test:v3": "pnpm test:workspace"
   },
   "packageManager": "pnpm@10.4.1"
 }

@@ -1,6 +1,6 @@
 # Blacklight Desktop UI
 
-Next.js renderer and web build for Blacklight. Bundled into the Tauri desktop shell (`packages/desktop-tauri`).
+Legacy Next.js renderer kept for reference. Active UI and static web builds live in `packages/desktop-tauri` (SvelteKit).
 
 **Maintainer:** Igor Samarin ([@isamarin](https://github.com/isamarin)) — mako.mmw@gmail.com
 

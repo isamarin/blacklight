@@ -27,7 +27,7 @@ export default {
 				createContext: () => ({}),
 			});
 		} else if(url.pathname === '/') {
-			const homepage = new URL('/home/', request.url).href;
+			const homepage = new URL('/home', request.url).href;
 			return Response.redirect(homepage, 302);
 		} else {
 			return new Response('Not Found', { status: 404 });

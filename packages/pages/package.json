@@ -6,7 +6,7 @@
 		"deploy": "wrangler deploy",
 		"dev": "wrangler dev",
 		"start": "wrangler dev",
-		"build": "cd ../desktop-v3 && pnpm run build:web && mkdir -p ../pages/public/ && cp -r web-out/* ../pages/public/",
+		"build": "cd ../desktop-tauri && pnpm build && rm -rf ../pages/public && mkdir -p ../pages/public && cp -r build/* ../pages/public/",
 		"test": "vitest",
 		"cf-typegen": "wrangler types"
 	},

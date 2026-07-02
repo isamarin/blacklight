@@ -105,7 +105,12 @@ Run development build (legacy desktop v2, Electron):
 
 Create production build (Tauri):
 
-    pnpm desktop-tauri build
+    pnpm build:depsv3
+    pnpm desktop-tauri tauri:build
+
+Typecheck the Tauri UI:
+
+    pnpm check:tauri
 
 ## Translations
 
