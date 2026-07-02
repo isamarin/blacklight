@@ -1,3 +1,28 @@
+# Blacklight — project-scoped Grok/Cursor agent config
+# Docs: https://github.com/xai-org/grok (user-guide/07-mcp-servers.md)
+#
+# ── One-time setup (on your Mac, NOT in git) ─────────────────────────────
+#
+# 1) Fine-grained GitHub PAT → https://github.com/settings/tokens?type=beta
+#    Resource owner: isamarin
+#    Repository access: Only isamarin/blacklight
+#    Scopes — see checklist at the bottom of this file.
+#
+# 2) Export token in shell (add to ~/.zshrc):
+#      export GITHUB_PAT="github_pat_..."
+#
+# 3) Git push/tags from the agent shell:
+#      brew install gh
+#      gh auth login
+#      gh auth setup-git
+#
+# 4) Verify MCP:
+#      grok mcp doctor github
+#
+# Secrets: never commit GITHUB_PAT. Only ${GITHUB_PAT} reference below.
+# ─────────────────────────────────────────────────────────────────────────
+
+# Local Xbox API debug MCP (health, tRPC introspection)
 [mcp_servers.blacklight-debug]
 command = "pnpm"
 args = ["--filter", "@blacklight/mcp-debug", "start"]
@@ -7,3 +32,67 @@ tool_timeout_sec = 60
 
 [mcp_servers.blacklight-debug.env]
 BLACKLIGHT_PORT = "9003"
+
+# GitHub API — commits, CI, releases, issues, PRs, workflow_dispatch
+# Replaces/augments hosted grok_com_github when PAT is set.
+[mcp_servers.github]
+command = "npx"
+args = ["-y", "@modelcontextprotocol/server-github"]
+enabled = true
+startup_timeout_sec = 45
+tool_timeout_sec = 120
+tool_timeouts = { get_job_logs = 300, actions_list = 120 }
+
+[mcp_servers.github.env]
+GITHUB_PERSONAL_ACCESS_TOKEN = "${GITHUB_PAT}"
+
+# Allow routine repo orchestration without per-command prompts.
+# Adjust if you prefer stricter "ask" on edits.
+[permission]
+allow = [
+	"Bash(git *)",
+	"Bash(gh *)",
+	"Bash(pnpm *)",
+	"Bash(bash packages/desktop-tauri/scripts/*)",
+	"Bash(curl *)",
+	"Read(**)",
+	"Grep",
+	"MCPTool(github__*)",
+	"MCPTool(blacklight-debug__*)",
+]
+deny = [
+	"Bash(rm -rf *)",
+	"Bash(git push --force*)",
+	"Bash(git push -f*)",
+]
+
+# ── Fine-grained PAT checklist (isamarin/blacklight) ─────────────────────
+#
+# Repository access
+#   [x] Only select repositories → blacklight
+#
+# Repository permissions
+#   [x] Actions              → Read and write   (CI monitor, rerun, workflow_dispatch)
+#   [x] Contents             → Read and write   (push_files, create/update via API)
+#   [x] Metadata             → Read             (required baseline)
+#   [x] Pull requests        → Read and write   (PR stack, reviews)
+#   [x] Issues               → Read and write   (triage, labels)
+#   [x] Workflows            → Read and write   (actions_run_trigger)
+#   [ ] Administration       → Read only        (optional: branch protection visibility)
+#   [ ] Secrets              → None             (do NOT grant — agent doesn't need)
+#
+# Account permissions
+#   [ ] All → No access      (keep account-wide scopes disabled)
+#
+# After creating the token:
+#   export GITHUB_PAT="github_pat_..."
+#   grok mcp doctor github
+#
+# Agent orchestration cheat-sheet (repo: isamarin/blacklight):
+#   - Monitor CI:  github MCP actions_list / actions_get
+#   - Push branch: git push (needs gh auth setup-git) OR github push_files
+#   - Push tag:    git push origin v3.* (needs gh auth setup-git)
+#   - Release:     tag v3.* → CI builds draft release on GitHub
+#   - Smoke local: bash packages/desktop-tauri/scripts/smoke-test-p0.sh
+#   - Poll CI:     /loop 5m Check Build Workflow on main for isamarin/blacklight
+# ─────────────────────────────────────────────────────────────────────────
