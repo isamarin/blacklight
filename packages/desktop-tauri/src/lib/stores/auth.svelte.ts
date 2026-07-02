@@ -1,6 +1,7 @@
 import { authForceRegionIp, withAuthRegion } from '$lib/auth/region';
+import { resolveErrorWithRegionHint } from '$lib/auth/region-hint';
 import { classifyError, type UserErrorCode } from '$lib/errors';
-import { buildStreamingToken } from '$lib/streaming-token';
+import { buildStreamingToken, resolveStreamingTokenData } from '$lib/streaming-token';
 import { isTauriApp } from '$lib/runtime';
 import {
 	clearAppDataFromTauri,
@@ -138,7 +139,11 @@ const fetchTokensForUser = async (userToken: UserTokenPayload) => {
 		authError = null;
 	} catch (error) {
 		console.error('Failed to fetch streaming tokens:', error);
-		authError = classifyError(error);
+		authError = resolveErrorWithRegionHint(error, {
+			hasWebToken: true,
+			hasStreamingToken: false,
+			forceRegionIp: authForceRegionIp()
+		});
 	}
 
 	authState = { userToken, webToken, streamingTokens };
@@ -249,9 +254,12 @@ export function clearAuthError() {
 }
 
 const getBrowserLanguage = () => {
-	const primaryLang = navigator.languages?.[0]?.split('-')[0] || 'en';
+	const languages = navigator.languages?.filter(
+		(lang): lang is string => typeof lang === 'string' && lang.trim().length > 0
+	);
+	const primaryLang = languages?.[0]?.split('-')[0] || 'en';
 	const regionalVariant =
-		navigator.languages
+		languages
 			?.find((lang) => lang.toLowerCase().startsWith(`${primaryLang}-`))
 			?.toLowerCase() || `${primaryLang}-us`;
 	return regionalVariant;
@@ -282,16 +290,16 @@ export function getWebToken() {
 
 export function getxHomeToken() {
 	const language = getBrowserLanguage() || 'en-us';
-	return buildStreamingToken(authState.streamingTokens?.xHomeToken?.data, language);
+	return buildStreamingToken(authState.streamingTokens?.xHomeToken, language);
 }
 
 export function getxCloudToken() {
 	const language = getBrowserLanguage() || 'en-us';
-	return buildStreamingToken(authState.streamingTokens?.xCloudToken?.data, language);
+	return buildStreamingToken(authState.streamingTokens?.xCloudToken, language);
 }
 
 export function hasStreamingTokens() {
-	return Boolean(authState.streamingTokens?.xHomeToken?.data.gsToken);
+	return Boolean(resolveStreamingTokenData(authState.streamingTokens?.xHomeToken)?.gsToken);
 }
 
 export function getUserRefreshToken() {

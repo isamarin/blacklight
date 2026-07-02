@@ -6,6 +6,7 @@
 	import ErrorPanel from '$lib/components/ui/ErrorPanel.svelte';
 	import {
 		getCatalogError,
+		getCatalogErrorRaw,
 		getCatalogIsLoading,
 		getNewIds,
 		getRecentIds,
@@ -13,12 +14,17 @@
 	} from '$lib/stores/titleCatalog.svelte';
 
 	const catalogError = $derived(getCatalogError());
+	const catalogErrorRaw = $derived(getCatalogErrorRaw());
 </script>
 
 <AppLayout title={t('page.xCloud.pageTitle')}>
 	<h1 class="text-2xl font-bold text-white mb-6">{t('page.xCloud.pageTitle')}</h1>
 	{#if catalogError}
-		<ErrorPanel code={catalogError} onRetry={() => refreshTitleCatalog()} />
+		<ErrorPanel
+			code={catalogError}
+			rawError={catalogErrorRaw}
+			onRetry={() => refreshTitleCatalog()}
+		/>
 	{:else if getCatalogIsLoading()}
 		<p class="text-white/40">{t('page.xCloud.loadingLibrary')}</p>
 	{:else}

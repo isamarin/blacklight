@@ -33,4 +33,16 @@ describe('stream helpers', () => {
 			resolution: 1080
 		});
 	});
+
+	it('buildStreamConfig uses token region when provided', () => {
+		expect(
+			buildStreamConfig('title', 'cloud', 'en-US', 1080, 'weu.core.gssv-play-prod.xboxlive.com')
+		).toEqual({
+			id: 'title',
+			type: 'cloud',
+			language: 'en-US',
+			host: 'https://weu.core.gssv-play-prod.xboxlive.com',
+			resolution: 1080
+		});
+	});
 });

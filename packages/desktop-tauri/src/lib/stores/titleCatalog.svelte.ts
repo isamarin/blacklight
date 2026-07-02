@@ -1,4 +1,5 @@
-import { classifyError, type UserErrorCode } from '$lib/errors';
+import { resolveAppErrorWithRegionHint } from '$lib/auth/region-hint-context';
+import type { UserErrorCode } from '$lib/errors';
 import { trpc } from '$lib/trpc';
 import {
 	getProducts,
@@ -17,6 +18,7 @@ let recentIds = $state<string[]>([]);
 let newIds = $state<string[]>([]);
 let isLoading = $state(false);
 let catalogError = $state<UserErrorCode | null>(null);
+let catalogErrorRaw = $state<unknown>(null);
 let catalogMap = $state(new Map<string, TitleEntry>());
 let loadGeneration = 0;
 
@@ -27,6 +29,7 @@ export async function refreshTitleCatalog() {
 		newIds = [];
 		catalogMap = new Map();
 		catalogError = null;
+		catalogErrorRaw = null;
 		isLoading = false;
 		return;
 	}
@@ -38,6 +41,7 @@ export async function refreshTitleCatalog() {
 		newIds = [];
 		catalogMap = new Map();
 		catalogError = 'catalog_missing_token';
+		catalogErrorRaw = null;
 		isLoading = false;
 		return;
 	}
@@ -45,6 +49,7 @@ export async function refreshTitleCatalog() {
 	const generation = ++loadGeneration;
 	isLoading = true;
 	catalogError = null;
+	catalogErrorRaw = null;
 
 	const timeoutId = setTimeout(() => {
 		if (generation !== loadGeneration || !isLoading) return;
@@ -92,14 +97,15 @@ export async function refreshTitleCatalog() {
 		recentIds = recent ? parseRecentTitleIds(recent) : [];
 		newIds = newTitles ? parseNewTitleIds(newTitles, map) : [];
 		catalogMap = map;
-		catalogError =
-			recentResult.status === 'rejected' && newResult.status === 'rejected'
-				? classifyError(recentResult.reason)
-				: null;
+		if (recentResult.status === 'rejected' && newResult.status === 'rejected') {
+			catalogErrorRaw = recentResult.reason;
+			catalogError = resolveAppErrorWithRegionHint(recentResult.reason);
+		}
 	} catch (e) {
 		if (generation !== loadGeneration) return;
 		console.error('Failed to load title catalog', e);
-		catalogError = classifyError(e);
+		catalogErrorRaw = e;
+		catalogError = resolveAppErrorWithRegionHint(e);
 	} finally {
 		clearTimeout(timeoutId);
 		if (generation === loadGeneration) {
@@ -126,6 +132,10 @@ export function getCatalogIsLoading() {
 
 export function getCatalogError() {
 	return catalogError;
+}
+
+export function getCatalogErrorRaw() {
+	return catalogErrorRaw;
 }
 
 export function getTitle(titleId: string) {

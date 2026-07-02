@@ -15,8 +15,11 @@
 	import { refreshTitleCatalog } from '$lib/stores/titleCatalog.svelte';
 	import { runUpdateCheck } from '$lib/stores/updater.svelte';
 	import { initDesktopShell } from '$lib/init/desktop';
+	import { shouldSuggestRegionIpFix } from '$lib/auth/region-hint';
+	import { buildRegionHintContext } from '$lib/auth/region-hint-context';
 	import AuthHome from '$lib/components/auth/AuthHome.svelte';
 	import AuthLoading from '$lib/components/auth/AuthLoading.svelte';
+	import RegionIpHint from '$lib/components/ui/RegionIpHint.svelte';
 	import UpdatePrompt from '$lib/components/ui/UpdatePrompt.svelte';
 
 	let { children } = $props();
@@ -76,6 +79,11 @@
 	const showAuthLoading = $derived(ready && !getIsAuthenticated() && getIsAuthenticating());
 	const showAuthHome = $derived(ready && !getIsAuthenticated() && !getIsAuthenticating());
 	const storedAuthError = $derived(getAuthError());
+	const showStoredRegionHint = $derived(
+		storedAuthError
+			? shouldSuggestRegionIpFix(storedAuthError, null, buildRegionHintContext())
+			: false
+	);
 </script>
 
 {#if bootError}
@@ -88,10 +96,13 @@
 {:else if !ready || showAuthLoading}
 	<AuthLoading />
 	{#if storedAuthError}
-		<div class="fixed bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-4">
+		<div class="fixed bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 space-y-3 px-4">
 			<div class="glass rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-center">
 				<p class="text-sm text-red-400">{t(errorI18nKey(storedAuthError))}</p>
 			</div>
+			{#if showStoredRegionHint}
+				<RegionIpHint />
+			{/if}
 		</div>
 	{/if}
 {:else if showAuthHome && isI18nReady()}

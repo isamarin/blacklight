@@ -280,12 +280,18 @@
       "closeBtn": "Schließen"
     },
     "errors": {
+      "regionIpHint": {
+        "title": "Region erzwingen",
+        "body": "Lege in Einstellungen → Streaming eine Regions-IP fest, melde dich ab und erneut an. Der Wert wird als X-Forwarded-For bei der Xbox-Authentifizierung gesendet, damit Microsoft die richtige GSSV-Region zuweist.",
+        "openSettings": "Streaming-Einstellungen öffnen"
+      },
       "retryBtn": "Erneut versuchen",
       "goBackBtn": "Zurück",
       "codes": {
         "streaming_tokens": "Streaming-Token konnten nicht abgerufen werden. Bitte erneut anmelden. Bei aktivierter Region: abmelden und nach der Änderung erneut anmelden.",
         "web_tokens": "Web-Token konnten nicht abgerufen werden. Bitte erneut anmelden.",
         "auth_expired": "Deine Sitzung ist abgelaufen. Bitte erneut anmelden.",
+        "region_mismatch": "xCloud konnte deine Sitzung für diese Region nicht bestätigen. Dein Xbox-Konto ist möglicherweise in einer anderen Region registriert als dein Netzwerk.",
         "network": "Netzwerkfehler. Verbindung prüfen und erneut versuchen.",
         "catalog_timeout": "Die xCloud-Bibliothek lädt zu lange. Bitte erneut versuchen.",
         "catalog_missing_token": "Streaming-Token fehlen. Bitte erneut anmelden, um die Bibliothek zu laden.",

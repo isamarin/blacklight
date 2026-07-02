@@ -17,6 +17,9 @@ describe('errors', () => {
 		expect(classifyError(new Error('console wake timed out'))).toBe('console_wake_failed');
 		expect(classifyError(new Error('Microphone permissions are denied'))).toBe('mic_failed');
 		expect(classifyError(new Error('fetch failed'))).toBe('network');
+		expect(
+			classifyError(new Error('401 unauthorized uks.core.gssv-play-prod.xboxlive.com'))
+		).toBe('region_mismatch');
 		expect(classifyError(new Error('something else'))).toBe('unknown');
 	});
 

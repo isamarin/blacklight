@@ -6,6 +6,17 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
 
+## [2026.7.11] - 2026-07-02
+
+### Fixed (desktop-tauri, platform)
+- **xCloud / Library region:** use GSSV `coreHost` from streaming token `offeringSettings` instead of hardcoded WEU; stream host follows the same region
+- **Friends sidebar:** show only online friends with presence text
+- **i18n / tokens:** guard against undefined language causing `split` crashes
+
+### Added (desktop-tauri)
+- **Region mismatch detection:** when web auth works but xCloud/GSSV fails, suggest **Force region** IP override with link to streaming settings
+- **Region presets** dropdown (Europe, US, Japan, etc.) in Settings → Streaming
+
 ## [2026.7.10] - 2026-07-02
 
 ### Fixed (desktop-tauri)

@@ -7,4 +7,5 @@ export interface xHomeToken {
     market: string;
     language: string;
     token: string;
+    coreHost?: string;
 }

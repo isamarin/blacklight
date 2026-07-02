@@ -8,6 +8,7 @@
 	import {
 		filterTitles,
 		getCatalogError,
+		getCatalogErrorRaw,
 		getCatalogIsLoading,
 		getTitles,
 		refreshTitleCatalog
@@ -16,6 +17,7 @@
 	let filter = $state('');
 	const titleIds = $derived(filter ? filterTitles(filter) : getTitles().map((t) => t.titleId));
 	const catalogError = $derived(getCatalogError());
+	const catalogErrorRaw = $derived(getCatalogErrorRaw());
 </script>
 
 <AppLayout title={t('page.xCloudLibrary.pageTitle')}>
@@ -35,7 +37,11 @@
 		/>
 	</div>
 	{#if catalogError}
-		<ErrorPanel code={catalogError} onRetry={() => refreshTitleCatalog()} />
+		<ErrorPanel
+			code={catalogError}
+			rawError={catalogErrorRaw}
+			onRetry={() => refreshTitleCatalog()}
+		/>
 	{:else if getCatalogIsLoading()}
 		<Loader />
 	{:else if titleIds.length === 0}

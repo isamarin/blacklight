@@ -18,11 +18,19 @@ function bumpRenderEpoch() {
 	renderEpoch += 1;
 }
 
-export async function initI18n(language: string) {
+function normalizeLanguage(language: string | null | undefined): string {
+	if (typeof language !== 'string') return 'en-US';
+	const normalized = language.trim();
+	return normalized || 'en-US';
+}
+
+export async function initI18n(language: string | null | undefined) {
+	const lng = normalizeLanguage(language);
+
 	if (!initialized) {
 		await i18n.init({
 			resources,
-			lng: language,
+			lng,
 			fallbackLng: 'en-US',
 			interpolation: { escapeValue: false }
 		});
@@ -31,8 +39,8 @@ export async function initI18n(language: string) {
 		return i18n;
 	}
 
-	if (i18n.language !== language) {
-		await i18n.changeLanguage(language);
+	if (i18n.language !== lng) {
+		await i18n.changeLanguage(lng);
 		bumpRenderEpoch();
 	}
 

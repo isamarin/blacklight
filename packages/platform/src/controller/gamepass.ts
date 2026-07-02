@@ -5,8 +5,14 @@ import Http from '../lib/http.js'
 export default class gamepassController {
     private _httpClient = new Http()
 
+    private _defaultCoreHost = 'weu.core.gssv-play-prod.xboxlive.com'
+
     private _sigls = {
         new: 'f13cf6b4-57e6-4459-89df-6aec18cf0538'
+    }
+
+    private _coreHost(token: xHomeToken): string {
+        return token.coreHost?.trim() || this._defaultCoreHost
     }
 
     async getTitles(token:xHomeToken) {
@@ -17,7 +23,7 @@ export default class gamepassController {
             });
         }
 
-        const titles = await this._httpClient.getRequest('weu.core.gssv-play-prod.xboxlive.com', '/v2/titles', {
+        const titles = await this._httpClient.getRequest(this._coreHost(token), '/v2/titles', {
             'Authorization': `Bearer ${token.token}`,
         })
         
@@ -32,7 +38,7 @@ export default class gamepassController {
             });
         }
 
-        const titles = await this._httpClient.getRequest('weu.core.gssv-play-prod.xboxlive.com', '/v2/titles/mru?mr=25', {
+        const titles = await this._httpClient.getRequest(this._coreHost(token), '/v2/titles/mru?mr=25', {
             'Authorization': `Bearer ${token.token}`,
         })
         

@@ -11,16 +11,24 @@ export function buildStreamConfig(
 	id: string,
 	type: 'home' | 'cloud',
 	language: string,
-	resolution: 720 | 1080 = 1080
+	resolution: 720 | 1080 = 1080,
+	coreHost?: string
 ): xCloudStreamConfig {
+	const fallback =
+		type === 'cloud'
+			? 'https://uks.core.gssv-play-prod.xboxlive.com'
+			: 'https://uks.core.gssv-play-prodxhome.xboxlive.com';
+	const host = coreHost
+		? coreHost.startsWith('https://')
+			? coreHost
+			: `https://${coreHost}`
+		: fallback;
+
 	return {
 		id,
 		type,
 		language,
-		host:
-			type === 'cloud'
-				? 'https://uks.core.gssv-play-prod.xboxlive.com'
-				: 'https://uks.core.gssv-play-prodxhome.xboxlive.com',
+		host,
 		resolution
 	};
 }

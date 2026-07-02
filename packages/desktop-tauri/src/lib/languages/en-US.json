@@ -297,12 +297,18 @@
     },
 
     "errors": {
+      "regionIpHint": {
+        "title": "Try forcing your Xbox region",
+        "body": "Set a region IP in Settings → Streaming, then sign out and sign in again. This sends X-Forwarded-For during authentication so Microsoft assigns the correct GSSV region.",
+        "openSettings": "Open streaming settings"
+      },
       "retryBtn": "Try again",
       "goBackBtn": "Go back",
       "codes": {
         "streaming_tokens": "Failed to retrieve streaming tokens. Sign in again. If you use Force region, sign out and sign in after changing it.",
         "web_tokens": "Failed to retrieve web tokens. Sign in again.",
         "auth_expired": "Your session expired. Sign in again.",
+        "region_mismatch": "xCloud could not verify your session for this region. Your Xbox account may be registered in a different region than your network.",
         "network": "Network error. Check your connection and try again.",
         "catalog_timeout": "The xCloud library is taking too long to load. Try again.",
         "catalog_missing_token": "Streaming tokens are missing. Sign in again to load the library.",

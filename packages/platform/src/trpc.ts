@@ -38,6 +38,7 @@ const zodXhomeToken = z.object({
   token: z.string(),
   market: z.string(),
   language: z.string(),
+  coreHost: z.string().optional(),
 })
 
 const zodUserToken = z.object({

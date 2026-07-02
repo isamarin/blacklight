@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import type { StreamPlayerHandle, xCloudStreamConfig } from '@blacklight/player/client';
-	import { classifyError, extractErrorMessage } from '$lib/errors';
+	import { resolveAppErrorWithRegionHint } from '$lib/auth/region-hint-context';
+	import { extractErrorMessage } from '$lib/errors';
 	import { t } from '$lib/i18n';
 	import { trpc } from '$lib/trpc';
 	import { ensureConsoleAwake } from '$lib/consoles';
@@ -30,6 +31,7 @@
 	let status = $state('');
 	let errorCode = $state<import('$lib/errors').UserErrorCode | null>(null);
 	let errorDetail = $state<string | null>(null);
+	let errorRaw = $state<unknown>(null);
 	let playerHandle = $state<StreamPlayerHandle | null>(null);
 	let attempt = $state(0);
 	let isConnecting = $state(true);
@@ -60,7 +62,8 @@
 
 	function setStreamError(error: unknown) {
 		isConnecting = false;
-		errorCode = classifyError(error);
+		errorRaw = error;
+		errorCode = resolveAppErrorWithRegionHint(error);
 		errorDetail = extractErrorMessage(error);
 		streamConfig = undefined;
 		session = undefined;
@@ -91,6 +94,7 @@
 	function retryStream() {
 		errorCode = null;
 		errorDetail = null;
+		errorRaw = null;
 		status = '';
 		streamConfig = undefined;
 		session = undefined;
@@ -153,13 +157,14 @@
 		status = t('streamWindow.startingConnection');
 		armConnectTimeout();
 
+		const token = parsed.type === 'cloud' ? getxCloudToken() : getxHomeToken();
 		const config = buildStreamConfig(
 			parsed.id,
 			parsed.type,
 			settings.preferred_game_language,
-			settings.app_lowresolution ? 720 : 1080
+			settings.app_lowresolution ? 720 : 1080,
+			token.coreHost
 		);
-		const token = parsed.type === 'cloud' ? getxCloudToken() : getxHomeToken();
 
 		if (!token.token) {
 			setStreamError(new Error('streaming tokens missing'));
@@ -212,6 +217,7 @@
 		<ErrorPanel
 			code={errorCode}
 			detail={errorDetail}
+			rawError={errorRaw}
 			onRetry={retryStream}
 			onBack={() => history.back()}
 		/>
