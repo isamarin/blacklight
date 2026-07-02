@@ -340,7 +340,7 @@ jobs:
         run: pnpm build:depsv3
 
       - name: Build Tauri app
-        run: pnpm desktop-tauri build
+        run: pnpm desktop-tauri tauri:build
 
       - name: Publish Mac DMG
         uses: actions/upload-artifact@v7
@@ -409,7 +409,7 @@ jobs:
         run: pnpm build:depsv3
 
       - name: Build Tauri app
-        run: pnpm desktop-tauri build
+        run: pnpm desktop-tauri tauri:build
 
       - name: Publish Windows installer
         uses: actions/upload-artifact@v7

@@ -22,7 +22,7 @@ pub struct SidecarSettings {
 impl Default for SidecarSettings {
     fn default() -> Self {
         Self {
-            webui_autostart: true,
+            webui_autostart: false,
             webui_port: 9003,
         }
     }
@@ -34,7 +34,7 @@ fn settings_path(app: &AppHandle) -> Result<PathBuf, String> {
     Ok(data_dir.join("sidecar-settings.json"))
 }
 
-fn read_settings(app: &AppHandle) -> Result<SidecarSettings, String> {
+pub fn read_settings(app: &AppHandle) -> Result<SidecarSettings, String> {
     let path = settings_path(app)?;
     if !path.exists() {
         return Ok(SidecarSettings::default());

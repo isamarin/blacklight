@@ -4,7 +4,7 @@
 	import { getSettings, setSettings } from '$lib/stores/settings.svelte';
 	import { syncApiSettings } from '$lib/init/desktop';
 	import { getApiHealth, getApiOrigin, isDesktopShell, isTauriApp } from '$lib/runtime';
-	import { restartApi } from '$lib/tauri';
+	import { restartApi, startApi, stopApi } from '$lib/tauri';
 	import AppLayout from '$lib/components/layout/AppLayout.svelte';
 	import SettingsSidebar from '$lib/components/settings/SettingsSidebar.svelte';
 	import Card from '$lib/components/ui/Card.svelte';
@@ -22,12 +22,30 @@
 		return () => clearInterval(interval);
 	});
 
+	async function applyAutostartChange(enabled: boolean) {
+		const next = { ...settings, webui_autostart: enabled };
+		setSettings(next);
+		if (inTauri) {
+			await syncApiSettings({ webui_autostart: enabled });
+		}
+	}
+
 	async function applyPortChange(port: number) {
 		const next = { ...settings, webui_port: port };
 		setSettings(next);
 		if (inTauri) {
 			await syncApiSettings({ webui_port: port });
 		}
+	}
+
+	async function toggleApi() {
+		if (!inTauri) return;
+		if (apiOnline) {
+			await stopApi();
+		} else {
+			await startApi();
+		}
+		apiOnline = await getApiHealth();
 	}
 
 	async function handleRestartApi() {
@@ -52,13 +70,39 @@
 					</div>
 
 					{#if isDesktopShell()}
+						<div class="flex flex-wrap gap-2">
+							<Button
+								label={apiOnline ? t('settings.webUI.stopWebUIBtn') : t('settings.webUI.startWebUIBtn')}
+								onclick={toggleApi}
+								class={apiOnline ? 'text-sm bg-red-800 hover:bg-red-700' : 'text-sm'}
+							/>
+							<Button label="Restart API" onclick={handleRestartApi} class="text-sm" />
+						</div>
 						<p class="text-white/50 text-sm">
 							The desktop app spawns a minimal Node API process for Xbox authentication and
-							streaming. The Svelte UI runs inside Tauri; no separate WebUI static server is
+							streaming. The Svelte UI runs inside Tauri; no separate browser WebUI server is
 							required.
 						</p>
-						<Button label="Restart API" onclick={handleRestartApi} class="text-sm" />
 					{/if}
+
+					<label class="flex items-center gap-3 cursor-pointer">
+						<input
+							type="checkbox"
+							checked={settings.webui_autostart}
+							disabled={!inTauri}
+							onchange={(e) => {
+								void applyAutostartChange((e.currentTarget as HTMLInputElement).checked);
+							}}
+							class="accent-[#107C10]"
+						/>
+						<span>
+							{t('settings.webUI.autostartLabel')} (
+							{settings.webui_autostart
+								? t('settings.webUI.autostartEnabled')
+								: t('settings.webUI.autostartDisabled')}
+							)
+						</span>
+					</label>
 
 					<div>
 						<span class="block text-sm text-white/60 mb-1">{t('settings.webUI.portLabel')}</span>

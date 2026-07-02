@@ -1,42 +1,59 @@
-# sv
+# Blacklight Desktop (Tauri)
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Desktop shell for Blacklight on Windows and macOS.
 
-## Creating a project
+- **UI:** SvelteKit 2 + Svelte 5 (SPA, `ssr = false`)
+- **Shell:** Tauri 2
+- **Backend:** Minimal `blacklight-api` sidecar (tRPC only)
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Development
 
-```sh
-# create a new project
-npx sv create my-app
+From the repo root:
+
+```bash
+pnpm install
+pnpm build:depsv3
+pnpm desktop-tauri tauri:dev
 ```
 
-To recreate this project with the same configuration:
+This starts Vite on `http://localhost:5173` and opens the Tauri window. The API process is spawned automatically when **autostart** is enabled in Settings → Web UI (default: off).
 
-```sh
-# recreate this project
-npx sv@0.16.1 create --template minimal --types ts --no-install .
+### API only (browser dev)
+
+```bash
+pnpm desktop-tauri api          # run API on port 9003
+pnpm desktop-tauri dev          # Vite only, no Tauri shell
 ```
 
-## Developing
+### Smoke test
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+With Vite and the API running:
 
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+```bash
+bash packages/desktop-tauri/scripts/smoke-test-ui.sh
 ```
 
-## Building
+## Production build
 
-To create a production version of your app:
-
-```sh
-npm run build
+```bash
+pnpm build:depsv3
+pnpm desktop-tauri tauri:build
 ```
 
-You can preview the production build with `npm run preview`.
+`tauri:build` runs `vite build`, bundles `blacklight-api` via `build:api`, then packages DMG (macOS) or NSIS (Windows).
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+Binaries are written to `src-tauri/binaries/blacklight-api-<target-triple>` (gitignored; built locally/CI).
+
+## Project layout
+
+| Path | Purpose |
+|------|---------|
+| `src/routes/` | SvelteKit pages |
+| `src/lib/` | Stores, tRPC client, Tauri invoke helpers |
+| `api/` | Minimal Node HTTP server (`/health`, `/trpc`) |
+| `src-tauri/` | Rust shell, settings persistence, API spawn |
+
+## Settings
+
+- **App settings** (streaming, input, video): `localStorage` in the WebView
+- **API settings** (`webui_autostart`, `webui_port`): `app_data_dir/sidecar-settings.json` via Tauri commands

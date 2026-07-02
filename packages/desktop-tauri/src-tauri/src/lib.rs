@@ -9,6 +9,10 @@ use tauri_plugin_shell::ShellExt;
 struct ApiProcessState(Mutex<Option<CommandChild>>);
 
 fn spawn_api(app: &tauri::AppHandle) -> Result<(), String> {
+	if api_is_running(app) {
+		return Ok(());
+	}
+
 	let data_dir = app.path().app_data_dir().map_err(|e| e.to_string())?;
 	std::fs::create_dir_all(&data_dir).map_err(|e| e.to_string())?;
 
@@ -39,7 +43,7 @@ fn spawn_api(app: &tauri::AppHandle) -> Result<(), String> {
 	Ok(())
 }
 
-fn stop_api(app: &tauri::AppHandle) {
+fn kill_api(app: &tauri::AppHandle) {
 	if let Some(state) = app.try_state::<ApiProcessState>() {
 		if let Some(child) = state.0.lock().unwrap().take() {
 			let _ = child.kill();
@@ -47,9 +51,31 @@ fn stop_api(app: &tauri::AppHandle) {
 	}
 }
 
+fn api_is_running(app: &tauri::AppHandle) -> bool {
+	app.try_state::<ApiProcessState>()
+		.map(|state| state.0.lock().unwrap().is_some())
+		.unwrap_or(false)
+}
+
+#[tauri::command]
+fn start_api(app: tauri::AppHandle) -> Result<(), String> {
+	spawn_api(&app)
+}
+
+#[tauri::command]
+fn stop_api(app: tauri::AppHandle) -> Result<(), String> {
+	kill_api(&app);
+	Ok(())
+}
+
+#[tauri::command]
+fn is_api_running(app: tauri::AppHandle) -> bool {
+	api_is_running(&app)
+}
+
 #[tauri::command]
 fn restart_api(app: tauri::AppHandle) -> Result<(), String> {
-	stop_api(&app);
+	kill_api(&app);
 	spawn_api(&app)
 }
 
@@ -64,18 +90,24 @@ pub fn run() {
 			commands::save_sidecar_settings,
 			commands::get_api_origin,
 			commands::get_trpc_url,
+			start_api,
+			stop_api,
+			is_api_running,
 			restart_api,
 		])
 		.manage(ApiProcessState(Mutex::new(None)))
 		.setup(|app| {
-			spawn_api(app.handle()).expect("failed to spawn blacklight-api");
+			let settings = commands::read_settings(app.handle())?;
+			if settings.webui_autostart {
+				spawn_api(app.handle())?;
+			}
 			Ok(())
 		})
 		.build(tauri::generate_context!())
 		.expect("error while building Blacklight")
 		.run(|app, event| {
 			if matches!(event, RunEvent::Exit) {
-				stop_api(app);
+				kill_api(app);
 			}
 		});
 }

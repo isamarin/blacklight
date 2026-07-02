@@ -43,6 +43,18 @@ export async function getTrpcUrlFromTauri(): Promise<string> {
 	return invoke<string>('get_trpc_url');
 }
 
+export async function startApi(): Promise<void> {
+	await invoke('start_api');
+}
+
+export async function stopApi(): Promise<void> {
+	await invoke('stop_api');
+}
+
+export async function isApiRunning(): Promise<boolean> {
+	return invoke<boolean>('is_api_running');
+}
+
 export async function restartApi(): Promise<void> {
 	await invoke('restart_api');
 }

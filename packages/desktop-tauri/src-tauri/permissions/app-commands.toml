@@ -7,5 +7,8 @@ commands.allow = [
     "save_sidecar_settings",
     "get_api_origin",
     "get_trpc_url",
+    "start_api",
+    "stop_api",
+    "is_api_running",
     "restart_api"
 ]
