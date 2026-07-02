@@ -31,6 +31,7 @@ With Vite and the API running:
 
 ```bash
 bash packages/desktop-tauri/scripts/smoke-test-ui.sh
+bash packages/desktop-tauri/scripts/smoke-test-p0.sh
 ```
 
 ## Production build

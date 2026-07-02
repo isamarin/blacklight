@@ -6,6 +6,8 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
 
+## [2026.7.2] - 2026-07-02
+
 ### Added (desktop-tauri)
 - **Tauri 2 desktop app** with SvelteKit 2 + Svelte 5 UI (replaces Electron `desktop-v3` shell)
 - Minimal **`blacklight-api`** sidecar (`/health`, `/trpc` only) — optional spawn via `webui_autostart` (default off)
