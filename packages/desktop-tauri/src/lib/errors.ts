@@ -43,6 +43,8 @@ export function classifyError(error: unknown): UserErrorCode {
 	if (
 		text.includes('expired') ||
 		text.includes('invalid_grant') ||
+		text.includes('tokenrefresherror') ||
+		text.includes('failed to refresh') ||
 		text.includes('refresh') ||
 		text.includes('unauthorized') ||
 		text.includes('401')

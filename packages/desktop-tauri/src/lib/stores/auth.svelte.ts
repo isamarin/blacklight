@@ -30,12 +30,28 @@ let hasLoadedFromStorage = $state(false);
 let initStarted = $state(false);
 let authError = $state<UserErrorCode | null>(null);
 
+const enrichTokenExpiry = (token: UserTokenPayload): UserTokenPayload => {
+	const withExpiry = token as UserTokenPayload & { expires_on?: string };
+	if (withExpiry.expires_on?.trim()) {
+		return token;
+	}
+
+	if (!token.expires_in) {
+		return token;
+	}
+
+	return {
+		...token,
+		expires_on: new Date(Date.now() + token.expires_in * 1000).toISOString()
+	} as UserTokenPayload & { expires_on: string };
+};
+
 const normalizeUserToken = (
 	token: UserTokenPayload | RouterOutputs['auth_msal_refresh']
 ): UserTokenPayload => {
 	if ('data' in token) {
 		const { data } = token;
-		return {
+		return enrichTokenExpiry({
 			token_type: data.token_type,
 			scope: data.scope,
 			expires_in: data.expires_in,
@@ -43,9 +59,9 @@ const normalizeUserToken = (
 			access_token: data.access_token,
 			refresh_token: data.refresh_token,
 			id_token: data.id_token ?? ''
-		};
+		});
 	}
-	return token;
+	return enrichTokenExpiry(token);
 };
 
 function loadLegacyLocalStorageToken(): string | null {
@@ -111,11 +127,10 @@ const clearAuth = () => {
 };
 
 const fetchTokensForUser = async (userToken: UserTokenPayload) => {
-	const request = withAuthRegion(userToken);
-	const [webToken, streamingTokens] = await Promise.all([
-		trpc.auth_get_webtoken.query(request),
-		trpc.auth_get_streamingtokens.query(request)
-	]);
+	const request = withAuthRegion(enrichTokenExpiry(userToken));
+	// Sequential: parallel XSTS/refresh with a fresh MSAL token can invalidate the refresh token.
+	const webToken = await trpc.auth_get_webtoken.query(request);
+	const streamingTokens = await trpc.auth_get_streamingtokens.query(request);
 
 	authState = { userToken, webToken, streamingTokens };
 	isAuthenticated = true;

@@ -6,6 +6,11 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
 
+## [2026.7.9] - 2026-07-02
+
+### Fixed (desktop-tauri)
+- **Xbox login “session expired”:** fresh device-code tokens lacked `expires_on`, so parallel web/streaming token fetches each triggered MSAL refresh and invalidated the refresh token; derive `expires_on` from `expires_in` and fetch tokens sequentially
+
 ## [2026.7.8] - 2026-07-02
 
 ### Fixed (desktop-tauri)
