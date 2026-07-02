@@ -14,7 +14,7 @@
 		"dev": "vite dev",
 		"dev:tauri": "bash scripts/tauri-dev-server.sh",
 		"tauri:stop": "bash scripts/stop-tauri-dev.sh",
-		"build": "vite build",
+		"build": "vite build && node scripts/fix-tauri-spa-paths.mjs",
 		"preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
 		"tauri": "tauri",
 		"tauri:dev": "tauri dev",
