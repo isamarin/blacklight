@@ -23,6 +23,14 @@
 	let error = $state<string | null>(null);
 	let playerHandle = $state<StreamPlayerHandle | null>(null);
 
+	function handleStatusChanged(next: string) {
+		status = next;
+	}
+
+	function handlePlayerReady(handle: StreamPlayerHandle) {
+		playerHandle = handle;
+	}
+
 	const parsed = $derived(serverid ? parseStreamRoute(serverid) : null);
 
 	const communicationHandler = $derived.by(() => {
@@ -89,12 +97,14 @@
 	</div>
 {:else}
 	<div class="relative h-screen w-screen bg-black overflow-hidden">
-		<StreamPlayerHost
-			handler={communicationHandler}
-			videoRenderer={settings.video_renderer}
-			onStatusChanged={(s) => (status = s)}
-			onReady={(handle) => (playerHandle = handle)}
-		/>
+		{#key session?.sessionId}
+			<StreamPlayerHost
+				handler={communicationHandler}
+				videoRenderer={settings.video_renderer}
+				onStatusChanged={handleStatusChanged}
+				onReady={handlePlayerReady}
+			/>
+		{/key}
 		<StreamOverlay
 			{status}
 			onToggleDebug={() => playerHandle?.toggleDebugOverlay()}

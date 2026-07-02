@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
-STATIC_DIR="${BLACKLIGHT_STATIC_DIR:-$ROOT/packages/desktop-v3/app}"
+STATIC_DIR="${BLACKLIGHT_STATIC_DIR:-$ROOT/packages/desktop-tauri/build}"
 DATA_DIR="${BLACKLIGHT_DATA_DIR:-/tmp/blacklight-smoke-test}"
 PORT="${BLACKLIGHT_PORT:-19004}"
 SIDECAR="${SIDECAR_BIN:-$ROOT/packages/desktop-tauri/src-tauri/binaries/blacklight-sidecar-x86_64-apple-darwin}"

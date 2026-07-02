@@ -22,16 +22,14 @@
 		onReady: (handle: StreamPlayerHandle) => void;
 	} = $props();
 
-	let container: HTMLDivElement;
+	let mountEl: HTMLDivElement;
 	let root: Root | undefined;
-	let playerRef: StreamPlayerHandle | null = null;
 
 	onMount(() => {
-		root = createRoot(container);
+		root = createRoot(mountEl);
 		root.render(
 			createElement(StreamPlayer, {
 				ref: (handle: StreamPlayerHandle | null) => {
-					playerRef = handle;
 					if (handle) onReady(handle);
 				},
 				communicationHandler: handler,
@@ -43,22 +41,8 @@
 
 	onDestroy(() => {
 		root?.unmount();
-	});
-
-	$effect(() => {
-		if (!root) return;
-		root.render(
-			createElement(StreamPlayer, {
-				ref: (handle: StreamPlayerHandle | null) => {
-					playerRef = handle;
-					if (handle) onReady(handle);
-				},
-				communicationHandler: handler,
-				videoRenderer,
-				onStatusChanged
-			})
-		);
+		root = undefined;
 	});
 </script>
 
-<div class="relative h-screen w-screen bg-black overflow-hidden" bind:this={container}></div>
+<div class="relative h-screen w-screen bg-black overflow-hidden" bind:this={mountEl}></div>
