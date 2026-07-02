@@ -2,6 +2,7 @@
 	import { page } from '$app/state';
 	import type { StreamPlayerHandle, xCloudStreamConfig } from '@blacklight/player/client';
 	import { classifyError, extractErrorMessage } from '$lib/errors';
+	import { t } from '$lib/i18n';
 	import { trpc } from '$lib/trpc';
 	import { buildStreamConfig, parseStreamRoute } from '$lib/stream';
 	import { createCommunicationHandler } from '$lib/stream/communication';
@@ -14,6 +15,7 @@
 	import Loader from '$lib/components/ui/Loader.svelte';
 	import ErrorPanel from '$lib/components/ui/ErrorPanel.svelte';
 	import StreamOverlay from '$lib/components/stream/StreamOverlay.svelte';
+	import StreamPreload from '$lib/components/stream/StreamPreload.svelte';
 	import StreamPlayerHost from '$lib/components/stream/StreamPlayerHost.svelte';
 
 	const STREAM_CONNECT_TIMEOUT_MS = 90_000;
@@ -23,13 +25,17 @@
 
 	let streamConfig = $state<xCloudStreamConfig | undefined>();
 	let session = $state<{ sessionId: string; sessionPath: string; state: string } | undefined>();
-	let status = $state('Starting...');
+	let status = $state('');
 	let errorCode = $state<import('$lib/errors').UserErrorCode | null>(null);
 	let errorDetail = $state<string | null>(null);
 	let playerHandle = $state<StreamPlayerHandle | null>(null);
 	let attempt = $state(0);
 	let isConnecting = $state(true);
+	let queueSeconds = $state(0);
+	let micEnabled = $state(false);
 	let connectTimeoutId: ReturnType<typeof setTimeout> | undefined;
+
+	const showQueueOverlay = $derived(queueSeconds > 0 && !playerHandle);
 
 	function clearConnectTimeout() {
 		if (connectTimeoutId !== undefined) {
@@ -69,19 +75,47 @@
 		}
 	}
 
+	function handleQueueChanged(seconds: number) {
+		if (seconds > 0) queueSeconds = seconds;
+	}
+
 	function handlePlayerReady(handle: StreamPlayerHandle) {
 		playerHandle = handle;
 		isConnecting = false;
+		queueSeconds = 0;
 		clearConnectTimeout();
 	}
 
 	function retryStream() {
 		errorCode = null;
 		errorDetail = null;
-		status = 'Starting...';
+		status = '';
 		streamConfig = undefined;
 		session = undefined;
+		playerHandle = null;
+		queueSeconds = 0;
 		attempt += 1;
+	}
+
+	function leaveStream() {
+		playerHandle = null;
+		streamConfig = undefined;
+		session = undefined;
+		history.back();
+	}
+
+	function endStream() {
+		if (confirm(t('streamWindow.endStreamConfirmMessage'))) {
+			leaveStream();
+		}
+	}
+
+	function disconnectStream() {
+		leaveStream();
+	}
+
+	function toggleMic() {
+		micEnabled = !micEnabled;
 	}
 
 	const parsed = $derived(serverid ? parseStreamRoute(serverid) : null);
@@ -106,7 +140,9 @@
 		errorDetail = null;
 		streamConfig = undefined;
 		session = undefined;
-		status = 'Starting...';
+		playerHandle = null;
+		queueSeconds = 0;
+		status = t('streamWindow.startingConnection');
 		armConnectTimeout();
 
 		const config = buildStreamConfig(
@@ -135,7 +171,7 @@
 					sessionPath: result.sessionPath,
 					state: result.state ?? 'Provisioning'
 				};
-				status = 'Connecting...';
+				status = t('streamWindow.connectingToConsole');
 			})
 			.catch((e: Error) => {
 				if (!cancelled) setStreamError(e);
@@ -160,7 +196,7 @@
 {:else if !communicationHandler}
 	<div class="h-screen bg-black flex flex-col items-center justify-center gap-4">
 		<Loader />
-		<p class="text-white/50 text-sm">{status}</p>
+		<p class="text-white/50 text-sm">{status || t('streamWindow.startingConnection')}</p>
 	</div>
 {:else}
 	<div class="relative h-screen w-screen bg-black overflow-hidden">
@@ -169,15 +205,25 @@
 				handler={communicationHandler}
 				videoRenderer={settings.video_renderer}
 				onStatusChanged={handleStatusChanged}
+				onQueueChanged={handleQueueChanged}
 				onReady={handlePlayerReady}
 			/>
 		{/key}
-		<StreamOverlay
-			{status}
-			onToggleDebug={() => playerHandle?.toggleDebugOverlay()}
-			onAttachGamepad={() => playerHandle?.attachGamepad(0)}
-			onAttachMkb={() => playerHandle?.attachMouseKeyboard(0)}
-			onExit={() => history.back()}
-		/>
+		{#if showQueueOverlay}
+			<StreamPreload waitingSeconds={queueSeconds} {status} onExit={endStream} />
+		{:else if playerHandle}
+			<StreamOverlay
+				{status}
+				{micEnabled}
+				onToggleDebug={() => playerHandle?.toggleDebugOverlay()}
+				onAttachGamepad={() => playerHandle?.attachGamepad(0)}
+				onAttachMkb={() => playerHandle?.attachMouseKeyboard(0)}
+				onPressMenu={() => playerHandle?.pressMenu()}
+				onToggleMic={toggleMic}
+				onEndStream={endStream}
+				onDisconnect={disconnectStream}
+				onExit={leaveStream}
+			/>
+		{/if}
 	</div>
 {/if}

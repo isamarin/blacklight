@@ -7,7 +7,7 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 ## [Unreleased]
 
 ### Changed
-- **Phase 9 polish:** remove stream player debug overlay; consoles error + retry; auth Clear Data; settings/stream overlay i18n; `~` debug hotkey
+- **Phase 9 polish:** remove stream player debug overlay; consoles error + retry; auth Clear Data; settings/stream overlay i18n; `~` debug hotkey; xCloud queue wait UI; stream overlay menu/mic/end controls; settings version + Clear Data
 - **Product identity:** Blacklight is maintained as an independent product (`isamarin/blacklight`); drop fork-era `v3.*` release tags and scripts (`build:depsv3`, `desktopv3`, `test:v3`)
 - **Release tags:** CalVer `v2026.M.P` (e.g. `v2026.7.2`); CI draft releases trigger on `v20*` tags
 - **Scripts:** `build:depsv3` → `build:deps`; `desktopv3` → `desktop-renderer`

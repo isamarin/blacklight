@@ -18,6 +18,14 @@ export function createCommunicationHandler(
 				sessionPath: session.sessionPath
 			});
 		},
+		async getWaitingTimes(targetId: string) {
+			const result = await trpc.streaming_get_waiting_times.mutate({
+				token,
+				xCloudStreamConfig: streamConfig,
+				targetId
+			});
+			return result as { estimatedTotalWaitTimeInSeconds?: number };
+		},
 		async sendSDPOffer(sdpOffer: RTCSessionDescriptionInit) {
 			return trpc.streaming_send_sdp_offer.mutate({
 				token,

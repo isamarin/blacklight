@@ -14,11 +14,13 @@
 		handler,
 		videoRenderer = 'auto',
 		onStatusChanged,
+		onQueueChanged,
 		onReady
 	}: {
 		handler: CommunicationHandler;
 		videoRenderer?: VideoRendererMode;
 		onStatusChanged: (status: string) => void;
+		onQueueChanged?: (seconds: number) => void;
 		onReady: (handle: StreamPlayerHandle) => void;
 	} = $props();
 
@@ -34,7 +36,8 @@
 				},
 				communicationHandler: handler,
 				videoRenderer,
-				onStatusChanged
+				onStatusChanged,
+				onQueueChanged
 			})
 		);
 	});

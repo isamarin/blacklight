@@ -28,6 +28,10 @@ export const getStreamStatus = async (xStreamToken:xStreamToken, xCloudStreamCon
     return await httpGet<startStreamResponse>(xStreamToken, xCloudStreamConfig, '/'+sessionPath+'/state')
 }
 
+export const getWaitingTimes = async (xStreamToken:xStreamToken, xCloudStreamConfig:xCloudStreamConfig, targetId:string) => {
+    return await httpGet<{ estimatedTotalWaitTimeInSeconds: number }>(xStreamToken, xCloudStreamConfig, '/v1/waittime/'+targetId)
+}
+
 export const sendSDPOffer = async (xStreamToken:xStreamToken, xCloudStreamConfig:xCloudStreamConfig, sessionPath:string, sdpOffer:RTCSessionDescriptionInit) => {
     await httpPost<StatusResponse>(xStreamToken, xCloudStreamConfig, '/'+sessionPath+'/sdp', JSON.stringify({
         'messageType':'offer',

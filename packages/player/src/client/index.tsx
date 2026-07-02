@@ -1,4 +1,4 @@
-import { forwardRef, useImperativeHandle, useRef, useEffect, useState } from 'react';
+import { forwardRef, useImperativeHandle, useRef, useEffect, useState, useCallback } from 'react';
 import type { ReactElement } from 'react';
 import './Player.css';
 
@@ -19,6 +19,7 @@ import Touch from './lib/input/touch';
 
 export interface StreamPlayerProps {
     onStatusChanged: (newStatus: string) => void;
+    onQueueChanged?: (seconds: number) => void;
     communicationHandler: communicationHandler
     videoRenderer?: VideoRendererMode
 }
@@ -27,11 +28,13 @@ export interface StreamPlayerHandle {
     attachGamepad: (index?: number) => VirtualGamepad;
     attachMouseKeyboard: (index?: number) => VirtualMKB;
     toggleDebugOverlay: () => void;
+    pressMenu: () => void;
 }
 
 export interface communicationHandler {
     getSessionId: () => string;
     getStreamStatus: () => Promise<any>;
+    getWaitingTimes?: (targetId: string) => Promise<{ estimatedTotalWaitTimeInSeconds?: number }>;
     getSessionPath: () => string;
     getStreamConfig: () => xCloudStreamConfig;
     sendSDPOffer: (sdpOffer:RTCSessionDescriptionInit) => Promise<any>;
@@ -43,14 +46,28 @@ export interface communicationHandler {
 export const StreamPlayer = forwardRef<StreamPlayerHandle, StreamPlayerProps>(
     ({
         onStatusChanged,
+        onQueueChanged,
         communicationHandler,
         videoRenderer = 'auto',
     }, ref): ReactElement => {
         const [playerState, setPlayerState] = useState<string>('Initializing');
 
         const playerInstance = useRef<HTMLDivElement | null>(null);
-        // let player = new xCloudPlayer('playerContainer');
+        const queueTimesFetched = useRef(false);
+        const attachedGamepad = useRef<VirtualGamepad | undefined>(undefined);
         const [player, setPlayer] = useState<xCloudPlayer | undefined>(undefined);
+
+        const ensureGamepad = useCallback(() => {
+            if (!player) {
+                throw new Error('Player is not initialized yet');
+            }
+            if (!attachedGamepad.current) {
+                const gamepad = new VirtualGamepad(player);
+                gamepad.attach(0);
+                attachedGamepad.current = gamepad;
+            }
+            return attachedGamepad.current;
+        }, [player]);
 
         useImperativeHandle(ref, () => ({
             ping(echo: string) {
@@ -63,6 +80,7 @@ export const StreamPlayer = forwardRef<StreamPlayerHandle, StreamPlayerProps>(
                 }
                 const gamepad = new VirtualGamepad(player)
                 gamepad.attach(index)
+                attachedGamepad.current = gamepad
                 return gamepad
             },
             attachMouseKeyboard(index = 0) {
@@ -78,6 +96,9 @@ export const StreamPlayer = forwardRef<StreamPlayerHandle, StreamPlayerProps>(
                     throw new Error('Player is not initialized yet');
                 }
                 player.toggleDebugOverlay()
+            },
+            pressMenu() {
+                ensureGamepad().sendGamepadButtonPress('Nexus')
             }
         }));
 
@@ -112,6 +133,26 @@ export const StreamPlayer = forwardRef<StreamPlayerHandle, StreamPlayerProps>(
                             } else if(state.state === 'ReadyToConnect'){
                                 // Perform MSAL Auth, then refetch state and wait for Provisioned
                                 communicationHandler.sendMSALToken()
+
+                            } else if(state.state === 'WaitingForResources'){
+                                if (
+                                    !queueTimesFetched.current &&
+                                    communicationHandler.getWaitingTimes
+                                ) {
+                                    queueTimesFetched.current = true;
+                                    const targetId = communicationHandler.getStreamConfig().id;
+                                    communicationHandler.getWaitingTimes(targetId)
+                                        .then((waitingTimes) => {
+                                            const seconds = waitingTimes?.estimatedTotalWaitTimeInSeconds ?? 0;
+                                            if (seconds > 0) {
+                                                onQueueChanged?.(seconds);
+                                            }
+                                        })
+                                        .catch((error) => {
+                                            console.error('Failed to fetch waiting times:', error);
+                                        });
+                                }
+                                setPlayerState('Waiting in queue...');
 
                             } else if(state.state === 'Failed'){
                                 clearInterval(interval)
