@@ -6,28 +6,37 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
 
+### Added (desktop-tauri)
+- **Tauri 2 desktop app** with SvelteKit 2 + Svelte 5 UI (replaces Electron `desktop-v3` shell)
+- Minimal **`blacklight-api`** sidecar (`/health`, `/trpc` only) — optional spawn via `webui_autostart` (default off)
+- Tauri invoke API for app settings (`app-settings.json`) and auth token (`user-token.json`) persistence
+- `/profile` route and stream player integration (`@blacklight/player`)
+- **P0 reliability hardening** (upstream pain points):
+  - Force region via `X-Forwarded-For` on MSAL auth ([#1199](https://github.com/unknownskl/greenlight/issues/1199))
+  - Streaming token failures: friendly errors + retry on sign-in ([#1506](https://github.com/unknownskl/greenlight/issues/1506))
+  - xCloud library: timeout, missing-token hint, error UI + retry ([#1609](https://github.com/unknownskl/greenlight/issues/1609))
+  - Stream connect: 90s timeout, player status errors, retry / go back ([#896](https://github.com/unknownskl/greenlight/issues/896))
+- Smoke scripts: `smoke-test-ui.sh`, `smoke-test-p0.sh`
+
 ### Changed (rename)
-- **Greenlight → Blacklight** — product name, packages (`@blacklight/*`), bundle IDs, sidecar binary, env vars
+- **Greenlight → Blacklight** — product name, packages (`@blacklight/*`), bundle IDs, env vars
 - Tagline: *an Xbox streaming tool* (xCloud + home streaming)
 - Repository target: [isamarin/blacklight](https://github.com/isamarin/blacklight)
 
 ### Changed (rebrand)
-- Product branding: `com.isamarin.blacklight` (Tauri + Electron), `io.github.isamarin.blacklight` (Flatpak)
+- Product branding: `com.isamarin.blacklight` (Tauri), `io.github.isamarin.blacklight` (Flatpak legacy)
 - README and package metadata reflect independent maintenance by Igor Samarin
-
-### Added (desktop-tauri)
-- Bundled Node sidecar (`esbuild` + `pkg`) shipped as Tauri `externalBin`
-- Sidecar auto-spawn on app start with `BLACKLIGHT_STATIC_DIR` and `BLACKLIGHT_DATA_DIR`
-- Static UI assets bundled under `Resources/app/` (macOS) / `app/` (Windows)
 
 ### Changed
 - **desktop-v3:** Electron removed; package is renderer + web only (`build:renderer`, `build:web`)
-- **CI:** V3 Electron release job removed; Tauri macOS → Windows pipeline is the desktop track
-- **CI:** Flatpak jobs removed (Linux out of scope for Tauri)
+- **CI:** `check_tauri`, `build_web` from SvelteKit; Tauri macOS → Windows pipeline is the desktop track
+- **CI:** V3 Electron release job and Flatpak jobs removed (Linux out of scope for Tauri)
+- **player:** `onStatusChanged` now reports stream state; errors include server detail
 
 ### Removed
 - `packages/desktop-v3/main/` Electron shell, nextron, electron-builder, flatpak manifests
 - Renderer IPC tRPC path (`trpcIpc` / `ipc-link`)
+- Heavy Express sidecar + bundled static WebUI assets (replaced by minimal API + embedded SvelteKit UI)
 
 ## [2026.07.1-alpha.1] - 2026-06-17
 

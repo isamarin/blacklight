@@ -1,4 +1,5 @@
 import { authForceRegionIp, withAuthRegion } from '$lib/auth/region';
+import { classifyError, type UserErrorCode } from '$lib/errors';
 import { isTauriApp } from '$lib/runtime';
 import {
 	clearUserTokenFromTauri,
@@ -26,6 +27,7 @@ let isAuthenticated = $state(false);
 let isAuthenticating = $state(false);
 let hasLoadedFromStorage = $state(false);
 let initStarted = $state(false);
+let authError = $state<UserErrorCode | null>(null);
 
 const normalizeUserToken = (
 	token: UserTokenPayload | RouterOutputs['auth_msal_refresh']
@@ -116,41 +118,50 @@ const fetchTokensForUser = async (userToken: UserTokenPayload) => {
 
 	authState = { userToken, webToken, streamingTokens };
 	isAuthenticated = true;
+	authError = null;
 };
+
+async function restoreSessionFromStorage(): Promise<boolean> {
+	const savedUserToken = await loadStoredUserTokenRaw();
+	if (!savedUserToken) return false;
+
+	try {
+		const userToken = normalizeUserToken(
+			JSON.parse(savedUserToken) as UserTokenPayload | RouterOutputs['auth_msal_refresh']
+		);
+
+		try {
+			await fetchTokensForUser(userToken);
+			return true;
+		} catch (error) {
+			console.error('Failed to fetch tokens, attempting refresh:', error);
+			try {
+				const refreshedToken = normalizeUserToken(
+					await trpc.auth_msal_refresh.query(withAuthRegion(userToken))
+				);
+				await fetchTokensForUser(refreshedToken);
+				return true;
+			} catch (refreshError) {
+				console.error('Failed to refresh tokens:', refreshError);
+				authError = classifyError(refreshError);
+				clearAuth();
+				return false;
+			}
+		}
+	} catch (e) {
+		console.error('Failed to parse saved user token', e);
+		authError = 'auth_expired';
+		clearAuth();
+		return false;
+	}
+}
 
 export async function initAuth() {
 	if (initStarted) return;
 	initStarted = true;
 
 	isAuthenticating = true;
-	const savedUserToken = await loadStoredUserTokenRaw();
-
-	if (savedUserToken) {
-		try {
-			const userToken = normalizeUserToken(
-				JSON.parse(savedUserToken) as UserTokenPayload | RouterOutputs['auth_msal_refresh']
-			);
-
-			try {
-				await fetchTokensForUser(userToken);
-			} catch (error) {
-				console.error('Failed to fetch tokens, attempting refresh:', error);
-				try {
-					const refreshedToken = normalizeUserToken(
-						await trpc.auth_msal_refresh.query(withAuthRegion(userToken))
-					);
-					await fetchTokensForUser(refreshedToken);
-				} catch (refreshError) {
-					console.error('Failed to refresh tokens:', refreshError);
-					clearAuth();
-				}
-			}
-		} catch (e) {
-			console.error('Failed to parse saved user token', e);
-			clearAuth();
-		}
-	}
-
+	await restoreSessionFromStorage();
 	hasLoadedFromStorage = true;
 	isAuthenticating = false;
 }
@@ -161,6 +172,7 @@ $effect(() => {
 });
 
 export async function startAuth() {
+	authError = null;
 	const forceRegionIp = authForceRegionIp();
 	return trpc.auth_msal_start.query(forceRegionIp ? { force_region_ip: forceRegionIp } : undefined);
 }
@@ -173,13 +185,29 @@ export async function verifyCode(code: string) {
 		});
 		await fetchTokensForUser(userToken);
 		return userToken;
+	} catch (error) {
+		authError = classifyError(error);
+		throw error;
 	} finally {
 		isAuthenticating = false;
 	}
 }
 
+export async function retryStoredAuth(): Promise<boolean> {
+	isAuthenticating = true;
+	authError = null;
+	const restored = await restoreSessionFromStorage();
+	isAuthenticating = false;
+	return restored;
+}
+
 export function logout() {
+	authError = null;
 	clearAuth();
+}
+
+export function clearAuthError() {
+	authError = null;
 }
 
 const getBrowserLanguage = () => {
@@ -201,6 +229,10 @@ export function getIsAuthenticated() {
 
 export function getIsAuthenticating() {
 	return isAuthenticating;
+}
+
+export function getAuthError() {
+	return authError;
 }
 
 export function getWebToken() {

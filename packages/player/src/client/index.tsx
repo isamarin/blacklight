@@ -82,6 +82,10 @@ export const StreamPlayer = forwardRef<StreamPlayerHandle, StreamPlayerProps>(
         }));
 
         useEffect(() => {
+            onStatusChanged(playerState);
+        }, [playerState, onStatusChanged]);
+
+        useEffect(() => {
             let interval: NodeJS.Timeout;
 
             if(playerState == 'Initializing'){
@@ -94,7 +98,10 @@ export const StreamPlayer = forwardRef<StreamPlayerHandle, StreamPlayerProps>(
                             console.error('Error in stream status:', state.error);
 
                             clearInterval(interval)
-                            setPlayerState('Error');
+                            const detail = typeof state.error === 'string'
+                                ? state.error
+                                : state.error?.message || JSON.stringify(state.error);
+                            setPlayerState(`Error: ${detail}`);
                         } else {
                             if(state.state === 'Provisioned'){
                                 // Console is ready

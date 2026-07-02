@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import type { StreamPlayerHandle, xCloudStreamConfig } from '@blacklight/player/client';
+	import { classifyError, extractErrorMessage } from '$lib/errors';
 	import { trpc } from '$lib/trpc';
 	import { buildStreamConfig, parseStreamRoute } from '$lib/stream';
 	import { createCommunicationHandler } from '$lib/stream/communication';
@@ -11,8 +12,11 @@
 	} from '$lib/stores/auth.svelte';
 	import { getSettings } from '$lib/stores/settings.svelte';
 	import Loader from '$lib/components/ui/Loader.svelte';
+	import ErrorPanel from '$lib/components/ui/ErrorPanel.svelte';
 	import StreamOverlay from '$lib/components/stream/StreamOverlay.svelte';
 	import StreamPlayerHost from '$lib/components/stream/StreamPlayerHost.svelte';
+
+	const STREAM_CONNECT_TIMEOUT_MS = 90_000;
 
 	const serverid = $derived(page.params.serverid);
 	const settings = $derived(getSettings());
@@ -20,15 +24,64 @@
 	let streamConfig = $state<xCloudStreamConfig | undefined>();
 	let session = $state<{ sessionId: string; sessionPath: string; state: string } | undefined>();
 	let status = $state('Starting...');
-	let error = $state<string | null>(null);
+	let errorCode = $state<import('$lib/errors').UserErrorCode | null>(null);
+	let errorDetail = $state<string | null>(null);
 	let playerHandle = $state<StreamPlayerHandle | null>(null);
+	let attempt = $state(0);
+	let isConnecting = $state(true);
+	let connectTimeoutId: ReturnType<typeof setTimeout> | undefined;
+
+	function clearConnectTimeout() {
+		if (connectTimeoutId !== undefined) {
+			clearTimeout(connectTimeoutId);
+			connectTimeoutId = undefined;
+		}
+	}
+
+	function armConnectTimeout() {
+		isConnecting = true;
+		clearConnectTimeout();
+		connectTimeoutId = setTimeout(() => {
+			if (!isConnecting) return;
+			errorCode = 'stream_timeout';
+			errorDetail = status;
+			streamConfig = undefined;
+			session = undefined;
+		}, STREAM_CONNECT_TIMEOUT_MS);
+	}
+
+	function setStreamError(error: unknown) {
+		isConnecting = false;
+		errorCode = classifyError(error);
+		errorDetail = extractErrorMessage(error);
+		streamConfig = undefined;
+		session = undefined;
+		clearConnectTimeout();
+	}
 
 	function handleStatusChanged(next: string) {
 		status = next;
+		if (next.startsWith('Error')) {
+			isConnecting = false;
+			errorCode = 'stream_failed';
+			errorDetail = next.replace(/^Error:\s*/, '') || null;
+			clearConnectTimeout();
+		}
 	}
 
 	function handlePlayerReady(handle: StreamPlayerHandle) {
 		playerHandle = handle;
+		isConnecting = false;
+		clearConnectTimeout();
+	}
+
+	function retryStream() {
+		errorCode = null;
+		errorDetail = null;
+		status = 'Starting...';
+		streamConfig = undefined;
+		session = undefined;
+		attempt += 1;
 	}
 
 	const parsed = $derived(serverid ? parseStreamRoute(serverid) : null);
@@ -46,12 +99,15 @@
 
 	$effect(() => {
 		if (!parsed) return;
+		void attempt;
 
 		let cancelled = false;
-		error = null;
+		errorCode = null;
+		errorDetail = null;
 		streamConfig = undefined;
 		session = undefined;
 		status = 'Starting...';
+		armConnectTimeout();
 
 		const config = buildStreamConfig(
 			parsed.id,
@@ -60,6 +116,11 @@
 			settings.app_lowresolution ? 720 : 1080
 		);
 		const token = parsed.type === 'cloud' ? getxCloudToken() : getxHomeToken();
+
+		if (!token.token) {
+			setStreamError(new Error('streaming tokens missing'));
+			return;
+		}
 
 		trpc.streaming_start_stream
 			.mutate({ token, xCloudStreamConfig: config })
@@ -77,23 +138,29 @@
 				status = 'Connecting...';
 			})
 			.catch((e: Error) => {
-				if (!cancelled) error = e?.message || 'Failed to start stream';
+				if (!cancelled) setStreamError(e);
 			});
 
 		return () => {
 			cancelled = true;
+			clearConnectTimeout();
 		};
 	});
 </script>
 
-{#if error}
-	<div class="h-screen bg-black flex items-center justify-center text-red-400">
-		{error}
-		<button class="ml-4 text-white underline" onclick={() => history.back()}>Go back</button>
+{#if errorCode}
+	<div class="h-screen bg-black flex items-center justify-center">
+		<ErrorPanel
+			code={errorCode}
+			detail={errorDetail}
+			onRetry={retryStream}
+			onBack={() => history.back()}
+		/>
 	</div>
 {:else if !communicationHandler}
-	<div class="h-screen bg-black flex items-center justify-center">
+	<div class="h-screen bg-black flex flex-col items-center justify-center gap-4">
 		<Loader />
+		<p class="text-white/50 text-sm">{status}</p>
 	</div>
 {:else}
 	<div class="relative h-screen w-screen bg-black overflow-hidden">

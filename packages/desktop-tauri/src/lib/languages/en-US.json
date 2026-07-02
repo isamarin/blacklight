@@ -181,7 +181,8 @@
         "breadcrumb": "xCloud",
         "recentGames": "Recent Games",
         "recentlyAdded": "Recently added",
-        "viewLibraryBtn": "View Library"
+        "viewLibraryBtn": "View Library",
+        "loadingLibrary": "Loading library..."
       },
 
       "xCloudLibrary": {
@@ -192,7 +193,8 @@
         "searchPlaceholder": "Search",
         "previousPageBtn": "Previous Page",
         "nextPageBtn": "Next Page",
-        "viewGamePageIcon": "View game page"
+        "viewGamePageIcon": "View game page",
+        "emptyLibrary": "No games found. Try again or sign in again if the library stays empty."
       },
 
       "profile": {
@@ -275,6 +277,19 @@
     },
 
     "errors": {
+      "retryBtn": "Try again",
+      "goBackBtn": "Go back",
+      "codes": {
+        "streaming_tokens": "Failed to retrieve streaming tokens. Sign in again. If you use Force region, sign out and sign in after changing it.",
+        "web_tokens": "Failed to retrieve web tokens. Sign in again.",
+        "auth_expired": "Your session expired. Sign in again.",
+        "network": "Network error. Check your connection and try again.",
+        "catalog_timeout": "The xCloud library is taking too long to load. Try again.",
+        "catalog_missing_token": "Streaming tokens are missing. Sign in again to load the library.",
+        "stream_timeout": "The stream is taking too long to connect. Try again or go back.",
+        "stream_failed": "The stream failed to start. Try again or check your console connection.",
+        "unknown": "Something went wrong. Try again."
+      },
       "failedToRetrieveUserProfile": "Error: Failed to retrieve user profile:",
       "repositoryNotFound": "Repository URL not found in package.json file.",
       "failedToRetrieveStreamingTokens": "Error: Failed to retrieve streaming tokens:",

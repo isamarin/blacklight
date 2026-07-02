@@ -4,14 +4,18 @@
 	import Breadcrumb from '$lib/components/ui/Breadcrumb.svelte';
 	import GameTitle from '$lib/components/game/GameTitle.svelte';
 	import Loader from '$lib/components/ui/Loader.svelte';
+	import ErrorPanel from '$lib/components/ui/ErrorPanel.svelte';
 	import {
 		filterTitles,
+		getCatalogError,
 		getCatalogIsLoading,
-		getTitles
+		getTitles,
+		refreshTitleCatalog
 	} from '$lib/stores/titleCatalog.svelte';
 
 	let filter = $state('');
 	const titleIds = $derived(filter ? filterTitles(filter) : getTitles().map((t) => t.titleId));
+	const catalogError = $derived(getCatalogError());
 </script>
 
 <AppLayout title={t('page.xCloudLibrary.pageTitle')}>
@@ -30,8 +34,12 @@
 			bind:value={filter}
 		/>
 	</div>
-	{#if getCatalogIsLoading()}
+	{#if catalogError}
+		<ErrorPanel code={catalogError} onRetry={() => refreshTitleCatalog()} />
+	{:else if getCatalogIsLoading()}
 		<Loader />
+	{:else if titleIds.length === 0}
+		<p class="text-white/40">{t('page.xCloudLibrary.emptyLibrary')}</p>
 	{:else}
 		<div class="flex flex-wrap gap-4">
 			{#each titleIds as id (id)}

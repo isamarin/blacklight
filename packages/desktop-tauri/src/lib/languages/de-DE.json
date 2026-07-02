@@ -173,7 +173,8 @@
         "breadcrumb": "xCloud",
         "recentGames": "Zuletzt gespielt",
         "recentlyAdded": "Neu hinzugefügt",
-        "viewLibraryBtn": "Bibliothek anzeigen"
+        "viewLibraryBtn": "Bibliothek anzeigen",
+        "loadingLibrary": "Bibliothek wird geladen..."
       },
       "xCloudLibrary": {
         "pageTitle": "xCloud Bibliothek",
@@ -183,7 +184,8 @@
         "searchPlaceholder": "Suchen",
         "previousPageBtn": "Seite zurück",
         "nextPageBtn": "Seite vor",
-        "viewGamePageIcon": "Spielseite anzeigen"
+        "viewGamePageIcon": "Spielseite anzeigen",
+        "emptyLibrary": "Keine Spiele gefunden. Versuche es erneut oder melde dich erneut an, wenn die Bibliothek leer bleibt."
       },
       "profile": {
         "pageTitle": "Profil",
@@ -258,6 +260,19 @@
       "closeBtn": "Schließen"
     },
     "errors": {
+      "retryBtn": "Erneut versuchen",
+      "goBackBtn": "Zurück",
+      "codes": {
+        "streaming_tokens": "Streaming-Token konnten nicht abgerufen werden. Bitte erneut anmelden. Bei aktivierter Region: abmelden und nach der Änderung erneut anmelden.",
+        "web_tokens": "Web-Token konnten nicht abgerufen werden. Bitte erneut anmelden.",
+        "auth_expired": "Deine Sitzung ist abgelaufen. Bitte erneut anmelden.",
+        "network": "Netzwerkfehler. Verbindung prüfen und erneut versuchen.",
+        "catalog_timeout": "Die xCloud-Bibliothek lädt zu lange. Bitte erneut versuchen.",
+        "catalog_missing_token": "Streaming-Token fehlen. Bitte erneut anmelden, um die Bibliothek zu laden.",
+        "stream_timeout": "Die Stream-Verbindung dauert zu lange. Erneut versuchen oder zurückgehen.",
+        "stream_failed": "Der Stream konnte nicht gestartet werden. Erneut versuchen oder die Konsolenverbindung prüfen.",
+        "unknown": "Etwas ist schiefgelaufen. Bitte erneut versuchen."
+      },
       "failedToRetrieveUserProfile": "Fehler: Konnte Benutzerprofil nicht abrufen:",
       "repositoryNotFound": "Repository-URL nicht in package.json-Datei gefunden.",
       "failedToRetrieveStreamingTokens": "Fehler: Konnte keine Streaming-Token abrufen:",
