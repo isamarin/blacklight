@@ -11,7 +11,7 @@
 		startAuth,
 		verifyCode
 	} from '$lib/stores/auth.svelte';
-	import { openExternal } from '$lib/runtime';
+	import { getApiHealth, openExternal } from '$lib/runtime';
 	import Button from '$lib/components/ui/Button.svelte';
 	import CopyableCode from '$lib/components/ui/CopyableCode.svelte';
 
@@ -36,6 +36,11 @@
 	async function beginAuthFlow() {
 		error = null;
 		clearAuthError();
+
+		if (!(await getApiHealth())) {
+			error = t('errors.codes.network');
+			return;
+		}
 
 		try {
 			const flow = await startAuth();

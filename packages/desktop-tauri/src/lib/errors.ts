@@ -55,7 +55,10 @@ export function classifyError(error: unknown): UserErrorCode {
 		text.includes('load failed') ||
 		text.includes('failed to fetch') ||
 		text.includes('econnrefused') ||
+		text.includes('connection refused') ||
 		text.includes('api failed to start') ||
+		text.includes('unable to connect') ||
+		text.includes('trpcclienterror') ||
 		text.includes('timeout')
 	) {
 		return 'network';

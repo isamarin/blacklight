@@ -12,6 +12,21 @@ if command -v lsof >/dev/null 2>&1; then
 	fi
 fi
 
+cleanup() {
+	local root
+	root="$(cd "$(dirname "$0")/.." && pwd)"
+	if [ -f "${root}/.dev-api.pid" ]; then
+		API_PID="$(cat "${root}/.dev-api.pid" 2>/dev/null || true)"
+		if [ -n "${API_PID}" ] && kill -0 "${API_PID}" 2>/dev/null; then
+			kill "${API_PID}" 2>/dev/null || true
+		fi
+		rm -f "${root}/.dev-api.pid"
+	fi
+}
+
+trap cleanup EXIT INT TERM
+
 bash "$(dirname "$0")/ensure-api-binary.sh"
+bash "$(dirname "$0")/ensure-api-running.sh"
 vite build
 exec vite preview --host "${HOST}" --port "${PORT}" --strictPort

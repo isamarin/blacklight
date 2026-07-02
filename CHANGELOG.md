@@ -6,6 +6,17 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
 
+## [2026.7.8] - 2026-07-02
+
+### Fixed (desktop-tauri)
+- **Dev auth / `pnpm dev:tauri`:** `blacklight-api` sidecar now survives `exec vite preview` (`nohup` + health wait); fixes `ECONNREFUSED :9003` and Xbox login failures in dev
+- **Tauri API spawn:** skip duplicate sidecar when port 9003 is already listening
+- **Auth screen:** check API `/health` before MSAL device-code flow; clearer network error mapping
+
+### Added
+- Root scripts: `pnpm dev:tauri`, `pnpm tauri:dev`
+- `scripts/ensure-api-running.sh` for dev preview workflow
+
 ## [2026.7.7] - 2026-07-02
 
 ### Added (desktop-tauri)

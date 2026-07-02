@@ -28,11 +28,7 @@ export function setApiPort(port: number) {
 function usesDevPreviewProxy(): boolean {
 	if (typeof window === 'undefined') return false;
 	const { hostname, port } = window.location;
-	return (
-		isTauriApp() &&
-		(hostname === '127.0.0.1' || hostname === 'localhost') &&
-		port === '4173'
-	);
+	return (hostname === '127.0.0.1' || hostname === 'localhost') && port === '4173';
 }
 
 export function getApiOrigin(): string {

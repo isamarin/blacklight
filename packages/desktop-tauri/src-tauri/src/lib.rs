@@ -8,8 +8,14 @@ use tauri_plugin_shell::ShellExt;
 
 struct ApiProcessState(Mutex<Option<CommandChild>>);
 
+const DEFAULT_API_PORT: u16 = 9003;
+
+fn api_port_listening(port: u16) -> bool {
+	std::net::TcpStream::connect(("127.0.0.1", port)).is_ok()
+}
+
 fn spawn_api(app: &tauri::AppHandle) -> Result<(), String> {
-	if api_is_running(app) {
+	if api_is_running(app) || api_port_listening(DEFAULT_API_PORT) {
 		return Ok(());
 	}
 
@@ -52,9 +58,11 @@ fn kill_api(app: &tauri::AppHandle) {
 }
 
 fn api_is_running(app: &tauri::AppHandle) -> bool {
-	app.try_state::<ApiProcessState>()
+	let child_running = app
+		.try_state::<ApiProcessState>()
 		.map(|state| state.0.lock().unwrap().is_some())
-		.unwrap_or(false)
+		.unwrap_or(false);
+	child_running || api_port_listening(DEFAULT_API_PORT)
 }
 
 #[tauri::command]
