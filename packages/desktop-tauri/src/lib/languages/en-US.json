@@ -2,7 +2,6 @@
   "translation": {
     "languageName": "English",
     "authorOfLocalization": "English Localization by isamarin",
-
     "header": {
       "myConsoles": "My Consoles",
       "viewConsoles": "View consoles",
@@ -14,7 +13,6 @@
       "quitQuestion": "Are you sure you want to quit?",
       "home": "Home"
     },
-
     "auth": {
       "logoutQuestion": "Are you sure you want to logout?",
       "clearDataBtn": "Clear Data",
@@ -32,7 +30,6 @@
       "qrCodeHint": "Or scan the QR code with your phone",
       "windowTitle": "Authentication"
     },
-
     "settings": {
       "sidebar": {
         "about": "About",
@@ -42,7 +39,6 @@
         "webUI": "Web UI",
         "debug": "Debug"
       },
-
       "about": {
         "logoutQuestion": "Are you sure you want to logout?",
         "title": "Settings",
@@ -52,10 +48,11 @@
         "selectorSelectLanguage": "Select language",
         "logout": "Logout",
         "version": "Version",
+        "versionTapHint": "Version",
+        "debugUnlocked": "Debug menu unlocked",
         "website": "Website",
         "websiteLinkTitle": "Open link in external browser"
       },
-
       "input": {
         "settingsInputPageTitle": "Settings: Input",
         "dPadUp": "DPad Up",
@@ -91,7 +88,6 @@
         "noControllerDetected": "No controller detected",
         "keyboardMappingsTitle": "Keyboard mappings"
       },
-
       "streaming": {
         "pageTitle": "Settings: Streaming",
         "title": "Streaming Settings",
@@ -148,7 +144,6 @@
         "preferredGameLanguageValueChineseTW": "Chinese (Traditional)",
         "forceRegionHint": "Sent as X-Forwarded-For during Xbox authentication. Log out and sign in again after changing this value."
       },
-
       "videoAudio": {
         "pageTitle": "Settings: Video & Audio",
         "title": "Video",
@@ -166,7 +161,6 @@
         "audioTitle": "Audio",
         "disableAudioLabel": "Disable audio"
       },
-
       "webUI": {
         "pageTitle": "Settings: Web UI",
         "title": "WebUI",
@@ -180,12 +174,10 @@
         "portLabel": "Port",
         "portPlaceholder": "example: 9003"
       },
-
       "debug": {
         "pageTitle": "Settings: Debug"
       }
     },
-
     "page": {
       "xCloud": {
         "pageTitle": "xCloud Library",
@@ -193,9 +185,12 @@
         "recentGames": "Recent Games",
         "recentlyAdded": "Recently added",
         "viewLibraryBtn": "View Library",
-        "loadingLibrary": "Loading library..."
+        "loadingLibrary": "Loading library...",
+        "continuePlaying": "Continue playing",
+        "startStreamBtn": "Start stream",
+        "viewGameBtn": "Game info",
+        "noRecentGames": "No recent games yet. Start something from the library."
       },
-
       "xCloudLibrary": {
         "pageTitle": "xCloud Library",
         "breadcrumb1": "xCloud",
@@ -207,7 +202,6 @@
         "viewGamePageIcon": "View game page",
         "emptyLibrary": "No games found. Try again or sign in again if the library stays empty."
       },
-
       "profile": {
         "pageTitle": "Profile",
         "xuidLabel": "XUID",
@@ -225,7 +219,6 @@
         "achievementsProgress": "{{current}} / {{total}} achievements",
         "noPlayedGames": "No recent play history found for this account."
       },
-
       "myConsoles": {
         "pageTitle": "My Consoles",
         "poweredOn": "Powered on",
@@ -240,7 +233,6 @@
         "offline": "Offline",
         "noConsoles": "No consoles found on your account. If you do have an Xbox console then make sure that remote playing is enabled and that the console is visible in the official Xbox App."
       },
-
       "titleInfo": {
         "pageTitle": "Viewing title information:",
         "breadcrumb1": "xCloud",
@@ -250,22 +242,18 @@
         "capabilitiesTitle": "Capabilities",
         "startStreamBtn": "Start Stream"
       },
-
       "page404": {
         "pageTitle": "Error",
         "message": "Oopsie 404.. Action not found"
       },
-
       "page500": {
         "pageTitle": "Error",
         "message": "Oopsie 500.. Application has an error"
       }
     },
-
     "friends": {
       "allFriendsOffline": "All your friends are offline"
     },
-
     "streamWindow": {
       "pageTitle": "Streaming",
       "endStreamConfirmMessage": "Are you sure you want to end your stream?",
@@ -292,9 +280,12 @@
       "startingConnection": "Starting connection...",
       "connectingToConsole": "Connecting to console...",
       "wakingConsole": "Waking console...",
-      "clientHasBeenDisconnected": "The client has been disconnected."
+      "clientHasBeenDisconnected": "The client has been disconnected.",
+      "statsBtn": "Stats",
+      "statsHint": "Player debug overlay toggled with ~",
+      "statusLabel": "Status",
+      "micLabel": "Mic"
     },
-
     "updater": {
       "unableToCheckForUpdates": "Unable to check for updates at this moment. Try again.",
       "alreadyOnLatestVersion": "You are already running the latest version. Current version:",
@@ -307,7 +298,6 @@
       "updateChecker": "Update Checker",
       "closeBtn": "Close"
     },
-
     "errors": {
       "regionIpHint": {
         "title": "Try forcing your Xbox region",

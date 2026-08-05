@@ -2,7 +2,6 @@
   "translation": {
     "languageName": "Русский",
     "authorOfLocalization": "Русская локализация: Евгений Чефранов",
-
     "header": {
       "myConsoles": "Мои консоли",
       "viewConsoles": "Просмотр консолей",
@@ -14,7 +13,6 @@
       "quitQuestion": "Вы уверены, что хотите выйти?",
       "home": "Главная"
     },
-
     "auth": {
       "logoutQuestion": "Вы уверены, что хотите выйти из аккаунта?",
       "clearDataBtn": "Очистить данные",
@@ -32,7 +30,6 @@
       "qrCodeHint": "Или отсканируйте QR-код на телефоне",
       "windowTitle": "Авторизация"
     },
-
     "settings": {
       "sidebar": {
         "about": "О программе",
@@ -42,7 +39,6 @@
         "webUI": "Web UI",
         "debug": "Отладка"
       },
-
       "about": {
         "logoutQuestion": "Вы уверены, что хотите выйти из аккаунта?",
         "title": "Настройки",
@@ -52,10 +48,11 @@
         "selectorSelectLanguage": "Выберите язык",
         "logout": "Выйти",
         "version": "Версия",
+        "versionTapHint": "Версия",
+        "debugUnlocked": "Меню отладки разблокировано",
         "website": "Веб-сайт",
         "websiteLinkTitle": "Открыть ссылку во внешнем браузере"
       },
-
       "input": {
         "pageTitle": "Настройки: Ввод",
         "dPadUp": "Крестовина вверх",
@@ -91,7 +88,6 @@
         "noControllerDetected": "Контроллер не обнаружен",
         "keyboardMappingsTitle": "Назначения клавиш"
       },
-
       "streaming": {
         "pageTitle": "Настройки: Трансляция",
         "title": "Настройки трансляции",
@@ -148,7 +144,6 @@
         "preferredGameLanguageValueChineseTW": "Китайский (традиционный)",
         "forceRegionHint": "Передаётся как X-Forwarded-For при аутентификации Xbox. Выйдите и войдите снова после изменения."
       },
-
       "videoAudio": {
         "pageTitle": "Настройки: Видео и Аудио",
         "videoTitle": "Видео",
@@ -166,7 +161,6 @@
         "audioTitle": "Аудио",
         "disableAudioLabel": "Отключить аудио"
       },
-
       "webUI": {
         "pageTitle": "Настройки: Web UI",
         "title": "WebUI",
@@ -180,12 +174,10 @@
         "portLabel": "Порт",
         "portPlaceholder": "например: 9003"
       },
-
       "debug": {
         "pageTitle": "Настройки: Отладка"
       }
     },
-
     "page": {
       "xCloud": {
         "pageTitle": "Библиотека xCloud",
@@ -193,9 +185,12 @@
         "recentGames": "Недавние игры",
         "recentlyAdded": "Недавно добавленные",
         "viewLibraryBtn": "Просмотреть библиотеку",
-        "loadingLibrary": "Загрузка библиотеки..."
+        "loadingLibrary": "Загрузка библиотеки...",
+        "continuePlaying": "Продолжить игру",
+        "startStreamBtn": "Начать трансляцию",
+        "viewGameBtn": "Об игре",
+        "noRecentGames": "Пока нет недавних игр. Запустите что-нибудь из библиотеки."
       },
-
       "xCloudLibrary": {
         "pageTitle": "Библиотека xCloud",
         "breadcrumb1": "xCloud",
@@ -207,7 +202,6 @@
         "viewGamePageIcon": "Просмотреть страницу игры",
         "emptyLibrary": "Игры не найдены. Попробуйте снова или войдите заново, если библиотека пуста."
       },
-
       "profile": {
         "pageTitle": "Профиль",
         "xuidLabel": "XUID",
@@ -225,7 +219,6 @@
         "achievementsProgress": "{{current}} / {{total}} достижений",
         "noPlayedGames": "История недавних игр для этого аккаунта не найдена."
       },
-
       "myConsoles": {
         "pageTitle": "Мои консоли",
         "poweredOn": "Включена",
@@ -240,7 +233,6 @@
         "offline": "Выключена",
         "noConsoles": "Консоли не найдены в вашем аккаунте. Если у вас есть консоль Xbox, убедитесь, что удалённая игра включена и консоль отображается в официальном приложении Xbox."
       },
-
       "titleInfo": {
         "pageTitle": "Просмотр информации о тайтле:",
         "breadcrumb1": "xCloud",
@@ -250,22 +242,18 @@
         "capabilitiesTitle": "Возможности",
         "startStreamBtn": "Начать трансляцию"
       },
-
       "page404": {
         "pageTitle": "Ошибка",
         "message": "Упс.. 404.. Действие не найдено"
       },
-
       "page500": {
         "pageTitle": "Ошибка",
         "message": "Упс.. 500.. В приложении произошла ошибка"
       }
     },
-
     "friends": {
       "allFriendsOffline": "Все ваши друзья оффлайн"
     },
-
     "streamWindow": {
       "pageTitle": "Трансляция",
       "endStreamConfirmMessage": "Вы уверены, что хотите завершить свою трансляцию?",
@@ -292,9 +280,12 @@
       "startingConnection": "Начало подключения...",
       "connectingToConsole": "Подключение к консоли...",
       "wakingConsole": "Пробуждение консоли...",
-      "clientHasBeenDisconnected": "Клиент был отключен."
+      "clientHasBeenDisconnected": "Клиент был отключен.",
+      "statsBtn": "Статистика",
+      "statsHint": "Оверлей отладки плеера: клавиша ~",
+      "statusLabel": "Статус",
+      "micLabel": "Микрофон"
     },
-
     "updater": {
       "unableToCheckForUpdates": "Не удалось проверить наличие обновлений в данный момент. Попробуйте еще раз.",
       "alreadyOnLatestVersion": "Вы уже используете последнюю версию. Текущая версия:",
@@ -307,7 +298,6 @@
       "updateChecker": "Проверка обновлений",
       "closeBtn": "Закрыть"
     },
-
     "errors": {
       "regionIpHint": {
         "title": "Попробуйте принудительный регион",

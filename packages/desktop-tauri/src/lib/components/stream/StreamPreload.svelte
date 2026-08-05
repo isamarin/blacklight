@@ -2,17 +2,17 @@
 	import { onDestroy } from 'svelte';
 	import { t } from '$lib/i18n';
 	import { formatWaitingTime } from '$lib/stream/formatWaitingTime';
-	import Card from '$lib/components/ui/Card.svelte';
-	import Loader from '$lib/components/ui/Loader.svelte';
 	import Button from '$lib/components/ui/Button.svelte';
 
 	let {
 		waitingSeconds = 0,
 		status = '',
+		title = '',
 		onExit
 	}: {
 		waitingSeconds?: number;
 		status?: string;
+		title?: string;
 		onExit: () => void;
 	} = $props();
 
@@ -47,24 +47,24 @@
 	);
 </script>
 
-<div class="absolute inset-0 z-40 flex items-center justify-center bg-black/90 p-6">
-	<Card class="max-w-md w-full text-center">
-		<h1 class="text-xl font-bold text-white mb-4">{t('streamWindow.loadingStreamTitle')}</h1>
-		<Loader />
-		<p class="text-white/70 text-sm mt-4">{t('streamWindow.gettingStreamReadyMessage')}</p>
-		{#if status}
-			<p class="text-white/50 text-xs mt-2">{status}</p>
-		{/if}
-		{#if formattedQueue}
-			<p class="text-white/60 text-sm mt-4">
-				{t('streamWindow.estimatedWaitingTimeMessage')}
-				<span class="text-white font-medium">{formattedQueue}</span>
-			</p>
-		{:else if countdown === 0 && waitingSeconds > 0}
-			<p class="text-white/50 text-sm mt-4">{t('streamWindow.itsTakingALittleLonger')}</p>
-		{/if}
-		<div class="mt-6">
-			<Button label={t('streamWindow.endStreamBtn')} variant="danger" size="sm" onclick={onExit} />
-		</div>
-	</Card>
+<div class="stream-connect">
+	<div class="stream-connect-orb" aria-hidden="true"></div>
+	<div class="stream-connect-spinner" aria-hidden="true"></div>
+	<h1 class="stream-connect-title">
+		{title || t('streamWindow.loadingStreamTitle')}
+	</h1>
+	<p class="stream-connect-status">
+		{status || t('streamWindow.gettingStreamReadyMessage')}
+	</p>
+	{#if formattedQueue}
+		<p class="stream-connect-queue">
+			{t('streamWindow.estimatedWaitingTimeMessage')}
+			<span class="font-medium text-white">{formattedQueue}</span>
+		</p>
+	{:else if countdown === 0 && waitingSeconds > 0}
+		<p class="stream-connect-status">{t('streamWindow.itsTakingALittleLonger')}</p>
+	{/if}
+	<div class="relative mt-2">
+		<Button label={t('streamWindow.endStreamBtn')} variant="danger" size="sm" onclick={onExit} />
+	</div>
 </div>

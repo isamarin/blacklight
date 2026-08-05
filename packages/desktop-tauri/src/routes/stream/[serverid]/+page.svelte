@@ -15,7 +15,6 @@
 		getxHomeToken
 	} from '$lib/stores/auth.svelte';
 	import { getSettings } from '$lib/stores/settings.svelte';
-	import Loader from '$lib/components/ui/Loader.svelte';
 	import ErrorPanel from '$lib/components/ui/ErrorPanel.svelte';
 	import StreamOverlay from '$lib/components/stream/StreamOverlay.svelte';
 	import StreamPreload from '$lib/components/stream/StreamPreload.svelte';
@@ -223,12 +222,15 @@
 		/>
 	</div>
 {:else if !communicationHandler}
-	<div class="h-screen bg-black flex flex-col items-center justify-center gap-4">
-		<Loader />
-		<p class="text-white/50 text-sm">{status || t('streamWindow.startingConnection')}</p>
+	<div class="relative h-screen w-screen overflow-hidden bg-black">
+		<StreamPreload
+			{status}
+			title={t('streamWindow.connectingToConsole')}
+			onExit={leaveStream}
+		/>
 	</div>
 {:else}
-	<div class="relative h-screen w-screen bg-black overflow-hidden">
+	<div class="relative h-screen w-screen overflow-hidden bg-black">
 		{#key session?.sessionId}
 			<StreamPlayerHost
 				handler={communicationHandler}
@@ -238,8 +240,13 @@
 				onReady={handlePlayerReady}
 			/>
 		{/key}
-		{#if showQueueOverlay}
-			<StreamPreload waitingSeconds={queueSeconds} {status} onExit={endStream} />
+		{#if showQueueOverlay || (isConnecting && !playerHandle)}
+			<StreamPreload
+				waitingSeconds={queueSeconds}
+				{status}
+				title={t('streamWindow.connectingToConsole')}
+				onExit={endStream}
+			/>
 		{:else if playerHandle}
 			<StreamOverlay
 				{status}

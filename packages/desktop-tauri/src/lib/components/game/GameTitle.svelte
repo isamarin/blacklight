@@ -6,7 +6,14 @@
 	import CachedImage from '$lib/components/ui/CachedImage.svelte';
 	import Loader from '$lib/components/ui/Loader.svelte';
 
-	let { titleId }: { titleId: string } = $props();
+	let {
+		titleId,
+		layout = 'tile'
+	}: {
+		titleId: string;
+		/** `tile` = design-beta square card; `compact` = legacy fixed width */
+		layout?: 'tile' | 'compact';
+	} = $props();
 
 	let product = $state<Record<string, unknown> | undefined>(undefined);
 	let loading = $state(false);
@@ -46,12 +53,14 @@
 </script>
 
 {#if !product && (loading || !cached)}
-	<Loader />
-{:else}
+	<div class={layout === 'tile' ? 'aspect-square' : 'h-[140px] w-[140px]'} aria-busy="true">
+		<Loader />
+	</div>
+{:else if layout === 'compact'}
 	<div class="group relative w-[140px] shrink-0">
 		<a
 			href="/xcloud/info/{titleId}"
-			class="absolute top-1 right-1 z-10 w-6 h-6 rounded bg-black/60 text-white/70 text-xs flex items-center justify-center opacity-0 group-hover:opacity-100"
+			class="absolute top-1 right-1 z-10 flex h-6 w-6 items-center justify-center rounded bg-black/60 text-xs text-white/70 opacity-0 group-hover:opacity-100"
 			title="Info"
 		>
 			i
@@ -62,16 +71,35 @@
 					src={image.URL}
 					preset="tile"
 					alt={name}
-					class="w-[140px] h-[140px] rounded object-cover"
+					class="h-[140px] w-[140px] rounded object-cover"
 				/>
 			{:else}
 				<div
-					class="w-[140px] h-[140px] rounded bg-white/5 flex items-center justify-center text-white/30 text-xs"
+					class="flex h-[140px] w-[140px] items-center justify-center rounded bg-white/5 text-xs text-white/30"
 				>
 					{titleId}
 				</div>
 			{/if}
-			<p class="mt-2 text-xs text-white/70 line-clamp-2">{name}</p>
+			<p class="mt-2 line-clamp-2 text-xs text-white/70">{name}</p>
+		</a>
+	</div>
+{:else}
+	<div class="game-tile-wrap relative">
+		<a
+			href="/xcloud/info/{titleId}"
+			class="game-tile-info"
+			title="Info"
+			aria-label="Info"
+		>
+			i
+		</a>
+		<a href="/stream/xcloud_{titleId}" class="game-tile" title={name}>
+			{#if image?.URL}
+				<CachedImage src={image.URL} preset="tile" alt={name} class="game-tile-image" />
+			{:else}
+				<div class="game-tile-fallback">{name}</div>
+			{/if}
+			<span class="game-tile-caption line-clamp-2">{name}</span>
 		</a>
 	</div>
 {/if}

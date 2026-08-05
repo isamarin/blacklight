@@ -20,14 +20,15 @@
 	}
 </script>
 
-<div class="glass-control relative w-full max-w-sm px-4 py-3 pr-12">
-	<span class="block w-full text-center font-mono text-2xl tracking-[0.3em] text-white select-all">
+<!-- Absolute copy btn: text stays optically centered in the box -->
+<div class="auth-code-box relative w-full max-w-sm px-4 py-3">
+	<span class="auth-code-value block w-full select-all text-center font-mono text-2xl font-semibold tracking-[0.28em]">
 		{code}
 	</span>
 	<button
 		type="button"
 		onclick={copyCode}
-		class="transition-soft absolute right-2 top-1/2 -translate-y-1/2 rounded-lg p-2 text-white/60 hover:bg-white/10 hover:text-white"
+		class="transition-soft absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-lg p-2 text-white/70 hover:bg-white/10 hover:text-white"
 		aria-label={copied ? t('auth.codeCopied') : t('auth.copyCode')}
 		title={copied ? t('auth.codeCopied') : t('auth.copyCode')}
 	>

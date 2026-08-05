@@ -12,7 +12,6 @@
 	} from '$lib/consoles';
 	import AppLayout from '$lib/components/layout/AppLayout.svelte';
 	import Card from '$lib/components/ui/Card.svelte';
-	import Label from '$lib/components/ui/Label.svelte';
 	import Button from '$lib/components/ui/Button.svelte';
 	import Loader from '$lib/components/ui/Loader.svelte';
 	import ErrorPanel from '$lib/components/ui/ErrorPanel.svelte';
@@ -25,9 +24,18 @@
 	let loadGeneration = 0;
 
 	function powerStateLabel(item: ConsoleInfo): string {
+		if (wakingConsoleId === item.id) return t('page.myConsoles.wakingBtn');
 		if (item.powerState === 'On') return t('page.myConsoles.poweredOn');
 		if (item.powerState === 'ConnectedStandby') return t('page.myConsoles.standby');
 		return item.powerState || t('page.myConsoles.offline');
+	}
+
+	function statusClass(item: ConsoleInfo): string {
+		if (wakingConsoleId === item.id) return 'console-status-waking';
+		if (!canStream(item)) return 'console-status-warn';
+		if (item.powerState === 'On') return 'console-status-on';
+		if (item.powerState === 'ConnectedStandby') return 'console-status-standby';
+		return 'console-status-off';
 	}
 
 	function canStream(item: ConsoleInfo): boolean {
@@ -119,34 +127,51 @@
 </script>
 
 <AppLayout title={t('page.myConsoles.pageTitle')}>
-	<h1 class="text-2xl font-bold text-white mb-6">{t('page.myConsoles.pageTitle')}</h1>
-	<div class="flex flex-wrap gap-4">
-		{#if errorCode}
-			<ErrorPanel code={errorCode} detail={errorDetail} onRetry={loadConsoles} />
-		{:else if loading}
-			<Loader />
-		{:else if list.length === 0}
-			<Card>
-				<p class="text-white/80">{t('page.myConsoles.noConsoles')}</p>
-				<div class="mt-4">
-					<Button label={t('errors.retryBtn')} onclick={loadConsoles} size="sm" />
-				</div>
-			</Card>
-		{:else}
+	<header class="mb-6 flex items-baseline gap-3">
+		<h1 class="text-2xl font-bold tracking-tight text-white">{t('page.myConsoles.pageTitle')}</h1>
+		<span class="text-xs text-white/40">xHome Streaming</span>
+	</header>
+
+	{#if errorCode}
+		<ErrorPanel code={errorCode} detail={errorDetail} onRetry={loadConsoles} />
+	{:else if loading}
+		<Loader />
+	{:else if list.length === 0}
+		<Card>
+			<p class="text-white/80">{t('page.myConsoles.noConsoles')}</p>
+			<div class="mt-4">
+				<Button label={t('errors.retryBtn')} onclick={loadConsoles} size="sm" />
+			</div>
+		</Card>
+	{:else}
+		<div class="console-grid">
 			{#each list as item (item.id)}
-				<Card class="w-72">
-					<h2 class="text-lg font-semibold text-white mb-2">{item.name}</h2>
-					<p class="text-xs text-white/40 mb-3">{item.id}</p>
-					{#if canStream(item)}
-						{#if isConsoleReady(item)}
-							<Label variant="green">{powerStateLabel(item)}</Label>
-						{:else}
-							<Label>{powerStateLabel(item)}</Label>
-						{/if}
-					{:else}
-						<Label variant="orange">{t('page.myConsoles.warningLabel')}</Label>
-					{/if}
-					<div class="mt-4 flex flex-col gap-2">
+				<article class="console-card">
+					<div class="console-card-head">
+						<div class="min-w-0">
+							<h2 class="console-card-name">{item.name}</h2>
+							<p class="console-card-id">{item.id}</p>
+						</div>
+						<span class="console-status {statusClass(item)}">
+							<span class="console-status-dot" aria-hidden="true"></span>
+							{canStream(item)
+								? powerStateLabel(item)
+								: t('page.myConsoles.warningLabel')}
+						</span>
+					</div>
+
+					<div class="console-device" aria-hidden="true">
+						<div
+							class="console-device-glyph"
+							class:console-device-glyph-on={isConsoleReady(item) || wakingConsoleId === item.id}
+						>
+							<span class="console-device-bar"></span>
+							<span class="console-device-bar"></span>
+							<span class="console-device-bar"></span>
+						</div>
+					</div>
+
+					<div class="console-actions">
 						{#if canStream(item)}
 							{#if canWake(item)}
 								<Button
@@ -155,7 +180,9 @@
 										: t('page.myConsoles.wakeBtn')}
 									onclick={() => handleWake(item)}
 									disabled={wakingConsoleId !== null}
+									variant="secondary"
 									size="sm"
+									class="w-full"
 								/>
 								<Button
 									label={wakingConsoleId === item.id
@@ -163,17 +190,30 @@
 										: t('page.myConsoles.wakeAndStreamBtn')}
 									onclick={() => handleWakeAndStream(item)}
 									disabled={wakingConsoleId !== null}
+									variant="solid"
 									size="sm"
+									class="w-full"
 								/>
 							{:else}
-								<a href="/stream/{item.id}">
-									<Button label={t('page.myConsoles.startStreamBtn')} />
+								<a href="/stream/{item.id}" class="block no-underline">
+									<span class="glass-btn glass-btn-solid glass-btn-md w-full">
+										<span class="glass-btn-shine" aria-hidden="true"></span>
+										<span class="relative z-10">{t('page.myConsoles.startStreamBtn')}</span>
+									</span>
 								</a>
 							{/if}
+						{:else}
+							<p class="text-xs text-white/40">
+								{#if !item.remoteManagementEnabled}
+									{t('page.myConsoles.managementWarning')}
+								{:else}
+									{t('page.myConsoles.streamingWarning')}
+								{/if}
+							</p>
 						{/if}
 					</div>
-				</Card>
+				</article>
 			{/each}
-		{/if}
-	</div>
+		</div>
+	{/if}
 </AppLayout>

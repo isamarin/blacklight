@@ -114,6 +114,10 @@
 			loading="eager"
 			decoding="async"
 		/>
+		<div class="auth-ambient">
+			<div class="auth-ambient-orb auth-ambient-orb-a"></div>
+			<div class="auth-ambient-orb auth-ambient-orb-b"></div>
+		</div>
 	</div>
 	<div class="auth-screen-content">
 		{@render children()}

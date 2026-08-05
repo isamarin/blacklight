@@ -86,40 +86,32 @@
 		<ErrorPanel code={errorCode} detail={errorDetail} onRetry={loadProfile} />
 	{:else}
 		<div class="mx-auto flex w-full max-w-6xl flex-col gap-8">
-			<Card class="flex flex-col gap-5 sm:flex-row sm:items-center">
-				<div class="flex items-center gap-4">
-					{#if avatarUrl}
-						<img
-							src={avatarUrl}
-							alt=""
-							class="h-20 w-20 rounded-2xl border border-white/10 object-cover"
-							loading="lazy"
-						/>
-					{:else}
-						<div
-							class="flex h-20 w-20 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-2xl font-bold text-white/70"
-						>
-							{displayName.slice(0, 1).toUpperCase()}
-						</div>
-					{/if}
-
-					<div>
-						<h1 class="text-2xl font-bold text-white">{displayName}</h1>
-						{#if profileData?.profile.gamertag && profileData.profile.gamertag !== displayName}
-							<p class="text-sm text-white/50">{profileData.profile.gamertag}</p>
-						{/if}
-						<p class="mt-1 text-sm text-white/45">
-							{t('page.profile.xuidLabel')}: {xuid}
-						</p>
+			<section class="profile-hero">
+				{#if avatarUrl}
+					<img src={avatarUrl} alt="" class="profile-hero-avatar" loading="lazy" />
+				{:else}
+					<div class="profile-hero-avatar profile-hero-avatar-fallback">
+						{displayName.slice(0, 1).toUpperCase()}
 					</div>
+				{/if}
+
+				<div class="min-w-0">
+					<h1 class="text-2xl font-bold tracking-tight text-white">{displayName}</h1>
+					{#if profileData?.profile.gamertag && profileData.profile.gamertag !== displayName}
+						<p class="text-sm text-white/50">{profileData.profile.gamertag}</p>
+					{/if}
+					<p class="mt-1 text-sm text-white/40">
+						{t('page.profile.xuidLabel')}: {xuid}
+					</p>
 				</div>
 
 				{#if gamerscore}
-					<div class="glass-pill glass-pill-default sm:ml-auto">
-						{t('page.profile.gamerscoreLabel')}: {gamerscore}
+					<div class="profile-hero-g">
+						<span class="profile-hero-g-value">{gamerscore}</span>
+						<span class="profile-hero-g-label">{t('page.profile.gamerscoreLabel')}</span>
 					</div>
 				{/if}
-			</Card>
+			</section>
 
 			<section>
 				<div class="mb-4">

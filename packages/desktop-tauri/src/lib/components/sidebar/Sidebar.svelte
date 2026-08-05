@@ -12,20 +12,15 @@
 		icon: 'home' | 'consoles' | 'library' | 'settings' | 'profile';
 	};
 
+	// Design order: Home → Consoles → Library → Profile → Settings
 	const nav: NavItem[] = [
-		{
-			href: '/profile',
-			labelKey: 'page.profile.pageTitle',
-			fallback: 'Profile',
-			icon: 'profile'
-		},
+		{ href: '/home', labelKey: 'header.home', fallback: 'Home', icon: 'home' },
 		{
 			href: '/consoles',
 			labelKey: 'page.myConsoles.pageTitle',
 			fallback: 'My Consoles',
 			icon: 'consoles'
 		},
-		{ href: '/home', labelKey: 'page.xCloud.breadcrumb', fallback: 'xCloud', icon: 'home' },
 		{
 			href: '/xcloud/library',
 			labelKey: 'page.xCloudLibrary.breadcrumb2',
@@ -33,18 +28,27 @@
 			icon: 'library'
 		},
 		{
+			href: '/profile',
+			labelKey: 'page.profile.pageTitle',
+			fallback: 'Profile',
+			icon: 'profile'
+		},
+		{
 			href: '/settings/home',
-			labelKey: 'settings.sidebar.about',
+			labelKey: 'header.settings',
 			fallback: 'Settings',
 			icon: 'settings'
 		}
 	];
 
 	const authState = $derived(getAuthState());
-	const gamertag = $derived(
-		(authState.webToken?.data.DisplayClaims?.xui?.[0] as { gtg?: string } | undefined)?.gtg ||
-			'Gamertag'
+	const tokenProfile = $derived(
+		authState.webToken?.data.DisplayClaims?.xui?.[0] as
+			| { gtg?: string; gsu?: string }
+			| undefined
 	);
+	const gamertag = $derived(tokenProfile?.gtg || 'Gamertag');
+	const gamerscore = $derived(tokenProfile?.gsu || null);
 
 	let navListEl = $state<HTMLUListElement | null>(null);
 	let indicator = $state({ left: 0, width: 0, ready: false });
@@ -100,9 +104,9 @@
 
 <header class="tv-topbar">
 	<div class="tv-topbar-brand">
-		<div class="tv-topbar-logo" aria-hidden="true">B</div>
+		<div class="tv-topbar-logo" aria-hidden="true">bl</div>
 		<div class="min-w-0 hidden sm:block">
-			<h2 class="truncate text-sm font-semibold tracking-tight text-white">Blacklight</h2>
+			<h2 class="truncate text-sm font-semibold tracking-[0.06em] text-white">BLACKLIGHT</h2>
 		</div>
 	</div>
 
@@ -138,10 +142,15 @@
 	</nav>
 
 	<div class="tv-topbar-actions">
-		<div class="tv-topbar-profile" title={gamertag}>
+		<a href="/profile" class="tv-topbar-profile" title={gamertag}>
 			<span class="tv-topbar-avatar" aria-hidden="true">{gamertag.slice(0, 1).toUpperCase()}</span>
-			<span class="hidden max-w-32 truncate text-sm text-white/80 md:inline">{gamertag}</span>
-		</div>
+			<span class="hidden min-w-0 flex-col md:flex">
+				<span class="max-w-32 truncate text-sm text-white/90">{gamertag}</span>
+				{#if gamerscore}
+					<span class="max-w-32 truncate text-[11px] text-white/45">{gamerscore} G</span>
+				{/if}
+			</span>
+		</a>
 		<button type="button" class="tv-topbar-logout" onclick={handleLogout}>
 			{t('auth.logoutBtn')}
 		</button>

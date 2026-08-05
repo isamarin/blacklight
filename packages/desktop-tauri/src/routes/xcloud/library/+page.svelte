@@ -49,9 +49,9 @@
 	{:else if titleIds.length === 0}
 		<p class="text-white/40">{t('page.xCloudLibrary.emptyLibrary')}</p>
 	{:else}
-		<div class="flex flex-wrap gap-4">
+		<div class="game-tile-grid">
 			{#each titleIds as id (id)}
-				<GameTitle titleId={id} />
+				<GameTitle titleId={id} layout="tile" />
 			{/each}
 		</div>
 	{/if}

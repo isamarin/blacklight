@@ -1,16 +1,23 @@
 <script lang="ts">
-	import { tick } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import { page } from '$app/state';
 	import { t } from '$lib/i18n';
+	import { getDebugUnlocked, subscribeDebugUnlock } from '$lib/debug-unlock';
 
-	const links = [
+	const baseLinks = [
 		{ href: '/settings/home', key: 'about' },
 		{ href: '/settings/streaming', key: 'streaming' },
 		{ href: '/settings/input', key: 'input' },
 		{ href: '/settings/video', key: 'videoAudio' },
-		{ href: '/settings/webui', key: 'webUI' },
-		{ href: '/settings/debug', key: 'debug' }
-	];
+		{ href: '/settings/webui', key: 'webUI' }
+	] as const;
+
+	let debugUnlocked = $state(getDebugUnlocked());
+	const links = $derived(
+		debugUnlocked
+			? [...baseLinks, { href: '/settings/debug', key: 'debug' as const }]
+			: [...baseLinks]
+	);
 
 	let navListEl = $state<HTMLUListElement | null>(null);
 	let indicator = $state({ top: 0, height: 0, ready: false });
@@ -38,8 +45,16 @@
 		};
 	}
 
+	onMount(() => {
+		debugUnlocked = getDebugUnlocked();
+		return subscribeDebugUnlock(() => {
+			debugUnlocked = getDebugUnlocked();
+		});
+	});
+
 	$effect(() => {
 		page.url.pathname;
+		debugUnlocked;
 		void syncIndicator();
 	});
 

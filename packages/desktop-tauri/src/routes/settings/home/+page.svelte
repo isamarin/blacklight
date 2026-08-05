@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
 	import { t } from '$lib/i18n';
 	import { fetchAppVersion, getBuildVersion } from '$lib/app-version';
+	import { registerVersionTap } from '$lib/debug-unlock';
 	import { clearAppData, getAuthState, logout } from '$lib/stores/auth.svelte';
 	import { getSettings, setSettings } from '$lib/stores/settings.svelte';
 	import AppLayout from '$lib/components/layout/AppLayout.svelte';
@@ -26,6 +28,7 @@
 	);
 
 	let appVersion = $state(getBuildVersion());
+	let debugUnlockHint = $state(false);
 
 	onMount(() => {
 		void fetchAppVersion({ force: true }).then((version) => {
@@ -36,6 +39,12 @@
 	async function handleClearData() {
 		if (!confirm(t('auth.clearDataQuestion'))) return;
 		await clearAppData();
+	}
+
+	function handleVersionTap() {
+		if (!registerVersionTap()) return;
+		debugUnlockHint = true;
+		void goto('/settings/debug');
 	}
 </script>
 
@@ -70,9 +79,23 @@
 				</select>
 			</Card>
 			<Card>
-				<p class="text-white/50 text-sm mb-2">
+				<button
+					type="button"
+					class="mb-2 block cursor-default select-none text-left text-sm text-white/50 transition-colors hover:text-white/70"
+					onclick={handleVersionTap}
+					title={t('settings.about.versionTapHint', {
+						defaultValue: 'Version'
+					})}
+				>
 					{t('settings.about.version')}: {appVersion}
-				</p>
+				</button>
+				{#if debugUnlockHint}
+					<p class="mb-2 text-xs text-xbox-glow">
+						{t('settings.about.debugUnlocked', {
+							defaultValue: 'Debug menu unlocked'
+						})}
+					</p>
+				{/if}
 				<p class="text-white/40 text-sm mb-3">
 					<span class="text-white/50">{t('settings.about.website')}: </span>
 					<a

@@ -48,6 +48,8 @@
         "selectorSelectLanguage": "Sprache auswählen",
         "logout": "Abmelden",
         "version": "Version",
+        "versionTapHint": "Version",
+        "debugUnlocked": "Debug-Menü freigeschaltet",
         "website": "Webseite",
         "websiteLinkTitle": "Öffne Link in externem Browser"
       },
@@ -185,7 +187,11 @@
         "recentGames": "Zuletzt gespielt",
         "recentlyAdded": "Neu hinzugefügt",
         "viewLibraryBtn": "Bibliothek anzeigen",
-        "loadingLibrary": "Bibliothek wird geladen..."
+        "loadingLibrary": "Bibliothek wird geladen...",
+        "continuePlaying": "Weiterspielen",
+        "startStreamBtn": "Stream starten",
+        "viewGameBtn": "Spielinfo",
+        "noRecentGames": "Noch keine kürzlich gespielten Spiele. Starte etwas aus der Bibliothek."
       },
       "xCloudLibrary": {
         "pageTitle": "xCloud Bibliothek",
@@ -215,7 +221,6 @@
         "achievementsProgress": "{{current}} / {{total}} Erfolge",
         "noPlayedGames": "Kein kürzlicher Spielverlauf für dieses Konto gefunden."
       },
-
       "myConsoles": {
         "pageTitle": "Meine Konsolen",
         "poweredOn": "Eingeschaltet",
@@ -277,7 +282,11 @@
       "startingConnection": "Verbindungsaufbau...",
       "connectingToConsole": "Verbinde mit Konsole...",
       "wakingConsole": "Konsole wird aufgeweckt...",
-      "clientHasBeenDisconnected": "Der Client wurde getrennt."
+      "clientHasBeenDisconnected": "Der Client wurde getrennt.",
+      "statsBtn": "Statistik",
+      "statsHint": "Player-Debug-Overlay mit ~ umschalten",
+      "statusLabel": "Status",
+      "micLabel": "Mikrofon"
     },
     "updater": {
       "unableToCheckForUpdates": "Nach Aktualisierungen kann derzeit nicht gesucht werden. Versuche es erneut.",

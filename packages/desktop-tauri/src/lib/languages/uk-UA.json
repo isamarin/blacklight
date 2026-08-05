@@ -2,7 +2,6 @@
   "translation": {
     "languageName": "Українська",
     "authorOfLocalization": "Українська локалізація: Євген Чефранов",
-
     "header": {
       "myConsoles": "Мої консолі",
       "viewConsoles": "Перегляд консолей",
@@ -14,7 +13,6 @@
       "quitQuestion": "Ви впевнені, що хочете вийти?",
       "home": "Головна"
     },
-
     "auth": {
       "logoutQuestion": "Ви впевнені, що хочете вийти з акаунту?",
       "clearDataBtn": "Очистити дані",
@@ -32,7 +30,6 @@
       "qrCodeHint": "Або відскануйте QR-код на телефоні",
       "windowTitle": "Авторизація"
     },
-
     "settings": {
       "sidebar": {
         "about": "Про програму",
@@ -42,7 +39,6 @@
         "webUI": "Web UI",
         "debug": "Відлагодження"
       },
-
       "about": {
         "logoutQuestion": "Ви впевнені, що хочете вийти з акаунту?",
         "title": "Налаштування",
@@ -52,10 +48,11 @@
         "selectorSelectLanguage": "Оберіть мову",
         "logout": "Вийти",
         "version": "Версія",
+        "versionTapHint": "Версія",
+        "debugUnlocked": "Меню налагодження розблоковано",
         "website": "Веб-сайт",
         "websiteLinkTitle": "Відкрити посилання у зовнішньому браузері"
       },
-
       "input": {
         "pageTitle": "Налаштування: Ввід",
         "dPadUp": "Хрестовина вгору",
@@ -91,7 +88,6 @@
         "noControllerDetected": "Контролер не виявлено",
         "keyboardMappingsTitle": "Призначення клавіш"
       },
-
       "streaming": {
         "pageTitle": "Налаштування: Трансляція",
         "title": "Налаштування трансляції",
@@ -148,7 +144,6 @@
         "preferredGameLanguageValueChineseTW": "Китайська (традиційна)",
         "forceRegionHint": "Передається як X-Forwarded-For під час автентифікації Xbox. Вийдіть і увійдіть знову після зміни."
       },
-
       "videoAudio": {
         "pageTitle": "Налаштування: Відео та Аудіо",
         "videoTitle": "Відео",
@@ -166,7 +161,6 @@
         "audioTitle": "Аудіо",
         "disableAudioLabel": "Вимкнути аудіо"
       },
-
       "webUI": {
         "pageTitle": "Налаштування: Web UI",
         "title": "WebUI",
@@ -180,12 +174,10 @@
         "portLabel": "Порт",
         "portPlaceholder": "наприклад: 9003"
       },
-
       "debug": {
         "pageTitle": "Налаштування: Відлагодження"
       }
     },
-
     "page": {
       "xCloud": {
         "pageTitle": "Бібліотека xCloud",
@@ -193,9 +185,12 @@
         "recentGames": "Недавні ігри",
         "recentlyAdded": "Нещодавно додані",
         "viewLibraryBtn": "Переглянути бібліотеку",
-        "loadingLibrary": "Завантаження бібліотеки..."
+        "loadingLibrary": "Завантаження бібліотеки...",
+        "continuePlaying": "Продовжити гру",
+        "startStreamBtn": "Почати трансляцію",
+        "viewGameBtn": "Про гру",
+        "noRecentGames": "Поки немає нещодавніх ігор. Запустіть щось із бібліотеки."
       },
-
       "xCloudLibrary": {
         "pageTitle": "Бібліотека xCloud",
         "breadcrumb1": "xCloud",
@@ -207,7 +202,6 @@
         "viewGamePageIcon": "Переглянути сторінку гри",
         "emptyLibrary": "Ігор не знайдено. Спробуйте ще раз або увійдіть знову, якщо бібліотека порожня."
       },
-
       "profile": {
         "pageTitle": "Профіль",
         "xuidLabel": "XUID",
@@ -225,7 +219,6 @@
         "achievementsProgress": "{{current}} / {{total}} досягнень",
         "noPlayedGames": "Історію нещодавніх ігор для цього акаунта не знайдено."
       },
-
       "myConsoles": {
         "pageTitle": "Мої консолі",
         "poweredOn": "Увімкнена",
@@ -240,7 +233,6 @@
         "offline": "Вимкнена",
         "noConsoles": "Консолі не знайдено у вашому акаунті. Якщо у вас є консоль Xbox, переконайтеся, що віддалена гра увімкнена і консоль відображається в офіційному додатку Xbox."
       },
-
       "titleInfo": {
         "pageTitle": "Перегляд інформації про тайтл:",
         "breadcrumb1": "xCloud",
@@ -250,22 +242,18 @@
         "capabilitiesTitle": "Можливості",
         "startStreamBtn": "Почати трансляцію"
       },
-
       "page404": {
         "pageTitle": "Помилка",
         "message": "Упс.. 404.. Дію не знайдено"
       },
-
       "page500": {
         "pageTitle": "Помилка",
         "message": "Упс.. 500.. У додатку сталася помилка"
       }
     },
-
     "friends": {
       "allFriendsOffline": "Всі ваші друзі офлайн"
     },
-
     "streamWindow": {
       "pageTitle": "Трансляція",
       "endStreamConfirmMessage": "Ви впевнені, що хочете завершити свою трансляцію?",
@@ -292,9 +280,12 @@
       "startingConnection": "Початок підключення...",
       "connectingToConsole": "Підключення до консолі...",
       "wakingConsole": "Пробудження консолі...",
-      "clientHasBeenDisconnected": "Клієнт був відключений."
+      "clientHasBeenDisconnected": "Клієнт був відключений.",
+      "statsBtn": "Статистика",
+      "statsHint": "Оверлей налагодження плеєра: клавіша ~",
+      "statusLabel": "Статус",
+      "micLabel": "Мікрофон"
     },
-
     "updater": {
       "unableToCheckForUpdates": "Не вдалося перевірити наявність оновлень зараз. Спробуйте ще раз.",
       "alreadyOnLatestVersion": "Ви вже використовуєте останню версію. Поточна версія:",
@@ -307,7 +298,6 @@
       "updateChecker": "Перевірка оновлень",
       "closeBtn": "Закрити"
     },
-
     "errors": {
       "regionIpHint": {
         "title": "Спробуйте примусовий регіон",
