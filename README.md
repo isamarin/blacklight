@@ -8,7 +8,7 @@
 
 **Blacklight** is an independent open-source Xbox streaming tool — xCloud and console home streaming for **macOS** and **Windows** (Tauri). Built with TypeScript; streaming engine powered by [xbox-xcloud-player](https://github.com/unknownskl/xbox-xcloud-player).
 
-**Maintainer:** Igor Samarin ([@isamarin](https://github.com/isamarin)) — mako.mmw@gmail.com
+**Maintainer:** Igor Samarin ([@isamarin](https://github.com/isamarin)) — <mako.mmw@gmail.com>
 
 **Versioning:** [CalVer](https://calver.org/) (`2026.7.13`). Release tags: `v2026.7.13` (not the old fork `v3.*` prefix).
 
@@ -22,7 +22,7 @@ _DISCLAIMER: Blacklight is not affiliated with Microsoft, Xbox or Moonlight. All
 - Keyboard controls
 - Build-in online friends list
 
-<img src="images/main.png" width="400" /> <img src="images/stream.png" width="400" />
+<img src="images/image.png" width="400" /> <img src="images/image.png" width="400" />
 
 ## Install
 
@@ -67,7 +67,7 @@ This application is reported to be working on the Steam Deck with some small bug
 ## Optional launch arguments
 
 | Argument | Description |
-|----------|--------------|
+| ---------- | -------------- |
 | --fullscreen | Starts the application in fullscreen |
 | --connect=<value> | Will start stream once the user is authenticated. |
 
