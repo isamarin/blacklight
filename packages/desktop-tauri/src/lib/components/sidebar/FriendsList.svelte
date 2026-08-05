@@ -3,6 +3,36 @@
 	import { trpc } from '$lib/trpc';
 	import { getIsAuthenticated, getWebToken } from '$lib/stores/auth.svelte';
 
+	/**
+	 * Temporary screenshot privacy: replace real gamertags / presence with placeholder copy.
+	 * Flip to false when screenshots are done.
+	 */
+	const SCREENSHOT_MASK_FRIENDS = true;
+
+	const FAKE_NAMES = [
+		'Nova Pike',
+		'Reed Ash',
+		'Kai North',
+		'Mira Vale',
+		'Jon Harbor',
+		'Elara Quinn',
+		'Theo Marsh',
+		'Sage Orion',
+		'Lumen Fox',
+		'Ivy Sol'
+	];
+
+	const FAKE_PRESENCE = [
+		'Playing Starfield',
+		'Online',
+		'In a party',
+		'Playing Forza Horizon 5',
+		'Away',
+		'Playing Halo Infinite',
+		'Looking for group',
+		'Playing Sea of Thieves'
+	];
+
 	type PresenceDetail = {
 		IsGame?: boolean;
 		IsPrimary?: boolean;
@@ -34,6 +64,20 @@
 			}
 		}
 		return friend.presenceText?.trim() || '';
+	}
+
+	function displayName(friend: Friend, index: number): string {
+		if (!SCREENSHOT_MASK_FRIENDS) {
+			return friend.displayName || friend.gamertag;
+		}
+		return FAKE_NAMES[index % FAKE_NAMES.length];
+	}
+
+	function displayPresence(friend: Friend, index: number): string {
+		const real = friendPresenceText(friend);
+		if (!real) return '';
+		if (!SCREENSHOT_MASK_FRIENDS) return real;
+		return FAKE_PRESENCE[index % FAKE_PRESENCE.length];
 	}
 
 	$effect(() => {
@@ -81,15 +125,15 @@
 		<p class="text-xs text-white/30">No friends online</p>
 	{:else}
 		<ul class="space-y-2">
-			{#each friends as friend (friend.xuid)}
+			{#each friends as friend, index (friend.xuid)}
 				<li class="text-sm text-white/70">
 					<div class="truncate">
 						<span class="mr-2 inline-block h-2 w-2 rounded-full bg-xbox-glow"></span>
-						{friend.displayName || friend.gamertag}
+						{displayName(friend, index)}
 					</div>
-					{#if friendPresenceText(friend)}
+					{#if displayPresence(friend, index)}
 						<p class="mt-0.5 truncate pl-4 text-xs text-white/40">
-							{friendPresenceText(friend)}
+							{displayPresence(friend, index)}
 						</p>
 					{/if}
 				</li>

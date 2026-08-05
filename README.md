@@ -22,7 +22,7 @@ _DISCLAIMER: Blacklight is not affiliated with Microsoft, Xbox or Moonlight. All
 - Keyboard controls
 - Build-in online friends list
 
-<img src="images/image.png" width="400" /> <img src="images/image.png" width="400" />
+<img src="images/image.png" width="400" /> <img src="images/games.png" width="400" />
 
 ## Install
 
