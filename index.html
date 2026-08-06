@@ -6,6 +6,24 @@
   <title>Blacklight — Stream Xbox on Mac &amp; Windows</title>
   <meta name="description" content="Blacklight is an independent open-source Xbox streaming app for macOS and Windows — xCloud and console remote play. Public beta." />
   <meta name="theme-color" content="#0a0a0a" />
+  <link rel="canonical" href="https://isamarin.github.io/blacklight/" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23107c10'/%3E%3Ctext x='32' y='46' font-family='system-ui,sans-serif' font-size='40' font-weight='700' fill='white' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Blacklight" />
+  <meta property="og:title" content="Blacklight — Stream Xbox on Mac &amp; Windows" />
+  <meta property="og:description" content="Independent open-source Xbox streaming app for macOS and Windows — xCloud and console home streaming. Public beta." />
+  <meta property="og:url" content="https://isamarin.github.io/blacklight/" />
+  <meta property="og:image" content="https://isamarin.github.io/blacklight/images/ui-home.png" />
+  <meta property="og:image:width" content="1312" />
+  <meta property="og:image:height" content="912" />
+  <meta property="og:image:alt" content="Blacklight desktop app — home screen with game library" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Blacklight — Stream Xbox on Mac &amp; Windows" />
+  <meta name="twitter:description" content="Independent open-source Xbox streaming app for macOS and Windows — xCloud and console home streaming. Public beta." />
+  <meta name="twitter:image" content="https://isamarin.github.io/blacklight/images/ui-home.png" />
+
   <link rel="stylesheet" href="css/blacklight-demo.css" />
 </head>
 <body>
@@ -16,7 +34,7 @@
     </a>
     <nav class="nav">
       <a href="#features">Features</a>
-      <a href="#ui">Live UI</a>
+      <a href="#ui">UI preview</a>
       <a href="#shots">Screens</a>
       <a href="https://github.com/isamarin/blacklight" target="_blank" rel="noopener">GitHub</a>
       <a class="glass-btn glass-btn-solid" style="padding:0.5rem 0.95rem;font-size:0.82rem" href="https://github.com/isamarin/blacklight/releases" target="_blank" rel="noopener">
@@ -48,12 +66,12 @@
             </a>
           </div>
           <p style="margin-top:1.25rem;font-size:0.85rem;color:rgba(255,255,255,0.45)">
-            Live embeds below reuse the real Tauri UI motion — no video demos.
+            The previews below are the app's real UI components, animated in HTML — not screenshots or video.
           </p>
         </div>
 
         <!-- Embed A: Auth parallax shell -->
-        <div class="embed-frame" aria-label="Interactive auth UI demo">
+        <div class="embed-frame" aria-label="Preview of the Blacklight sign-in screen">
           <div class="auth-screen" data-parallax-root style="min-height:420px">
             <div class="auth-screen-backdrop" aria-hidden="true">
               <img data-parallax-image class="auth-screen-image" src="images/hero-background.jpg" alt="" loading="eager" decoding="async" />
@@ -68,11 +86,11 @@
                 <h2 class="auth-brand-title">BLACKLIGHT</h2>
                 <p class="auth-brand-sub">Xbox streaming</p>
                 <div class="auth-code-box" aria-hidden="true">ABCD-EFGH</div>
-                <a class="glass-btn glass-btn-solid" style="width:100%" href="https://github.com/isamarin/blacklight/releases" target="_blank" rel="noopener">
+                <span class="glass-btn glass-btn-solid" style="width:100%" aria-hidden="true">
                   <span class="glass-btn-shine"></span>
                   <span style="position:relative;z-index:1">Login with Xbox</span>
-                </a>
-                <p style="margin:0.85rem 0 0;font-size:0.72rem;color:rgba(255,255,255,0.4)">Move the pointer — parallax from the real app</p>
+                </span>
+                <p style="margin:0.85rem 0 0;font-size:0.72rem;color:rgba(255,255,255,0.4)">Preview of the sign-in screen — move the pointer for the app's parallax</p>
               </div>
             </div>
           </div>
@@ -112,8 +130,8 @@
     </section>
 
     <section class="section wrap" id="ui">
-      <h2>Live UI — animated HTML, not a screen recording</h2>
-      <p class="lead">Motion and glass components ported from <code style="color:var(--color-accent-glow)">packages/desktop-tauri</code> so the landing stays as smooth as the app.</p>
+      <h2>UI preview — real components, animated in HTML</h2>
+      <p class="lead">Motion and glass components ported from <code style="color:var(--color-accent-glow)">packages/desktop-tauri</code>. Switch tabs to see each screen — these are previews of the interface, not a running app.</p>
 
       <div data-showcase>
         <div class="showcase-tabs" role="tablist">
@@ -157,7 +175,7 @@
             <div class="game-tile"><div class="game-tile-fallback">PUZZLE</div><div class="game-tile-caption">Lattice</div></div>
             <div class="game-tile"><div class="game-tile-fallback">CO-OP</div><div class="game-tile-caption">Twin Signal</div></div>
           </div>
-          <p style="margin:0.85rem 0 0;font-size:0.8rem;color:rgba(255,255,255,0.45)">Hover tiles — same lift/glow language as the desktop library grid.</p>
+          <p style="margin:0.85rem 0 0;font-size:0.8rem;color:rgba(255,255,255,0.45)">Same lift and glow language as the desktop library grid.</p>
         </div>
 
         <div class="showcase-panel" data-panel="console">
@@ -183,7 +201,7 @@
             <div class="stream-connect-orb" aria-hidden="true"></div>
             <div class="stream-connect-spinner" aria-hidden="true"></div>
             <div style="position:relative;font-weight:700;color:#fff">Connecting to stream…</div>
-            <div style="position:relative;font-size:0.85rem;color:rgba(255,255,255,0.5)">UI chrome only — not a fork screenshot or real stream</div>
+            <div style="position:relative;font-size:0.85rem;color:rgba(255,255,255,0.5)">Interface preview — not a live stream</div>
             <div class="stream-hud">
               <span>Video <strong>60</strong> fps · Audio <strong>48</strong> kHz</span>
               <span>RTT <strong>28</strong> ms</span>
@@ -198,14 +216,14 @@
             <div class="friend-row"><div class="friend-avatar" style="background:linear-gradient(135deg,#1e3a5f,#107c10)"></div><div><div class="friend-name">PixelFox</div><div class="friend-presence">Online</div></div></div>
             <div class="friend-row"><div class="friend-avatar" style="background:linear-gradient(135deg,#2d9b2d,#0a0a0a)"></div><div><div class="friend-name">NovaBit</div><div class="friend-presence">In menu</div></div></div>
           </div>
-          <p style="margin:0.85rem 0 0;font-size:0.8rem;color:rgba(255,255,255,0.45)">Demo names only — production can mask friends for screenshots.</p>
+          <p style="margin:0.85rem 0 0;font-size:0.8rem;color:rgba(255,255,255,0.45)">Demo names — not real accounts.</p>
         </div>
       </div>
     </section>
 
     <section class="section wrap" id="shots">
       <h2>From the real app</h2>
-      <p class="lead">Static captures from our Blacklight UI (fork stream screenshots removed).</p>
+      <p class="lead">Static captures from the Blacklight desktop app.</p>
       <div class="shot-grid">
         <figure class="shot">
           <img src="images/ui-home.png" alt="Blacklight home UI" loading="lazy" />
@@ -227,9 +245,9 @@
           <span class="glass-btn-shine"></span>
           <span style="position:relative;z-index:1">Releases</span>
         </a>
-        <a class="glass-btn glass-btn-secondary" href="https://blacklight.isamarin.xyz" target="_blank" rel="noopener">
+        <a class="glass-btn glass-btn-secondary" href="https://github.com/isamarin/blacklight/blob/main/CHANGELOG.md" target="_blank" rel="noopener">
           <span class="glass-btn-shine"></span>
-          <span style="position:relative;z-index:1">blacklight.isamarin.xyz</span>
+          <span style="position:relative;z-index:1">Changelog</span>
         </a>
       </div>
     </section>
