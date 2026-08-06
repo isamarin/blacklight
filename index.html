@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blacklight — Stream Xbox on Mac &amp; Windows</title>
+  <meta name="description" content="Blacklight is an independent open-source Xbox streaming app for macOS and Windows — xCloud and console remote play. Public beta." />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="stylesheet" href="css/blacklight-demo.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="#top">
+      <span class="logo-mark">B</span>
+      <span>BLACKLIGHT</span>
+    </a>
+    <nav class="nav">
+      <a href="#features">Features</a>
+      <a href="#ui">Live UI</a>
+      <a href="#shots">Screens</a>
+      <a href="https://github.com/isamarin/blacklight" target="_blank" rel="noopener">GitHub</a>
+      <a class="glass-btn glass-btn-solid" style="padding:0.5rem 0.95rem;font-size:0.82rem" href="https://github.com/isamarin/blacklight/releases" target="_blank" rel="noopener">
+        <span class="glass-btn-shine"></span>
+        <span class="relative" style="position:relative;z-index:1">Download</span>
+      </a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero-section wrap">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <span class="badge">Public beta</span>
+          <span class="badge" data-os-badge hidden>Detected</span>
+          <h1 data-hero-title>Stream Xbox.<br />On your Mac.<br />On your terms.</h1>
+          <p data-hero-sub>
+            Blacklight is an independent open-source Xbox streaming tool for
+            macOS and Windows — xCloud and console home streaming in a native desktop app with a polished glass UI.
+          </p>
+          <div class="cta-row">
+            <a class="glass-btn glass-btn-solid" href="https://github.com/isamarin/blacklight/releases" target="_blank" rel="noopener">
+              <span class="glass-btn-shine"></span>
+              <span style="position:relative;z-index:1" data-download-cta>Get the latest build</span>
+            </a>
+            <a class="glass-btn glass-btn-secondary" href="https://github.com/isamarin/blacklight" target="_blank" rel="noopener">
+              <span class="glass-btn-shine"></span>
+              <span style="position:relative;z-index:1">View source</span>
+            </a>
+          </div>
+          <p style="margin-top:1.25rem;font-size:0.85rem;color:rgba(255,255,255,0.45)">
+            Live embeds below reuse the real Tauri UI motion — no video demos.
+          </p>
+        </div>
+
+        <!-- Embed A: Auth parallax shell -->
+        <div class="embed-frame" aria-label="Interactive auth UI demo">
+          <div class="auth-screen" data-parallax-root style="min-height:420px">
+            <div class="auth-screen-backdrop" aria-hidden="true">
+              <img data-parallax-image class="auth-screen-image" src="images/hero-background.jpg" alt="" loading="eager" decoding="async" />
+              <div class="auth-ambient">
+                <div class="auth-ambient-orb auth-ambient-orb-a"></div>
+                <div class="auth-ambient-orb auth-ambient-orb-b"></div>
+              </div>
+            </div>
+            <div class="auth-screen-content">
+              <div class="glass-auth">
+                <div class="auth-brand-mark">B</div>
+                <h2 class="auth-brand-title">BLACKLIGHT</h2>
+                <p class="auth-brand-sub">Xbox streaming</p>
+                <div class="auth-code-box" aria-hidden="true">ABCD-EFGH</div>
+                <a class="glass-btn glass-btn-solid" style="width:100%" href="https://github.com/isamarin/blacklight/releases" target="_blank" rel="noopener">
+                  <span class="glass-btn-shine"></span>
+                  <span style="position:relative;z-index:1">Login with Xbox</span>
+                </a>
+                <p style="margin:0.85rem 0 0;font-size:0.72rem;color:rgba(255,255,255,0.4)">Move the pointer — parallax from the real app</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section wrap" id="features">
+      <h2>Built for players Microsoft left on the desktop</h2>
+      <p class="lead">xCloud + home streaming, gamepad and keyboard, friends online, library and profile — in a native Tauri shell.</p>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <h3>xCloud &amp; console</h3>
+          <p>Stream cloud titles and your Xbox One / Series over the network from one app.</p>
+        </article>
+        <article class="feature-card">
+          <h3>macOS &amp; Windows</h3>
+          <p>Native desktop builds (Tauri 2 + SvelteKit). Public beta downloads on GitHub Releases.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Controls that fit</h3>
+          <p>Gamepad support, keyboard map, rumble on xCloud — Steam Deck friendly with a mapped Nexus key.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Friends &amp; library</h3>
+          <p>Online friends sidebar, continue-playing hero, recent and new games, profile with gamerscore.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Region-aware streaming</h3>
+          <p>Smarter GSSV region handling and force-IP presets when your stream host and UI region disagree.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Open source beta</h3>
+          <p>CalVer releases, public repo, stream debug stats. Not affiliated with Microsoft or Xbox.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section wrap" id="ui">
+      <h2>Live UI — animated HTML, not a screen recording</h2>
+      <p class="lead">Motion and glass components ported from <code style="color:var(--color-accent-glow)">packages/desktop-tauri</code> so the landing stays as smooth as the app.</p>
+
+      <div data-showcase>
+        <div class="showcase-tabs" role="tablist">
+          <button type="button" data-tab="home" aria-selected="true">Home</button>
+          <button type="button" data-tab="library" aria-selected="false">Library</button>
+          <button type="button" data-tab="console" aria-selected="false">Consoles</button>
+          <button type="button" data-tab="stream" aria-selected="false">Stream chrome</button>
+          <button type="button" data-tab="friends" aria-selected="false">Friends</button>
+        </div>
+
+        <div class="showcase-panel is-active" data-panel="home">
+          <div class="home-hero">
+            <div class="home-hero-media" aria-hidden="true">
+              <img src="images/ui-games.png" alt="" />
+            </div>
+            <div class="home-hero-body">
+              <div class="home-hero-kicker">Continue playing</div>
+              <h3 class="home-hero-title">Your last session, one click away</h3>
+              <div style="display:flex;flex-wrap:wrap;gap:0.65rem">
+                <span class="glass-btn glass-btn-solid glass-btn-md" style="padding:0.65rem 1rem;font-size:0.85rem">
+                  <span class="glass-btn-shine"></span>
+                  <span style="position:relative;z-index:1">Start stream</span>
+                </span>
+                <span class="glass-btn glass-btn-secondary" style="padding:0.65rem 1rem;font-size:0.85rem">
+                  <span class="glass-btn-shine"></span>
+                  <span style="position:relative;z-index:1">View game</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="showcase-panel" data-panel="library">
+          <div class="game-tile-grid">
+            <div class="game-tile"><div class="game-tile-fallback">RACING</div><div class="game-tile-caption">Night Circuit</div></div>
+            <div class="game-tile"><div class="game-tile-fallback">RPG</div><div class="game-tile-caption">Ember Path</div></div>
+            <div class="game-tile"><div class="game-tile-fallback">FPS</div><div class="game-tile-caption">Vector Siege</div></div>
+            <div class="game-tile"><div class="game-tile-fallback">SPORTS</div><div class="game-tile-caption">Pitch Pro</div></div>
+            <div class="game-tile"><div class="game-tile-fallback">INDIE</div><div class="game-tile-caption">Paper Orbit</div></div>
+            <div class="game-tile"><div class="game-tile-fallback">ACTION</div><div class="game-tile-caption">Iron Tide</div></div>
+            <div class="game-tile"><div class="game-tile-fallback">PUZZLE</div><div class="game-tile-caption">Lattice</div></div>
+            <div class="game-tile"><div class="game-tile-fallback">CO-OP</div><div class="game-tile-caption">Twin Signal</div></div>
+          </div>
+          <p style="margin:0.85rem 0 0;font-size:0.8rem;color:rgba(255,255,255,0.45)">Hover tiles — same lift/glow language as the desktop library grid.</p>
+        </div>
+
+        <div class="showcase-panel" data-panel="console">
+          <div class="console-card" style="max-width:22rem">
+            <div style="display:flex;justify-content:space-between;gap:0.75rem;align-items:flex-start">
+              <div>
+                <div style="font-weight:700;color:#fff">Living Room Series X</div>
+                <div style="font-size:0.7rem;color:rgba(255,255,255,0.35);margin-top:0.2rem">F000…demo</div>
+              </div>
+              <span class="console-status-on"><span class="console-status-dot"></span> Online</span>
+            </div>
+            <div style="margin-top:1rem">
+              <span class="glass-btn glass-btn-solid" style="padding:0.55rem 1rem;font-size:0.85rem;width:100%">
+                <span class="glass-btn-shine"></span>
+                <span style="position:relative;z-index:1">Stream console</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="showcase-panel" data-panel="stream">
+          <div class="stream-connect">
+            <div class="stream-connect-orb" aria-hidden="true"></div>
+            <div class="stream-connect-spinner" aria-hidden="true"></div>
+            <div style="position:relative;font-weight:700;color:#fff">Connecting to stream…</div>
+            <div style="position:relative;font-size:0.85rem;color:rgba(255,255,255,0.5)">UI chrome only — not a fork screenshot or real stream</div>
+            <div class="stream-hud">
+              <span>Video <strong>60</strong> fps · Audio <strong>48</strong> kHz</span>
+              <span>RTT <strong>28</strong> ms</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="showcase-panel" data-panel="friends">
+          <div class="friends-strip" style="max-width:18rem">
+            <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.4);padding:0 0.35rem">Online</div>
+            <div class="friend-row"><div class="friend-avatar"></div><div><div class="friend-name">Player One</div><div class="friend-presence">Playing · xCloud</div></div></div>
+            <div class="friend-row"><div class="friend-avatar" style="background:linear-gradient(135deg,#1e3a5f,#107c10)"></div><div><div class="friend-name">PixelFox</div><div class="friend-presence">Online</div></div></div>
+            <div class="friend-row"><div class="friend-avatar" style="background:linear-gradient(135deg,#2d9b2d,#0a0a0a)"></div><div><div class="friend-name">NovaBit</div><div class="friend-presence">In menu</div></div></div>
+          </div>
+          <p style="margin:0.85rem 0 0;font-size:0.8rem;color:rgba(255,255,255,0.45)">Demo names only — production can mask friends for screenshots.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section wrap" id="shots">
+      <h2>From the real app</h2>
+      <p class="lead">Static captures from our Blacklight UI (fork stream screenshots removed).</p>
+      <div class="shot-grid">
+        <figure class="shot">
+          <img src="images/ui-home.png" alt="Blacklight home UI" loading="lazy" />
+          <figcaption>Home / library shell</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="images/ui-games.png" alt="Game grid" loading="lazy" />
+          <figcaption>Game tiles</figcaption>
+        </figure>
+        
+      </div>
+    </section>
+
+    <section class="section wrap" id="download">
+      <h2>Download the public beta</h2>
+      <p class="lead">macOS and Windows builds ship via GitHub Releases (CalVer tags like v2026.8.x).</p>
+      <div class="cta-row">
+        <a class="glass-btn glass-btn-solid" href="https://github.com/isamarin/blacklight/releases" target="_blank" rel="noopener">
+          <span class="glass-btn-shine"></span>
+          <span style="position:relative;z-index:1">Releases</span>
+        </a>
+        <a class="glass-btn glass-btn-secondary" href="https://blacklight.isamarin.xyz" target="_blank" rel="noopener">
+          <span class="glass-btn-shine"></span>
+          <span style="position:relative;z-index:1">blacklight.isamarin.xyz</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer wrap">
+    <div>Maintainer: <a href="https://github.com/isamarin">Igor Samarin</a> · <a href="https://github.com/isamarin/blacklight">isamarin/blacklight</a></div>
+    <p class="disclaimer">
+      Blacklight is not affiliated with Microsoft, Xbox, or Moonlight. All trademarks belong to their respective owners.
+      Licensed under the PolyForm Noncommercial License 1.0.0 — free for noncommercial use.
+    </p>
+  </footer>
+
+  <script src="js/os-hero.js"></script>
+  <script src="js/parallax.js" defer></script>
+  <script src="js/tabs.js" defer></script>
+</body>
+</html>
