@@ -316,6 +316,7 @@
         "network": "Netzwerkfehler. Verbindung prüfen und erneut versuchen.",
         "catalog_timeout": "Die xCloud-Bibliothek lädt zu lange. Bitte erneut versuchen.",
         "catalog_missing_token": "Streaming-Token fehlen. Bitte erneut anmelden, um die Bibliothek zu laden.",
+        "catalog_failed": "Die xCloud-Bibliothek konnte von Microsoft nicht geladen werden. Bitte später erneut versuchen. Konsolentitel brauchen eine gekoppelte Xbox; xCloud nicht.",
         "stream_timeout": "Die Stream-Verbindung dauert zu lange. Erneut versuchen oder zurückgehen.",
         "stream_failed": "Der Stream konnte nicht gestartet werden. Erneut versuchen oder die Konsolenverbindung prüfen.",
         "consoles_load_failed": "Konsolen konnten nicht geladen werden. Erneut versuchen oder neu anmelden.",

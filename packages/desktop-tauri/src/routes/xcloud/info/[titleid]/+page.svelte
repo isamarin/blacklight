@@ -2,7 +2,7 @@
 	import { page } from '$app/state';
 	import { t } from '$lib/i18n';
 	import { trpc } from '$lib/trpc';
-	import { getxHomeToken } from '$lib/stores/auth.svelte';
+	import { getCatalogToken } from '$lib/stores/auth.svelte';
 	import { getTitle } from '$lib/stores/titleCatalog.svelte';
 	import { getProducts } from '$lib/titles';
 	import AppLayout from '$lib/components/layout/AppLayout.svelte';
@@ -29,7 +29,7 @@
 
 		trpc.gamepass_resolve_productid
 			.query({
-				token: getxHomeToken(),
+				token: getCatalogToken(),
 				productId: cached?.productId || titleId
 			})
 			.then((resolved) => {

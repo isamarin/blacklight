@@ -39,4 +39,6 @@ pnpm desktop-tauri tauri:build
 ## Agent config
 
 - `.grok/config.toml` — `blacklight-debug`, `github` MCP, permissions
+- `packages/mcp-debug` — stdio MCP (`pnpm mcp:debug` / `pnpm mcp:doctor`)
+- Tools: debug_summary, api_health, auth_status, ui_pages, run_smoke_p0, …
 - `gh auth` + `grok_com_github` for orchestration

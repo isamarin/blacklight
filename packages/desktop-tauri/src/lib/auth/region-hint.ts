@@ -51,7 +51,7 @@ export function shouldSuggestRegionIpFix(
 	if (code === 'region_mismatch') return true;
 	if (isLikelyRegionMismatchError(error)) return true;
 
-	if (code === 'catalog_missing_token') return false;
+	if (code === 'catalog_missing_token' || code === 'catalog_failed') return false;
 	if (code === 'web_tokens') return false;
 	if (code === 'network' || code === 'catalog_timeout') return false;
 

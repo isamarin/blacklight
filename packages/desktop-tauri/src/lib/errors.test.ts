@@ -20,6 +20,13 @@ describe('errors', () => {
 		expect(
 			classifyError(new Error('401 unauthorized uks.core.gssv-play-prod.xboxlive.com'))
 		).toBe('region_mismatch');
+		expect(
+			classifyError(
+				new Error(
+					'Error fetching uks.core.gssv-play-prodxhome.xboxlive.com/v2/titles. Details: {"statuscode":500,"body":"{\\"code\\":\\"InternalError\\"}"}'
+				)
+			)
+		).toBe('catalog_failed');
 		expect(classifyError(new Error('something else'))).toBe('unknown');
 	});
 

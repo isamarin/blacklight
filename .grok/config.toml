@@ -22,16 +22,19 @@
 # Secrets: never commit GITHUB_PAT. Only ${GITHUB_PAT} reference below.
 # ─────────────────────────────────────────────────────────────────────────
 
-# Local Xbox API debug MCP (health, tRPC introspection)
+# Local Xbox API debug MCP (health, tRPC, settings, smoke scripts)
+# Package: packages/mcp-debug — start: pnpm mcp:debug
 [mcp_servers.blacklight-debug]
 command = "pnpm"
-args = ["--filter", "@blacklight/mcp-debug", "start"]
+args = ["--filter", "@blacklight/mcp-debug", "run", "start"]
 enabled = true
 startup_timeout_sec = 20
-tool_timeout_sec = 60
+tool_timeout_sec = 90
 
 [mcp_servers.blacklight-debug.env]
 BLACKLIGHT_PORT = "9003"
+# Tauri dev preview (tauri-dev-server.sh). Use 5173 for plain `pnpm desktop-tauri dev`.
+BLACKLIGHT_UI_PORT = "4173"
 
 # GitHub API — commits, CI, releases, issues, PRs, workflow_dispatch
 # Replaces/augments hosted grok_com_github when PAT is set.

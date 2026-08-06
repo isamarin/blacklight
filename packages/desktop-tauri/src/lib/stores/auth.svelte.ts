@@ -326,8 +326,26 @@ export function getxCloudToken() {
 	return buildStreamingToken(authState.streamingTokens?.xCloudToken, getCatalogLanguage());
 }
 
+/**
+ * Token for xCloud library / catalog APIs.
+ * Prefer xCloud GSSV token — xHome `/v2/titles` only works with a paired console
+ * and fails with Microsoft InternalError 500 when none are registered.
+ */
+export function getCatalogToken() {
+	const cloud = getxCloudToken();
+	if (cloud.token) return cloud;
+	return getxHomeToken();
+}
+
 export function hasStreamingTokens() {
-	return Boolean(resolveStreamingTokenData(authState.streamingTokens?.xHomeToken)?.gsToken);
+	return Boolean(
+		resolveStreamingTokenData(authState.streamingTokens?.xHomeToken)?.gsToken ||
+			resolveStreamingTokenData(authState.streamingTokens?.xCloudToken)?.gsToken
+	);
+}
+
+export function hasCatalogToken() {
+	return Boolean(getCatalogToken().token);
 }
 
 export function getUserRefreshToken() {

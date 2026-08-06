@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { trpc } from '$lib/trpc';
-	import { getxHomeToken } from '$lib/stores/auth.svelte';
+	import { getCatalogToken } from '$lib/stores/auth.svelte';
 	import { getTitle } from '$lib/stores/titleCatalog.svelte';
 	import { getProducts } from '$lib/titles';
 	import CachedImage from '$lib/components/ui/CachedImage.svelte';
@@ -31,7 +31,7 @@
 
 		trpc.gamepass_resolve_productid
 			.query({
-				token: getxHomeToken(),
+				token: getCatalogToken(),
 				productId: cached?.productId || titleId
 			})
 			.then((resolved) => {

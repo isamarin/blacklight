@@ -1,6 +1,6 @@
 [package]
 name = "blacklight-desktop-tauri"
-version = "2026.8.1"
+version = "2026.8.2"
 description = "Blacklight desktop (Tauri)"
 authors = ["Igor Samarin <mako.mmw@gmail.com>"]
 license = "PolyForm-Noncommercial-1.0.0"

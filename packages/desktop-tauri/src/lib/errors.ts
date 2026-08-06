@@ -6,6 +6,7 @@ export type UserErrorCode =
 	| 'network'
 	| 'catalog_timeout'
 	| 'catalog_missing_token'
+	| 'catalog_failed'
 	| 'stream_timeout'
 	| 'stream_failed'
 	| 'consoles_load_failed'
@@ -34,12 +35,11 @@ export function errorText(error: unknown): string {
 export function classifyError(error: unknown): UserErrorCode {
 	const text = errorText(error);
 
+	// xCloud/home title catalog endpoints — not the same as MSAL streaming-token exchange
 	if (
-		text.includes('gssv') ||
-		text.includes('gssv-play-prod') ||
-		text.includes('gssv-play-prodxhome') ||
-		text.includes('catalog.gamepass.com') ||
-		text.includes('/v2/titles')
+		text.includes('/v2/titles') ||
+		text.includes('titles/mru') ||
+		text.includes('catalog.gamepass.com')
 	) {
 		if (
 			text.includes('401') ||
@@ -49,8 +49,21 @@ export function classifyError(error: unknown): UserErrorCode {
 		) {
 			return 'region_mismatch';
 		}
-		if (text.includes('error fetching')) {
-			return 'streaming_tokens';
+		return 'catalog_failed';
+	}
+
+	if (
+		text.includes('gssv') ||
+		text.includes('gssv-play-prod') ||
+		text.includes('gssv-play-prodxhome')
+	) {
+		if (
+			text.includes('401') ||
+			text.includes('403') ||
+			text.includes('unauthorized') ||
+			text.includes('forbidden')
+		) {
+			return 'region_mismatch';
 		}
 	}
 

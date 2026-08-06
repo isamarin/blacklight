@@ -10,9 +10,9 @@ import {
 	type TitleEntry
 } from '$lib/titles';
 import {
+	getCatalogToken,
 	getIsAuthenticated,
-	getxHomeToken,
-	hasStreamingTokens,
+	hasCatalogToken,
 	refreshStreamingTokens
 } from '$lib/stores/auth.svelte';
 
@@ -27,15 +27,15 @@ let catalogErrorRaw = $state<unknown>(null);
 let catalogMap = $state(new Map<string, TitleEntry>());
 let loadGeneration = 0;
 
-async function ensureStreamingTokenReady(): Promise<boolean> {
-	if (hasStreamingTokens() && getxHomeToken().token) {
+async function ensureCatalogTokenReady(): Promise<boolean> {
+	if (hasCatalogToken()) {
 		return true;
 	}
 
 	return refreshStreamingTokens();
 }
 
-async function loadCatalog(token: ReturnType<typeof getxHomeToken>, generation: number) {
+async function loadCatalog(token: ReturnType<typeof getCatalogToken>, generation: number) {
 	const [allResult, recentResult, newResult] = await Promise.allSettled([
 		trpc.gamepass_get_titles.query(token),
 		trpc.gamepass_get_recent_titles.query(token),
@@ -105,11 +105,11 @@ export async function refreshTitleCatalog() {
 	}, CATALOG_TIMEOUT_MS);
 
 	try {
-		const tokenReady = await ensureStreamingTokenReady();
+		const tokenReady = await ensureCatalogTokenReady();
 		if (generation !== loadGeneration) return;
 
-		let token = getxHomeToken();
-		if (!token.token) {
+		let token = getCatalogToken();
+		if (!tokenReady || !token.token) {
 			catalogError = 'catalog_missing_token';
 			return;
 		}
@@ -122,7 +122,7 @@ export async function refreshTitleCatalog() {
 			const retried = await refreshStreamingTokens();
 			if (!retried) throw firstError;
 
-			token = getxHomeToken();
+			token = getCatalogToken();
 			if (!token.token) throw firstError;
 
 			await loadCatalog(token, generation);

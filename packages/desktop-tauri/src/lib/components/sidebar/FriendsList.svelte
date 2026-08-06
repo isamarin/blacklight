@@ -1,7 +1,14 @@
 <script lang="ts">
 	import { t } from '$lib/i18n';
-	import { trpc } from '$lib/trpc';
-	import { getIsAuthenticated, getWebToken } from '$lib/stores/auth.svelte';
+	import { getIsAuthenticated } from '$lib/stores/auth.svelte';
+	import {
+		getFriends,
+		getFriendsLoading,
+		resetFriends,
+		startFriendsWatch,
+		stopFriendsWatch,
+		type Friend
+	} from '$lib/stores/friends.svelte';
 
 	/**
 	 * Temporary screenshot privacy: replace real gamertags / presence with placeholder copy.
@@ -33,29 +40,8 @@
 		'Playing Sea of Thieves'
 	];
 
-	type PresenceDetail = {
-		IsGame?: boolean;
-		IsPrimary?: boolean;
-		PresenceText?: string;
-	};
-
-	type Friend = {
-		xuid: string;
-		gamertag: string;
-		displayName?: string;
-		presenceState?: string;
-		presenceText?: string;
-		presenceDetails?: PresenceDetail[];
-	};
-
-	type FriendsListResponse = {
-		data?: {
-			people?: Friend[];
-		};
-	};
-
-	let friends = $state<Friend[]>([]);
-	let loading = $state(false);
+	const friends = $derived(getFriends());
+	const loading = $derived(getFriendsLoading());
 
 	function friendPresenceText(friend: Friend): string {
 		for (const detail of friend.presenceDetails ?? []) {
@@ -82,34 +68,12 @@
 
 	$effect(() => {
 		if (!getIsAuthenticated()) {
-			friends = [];
+			resetFriends();
 			return;
 		}
 
-		let cancelled = false;
-		const load = async () => {
-			loading = true;
-			try {
-				const data = (await trpc.profile_get_friends.query(
-					getWebToken()
-				)) as FriendsListResponse;
-				if (!cancelled) {
-					const people = data.data?.people ?? [];
-					friends = people.filter((friend) => friend.presenceState !== 'Offline');
-				}
-			} catch (e) {
-				console.error('Failed to load friends', e);
-			} finally {
-				if (!cancelled) loading = false;
-			}
-		};
-
-		load();
-		const interval = setInterval(load, 30_000);
-		return () => {
-			cancelled = true;
-			clearInterval(interval);
-		};
+		startFriendsWatch();
+		return () => stopFriendsWatch();
 	});
 </script>
 

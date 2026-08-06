@@ -6,6 +6,19 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
 
+## [2026.8.2] - 2026-08-06
+
+### Fixed (desktop-tauri)
+- **xCloud library:** load catalog with xCloud GSSV token (not xHome); xHome `/v2/titles` 500 without a paired console was mis-shown as “Failed to retrieve streaming tokens”
+- **Friends sidebar:** cache presence list across route changes so tab switches no longer re-fetch and flash “Loading…”
+- **Boot splash:** black text outline on “Loading Blacklight…” for readability on the hero background
+
+### Added
+- **mcp-debug v0.3:** expanded local stdio MCP tools (auth status redacted, ports, smoke scripts, app settings); root `pnpm mcp:debug` / `pnpm mcp:doctor`
+
+### Changed
+- Catalog errors use `catalog_failed` copy instead of forcing re-login; region-hint skips catalog failures
+
 ## [2026.8.1] - 2026-08-05
 
 ### Added (desktop-tauri)
