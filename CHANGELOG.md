@@ -6,6 +6,12 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
 
+## [2026.8.3] - 2026-08-14
+
+### Changed
+- Dependencies updated via `pnpm update`
+- Version bump to 2026.8.3
+
 ## [2026.8.2] - 2026-08-06
 
 ### Fixed (desktop-tauri)
