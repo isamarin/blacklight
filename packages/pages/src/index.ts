@@ -16,7 +16,7 @@ import { appRouter } from '@blacklight/platform';
 import { matchPagesRoute } from './routing';
 
 export default {
-	async fetch(request, env, ctx): Promise<Response> {
+	async fetch(request): Promise<Response> {
 		const url = new URL(request.url);
 		const route = matchPagesRoute(url.pathname, url.origin);
 
