@@ -7,6 +7,7 @@ import {
 	setSettings
 } from '$lib/stores/settings.svelte';
 import {
+	apiHealth,
 	getAppSettingsFromTauri,
 	getSidecarSettings,
 	isApiRunning,
@@ -30,6 +31,7 @@ function sleep(ms: number) {
 async function waitForApiHealth() {
 	const deadline = Date.now() + API_HEALTH_TIMEOUT_MS;
 	while (Date.now() < deadline) {
+		if (isTauriApp() && (await apiHealth())) return;
 		if (await getApiHealth()) return;
 		await sleep(API_HEALTH_POLL_MS);
 	}

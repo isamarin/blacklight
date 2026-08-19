@@ -123,6 +123,14 @@ export async function isApiRunning(): Promise<boolean> {
 	return invokeWithRetry<boolean>('is_api_running');
 }
 
+export async function apiHealth(): Promise<boolean> {
+	try {
+		return await invoke<boolean>('api_health');
+	} catch {
+		return false;
+	}
+}
+
 export async function restartApi(): Promise<void> {
 	await invokeWithRetry('restart_api');
 }

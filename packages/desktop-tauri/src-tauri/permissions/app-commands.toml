@@ -16,5 +16,6 @@ commands.allow = [
     "start_api",
     "stop_api",
     "is_api_running",
-    "restart_api"
+    "restart_api",
+    "api_health"
 ]

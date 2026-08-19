@@ -6,6 +6,12 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
 
+## [26.8.10] - 2026-08-19
+
+### Fixed
+- macOS production boot: allow `tauri://localhost` CORS, wait for the sidecar port on restart, and check `/health` from Rust so the UI no longer dies with "API failed to start"
+- Updater no longer treats leftover `v2026.*` tags as newer than current `26.8.N` CalVer
+
 ## [26.8.9] - 2026-08-19
 
 ### Fixed

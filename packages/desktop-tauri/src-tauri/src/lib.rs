@@ -1,6 +1,9 @@
 mod commands;
 
+use std::io::{Read, Write};
+use std::net::{Ipv4Addr, SocketAddr, TcpStream};
 use std::sync::Mutex;
+use std::time::Duration;
 
 use tauri::{Emitter, Manager, RunEvent};
 use tauri_plugin_shell::process::CommandChild;
@@ -11,7 +14,26 @@ struct ApiProcessState(Mutex<Option<CommandChild>>);
 const DEFAULT_API_PORT: u16 = 9003;
 
 fn api_port_listening(port: u16) -> bool {
-	std::net::TcpStream::connect(("127.0.0.1", port)).is_ok()
+	TcpStream::connect(("127.0.0.1", port)).is_ok()
+}
+
+fn api_http_health() -> bool {
+	let addr = SocketAddr::from((Ipv4Addr::LOCALHOST, DEFAULT_API_PORT));
+	let mut stream = match TcpStream::connect_timeout(&addr, Duration::from_millis(400)) {
+		Ok(stream) => stream,
+		Err(_) => return false,
+	};
+	let _ = stream.set_read_timeout(Some(Duration::from_millis(400)));
+	let _ = stream.set_write_timeout(Some(Duration::from_millis(400)));
+	if stream
+		.write_all(b"GET /health HTTP/1.1\r\nHost: 127.0.0.1\r\nConnection: close\r\n\r\n")
+		.is_err()
+	{
+		return false;
+	}
+	let mut buf = Vec::new();
+	let _ = stream.read_to_end(&mut buf);
+	String::from_utf8_lossy(&buf).contains("\"ok\":true")
 }
 
 fn spawn_api(app: &tauri::AppHandle) -> Result<(), String> {
@@ -49,6 +71,15 @@ fn spawn_api(app: &tauri::AppHandle) -> Result<(), String> {
 	Ok(())
 }
 
+fn wait_port_free(port: u16) {
+	for _ in 0..20 {
+		if !api_port_listening(port) {
+			return;
+		}
+		std::thread::sleep(std::time::Duration::from_millis(100));
+	}
+}
+
 fn kill_api(app: &tauri::AppHandle) {
 	if let Some(state) = app.try_state::<ApiProcessState>() {
 		if let Some(child) = state.0.lock().unwrap().take() {
@@ -84,7 +115,13 @@ fn is_api_running(app: tauri::AppHandle) -> bool {
 #[tauri::command]
 fn restart_api(app: tauri::AppHandle) -> Result<(), String> {
 	kill_api(&app);
+	wait_port_free(DEFAULT_API_PORT);
 	spawn_api(&app)
+}
+
+#[tauri::command]
+fn api_health() -> bool {
+	api_http_health()
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -108,6 +145,7 @@ pub fn run() {
 			stop_api,
 			is_api_running,
 			restart_api,
+			api_health,
 		])
 		.manage(ApiProcessState(Mutex::new(None)))
 		.setup(|app| {

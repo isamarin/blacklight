@@ -1,13 +1,14 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 
 const ALLOWED_HOSTS = new Set(['127.0.0.1', 'localhost', 'tauri.localhost']);
+const ALLOWED_PROTOCOLS = new Set(['http:', 'https:', 'tauri:']);
 
 export function isAllowedOrigin(origin: string | undefined): boolean {
 	if (!origin) return false;
 
 	try {
 		const { hostname, protocol } = new URL(origin);
-		if (protocol !== 'http:' && protocol !== 'https:') return false;
+		if (!ALLOWED_PROTOCOLS.has(protocol)) return false;
 		return ALLOWED_HOSTS.has(hostname);
 	} catch {
 		return false;

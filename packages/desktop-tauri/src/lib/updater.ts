@@ -26,21 +26,44 @@ export function normalizeVersion(version: string): string {
 	return version.trim().replace(/^v/i, '');
 }
 
+/**
+ * Map short-year CalVer (26.8.9) onto 20YY.M.N so leftover v2026.* tags
+ * compare as the same calendar family instead of 2026 > 26.
+ */
+export function canonicalVersion(version: string): string {
+	const normalized = normalizeVersion(version);
+	const match = /^(\d+)\.(.+)$/.exec(normalized);
+	if (!match) return normalized;
+
+	const year = match[1];
+	if (year.length === 2) {
+		return `20${year}.${match[2]}`;
+	}
+	return normalized;
+}
+
+function isHigherVersion(left: string, right: string): boolean {
+	try {
+		return compare(canonicalVersion(left), canonicalVersion(right), '>');
+	} catch {
+		return false;
+	}
+}
+
 export function pickLatestRelease(
 	releases: GithubRelease[],
 	prereleases: boolean
 ): GithubRelease | null {
-	for (const release of releases) {
-		if (release.draft) continue;
-		if (release.prerelease === prereleases) {
-			return release;
-		}
-	}
-	return null;
+	const candidates = releases.filter((release) => !release.draft && release.prerelease === prereleases);
+	if (candidates.length === 0) return null;
+
+	return candidates.reduce((best, release) =>
+		isHigherVersion(release.tag_name, best.tag_name) ? release : best
+	);
 }
 
 export function isNewerRelease(currentVersion: string, releaseTag: string): boolean {
-	return compare(normalizeVersion(releaseTag), normalizeVersion(currentVersion), '>');
+	return isHigherVersion(releaseTag, currentVersion);
 }
 
 export function isUpdateDismissed(tagName: string): boolean {
