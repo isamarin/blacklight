@@ -11,9 +11,11 @@ description: Changelogs
 
 ## Unreleased
 
-- **Blacklight** — independent product by Igor Samarin (`isamarin/blacklight`), CalVer `v2026.M.P` release tags
-- Tauri 2 desktop (SvelteKit UI) for Windows/macOS; minimal `blacklight-api` sidecar
-- Drop fork-era `v3.*` tags and `build:depsv3` script naming
+## 26.8.5 - 2026-08-19
+
+- CalVer tags now `v26.8.N`
+- Removed Electron V2, desktop-v3, and platform-playground
+- CI install fixed via `@blacklight/platform` v1.0.4 / `@blacklight/player` v1.0.2
 
 ## 2026.7.2 - 2026-07-02
 

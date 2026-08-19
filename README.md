@@ -10,7 +10,7 @@
 
 **Maintainer:** Igor Samarin ([@isamarin](https://github.com/isamarin)) — <mako.mmw@gmail.com>
 
-**Versioning:** [CalVer](https://calver.org/) (`2026.8.1`). Release tags: `v2026.8.1` (not the old fork `v3.*` prefix).
+**Versioning:** [CalVer](https://calver.org/) (`26.8.N`). Release tags: `v26.8.5`.
 
 _DISCLAIMER: Blacklight is not affiliated with Microsoft, Xbox or Moonlight. All rights and trademarks are property of their respective owners._
 
@@ -60,23 +60,6 @@ When possible always provide this information with your issue, if it is related.
 
 The application also provides a way to see which of your friends are online. This can be useful when you want to quickly check if anyone is online to play with :)
 
-## Steam Deck Setup
-
-This application is reported to be working on the Steam Deck with some small bugs and side-effects. You can map one of the Steam Deck back buttons to the 'N' key to simulate the Xbox button.
-
-## Optional launch arguments
-
-| Argument | Description |
-| ---------- | -------------- |
-| --fullscreen | Starts the application in fullscreen |
-| --connect=<value> | Will start stream once the user is authenticated. |
-
-For console use `F000000000000000` format and for xCloud use `xcloud_<title>`.
-
-## To close the application
-
-Click on the Xbox logo at the top-left. It will ask you to confirm to close the window.
-
 ## Local Development
 
 ### Requirements
@@ -98,24 +81,22 @@ Install dependencies:
 
 Run development build:
 
-    pnpm build:deps
     pnpm desktop-tauri tauri:dev
 
 Create production build:
 
-    pnpm build:deps
     pnpm desktop-tauri tauri:build
 
 Release tag (triggers CI draft release with DMG + NSIS):
 
-    git tag -a v2026.8.1 -m "Blacklight 2026.8.1"
-    git push origin v2026.8.1
+    git tag -a v26.8.5 -m "Blacklight 26.8.5"
+    git push origin v26.8.5
 
 Typecheck the Tauri UI:
 
     pnpm check:tauri
 
-Run the workspace test suite (logger, platform, player, desktop-tauri, pages):
+Run the workspace test suite (desktop-tauri, pages):
 
     pnpm test
 

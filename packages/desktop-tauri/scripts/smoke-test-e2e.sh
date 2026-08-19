@@ -40,9 +40,8 @@ wait_for_url() {
 	return 1
 }
 
-echo "[smoke:e2e] building workspace dependencies"
+echo "[smoke:e2e] building SvelteKit UI"
 cd "$ROOT"
-pnpm build:deps
 pnpm desktop-tauri build
 
 echo "[smoke:e2e] starting blacklight-api on ${API_ORIGIN}"

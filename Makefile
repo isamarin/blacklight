@@ -1,6 +1,5 @@
-.PHONY: help install build build-deps build-web build-desktop \
+.PHONY: help install build-web build-desktop \
 	dev dev-clean api web web-all preview preview-all \
-	landing-dev landing-build landing-deploy \
 	test check smoke smoke-ui smoke-p0 smoke-e2e stop
 
 PNPM := pnpm
@@ -25,20 +24,15 @@ help: ## Show available targets
 install: ## Install workspace dependencies
 	$(PNPM) install
 
-build-deps: ## Build shared packages (logger, player, platform)
-	$(PNPM) build:deps
-
-build: build-deps ## Alias for build-deps
-
-build-web: build-deps ## Build SvelteKit UI only (no Tauri bundle)
+build-web: ## Build SvelteKit UI only (no Tauri bundle)
 	$(PNPM) build:web
 
-build-desktop: build-deps ## Build desktop app (.dmg / .exe)
+build-desktop: ## Build desktop app (.dmg / .exe)
 	$(PNPM) desktop-tauri tauri:build
 
 desktop: build-desktop ## Alias for build-desktop
 
-dev: build-deps ## Run Tauri app (native shell + preview server)
+dev: ## Run Tauri app (native shell + preview server)
 	$(PNPM) dev:tauri
 
 dev-clean: ## Stop stale dev processes, then run Tauri
@@ -48,10 +42,10 @@ dev-clean: ## Stop stale dev processes, then run Tauri
 api: ## Run blacklight-api on port $(API_PORT)
 	BLACKLIGHT_PORT=$(API_PORT) $(PNPM) desktop-tauri api
 
-web: build-deps ## Vite dev server only — http://127.0.0.1:$(WEB_DEV_PORT)
+web: ## Vite dev server only — http://127.0.0.1:$(WEB_DEV_PORT)
 	TAURI_DEV_PORT=$(WEB_DEV_PORT) $(PNPM) desktop-tauri dev
 
-web-all: build-deps ## API + Vite dev (browser, hot reload)
+web-all: ## API + Vite dev (browser, hot reload)
 	@trap 'kill 0' INT TERM; \
 		BLACKLIGHT_PORT=$(API_PORT) $(PNPM) desktop-tauri api & \
 		TAURI_DEV_PORT=$(WEB_DEV_PORT) $(PNPM) desktop-tauri dev & \
@@ -59,15 +53,6 @@ web-all: build-deps ## API + Vite dev (browser, hot reload)
 
 preview: build-web ## Serve built UI — http://127.0.0.1:$(WEB_PREVIEW_PORT)
 	TAURI_DEV_PREVIEW_PORT=$(WEB_PREVIEW_PORT) $(PNPM) desktop-tauri preview
-
-landing-dev: ## Nuxt landing dev server — http://127.0.0.1:3847
-	$(PNPM) dev:landing
-
-landing-build: ## Static export for blacklight.isamarin.xyz
-	$(PNPM) build:landing
-
-landing-deploy: landing-build ## Build + rsync to server (needs LANDING_DEPLOY_* env)
-	$(PNPM) --filter blacklight-site run deploy
 
 preview-all: build-web ## API + preview (login/catalog; /trpc proxied)
 	@trap 'kill 0' INT TERM; \
@@ -78,7 +63,7 @@ preview-all: build-web ## API + preview (login/catalog; /trpc proxied)
 test: ## Run workspace tests
 	$(PNPM) test
 
-check: build-deps ## Svelte/TS check for desktop-tauri
+check: ## Svelte/TS check for desktop-tauri
 	$(PNPM) check:tauri
 
 smoke: smoke-ui ## Alias for smoke-ui

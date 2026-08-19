@@ -1,6 +1,5 @@
 version: 2
 updates:
-  # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -11,8 +10,11 @@ updates:
       - "dependencies"
     commit-message:
       prefix: "chore(ci)"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
 
-  # Maintain dependencies for npm
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
@@ -25,10 +27,17 @@ updates:
       prefix: "chore(deps)"
     versioning-strategy: increase
     groups:
+      security:
+        applies-to: security-updates
+        update-types:
+          - "patch"
+          - "minor"
       react:
+        applies-to: version-updates
         patterns:
           - "react*"
           - "@types/react*"
       fumadocs:
+        applies-to: version-updates
         patterns:
           - "fumadocs-*"

@@ -12,7 +12,6 @@ From the repo root:
 
 ```bash
 pnpm install
-pnpm build:deps
 pnpm desktop-tauri tauri:dev
 ```
 
@@ -37,7 +36,6 @@ bash packages/desktop-tauri/scripts/smoke-test-p0.sh
 ## Production build
 
 ```bash
-pnpm build:deps
 pnpm desktop-tauri tauri:build
 ```
 

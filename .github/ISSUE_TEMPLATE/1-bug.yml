@@ -29,7 +29,7 @@ body:
         examples:
           - **OS**: Ubuntu 20.04/Windows/MacOS
           - **Device**: PC/Steamdeck
-          - **Blacklight version**: 2.0.1
+          - **Blacklight version**: 26.8.5
       value: |
           - OS: 
           - Device: 

@@ -1,10 +1,24 @@
 # Changelog
 
-All versions use **CalVer (YYYY.MM.PATCH)** after the fork.
+All versions use **CalVer (`YY.M.PATCH`)** after the fork. Tags: `v26.8.5`.
 
 Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
+
+## [26.8.5] - 2026-08-19
+
+### Removed
+- Legacy Electron V2 client (`packages/desktop`), deprecated Next.js renderer (`packages/desktop-v3`), and platform playground
+- Landing-site GitHub Actions workflow (sources were not in this repo)
+- Dead `pnpm build:deps` / sibling-dir scripts (`../site`, `../platform`, `../player`)
+
+### Fixed
+- CI `pnpm install` now succeeds: `@blacklight/platform` v1.0.4 and `@blacklight/player` v1.0.2 prepare as git dependencies
+- GitHub Actions setup uses a shared composite action (`pnpm/action-setup@v6`, `setup-node@v6`)
+
+### Security
+- Bumped electron/next/sveltekit/postcss/ip-address and patched transitive overrides (undici, js-yaml, nanoid, hono, tar, ws)
 
 ## [2026.8.4] - 2026-08-14
 

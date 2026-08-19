@@ -1,8 +1,5 @@
 packages:
   - packages/pages
-  - packages/platform-playground
-  - packages/desktop
-  - packages/desktop-v3
   - packages/desktop-tauri
   - packages/docs
   - packages/mcp-debug
