@@ -257,7 +257,7 @@ dependencies = [
 
 [[package]]
 name = "blacklight-desktop-tauri"
-version = "26.8.7"
+version = "26.8.8"
 dependencies = [
  "serde",
  "serde_json",

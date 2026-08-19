@@ -48,7 +48,11 @@ echo "[smoke:e2e] starting blacklight-api on ${API_ORIGIN}"
 BLACKLIGHT_PORT="$API_PORT" pnpm desktop-tauri api >/tmp/blacklight-smoke-api.log 2>&1 &
 API_PID=$!
 
-wait_for_url "${API_ORIGIN}/health" "API"
+if ! wait_for_url "${API_ORIGIN}/health" "API"; then
+	echo "[smoke:e2e] API failed to start. Log:"
+	cat /tmp/blacklight-smoke-api.log 2>/dev/null || true
+	exit 1
+fi
 
 echo "[smoke:e2e] starting static UI preview on ${UI_ORIGIN}"
 (

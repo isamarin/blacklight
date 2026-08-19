@@ -6,6 +6,13 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
 
+## [26.8.8] - 2026-08-19
+
+### Fixed
+- Shim `@blacklight/player/client` types for CI svelte-check
+- Platform package `exports.default` so tsx can load the git-hosted entry
+- Smoke e2e prints the API log if `/health` never comes up
+
 ## [26.8.7] - 2026-08-19
 
 ### Fixed
