@@ -49,8 +49,8 @@ importers:
   packages/desktop-tauri:
     dependencies:
       '@blacklight/platform':
-        specifier: github:blacklight-kit/platform#v1.0.6
-        version: https://codeload.github.com/blacklight-kit/platform/tar.gz/f42b7679ebf765966d121cd95e0ba79e17471148(react@19.2.8)(typescript@5.9.3)
+        specifier: github:blacklight-kit/platform#v1.0.7
+        version: https://codeload.github.com/blacklight-kit/platform/tar.gz/7291be2b81d7fdf0920d3ff8a97b7c3f511d1f7f(react@19.2.8)(typescript@5.9.3)
       '@blacklight/player':
         specifier: github:blacklight-kit/player#v1.0.2
         version: https://codeload.github.com/blacklight-kit/player/tar.gz/5fd8206d019c967b7c35f690603c477d08f1ee77(react@19.2.8)
@@ -226,8 +226,8 @@ importers:
   packages/pages:
     devDependencies:
       '@blacklight/platform':
-        specifier: github:blacklight-kit/platform#v1.0.6
-        version: https://codeload.github.com/blacklight-kit/platform/tar.gz/f42b7679ebf765966d121cd95e0ba79e17471148(react@19.2.8)(typescript@5.9.3)
+        specifier: github:blacklight-kit/platform#v1.0.7
+        version: https://codeload.github.com/blacklight-kit/platform/tar.gz/7291be2b81d7fdf0920d3ff8a97b7c3f511d1f7f(react@19.2.8)(typescript@5.9.3)
       '@cloudflare/vitest-pool-workers':
         specifier: ^0.12.4
         version: 0.12.21(@cloudflare/workers-types@4.20260617.1)(@vitest/runner@4.1.9)(@vitest/snapshot@4.1.9)(vitest@4.1.9(@types/node@25.9.3)(vite@8.1.2(@types/node@25.9.3)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0)))
@@ -317,9 +317,9 @@ packages:
     resolution: {integrity: sha512-4zBIxpPzowiZpusoFkyGVwakdRJUyuH5PxQ/PrqghfdFWWasvnCdPfQXHrenDai+gyLARulZjZowCOj6fjT4pA==}
     engines: {node: '>=6.9.0'}
 
-  '@blacklight/platform@https://codeload.github.com/blacklight-kit/platform/tar.gz/f42b7679ebf765966d121cd95e0ba79e17471148':
-    resolution: {tarball: https://codeload.github.com/blacklight-kit/platform/tar.gz/f42b7679ebf765966d121cd95e0ba79e17471148}
-    version: 1.0.6
+  '@blacklight/platform@https://codeload.github.com/blacklight-kit/platform/tar.gz/7291be2b81d7fdf0920d3ff8a97b7c3f511d1f7f':
+    resolution: {tarball: https://codeload.github.com/blacklight-kit/platform/tar.gz/7291be2b81d7fdf0920d3ff8a97b7c3f511d1f7f}
+    version: 1.0.7
 
   '@blacklight/player@https://codeload.github.com/blacklight-kit/player/tar.gz/5fd8206d019c967b7c35f690603c477d08f1ee77':
     resolution: {tarball: https://codeload.github.com/blacklight-kit/player/tar.gz/5fd8206d019c967b7c35f690603c477d08f1ee77}
@@ -5716,7 +5716,7 @@ snapshots:
       '@babel/helper-string-parser': 7.29.7
       '@babel/helper-validator-identifier': 7.29.7
 
-  '@blacklight/platform@https://codeload.github.com/blacklight-kit/platform/tar.gz/f42b7679ebf765966d121cd95e0ba79e17471148(react@19.2.8)(typescript@5.9.3)':
+  '@blacklight/platform@https://codeload.github.com/blacklight-kit/platform/tar.gz/7291be2b81d7fdf0920d3ff8a97b7c3f511d1f7f(react@19.2.8)(typescript@5.9.3)':
     dependencies:
       '@blacklight/player': https://codeload.github.com/blacklight-kit/player/tar.gz/5fd8206d019c967b7c35f690603c477d08f1ee77(react@19.2.8)
       '@cloudflare/workers-types': 4.20260617.1

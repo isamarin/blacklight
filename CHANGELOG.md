@@ -6,6 +6,11 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
 
+## [26.8.9] - 2026-08-19
+
+### Fixed
+- `@blacklight/platform` v1.0.7 ships compiled `dist/`, so CI tsx/esbuild can resolve the git package
+
 ## [26.8.8] - 2026-08-19
 
 ### Fixed
