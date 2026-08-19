@@ -11,6 +11,10 @@ description: Changelogs
 
 ## Unreleased
 
+## 26.8.6 - 2026-08-19
+
+- CI install: `@blacklight/platform` v1.0.5 portable tRPC types
+
 ## 26.8.5 - 2026-08-19
 
 - CalVer tags now `v26.8.N`

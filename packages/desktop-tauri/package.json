@@ -2,7 +2,7 @@
 	"private": true,
 	"name": "blacklight-desktop-tauri",
 	"description": "Blacklight desktop shell (Tauri, Windows/macOS)",
-	"version": "26.8.5",
+	"version": "26.8.6",
 	"author": "Igor Samarin <mako.mmw@gmail.com>",
 	"license": "PolyForm-Noncommercial-1.0.0",
 	"repository": {
@@ -31,7 +31,7 @@
 		"build:api": "node api/build.mjs"
 	},
 	"dependencies": {
-		"@blacklight/platform": "github:blacklight-kit/platform#v1.0.4",
+		"@blacklight/platform": "github:blacklight-kit/platform#v1.0.5",
 		"@blacklight/player": "github:blacklight-kit/player#v1.0.2",
 		"@tauri-apps/api": "^2.10.0",
 		"@tauri-apps/plugin-opener": "^2.5.0",

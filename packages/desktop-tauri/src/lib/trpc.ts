@@ -1,10 +1,13 @@
 import { createTRPCProxyClient, httpBatchLink } from '@trpc/client';
-import type { inferRouterOutputs } from '@trpc/server';
-import { appRouter } from '@blacklight/platform';
 import { getTrpcHttpUrl } from '$lib/runtime';
 
+type TrpcProcedure = {
+	query: (...args: any[]) => Promise<any>
+	mutate: (...args: any[]) => Promise<any>
+}
+
 function createTrpcClient() {
-	return createTRPCProxyClient<typeof appRouter>({
+	return createTRPCProxyClient({
 		links: [
 			httpBatchLink({
 				url: getTrpcHttpUrl(),
@@ -13,7 +16,7 @@ function createTrpcClient() {
 				}
 			})
 		]
-	});
+	}) as unknown as Record<string, TrpcProcedure>;
 }
 
 let client = createTrpcClient();
@@ -35,4 +38,5 @@ export const trpc = new Proxy({} as TrpcClient, {
 	}
 });
 
-export type RouterOutputs = inferRouterOutputs<typeof appRouter>;
+// Platform git-prepare cannot emit portable tRPC declaration types.
+export type RouterOutputs = Record<string, any>;

@@ -6,6 +6,12 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
 
+## [26.8.6] - 2026-08-19
+
+### Fixed
+- CI git-prepare of `@blacklight/platform` v1.0.5 (portable tRPC declaration emit)
+- Tauri tRPC client no longer depends on non-portable platform `.d.ts` types
+
 ## [26.8.5] - 2026-08-19
 
 ### Removed
