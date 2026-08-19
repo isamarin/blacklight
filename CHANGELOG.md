@@ -6,6 +6,11 @@ Maintainer: **Igor Samarin** ([@isamarin](https://github.com/isamarin))
 
 ## [Unreleased]
 
+## [26.8.7] - 2026-08-19
+
+### Fixed
+- Pages unit tests no longer import the git-hosted platform package (Vitest could not resolve its entry on CI)
+
 ## [26.8.6] - 2026-08-19
 
 ### Fixed
