@@ -13,6 +13,16 @@ function createTrpcClient() {
 			httpBatchLink({
 				url: getTrpcHttpUrl(),
 				fetch: desktopApiFetch,
+				/*
+				 * Every procedure input carries the full Xbox JWT, so a batched GET
+				 * (e.g. 23 × gamepass_resolve_productid when the catalog loads) built
+				 * a URL long enough for the sidecar to answer 431 with an empty body —
+				 * surfacing as "Unexpected end of JSON input" and blank game art.
+				 * POST moves the inputs into the request body; maxURLLength still caps
+				 * any GET that slips through.
+				 */
+				methodOverride: 'POST',
+				maxURLLength: 2000,
 				headers() {
 					return {};
 				}

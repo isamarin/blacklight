@@ -2,7 +2,7 @@
 	import { tick } from 'svelte';
 	import { page } from '$app/state';
 	import { t } from '$lib/i18n';
-	import { getAuthState, logout } from '$lib/stores/auth.svelte';
+	import { getAuthState } from '$lib/stores/auth.svelte';
 	import NavIcon from '$lib/components/sidebar/NavIcon.svelte';
 
 	type NavItem = {
@@ -80,10 +80,6 @@
 		};
 	}
 
-	function handleLogout() {
-		if (confirm(t('auth.logoutQuestion'))) logout();
-	}
-
 	$effect(() => {
 		page.url.pathname;
 		void syncIndicator();
@@ -151,8 +147,5 @@
 				{/if}
 			</span>
 		</a>
-		<button type="button" class="tv-topbar-logout" onclick={handleLogout}>
-			{t('auth.logoutBtn')}
-		</button>
 	</div>
 </header>

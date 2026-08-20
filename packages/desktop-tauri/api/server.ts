@@ -26,7 +26,10 @@ function loadPort(): number {
 const trpcHandler = createHTTPHandler({
 	router: appRouter,
 	createContext: () => ({}),
-	basePath: '/trpc/'
+	basePath: '/trpc/',
+	// The client batches queries as POST (see $lib/trpc) because inputs carry
+	// the Xbox JWT and a batched GET URL trips this server's header limit.
+	allowMethodOverride: true
 });
 
 const port = process.env.BLACKLIGHT_PORT ? Number(process.env.BLACKLIGHT_PORT) : loadPort();

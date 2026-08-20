@@ -26,6 +26,8 @@ export default {
 				req: request,
 				router: appRouter,
 				createContext: () => ({}),
+				// Mirrors the sidecar: the client sends batched queries as POST.
+				allowMethodOverride: true,
 			});
 		}
 
