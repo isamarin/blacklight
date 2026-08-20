@@ -1,6 +1,7 @@
 {
   "name": "@blacklight/mcp-debug",
   "private": true,
+  "license": "AGPL-3.0-only",
   "version": "0.3.0",
   "description": "MCP server for local Blacklight API and UI debugging",
   "type": "module",

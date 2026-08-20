@@ -124,9 +124,24 @@ Want to help with translations? Open an [issue](https://github.com/isamarin/blac
 
 ## License
 
-Blacklight is licensed under the [PolyForm Noncommercial License 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0). You may use, modify, and distribute the software for **noncommercial** purposes only. Commercial use (including selling, sublicensing for profit, or using the software in a commercial product or service) is not permitted without separate permission from the copyright holders.
+Blacklight is dual-licensed.
 
-See [LICENSE](LICENSE) for the full text.
+**Open source — [AGPL-3.0](LICENSE).** Use it, study it, modify it, share it, run it,
+for any purpose including commercially. The one obligation is reciprocity: if you
+distribute a modified version, or run one as a network service, the people who
+receive it get the source too, under the same terms.
+
+**Commercial licence.** If you want to build on Blacklight in a product whose source
+you cannot open, a separate licence is available — write to
+<mako.mmw@gmail.com>. This is the same bargain Unreal Engine makes: the source is
+open to everyone, and those who make money from it give something back.
+
+Blacklight began as a fork of [Greenlight](https://github.com/unknownskl/greenlight)
+(MIT) by Jim Kroon, and portions remain derived from it. That notice is retained in
+[NOTICE](NOTICE), as MIT requires.
+
+Contributions are covered by the CLA in [CONTRIBUTING.md](CONTRIBUTING.md), which is
+what keeps the commercial option available.
 
 ## Changelog
 
