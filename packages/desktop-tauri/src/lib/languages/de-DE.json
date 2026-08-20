@@ -32,12 +32,23 @@
     },
     "settings": {
       "sidebar": {
+        "appearance": "Darstellung",
         "about": "Über",
         "streaming": "Streaming",
         "input": "Eingabe",
         "videoAudio": "Video & Audio",
         "webUI": "Weboberfläche",
         "debug": "Fehlersuche"
+      },
+      "appearance": {
+        "pageTitle": "Darstellung",
+        "accentTitle": "Akzentfarbe",
+        "accentDescription": "Farbton wählen — die Oberfläche passt sich sofort an.",
+        "glassTitle": "Glaseffekt",
+        "glassDescription": "Unschärfe hinter Panels und Karten.",
+        "glassOff": "Aus",
+        "glowTitle": "Hintergrundleuchten",
+        "glowDescription": "Treibende Lichtpunkte in der Akzentfarbe."
       },
       "about": {
         "logoutQuestion": "Bist du sicher, dass du dich abmelden möchtest?",

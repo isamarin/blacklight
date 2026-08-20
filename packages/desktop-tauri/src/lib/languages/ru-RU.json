@@ -32,12 +32,23 @@
     },
     "settings": {
       "sidebar": {
+        "appearance": "Внешний вид",
         "about": "О программе",
         "streaming": "Трансляция",
         "input": "Ввод",
         "videoAudio": "Видео и аудио",
         "webUI": "Web UI",
         "debug": "Отладка"
+      },
+      "appearance": {
+        "pageTitle": "Внешний вид",
+        "accentTitle": "Акцентный цвет",
+        "accentDescription": "Выберите оттенок — интерфейс подстроится мгновенно.",
+        "glassTitle": "Эффект стекла",
+        "glassDescription": "Размытие панелей и карточек.",
+        "glassOff": "Выкл.",
+        "glowTitle": "Фоновое свечение",
+        "glowDescription": "Плавающие блики в цвет акцента."
       },
       "about": {
         "logoutQuestion": "Вы уверены, что хотите выйти из аккаунта?",

@@ -1,7 +1,12 @@
 @import 'tailwindcss';
 
 @theme {
-	/* Product accent = Xbox green (design-beta default was lime; beta keeps green) */
+	/*
+	 * Product accent = Xbox green (design-beta default was lime; beta keeps green).
+	 * These are the boot values only — `$lib/appearance` overwrites all three on
+	 * the document element from the saved appearance settings, so `#d4ff00`,
+	 * `#60a5fa` and `#c084fc` are one click away in Settings → Appearance.
+	 */
 	--color-accent: #107c10;
 	--color-accent-dark: #0e6b0e;
 	--color-accent-glow: #2d9b2d;
@@ -12,7 +17,10 @@
 	--color-surface-raised: #141414;
 	--color-ink: #f5f5f2;
 
-	--glass-blur: 16px;
+	/* Overwritten at runtime from Settings → Appearance (0–40px). */
+	--glass-blur: 20px;
+	--ambient-glow-opacity: 1;
+	--font-mono-ui: 'IBM Plex Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
 	--ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
 	--ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
 	--duration-fast: 180ms;
@@ -33,16 +41,23 @@
 	}
 
 	body {
-		font-family:
-			'Inter',
-			-apple-system,
-			BlinkMacSystemFont,
-			'Segoe UI',
-			sans-serif;
+		font-family: var(--font-mono-ui);
 		background-color: var(--color-surface);
-		color: #f0f0f0;
+		color: var(--color-ink);
 		overflow: hidden;
 		-webkit-font-smoothing: antialiased;
+	}
+
+	/* The mono face has to carry form controls too, or inputs fall back to Helvetica. */
+	button,
+	input,
+	select,
+	textarea {
+		font-family: inherit;
+	}
+
+	input[type='range'] {
+		accent-color: var(--color-accent);
 	}
 }
 
@@ -372,8 +387,8 @@
 			rgba(20, 20, 20, 0.96) 0%,
 			rgba(12, 12, 12, 0.98) 100%
 		);
-		backdrop-filter: blur(24px);
-		-webkit-backdrop-filter: blur(24px);
+		backdrop-filter: blur(var(--glass-blur));
+		-webkit-backdrop-filter: blur(var(--glass-blur));
 	}
 
 	.tv-topbar-brand {
@@ -808,6 +823,9 @@
 		inset: 0;
 		overflow: hidden;
 		z-index: 0;
+		/* Same appearance toggle as the in-app ambient layer. */
+		opacity: var(--ambient-glow-opacity);
+		transition: opacity var(--duration-slow) var(--ease-smooth);
 	}
 
 	.auth-ambient-orb {
@@ -1483,6 +1501,168 @@
 	animation: spinSoft 1.15s linear infinite;
 }
 
+/* ── Ambient accent glow ───────────────────────────────────────────────── */
+
+.ambient-glow {
+	pointer-events: none;
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	overflow: hidden;
+	opacity: var(--ambient-glow-opacity);
+	transition: opacity var(--duration-slow) var(--ease-smooth);
+}
+
+.ambient-glow-blob {
+	position: absolute;
+	width: 40rem;
+	height: 40rem;
+	border-radius: 50%;
+	background: radial-gradient(circle, var(--color-accent) 0%, transparent 68%);
+	opacity: 0.09;
+	filter: blur(70px);
+	will-change: transform;
+}
+
+.ambient-glow-blob-a {
+	top: -11rem;
+	left: -7.5rem;
+	animation: ambientDriftA 16s var(--ease-smooth) infinite;
+}
+
+.ambient-glow-blob-b {
+	right: -6rem;
+	bottom: -13.5rem;
+	animation: ambientDriftB 16s var(--ease-smooth) infinite;
+}
+
+@keyframes ambientDriftA {
+	0%,
+	100% {
+		transform: translate(0, 0);
+	}
+	50% {
+		transform: translate(80px, 60px);
+	}
+}
+
+@keyframes ambientDriftB {
+	0%,
+	100% {
+		transform: translate(0, 0);
+	}
+	50% {
+		transform: translate(-70px, -50px);
+	}
+}
+
+/* ── Cursor-tracking card highlight (see $lib/actions/card-glow) ────────── */
+
+.card-glow {
+	position: relative;
+	isolation: isolate;
+}
+
+/*
+ * z-index:-1 keeps the highlight above the card's own background but below its
+ * content; `isolation: isolate` above stops it escaping behind the page.
+ */
+.card-glow::after {
+	content: '';
+	pointer-events: none;
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	border-radius: inherit;
+	opacity: 0;
+	background: radial-gradient(
+		var(--card-glow-radius, 20rem) circle at var(--mx, 50%) var(--my, 50%),
+		color-mix(in srgb, var(--color-accent) 8%, transparent),
+		transparent 70%
+	);
+	transition: opacity var(--duration-normal) var(--ease-smooth);
+}
+
+.card-glow:hover::after {
+	opacity: 1;
+}
+
+/*
+ * For cards whose surface is artwork rather than glass: raise the highlight
+ * over the image, but keep it under any `z-index: 1` copy layered on top.
+ */
+.card-glow-over::after {
+	z-index: 0;
+}
+
+/* ── Appearance settings controls ───────────────────────────────────────── */
+
+.swatch-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+}
+
+.swatch {
+	width: 2.75rem;
+	height: 2.75rem;
+	border: none;
+	border-radius: 0.75rem;
+	cursor: pointer;
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+	transition:
+		transform var(--duration-fast) var(--ease-smooth),
+		box-shadow var(--duration-normal) var(--ease-smooth);
+}
+
+.swatch:hover {
+	transform: scale(1.08);
+}
+
+.swatch-active {
+	box-shadow:
+		0 0 0 3px var(--color-surface),
+		0 0 0 5px currentColor;
+}
+
+.glass-range {
+	width: 100%;
+	height: 1.5rem;
+	background: transparent;
+	cursor: pointer;
+}
+
+.toggle-switch {
+	position: relative;
+	width: 2.875rem;
+	height: 1.625rem;
+	flex-shrink: 0;
+	border: none;
+	border-radius: 999px;
+	cursor: pointer;
+	background: rgba(255, 255, 255, 0.12);
+	transition: background var(--duration-normal) var(--ease-smooth);
+}
+
+.toggle-switch-on {
+	background: var(--color-accent);
+}
+
+.toggle-switch-knob {
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	width: 1.25rem;
+	height: 1.25rem;
+	border-radius: 50%;
+	background: var(--color-ink);
+	transition: transform var(--duration-normal) var(--ease-smooth);
+}
+
+.toggle-switch-on .toggle-switch-knob {
+	transform: translateX(1.25rem);
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.glass-btn,
 	.glass-control,
@@ -1504,8 +1684,20 @@
 	.animate-fade-in-up,
 	.animate-overlay-in,
 	.animate-dialog-in,
-	.animate-spin-soft {
+	.animate-spin-soft,
+	.ambient-glow-blob {
 		animation: none !important;
+	}
+
+	.card-glow::after,
+	.toggle-switch,
+	.toggle-switch-knob,
+	.swatch {
+		transition-duration: 0.01ms !important;
+	}
+
+	.swatch:hover {
+		transform: none;
 	}
 
 	.auth-screen-image {

@@ -5,6 +5,7 @@
 	import { getDebugUnlocked, subscribeDebugUnlock } from '$lib/debug-unlock';
 
 	const baseLinks = [
+		{ href: '/settings/appearance', key: 'appearance' },
 		{ href: '/settings/home', key: 'about' },
 		{ href: '/settings/streaming', key: 'streaming' },
 		{ href: '/settings/input', key: 'input' },

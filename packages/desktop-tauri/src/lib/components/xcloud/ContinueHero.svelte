@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { cardGlow } from '$lib/actions/card-glow';
 	import { getTitle } from '$lib/stores/titleCatalog.svelte';
 	import { t } from '$lib/i18n';
 	import CachedImage from '$lib/components/ui/CachedImage.svelte';
@@ -14,7 +15,7 @@
 	);
 </script>
 
-<section class="home-hero mb-8">
+<section use:cardGlow class="home-hero card-glow card-glow-over mb-8">
 	{#if heroImage}
 		<div class="home-hero-media" aria-hidden="true">
 			<CachedImage

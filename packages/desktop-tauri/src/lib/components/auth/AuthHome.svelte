@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { cardGlow } from '$lib/actions/card-glow';
 	import { onMount } from 'svelte';
 	import QRCode from 'qrcode';
 	import type { RouterOutputs } from '$lib/trpc';
@@ -91,7 +92,7 @@
 
 <AuthScreenBackdrop>
 	<main class="relative z-[1] flex min-h-screen flex-1 items-center justify-center p-6 sm:p-8">
-		<div class="glass-auth w-full max-w-[28rem] rounded-2xl px-8 py-10">
+		<div use:cardGlow class="glass-auth card-glow w-full max-w-[28rem] rounded-2xl px-8 py-10">
 			<div class="relative z-[1] flex flex-col items-center gap-6">
 				<div class="auth-brand">
 					<div class="auth-brand-row">

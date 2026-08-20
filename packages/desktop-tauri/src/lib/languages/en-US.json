@@ -32,12 +32,23 @@
     },
     "settings": {
       "sidebar": {
+        "appearance": "Appearance",
         "about": "About",
         "streaming": "Streaming",
         "input": "Input",
         "videoAudio": "Video & Audio",
         "webUI": "Web UI",
         "debug": "Debug"
+      },
+      "appearance": {
+        "pageTitle": "Appearance",
+        "accentTitle": "Accent colour",
+        "accentDescription": "Pick a shade — the interface updates instantly.",
+        "glassTitle": "Glass effect",
+        "glassDescription": "Blur behind panels and cards.",
+        "glassOff": "Off",
+        "glowTitle": "Background glow",
+        "glowDescription": "Drifting highlights in the accent colour."
       },
       "about": {
         "logoutQuestion": "Are you sure you want to logout?",

@@ -32,12 +32,23 @@
     },
     "settings": {
       "sidebar": {
+        "appearance": "Зовнішній вигляд",
         "about": "Про програму",
         "streaming": "Трансляція",
         "input": "Ввід",
         "videoAudio": "Відео та аудіо",
         "webUI": "Web UI",
         "debug": "Відлагодження"
+      },
+      "appearance": {
+        "pageTitle": "Зовнішній вигляд",
+        "accentTitle": "Акцентний колір",
+        "accentDescription": "Оберіть відтінок — інтерфейс оновиться миттєво.",
+        "glassTitle": "Ефект скла",
+        "glassDescription": "Розмиття панелей і карток.",
+        "glassOff": "Вимк.",
+        "glowTitle": "Фонове сяйво",
+        "glowDescription": "Плавні відблиски в акцентному кольорі."
       },
       "about": {
         "logoutQuestion": "Ви впевнені, що хочете вийти з акаунту?",

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import '../app.css';
+	import { applyAppearance, normalizeAppearance } from '$lib/appearance';
 	import { errorI18nKey } from '$lib/errors';
 	import { initI18n, isI18nReady, t } from '$lib/i18n';
 	import {
@@ -48,6 +49,12 @@
 			document.getElementById('boot-fallback')?.remove();
 			ready = true;
 		}
+	});
+
+	// Accent, glass blur and ambient glow are plain custom properties on <html>,
+	// so this repaints the whole UI without a reload.
+	$effect(() => {
+		applyAppearance(normalizeAppearance(getSettings()));
 	});
 
 	$effect(() => {

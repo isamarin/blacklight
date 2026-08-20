@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { cardGlow } from '$lib/actions/card-glow';
 	import { onMount } from 'svelte';
 	import { classifyError, extractErrorMessage, type UserErrorCode } from '$lib/errors';
 	import { i18n, t } from '$lib/i18n';
@@ -86,7 +87,7 @@
 		<ErrorPanel code={errorCode} detail={errorDetail} onRetry={loadProfile} />
 	{:else}
 		<div class="mx-auto flex w-full max-w-6xl flex-col gap-8">
-			<section class="profile-hero">
+			<section use:cardGlow class="profile-hero card-glow">
 				{#if avatarUrl}
 					<img src={avatarUrl} alt="" class="profile-hero-avatar" loading="lazy" />
 				{:else}

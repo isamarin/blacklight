@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { cardGlow } from '$lib/actions/card-glow';
 	import { t } from '$lib/i18n';
 	import { classifyError, extractErrorMessage, type UserErrorCode } from '$lib/errors';
 	import { getWebToken } from '$lib/stores/auth.svelte';
@@ -151,7 +152,7 @@
 	{:else}
 		<div class="console-grid">
 			{#each list as item (item.id)}
-				<article class="console-card">
+				<article use:cardGlow class="console-card card-glow">
 					<div class="console-card-head">
 						<div class="min-w-0">
 							<h2 class="console-card-name">{item.name}</h2>

@@ -1,4 +1,5 @@
 import type { VideoRendererMode } from '@blacklight/player/client';
+import { DEFAULT_ACCENT, DEFAULT_GLASS_BLUR } from '$lib/appearance';
 
 export const defaultSettings = {
 	xhome_bitrate: 0,
@@ -36,7 +37,10 @@ export const defaultSettings = {
 	audio_enabled: true,
 	webui_autostart: true,
 	webui_port: 9003,
-	language: 'en-US'
+	language: 'en-US',
+	appearance_accent: DEFAULT_ACCENT,
+	appearance_glass_blur: DEFAULT_GLASS_BLUR,
+	appearance_background_glow: true
 };
 
 export type AppSettings = typeof defaultSettings;
