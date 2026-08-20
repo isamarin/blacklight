@@ -1,11 +1,13 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte';
 	import { page } from '$app/state';
 	import type { StreamPlayerHandle, xCloudStreamConfig } from '@blacklight/player/client';
+	import { startNativeGamepadBridge } from '$lib/gamepads';
 	import { resolveAppErrorWithRegionHint } from '$lib/auth/region-hint-context';
 	import { extractErrorMessage } from '$lib/errors';
 	import { t } from '$lib/i18n';
 	import { trpc } from '$lib/trpc';
-	import { ensureConsoleAwake } from '$lib/consoles';
+	import { ensureConsoleAwake, isConsoleWakeTimeout } from '$lib/consoles';
 	import { buildStreamConfig, parseStreamRoute } from '$lib/stream';
 	import { createCommunicationHandler } from '$lib/stream/communication';
 	import {
@@ -37,6 +39,12 @@
 	let queueSeconds = $state(0);
 	let micEnabled = $state(false);
 	let connectTimeoutId: ReturnType<typeof setTimeout> | undefined;
+	let stopGamepadBridge: (() => void) | undefined;
+
+	function stopNativeGamepad() {
+		stopGamepadBridge?.();
+		stopGamepadBridge = undefined;
+	}
 
 	const showQueueOverlay = $derived(queueSeconds > 0 && !playerHandle);
 
@@ -88,6 +96,8 @@
 		isConnecting = false;
 		queueSeconds = 0;
 		clearConnectTimeout();
+		stopNativeGamepad();
+		stopGamepadBridge = startNativeGamepadBridge(handle);
 	}
 
 	function retryStream() {
@@ -103,11 +113,17 @@
 	}
 
 	function leaveStream() {
+		stopNativeGamepad();
 		playerHandle = null;
 		streamConfig = undefined;
 		session = undefined;
 		history.back();
 	}
+
+	onDestroy(() => {
+		stopNativeGamepad();
+		clearConnectTimeout();
+	});
 
 	function endStream() {
 		if (confirm(t('streamWindow.endStreamConfirmMessage'))) {
@@ -191,8 +207,14 @@
 			const webToken = getWebToken();
 			status = t('streamWindow.wakingConsole');
 			ensureConsoleAwake(webToken, parsed.id)
+				.catch((e: Error) => {
+					if (cancelled) return;
+					if (isConsoleWakeTimeout(e)) return;
+					throw e;
+				})
 				.then(() => {
 					if (cancelled) return;
+					status = t('streamWindow.connectingToConsole');
 					return startSession();
 				})
 				.catch((e: Error) => {

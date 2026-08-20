@@ -34,8 +34,10 @@ describe('consoles helpers', () => {
 		vi.useRealTimers();
 	});
 
-	it('isConsoleReady is true only for On', () => {
+	it('isConsoleReady is true for On and Connected', () => {
 		expect(isConsoleReady({ id: 'c1', powerState: 'On' })).toBe(true);
+		expect(isConsoleReady({ id: 'c1', powerState: 'on' })).toBe(true);
+		expect(isConsoleReady({ id: 'c1', powerState: 'Connected' })).toBe(true);
 		expect(isConsoleReady({ id: 'c1', powerState: 'ConnectedStandby' })).toBe(false);
 		expect(isConsoleReady(undefined)).toBe(false);
 	});
@@ -50,9 +52,13 @@ describe('consoles helpers', () => {
 		]);
 	});
 
-	it('wakeConsole calls smartglass power on mutation', async () => {
-		mutateMock.mockResolvedValueOnce({ ok: true });
-		await wakeConsole(token, 'c1');
+	it('wakeConsole bursts smartglass power on', async () => {
+		vi.useFakeTimers();
+		mutateMock.mockResolvedValue({ ok: true });
+		const pending = wakeConsole(token, 'c1');
+		await vi.runAllTimersAsync();
+		await pending;
+		expect(mutateMock).toHaveBeenCalledTimes(3);
 		expect(mutateMock).toHaveBeenCalledWith({ ...token, consoleId: 'c1' });
 	});
 
@@ -73,14 +79,14 @@ describe('consoles helpers', () => {
 			.mockResolvedValueOnce({
 				data: { result: [{ id: 'c1', powerState: 'On' }] }
 			});
-		mutateMock.mockResolvedValueOnce({ ok: true });
+		mutateMock.mockResolvedValue({ ok: true });
 
 		vi.useFakeTimers();
 		const pending = ensureConsoleAwake(token, 'c1');
-		await vi.advanceTimersByTimeAsync(3_000);
+		await vi.runAllTimersAsync();
 		await pending;
 
-		expect(mutateMock).toHaveBeenCalledOnce();
+		expect(mutateMock.mock.calls.length).toBeGreaterThanOrEqual(3);
 	});
 
 	it('waitForConsolePowerOn throws on timeout', async () => {

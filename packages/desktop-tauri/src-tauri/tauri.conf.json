@@ -35,6 +35,10 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
+    "macOS": {
+      "exceptionDomain": "127.0.0.1",
+      "infoPlist": "Info.plist"
+    },
     "windows": {
       "nsis": {
         "installMode": "currentUser"

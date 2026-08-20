@@ -1,5 +1,6 @@
 import { createTRPCProxyClient, httpBatchLink } from '@trpc/client';
 import { getTrpcHttpUrl } from '$lib/runtime';
+import { desktopApiFetch } from '$lib/tauri';
 
 type TrpcProcedure = {
 	query: (...args: any[]) => Promise<any>
@@ -11,6 +12,7 @@ function createTrpcClient() {
 		links: [
 			httpBatchLink({
 				url: getTrpcHttpUrl(),
+				fetch: desktopApiFetch,
 				headers() {
 					return {};
 				}

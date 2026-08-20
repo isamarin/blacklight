@@ -134,3 +134,45 @@ export async function apiHealth(): Promise<boolean> {
 export async function restartApi(): Promise<void> {
 	await invokeWithRetry('restart_api');
 }
+
+type ApiFetchResult = {
+	status: number;
+	headers: Record<string, string>;
+	body: string;
+};
+
+function headersToRecord(headers: HeadersInit | undefined): Record<string, string> {
+	const record: Record<string, string> = {};
+	if (!headers) return record;
+	if (headers instanceof Headers) {
+		headers.forEach((value, key) => {
+			record[key] = value;
+		});
+		return record;
+	}
+	if (Array.isArray(headers)) {
+		for (const [key, value] of headers) record[key] = value;
+		return record;
+	}
+	return { ...headers };
+}
+
+/** WKWebView cannot fetch http://127.0.0.1 from tauri://; proxy through Rust instead. */
+export async function desktopApiFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
+	if (!isTauriApp()) {
+		return fetch(input, init);
+	}
+
+	const request = input instanceof Request && !init ? input : new Request(input, init);
+	const result = await invoke<ApiFetchResult>('api_fetch', {
+		method: request.method,
+		url: request.url,
+		headers: headersToRecord(request.headers),
+		body: request.method === 'GET' || request.method === 'HEAD' ? null : await request.text()
+	});
+
+	return new Response(result.body, {
+		status: result.status,
+		headers: result.headers
+	});
+}

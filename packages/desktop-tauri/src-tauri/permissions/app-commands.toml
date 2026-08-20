@@ -17,5 +17,7 @@ commands.allow = [
     "stop_api",
     "is_api_running",
     "restart_api",
-    "api_health"
+    "api_health",
+    "api_fetch",
+    "list_gamepads"
 ]

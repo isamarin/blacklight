@@ -1,10 +1,13 @@
 mod commands;
+mod gamepad;
 
+use std::collections::HashMap;
 use std::io::{Read, Write};
 use std::net::{Ipv4Addr, SocketAddr, TcpStream};
 use std::sync::Mutex;
 use std::time::Duration;
 
+use serde::Serialize;
 use tauri::{Emitter, Manager, RunEvent};
 use tauri_plugin_shell::process::CommandChild;
 use tauri_plugin_shell::ShellExt;
@@ -124,6 +127,99 @@ fn api_health() -> bool {
 	api_http_health()
 }
 
+#[derive(Debug, Serialize)]
+struct ApiFetchResponse {
+	status: u16,
+	headers: HashMap<String, String>,
+	body: String,
+}
+
+fn is_allowed_api_url(url: &str) -> bool {
+	let after_host = url
+		.strip_prefix("http://127.0.0.1:")
+		.or_else(|| url.strip_prefix("http://localhost:"));
+	let Some(after_host) = after_host else {
+		return false;
+	};
+	let path = after_host
+		.split_once('/')
+		.map(|(_, rest)| rest.split('?').next().unwrap_or(""))
+		.unwrap_or("");
+	path == "health" || path == "trpc" || path.starts_with("trpc/") || path == "media"
+}
+
+#[tauri::command]
+fn api_fetch(
+	method: String,
+	url: String,
+	headers: HashMap<String, String>,
+	body: Option<String>,
+) -> Result<ApiFetchResponse, String> {
+	if !is_allowed_api_url(&url) {
+		return Err("blocked non-local API url".into());
+	}
+
+	let method = method.to_uppercase();
+	if !matches!(method.as_str(), "GET" | "POST" | "HEAD" | "OPTIONS") {
+		return Err(format!("unsupported method {method}"));
+	}
+
+	let mut request = ureq::request(&method, &url).timeout(Duration::from_secs(30));
+	for (key, value) in &headers {
+		let lower = key.to_ascii_lowercase();
+		if lower == "host" || lower == "connection" || lower == "content-length" {
+			continue;
+		}
+		request = request.set(key, value);
+	}
+
+	let response = if let Some(body) = body.filter(|value| !value.is_empty()) {
+		request.send_string(&body)
+	} else {
+		request.call()
+	};
+
+	let response = match response {
+		Ok(response) => response,
+		Err(ureq::Error::Status(status, response)) => {
+			let headers = response
+				.headers_names()
+				.into_iter()
+				.filter_map(|name| {
+					response
+						.header(&name)
+						.map(|value| (name, value.to_string()))
+				})
+				.collect();
+			let body = response.into_string().unwrap_or_default();
+			return Ok(ApiFetchResponse {
+				status: status as u16,
+				headers,
+				body,
+			});
+		}
+		Err(error) => return Err(error.to_string()),
+	};
+
+	let status = response.status();
+	let headers = response
+		.headers_names()
+		.into_iter()
+		.filter_map(|name| {
+			response
+				.header(&name)
+				.map(|value| (name, value.to_string()))
+		})
+		.collect();
+	let body = response.into_string().map_err(|error| error.to_string())?;
+
+	Ok(ApiFetchResponse {
+		status,
+		headers,
+		body,
+	})
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
 	tauri::Builder::default()
@@ -146,10 +242,14 @@ pub fn run() {
 			is_api_running,
 			restart_api,
 			api_health,
+			api_fetch,
+			gamepad::list_gamepads,
 		])
 		.manage(ApiProcessState(Mutex::new(None)))
+		.manage(gamepad::GamepadHub(Mutex::new(Vec::new())))
 		.setup(|app| {
 			spawn_api(app.handle())?;
+			gamepad::spawn_gamepad_poller(app.handle().clone());
 			Ok(())
 		})
 		.build(tauri::generate_context!())
@@ -159,4 +259,27 @@ pub fn run() {
 				kill_api(app);
 			}
 		});
+}
+
+#[cfg(test)]
+mod tests {
+	use super::is_allowed_api_url;
+
+	#[test]
+	fn allows_local_sidecar_urls() {
+		assert!(is_allowed_api_url(
+			"http://127.0.0.1:9003/trpc/ping?batch=1&input=%7B%7D"
+		));
+		assert!(is_allowed_api_url("http://127.0.0.1:9003/health"));
+		assert!(is_allowed_api_url("http://127.0.0.1:3847/media?url=https://x"));
+		assert!(is_allowed_api_url("http://localhost:9003/trpc/auth_msal_start"));
+	}
+
+	#[test]
+	fn rejects_non_local_or_unknown_paths() {
+		assert!(!is_allowed_api_url("https://example.com/trpc/ping"));
+		assert!(!is_allowed_api_url("http://127.0.0.1:9003/admin"));
+		assert!(!is_allowed_api_url("file:///etc/passwd"));
+		assert!(!is_allowed_api_url("http://10.0.0.2:9003/trpc/ping"));
+	}
 }

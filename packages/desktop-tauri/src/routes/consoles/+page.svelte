@@ -7,6 +7,7 @@
 		ensureConsoleAwake,
 		fetchConsoles,
 		isConsoleReady,
+		isConsoleWakeTimeout,
 		wakeConsole,
 		waitForConsolePowerOn
 	} from '$lib/consoles';
@@ -115,6 +116,10 @@
 			await ensureConsoleAwake(token, item.id);
 			window.location.href = `/stream/${item.id}`;
 		} catch (e) {
+			if (isConsoleWakeTimeout(e)) {
+				window.location.href = `/stream/${item.id}`;
+				return;
+			}
 			errorCode = 'console_wake_failed';
 			errorDetail = extractErrorMessage(e);
 			wakingConsoleId = null;
