@@ -33,6 +33,7 @@
 	"dependencies": {
 		"@blacklight/platform": "github:blacklight-kit/platform#v1.0.7",
 		"@blacklight/player": "github:blacklight-kit/player#v1.0.2",
+		"@igrs/circahue": "^0.1.1",
 		"@tauri-apps/api": "^2.10.0",
 		"@tauri-apps/plugin-opener": "^2.5.0",
 		"@trpc/client": "^11.17.0",

@@ -6,8 +6,10 @@ import {
 	DEFAULT_GLASS_BLUR,
 	appearanceVariables,
 	normalizeAccent,
+	normalizeAccentMode,
 	normalizeAppearance,
-	normalizeGlassBlur
+	normalizeGlassBlur,
+	resolveAccent
 } from './appearance';
 
 describe('normalizeAccent', () => {
@@ -52,11 +54,47 @@ describe('normalizeAppearance', () => {
 		expect(normalizeAppearance({}).backgroundGlow).toBe(true);
 		expect(normalizeAppearance({ appearance_background_glow: false }).backgroundGlow).toBe(false);
 	});
+
+	it('defaults to circadian, so upgrades from before the mode existed get it', () => {
+		expect(normalizeAppearance({}).accentMode).toBe('circadian');
+		expect(normalizeAccentMode(undefined)).toBe('circadian');
+		expect(normalizeAccentMode('fixed')).toBe('fixed');
+		expect(normalizeAccentMode('nonsense')).toBe('circadian');
+	});
+});
+
+describe('resolveAccent in circadian mode', () => {
+	const base = { accentMode: 'circadian' as const, accent: DEFAULT_ACCENT, glassBlur: 20, backgroundGlow: true };
+
+	it('returns a real hex plus a phase label', () => {
+		const noon = resolveAccent(base, new Date('2026-07-01T12:00:00Z'));
+		expect(noon.accent).toMatch(/^#[0-9a-f]{6}$/i);
+		expect(noon.phase).toBeTruthy();
+	});
+
+	it('gives a different hue at midnight than at noon', () => {
+		const noon = resolveAccent(base, new Date('2026-07-01T12:00:00Z'));
+		const midnight = resolveAccent(base, new Date('2026-07-01T00:00:00Z'));
+		expect(noon.accent).not.toBe(midnight.accent);
+	});
+
+	it('ignores the fixed accent while circadian is active', () => {
+		const withLime = resolveAccent({ ...base, accent: '#d4ff00' }, new Date('2026-07-01T12:00:00Z'));
+		const withBlue = resolveAccent({ ...base, accent: '#60a5fa' }, new Date('2026-07-01T12:00:00Z'));
+		expect(withLime.accent).toBe(withBlue.accent);
+	});
+
+	it('honours the pinned swatch in fixed mode', () => {
+		const fixed = resolveAccent({ ...base, accentMode: 'fixed', accent: '#60a5fa' });
+		expect(fixed.accent).toBe('#60a5fa');
+		expect(fixed.phase).toBeUndefined();
+	});
 });
 
 describe('appearanceVariables', () => {
 	it('derives hover and pressed shades from the accent', () => {
 		const vars = appearanceVariables({
+			accentMode: 'fixed',
 			accent: '#d4ff00',
 			glassBlur: 20,
 			backgroundGlow: true
@@ -71,6 +109,7 @@ describe('appearanceVariables', () => {
 
 	it('hides the ambient layer when the glow is off', () => {
 		const vars = appearanceVariables({
+			accentMode: 'fixed',
 			accent: DEFAULT_ACCENT,
 			glassBlur: 0,
 			backgroundGlow: false

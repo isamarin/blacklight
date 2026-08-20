@@ -43,7 +43,9 @@
       "appearance": {
         "pageTitle": "Darstellung",
         "accentTitle": "Akzentfarbe",
-        "accentDescription": "Farbton wählen — die Oberfläche passt sich sofort an.",
+        "accentDescription": "Standardmäßig zirkadian, oder einen Farbton festlegen — sofort sichtbar.",
+        "circadianTitle": "Zirkadian (automatisch)",
+        "circadianActive": "Folgt dem Licht — {{phase}}, {{hex}}. Ändert sich im Tagesverlauf.",
         "glassTitle": "Glaseffekt",
         "glassDescription": "Unschärfe hinter Panels und Karten.",
         "glassOff": "Aus",

@@ -43,7 +43,9 @@
       "appearance": {
         "pageTitle": "Appearance",
         "accentTitle": "Accent colour",
-        "accentDescription": "Pick a shade — the interface updates instantly.",
+        "accentDescription": "Circadian by default, or pin a shade — the interface updates instantly.",
+        "circadianTitle": "Circadian (automatic)",
+        "circadianActive": "Following the light — {{phase}}, {{hex}}. Updates through the day.",
         "glassTitle": "Glass effect",
         "glassDescription": "Blur behind panels and cards.",
         "glassOff": "Off",

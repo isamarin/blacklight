@@ -52,9 +52,16 @@
 	});
 
 	// Accent, glass blur and ambient glow are plain custom properties on <html>,
-	// so this repaints the whole UI without a reload.
+	// so this repaints the whole UI without a reload. In circadian mode the hue
+	// drifts with the clock, so re-sample every minute as well.
 	$effect(() => {
-		applyAppearance(normalizeAppearance(getSettings()));
+		const appearance = normalizeAppearance(getSettings());
+		applyAppearance(appearance);
+
+		if (appearance.accentMode !== 'circadian') return;
+
+		const timer = setInterval(() => applyAppearance(appearance), 60_000);
+		return () => clearInterval(timer);
 	});
 
 	$effect(() => {

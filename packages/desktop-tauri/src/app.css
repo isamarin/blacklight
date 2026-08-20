@@ -2,14 +2,15 @@
 
 @theme {
 	/*
-	 * Product accent = Xbox green (design-beta default was lime; beta keeps green).
-	 * These are the boot values only — `$lib/appearance` overwrites all three on
-	 * the document element from the saved appearance settings, so `#d4ff00`,
-	 * `#60a5fa` and `#c084fc` are one click away in Settings → Appearance.
+	 * Product accent = the design canvas lime. These are boot values only —
+	 * `$lib/appearance` overwrites all three on the document element from the
+	 * saved settings, so Xbox green `#107c10`, `#60a5fa` and `#c084fc` are one
+	 * click away in Settings → Appearance. Kept in sync with DEFAULT_ACCENT
+	 * (and its color-mix shades) so there is no accent flash on boot.
 	 */
-	--color-accent: #107c10;
-	--color-accent-dark: #0e6b0e;
-	--color-accent-glow: #2d9b2d;
+	--color-accent: #d4ff00;
+	--color-accent-dark: #aed100;
+	--color-accent-glow: #deff3d;
 	--color-xbox: var(--color-accent);
 	--color-xbox-dark: var(--color-accent-dark);
 	--color-xbox-glow: var(--color-accent-glow);
@@ -1623,6 +1624,18 @@
 	box-shadow:
 		0 0 0 3px var(--color-surface),
 		0 0 0 5px currentColor;
+}
+
+/* Circadian mode: the fill tracks the live hue, so mark it with a sun glyph. */
+.swatch-auto {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.swatch-auto svg {
+	width: 1.25rem;
+	height: 1.25rem;
 }
 
 .glass-range {
