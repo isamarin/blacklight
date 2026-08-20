@@ -1,11 +1,7 @@
 import { createTRPCProxyClient, httpBatchLink } from '@trpc/client';
 import { getTrpcHttpUrl } from '$lib/runtime';
 import { desktopApiFetch } from '$lib/tauri';
-
-type TrpcProcedure = {
-	query: (...args: any[]) => Promise<any>
-	mutate: (...args: any[]) => Promise<any>
-}
+import type { BlacklightRouter } from '$lib/trpc.types';
 
 function createTrpcClient() {
 	return createTRPCProxyClient({
@@ -28,7 +24,7 @@ function createTrpcClient() {
 				}
 			})
 		]
-	}) as unknown as Record<string, TrpcProcedure>;
+	}) as unknown as BlacklightRouter;
 }
 
 let client = createTrpcClient();
@@ -41,14 +37,15 @@ export function resetTrpcClient() {
 	client = createTrpcClient();
 }
 
-type TrpcClient = ReturnType<typeof createTrpcClient>;
-
-export const trpc = new Proxy({} as TrpcClient, {
+/**
+ * The client is rebuilt when the API port changes, so callers hold this proxy
+ * rather than a client instance.
+ */
+export const trpc = new Proxy({} as BlacklightRouter, {
 	get(_target, prop) {
 		const current = getTrpcClient();
 		return Reflect.get(current, prop, current);
 	}
 });
 
-// Platform git-prepare cannot emit portable tRPC declaration types.
-export type RouterOutputs = Record<string, any>;
+export type { BlacklightRouter, RouterOutputs } from '$lib/trpc.types';

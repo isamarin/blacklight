@@ -15,8 +15,10 @@ import {
 	saveUserTokenToTauri
 } from '$lib/tauri';
 import { trpc, type RouterOutputs } from '$lib/trpc';
+import type { UserToken, UserTokenResponse } from '$lib/trpc.types';
 
-type UserTokenPayload = RouterOutputs['auth_msal_verify'];
+/** What we persist: always normalized, never the raw `{ data }` envelope. */
+type UserTokenPayload = UserToken;
 
 type AuthState = {
 	userToken: UserTokenPayload | null;
@@ -53,9 +55,7 @@ const enrichTokenExpiry = (token: UserTokenPayload): UserTokenPayload => {
 	} as UserTokenPayload & { expires_on: string };
 };
 
-const normalizeUserToken = (
-	token: UserTokenPayload | RouterOutputs['auth_msal_refresh']
-): UserTokenPayload => {
+const normalizeUserToken = (token: UserTokenResponse): UserTokenPayload => {
 	if ('data' in token) {
 		const { data } = token;
 		return enrichTokenExpiry({
@@ -214,10 +214,15 @@ export async function startAuth() {
 
 export async function verifyCode(code: string) {
 	try {
-		const userToken = await trpc.auth_msal_verify.query({
-			code,
-			force_region_ip: authForceRegionIp()
-		});
+		// The response is either a bare token or one wrapped in `data`; normalizing
+		// is a no-op for the former and the difference between working and not for
+		// the latter, which would otherwise be spread into the request as-is.
+		const userToken = normalizeUserToken(
+			await trpc.auth_msal_verify.query({
+				code,
+				force_region_ip: authForceRegionIp()
+			})
+		);
 		await fetchTokensForUser(userToken);
 		return userToken;
 	} catch (error) {
