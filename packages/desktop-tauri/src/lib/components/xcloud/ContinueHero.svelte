@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { cardGlow } from '$lib/actions/card-glow';
-	import { getTitle } from '$lib/stores/titleCatalog.svelte';
+	import { createTitleDetails } from '$lib/stores/titleDetails.svelte';
 	import { t } from '$lib/i18n';
 	import CachedImage from '$lib/components/ui/CachedImage.svelte';
 
 	let { titleId }: { titleId: string } = $props();
 
-	const entry = $derived(getTitle(titleId));
-	const product = $derived(entry?.catalogDetails as Record<string, unknown> | undefined);
-	const name = $derived((product?.ProductTitle as string) || titleId);
+	const details = createTitleDetails(() => titleId);
+	const product = $derived(details.product);
+	const name = $derived(details.name);
 	const heroImage = $derived(
 		(product?.Image_Poster as { URL?: string } | undefined)?.URL ||
 			(product?.Image_Tile as { URL?: string } | undefined)?.URL

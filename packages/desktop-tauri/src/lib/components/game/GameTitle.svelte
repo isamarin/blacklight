@@ -1,8 +1,6 @@
 <script lang="ts">
-	import { trpc } from '$lib/trpc';
-	import { getCatalogToken } from '$lib/stores/auth.svelte';
 	import { getTitle } from '$lib/stores/titleCatalog.svelte';
-	import { getProducts } from '$lib/titles';
+	import { createTitleDetails } from '$lib/stores/titleDetails.svelte';
 	import CachedImage from '$lib/components/ui/CachedImage.svelte';
 	import Loader from '$lib/components/ui/Loader.svelte';
 
@@ -15,40 +13,11 @@
 		layout?: 'tile' | 'compact';
 	} = $props();
 
-	let product = $state<Record<string, unknown> | undefined>(undefined);
-	let loading = $state(false);
-
+	const details = createTitleDetails(() => titleId);
 	const cached = $derived(getTitle(titleId));
-
-	$effect(() => {
-		if (cached?.catalogDetails) {
-			product = cached.catalogDetails;
-			return;
-		}
-
-		let cancelled = false;
-		loading = true;
-
-		trpc.gamepass_resolve_productid
-			.query({
-				token: getCatalogToken(),
-				productId: cached?.productId || titleId
-			})
-			.then((resolved) => {
-				if (cancelled) return;
-				const products = getProducts(resolved);
-				product = products ? (Object.values(products)[0] as Record<string, unknown>) : undefined;
-			})
-			.finally(() => {
-				if (!cancelled) loading = false;
-			});
-
-		return () => {
-			cancelled = true;
-		};
-	});
-
-	const name = $derived((product?.ProductTitle as string) || titleId);
+	const product = $derived(details.product);
+	const loading = $derived(details.loading);
+	const name = $derived(details.name);
 	const image = $derived(product?.Image_Tile as { URL?: string } | undefined);
 </script>
 
