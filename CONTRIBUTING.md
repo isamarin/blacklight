@@ -41,35 +41,28 @@ If your change is visual, include a screenshot of it running. "The code looks ri
 is not the same as "the screen looks right", and this project has been bitten by the
 difference.
 
-## Contributor Licence Agreement
+## Developer Certificate of Origin
 
-Blacklight is dual-licensed: AGPL-3.0 for everyone, plus a commercial licence for
-those who cannot open their source. That second half only works if one person holds
-the rights to the whole codebase — otherwise there is nothing to license.
+There is no CLA here, and no copyright assignment. Blacklight is AGPL-3.0 and stays
+that way — no commercial licence is sold, so there is nothing your contribution
+needs to be re-licensed for. You keep your copyright; your code is AGPL like the
+rest.
 
-So, by submitting a contribution you agree that:
+What is asked is a sign-off certifying you have the right to send it. This is the
+[Developer Certificate of Origin 1.1](https://developercertificate.org/), the same
+one the Linux kernel uses. By signing off you certify that the contribution is your
+own work, or is based on work covered by a compatible open source licence that you
+have the right to submit, and that you understand it will be recorded publicly and
+redistributed under the AGPL.
 
-1. You wrote the contribution yourself, or otherwise have the right to submit it
-   under these terms, and it does not knowingly infringe anyone's rights.
-2. You grant Igor Samarin a perpetual, worldwide, irrevocable, royalty-free licence
-   to use, reproduce, modify, sublicense and distribute your contribution, including
-   the right to license it under terms other than the AGPL — for example as part of a
-   commercial licence.
-3. You keep your own copyright. This is a licence you grant, not an assignment: you
-   may continue to use your contribution however you like, elsewhere.
-4. Your contribution is provided as-is, with no warranty of any kind.
-
-If your employer has rights to work you do, make sure you have their permission
-before contributing.
-
-State your agreement in the pull request description:
+Add the line with `git commit -s`:
 
 ```
-I have read CONTRIBUTING.md and I agree to the CLA.
+Signed-off-by: Your Name <you@example.com>
 ```
 
-If you would rather not grant that licence, that is a legitimate position — open an
-issue describing the change instead, and it can be implemented separately.
+That is the entire process. If your employer has rights to work you do, make sure
+you have their permission before contributing.
 
 ## Questions
 

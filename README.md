@@ -124,24 +124,21 @@ Want to help with translations? Open an [issue](https://github.com/isamarin/blac
 
 ## License
 
-Blacklight is dual-licensed.
+Blacklight is free software under the [AGPL-3.0](LICENSE).
 
-**Open source — [AGPL-3.0](LICENSE).** Use it, study it, modify it, share it, run it,
-for any purpose including commercially. The one obligation is reciprocity: if you
-distribute a modified version, or run one as a network service, the people who
-receive it get the source too, under the same terms.
+Use it, study it, modify it, share it, run it — for any purpose, commercial use
+included. The one obligation is reciprocity: if you distribute a modified version,
+or run one as a network service, the people who receive it get the source too,
+under the same terms.
 
-**Commercial licence.** If you want to build on Blacklight in a product whose source
-you cannot open, a separate licence is available — write to
-<mako.mmw@gmail.com>. This is the same bargain Unreal Engine makes: the source is
-open to everyone, and those who make money from it give something back.
+There is no commercial licence and none is sold. The terms above are the whole deal.
 
 Blacklight began as a fork of [Greenlight](https://github.com/unknownskl/greenlight)
 (MIT) by Jim Kroon, and portions remain derived from it. That notice is retained in
 [NOTICE](NOTICE), as MIT requires.
 
-Contributions are covered by the CLA in [CONTRIBUTING.md](CONTRIBUTING.md), which is
-what keeps the commercial option available.
+Contributions are certified under the [DCO](CONTRIBUTING.md) — a one-line sign-off,
+no paperwork.
 
 ## Changelog
 
